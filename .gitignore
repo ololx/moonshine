@@ -1,10 +1,10 @@
-# all hidden files
-.*
-
 # exclude from ignore
 !.gitignore
 !.github
 !.mvn/wrapper/maven-wrapper.jar
+
+# all hidden files
+.*
 
 # general swap/backup files
 *.so
