@@ -12,7 +12,11 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>io.github.ololx.moonshine</groupId>
+                <artifactId>moonshine-data-structures</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
