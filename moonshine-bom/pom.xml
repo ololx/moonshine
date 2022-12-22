@@ -14,7 +14,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.github.ololx.moonshine</groupId>
-                <artifactId>moonshine-data-structures</artifactId>
+                <artifactId>moonshine-tuples</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
