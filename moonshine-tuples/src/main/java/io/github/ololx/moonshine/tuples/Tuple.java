@@ -17,6 +17,8 @@
 package io.github.ololx.moonshine.tuples;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * project moonshine
@@ -24,7 +26,7 @@ import java.util.List;
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple extends Iterable<Object>, Comparable<Tuple> {
+public interface Tuple extends Iterable<Object> {
 
     /**
      * Returns the number of elements in this tuple. The size is a non-negative integer.
@@ -53,6 +55,14 @@ public interface Tuple extends Iterable<Object>, Comparable<Tuple> {
      * @param index index of the element to return
      * @param defaultValue the default mapping of the key
      * @return the element at the specified position in this tuple
+     * @throws ClassCastException if the tuple element is of an inappropriate type
+     * for this {@code defaultValue}
      */
-    <V> V getOrDefault(int index, V defaultValue);
+    default <V> V getOrDefault(int index, V defaultValue) {
+        if (index < 0 || index >= size()) {
+            return defaultValue;
+        }
+
+        return get(index);
+    }
 }
