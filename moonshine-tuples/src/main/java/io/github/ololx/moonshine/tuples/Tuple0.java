@@ -22,5 +22,5 @@ package io.github.ololx.moonshine.tuples;
  *
  * @author Alexander A. Kropotin
  */
-public interface NullTuple extends Tuple {
+public interface Tuple0 extends Tuple {
 }

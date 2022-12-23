@@ -25,5 +25,4 @@ import java.util.Iterator;
  * @author Alexander A. Kropotin
  */
 public interface TupleIterator extends Iterator<Object> {
-
 }
