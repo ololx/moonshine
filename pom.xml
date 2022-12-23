@@ -34,7 +34,7 @@
 
     <modules>
         <module>moonshine-bom</module>
-        <module>moonshine-data-structures</module>
+        <module>moonshine-tuples</module>
     </modules>
 
     <dependencyManagement>
