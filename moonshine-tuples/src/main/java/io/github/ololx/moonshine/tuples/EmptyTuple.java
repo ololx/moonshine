@@ -17,8 +17,6 @@
 package io.github.ololx.moonshine.tuples;
 
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 /**
  * project moonshine
@@ -26,13 +24,13 @@ import java.util.function.Consumer;
  *
  * @author Alexander A. Kropotin
  */
-public class EmptyTuple implements NullTuple {
+public class EmptyTuple implements Tuple0 {
 
-    private static final int size = 0;
+    private static final int SIZE = 0;
 
     @Override
     public int size() {
-        return size;
+        return SIZE;
     }
 
     @Override
@@ -47,6 +45,21 @@ public class EmptyTuple implements NullTuple {
 
     @Override
     public Iterator<Object> iterator() {
-        return null;
+        return new EmptyTupleIterator();
+    }
+
+    private class EmptyTupleIterator implements Iterator<Object> {
+
+        private EmptyTupleIterator() {}
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public Object next() {
+            return null;
+        }
     }
 }
