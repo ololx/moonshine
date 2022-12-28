@@ -16,7 +16,6 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -57,6 +56,27 @@ public class Monuple<A> implements Tuple1<A> {
 
     @Override
     public Iterator<Object> iterator() {
-        return null;
+        return new MonupleIterator();
+    }
+
+    public class MonupleIterator implements Iterator<Object> {
+
+        private int cursor;
+
+        private MonupleIterator() {}
+
+        @Override
+        public boolean hasNext() {
+            return Monuple.this.size() > cursor + 1;
+        }
+
+        @Override
+        public Object next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException("There is no such elements");
+            }
+
+            return Monuple.this.get((++this.cursor) - 1);
+        }
     }
 }

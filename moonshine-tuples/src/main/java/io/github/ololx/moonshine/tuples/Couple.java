@@ -17,6 +17,7 @@
 package io.github.ololx.moonshine.tuples;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * project moonshine
@@ -66,6 +67,28 @@ public class Couple<A, B> implements Tuple2<A, B> {
 
     @Override
     public Iterator<Object> iterator() {
-        return null;
+        return new CoupleIterator();
+    }
+
+    public class CoupleIterator implements Iterator<Object> {
+
+        private int cursor;
+
+        private CoupleIterator() {
+        }
+
+        @Override
+        public boolean hasNext() {
+            return Couple.this.size() > cursor + 1;
+        }
+
+        @Override
+        public Object next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException("There is no such elements");
+            }
+
+            return Couple.this.get((++this.cursor) - 1);
+        }
     }
 }
