@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
  */
 public class Monuple<A> implements Tuple1<A> {
 
-    private static final int SIZE = 0;
+    private static final int SIZE = 1;
 
     private final A a;
 
@@ -43,10 +43,11 @@ public class Monuple<A> implements Tuple1<A> {
 
     @Override
     public Object get(int index) {
-        switch (index) {
-            case 1: return this.a;
-            default: throw new IndexOutOfBoundsException("There is no elements by index " + index);
+        if (index < 0 || index >= SIZE) {
+            throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
+
+        return this.a;
     }
 
     @Override
