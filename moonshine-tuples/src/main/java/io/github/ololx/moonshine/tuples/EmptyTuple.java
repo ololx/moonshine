@@ -17,6 +17,7 @@
 package io.github.ololx.moonshine.tuples;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * project moonshine
@@ -54,12 +55,12 @@ public class EmptyTuple implements Tuple0 {
 
         @Override
         public boolean hasNext() {
-            return false;
+            return EmptyTuple.this.size() > 0;
         }
 
         @Override
         public Object next() {
-            return null;
+            throw new NoSuchElementException("There is no such elements");
         }
     }
 }
