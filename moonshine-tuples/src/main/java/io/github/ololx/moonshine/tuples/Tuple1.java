@@ -16,50 +16,13 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import java.util.Iterator;
-
 /**
  * project moonshine
- * created 23.12.2022 10:34
+ * created 28.12.2022 19:56
  *
  * @author Alexander A. Kropotin
  */
-public class EmptyTuple implements Tuple0 {
+public interface Tuple1<A> extends Tuple {
 
-    private static final int SIZE = 0;
-
-    @Override
-    public int size() {
-        return SIZE;
-    }
-
-    @Override
-    public Object get(int index) {
-        return null;
-    }
-
-    @Override
-    public Object getOrDefault(int index, Object defaultValue) {
-        return defaultValue;
-    }
-
-    @Override
-    public Iterator<Object> iterator() {
-        return new EmptyTupleIterator();
-    }
-
-    private class EmptyTupleIterator implements Iterator<Object> {
-
-        private EmptyTupleIterator() {}
-
-        @Override
-        public boolean hasNext() {
-            return false;
-        }
-
-        @Override
-        public Object next() {
-            return null;
-        }
-    }
+    A getA();
 }
