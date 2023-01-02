@@ -17,6 +17,15 @@
 package io.github.ololx.moonshine.tuples;
 
 /**
+ * A tuple that contains no elements (otherwise <i>empty sequence</i>),
+ * in other words is empty.<p>
+ *
+ * More formally:
+ * T0 = (∅) or |T0| = 0.
+ *
+ * The {@code Tuple0} interface extends {@code Tuple} and provides
+ * all his behaviour.<p>
+ *
  * project moonshine
  * created 23.12.2022 10:56
  *

@@ -17,12 +17,26 @@
 package io.github.ololx.moonshine.tuples;
 
 /**
+ * A tuple that always contains two elements.<p>
+ *
+ * More formally:
+ * T1 = (a1, a2) or |T2| = 2.
+ *
+ * The {@code Tuple2} interface extends {@code Tuple1} and provides
+ * all his behaviour.<p>
+ *
+ * The {@code Tuple2} interface additionally provides one method for the
+ * accessing a tuple elements using a {@code getT2} getter.<p>
+ *
+ * @param <T1> the type of first element in this tuple
+ * @param <T2> the type of second element in this tuple
+ *
  * project moonshine
  * created 28.12.2022 19:56
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple2<A, B> extends Tuple1<A> {
+public interface Tuple2<T1, T2> extends Tuple1<T1> {
 
-    B getB();
+    T2 getT2();
 }

@@ -43,24 +43,4 @@ public class EmptyTuple implements Tuple0 {
     public Object getOrDefault(int index, Object defaultValue) {
         return defaultValue;
     }
-
-    @Override
-    public Iterator<Object> iterator() {
-        return new EmptyTupleIterator();
-    }
-
-    private class EmptyTupleIterator implements Iterator<Object> {
-
-        private EmptyTupleIterator() {}
-
-        @Override
-        public boolean hasNext() {
-            return EmptyTuple.this.size() > 0;
-        }
-
-        @Override
-        public Object next() {
-            throw new NoSuchElementException("There is no such elements");
-        }
-    }
 }
