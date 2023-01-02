@@ -56,39 +56,12 @@ public class Couple<A, B> implements Tuple2<A, B> {
     }
 
     @Override
-    public A getA() {
+    public A getT1() {
         return this.a;
     }
 
     @Override
-    public B getB() {
+    public B getT2() {
         return this.b;
-    }
-
-    @Override
-    public Iterator<Object> iterator() {
-        return new CoupleIterator();
-    }
-
-    public class CoupleIterator implements Iterator<Object> {
-
-        private int cursor;
-
-        private CoupleIterator() {
-        }
-
-        @Override
-        public boolean hasNext() {
-            return Couple.this.size() > cursor + 1;
-        }
-
-        @Override
-        public Object next() {
-            if (!this.hasNext()) {
-                throw new NoSuchElementException("There is no such elements");
-            }
-
-            return Couple.this.get((++this.cursor) - 1);
-        }
     }
 }

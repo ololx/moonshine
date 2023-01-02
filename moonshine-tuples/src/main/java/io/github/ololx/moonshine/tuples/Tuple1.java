@@ -17,12 +17,25 @@
 package io.github.ololx.moonshine.tuples;
 
 /**
+ * A tuple that always contains one element.<p>
+ *
+ * More formally:
+ * T1 = (a1) or |T1| = 1.
+ *
+ * The {@code Tuple1} interface extends {@code Tuple} and provides
+ * all his behaviour.<p>
+ *
+ * The {@code Tuple1} interface additionally provides one method for the
+ * accessing a tuple element using a {@code getT1} getter.<p>
+ *
+ * @param <T1> the type of element in this tuple
+ *
  * project moonshine
  * created 28.12.2022 19:56
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple1<A> extends Tuple {
+public interface Tuple1<T1> extends Tuple {
 
-    A getA();
+    T1 getT1();
 }

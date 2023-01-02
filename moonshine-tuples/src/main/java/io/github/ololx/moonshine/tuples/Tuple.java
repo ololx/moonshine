@@ -16,11 +16,50 @@
  */
 package io.github.ololx.moonshine.tuples;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
+ * The user of this interface has precise control over where in the tuple
+ * each element is placed. The user can access elements by their integer
+ * index (position in the tuple), and search for elements in the tuple.<p>
+ *
+ * Unlike collections, tuples typically are finite and has a fixed length.
+ * Tuples typically allow pairs of elements {@code t1} and {@code t2}
+ * such that {@code t1.equals(t2)}.<p>
+ *
+ * More formally:
+ * The general rule for the identity of two n-tuples is
+ * (a1, a2, ..., an) = (b1, b2, ..., bn) <b>if and only if</b>
+ * a1 = b1, a2 = b2, ..., an = bn
+ *
+ * <ul>
+ *     <li>
+ *         A tuple may contain multiple instances of the same element, so tuple
+ *         (1, 2, 2, 3) != (1, 2, 3)
+ *     </li>
+ *     <li>
+ *         Tuple elements are ordered: (1, 2, 3) != (3, 2, 1)
+ *     </li>
+ *     <li>
+ *         A tuple has a finite number of elements, while a set or a multiset
+ *         may have an infinite number of elements.
+ *     </li>
+ * </ul>
+ *
+ * The {@code Tuple} interface places additional stipulations, beyond those
+ * specified in the {@code Iterable} interface, on the contracts of
+ * the {@code iterator}, {@code get}, {@code getOrDefault}, {@code equals},
+ * and {@code hashCode} methods.  Declarations for other inherited methods are
+ * also included here for convenience.<p>
+ *
+ * The {@code Tuple} interface provides two methods for positional (indexed)
+ * access to tuple elements. Tuples (like arrays) are zero based.<p>
+ *
  * project moonshine
  * created 22.12.2022 11:41
  *
@@ -64,5 +103,49 @@ public interface Tuple extends Iterable<Object> {
         }
 
         return get(index);
+    }
+
+    /**
+     * Returns an iterator over the elements in the tuple in proper sequence.<p>
+     *
+     * @implSpec
+     * This implementation returns a straightforward implementation of
+     * the iterator interface, relying on the backing tuple's {@code size()},
+     * {@code get(int)} methods.<p>
+     *
+     * Note that the iterator returned by this method will throw an
+     * {@link UnsupportedOperationException} in response to its
+     * {@code remove} method unless the list's {@code remove(int)} method is
+     * overridden.<p>
+     *
+     * @return an iterator over the elements in this list in proper sequence
+     */
+    default Iterator<Object> iterator() {
+        return new BaseIterator(this);
+    }
+
+    class BaseIterator implements Iterator<Object> {
+
+        private int cursor;
+
+        private final Tuple tuple;
+
+        private BaseIterator(Tuple tuple) {
+            this.tuple = tuple;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.tuple.size() > cursor + 1;
+        }
+
+        @Override
+        public Object next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException("There is no such elements");
+            }
+
+            return this.tuple.get((++this.cursor) - 1);
+        }
     }
 }

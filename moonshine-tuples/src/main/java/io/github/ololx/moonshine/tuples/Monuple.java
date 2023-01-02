@@ -50,33 +50,7 @@ public class Monuple<A> implements Tuple1<A> {
     }
 
     @Override
-    public A getA() {
+    public A getT1() {
         return this.a;
-    }
-
-    @Override
-    public Iterator<Object> iterator() {
-        return new MonupleIterator();
-    }
-
-    public class MonupleIterator implements Iterator<Object> {
-
-        private int cursor;
-
-        private MonupleIterator() {}
-
-        @Override
-        public boolean hasNext() {
-            return Monuple.this.size() > cursor + 1;
-        }
-
-        @Override
-        public Object next() {
-            if (!this.hasNext()) {
-                throw new NoSuchElementException("There is no such elements");
-            }
-
-            return Monuple.this.get((++this.cursor) - 1);
-        }
     }
 }
