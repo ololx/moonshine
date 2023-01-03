@@ -27,44 +27,49 @@ import static org.testng.Assert.assertEquals;
  *
  * @author Alexander A. Kropotin
  */
-public class MonupleTest {
+public class CoupleTest {
 
     @DataProvider(name = "providesConstructorArgs")
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
-                {Byte.MIN_VALUE},
-                {Character.MIN_VALUE},
-                {Short.MIN_VALUE},
-                {Integer.MIN_VALUE},
-                {Float.MIN_VALUE},
-                {Double.MIN_VALUE},
-                {String.valueOf(Integer.MAX_VALUE)}
+                {Byte.MIN_VALUE, Character.MAX_VALUE},
+                {Character.MIN_VALUE, Short.MAX_VALUE},
+                {Short.MIN_VALUE, Integer.MAX_VALUE},
+                {Integer.MIN_VALUE, Float.MAX_VALUE},
+                {Float.MIN_VALUE, Double.MAX_VALUE},
+                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE)},
+                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE}
         };
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final T1 t1) {
+    <T1, T2> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final T1 t1,
+                                                                               final T2 t2) {
         //When
         // create new tuple with specified args
-        final Monuple<T1> tuple = new Monuple<>(t1);
+        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
 
         //Then
         // tuple contains arg value
         assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1> void get_whenIndexExists_thenReturnValueByIndex(final T1 t1) {
+    <T1, T2> void get_whenIndexExists_thenReturnValueByIndex(final T1 t1,
+                                                             final T2 t2) {
         //Given
         // The tuple with size = 1
-        final Monuple<T1> tuple = new Monuple<>(t1);
+        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
 
         //When
-        // get value by index 0
-        final Object actual = tuple.get(0);
+        // get values by indexes 0, 1
+        final Object actualT1 = tuple.get(0);
+        final Object actualT2 = tuple.get(1);
 
         //Then
-        // actual value equals to stored value
-        assertEquals(actual, t1);
+        // actual values equal to stored values
+        assertEquals(actualT1, t1);
+        assertEquals(actualT2, t2);
     }
 }

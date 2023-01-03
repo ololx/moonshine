@@ -77,7 +77,7 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
      *
      * @implSpec
      * This implementation will return the first and second element
-     * if the index is 1; otherwise throw an exception
+     * if the index is in range [0, 1]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
@@ -88,9 +88,9 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
     @Override
     public Object get(int index) {
         switch (index) {
-            case 1:
+            case 0:
                 return this.t1;
-            case 2:
+            case 1:
                 return this.t2;
             default:
                 throw new IndexOutOfBoundsException("There is no elements by index " + index);
