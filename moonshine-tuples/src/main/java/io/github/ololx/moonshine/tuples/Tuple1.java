@@ -37,5 +37,10 @@ package io.github.ololx.moonshine.tuples;
  */
 public interface Tuple1<T1> extends Tuple {
 
+    /**
+     * Returns the first element in this tuple.
+     *
+     * @return  the first element in this tuple.
+     */
     T1 getT1();
 }

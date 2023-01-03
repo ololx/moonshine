@@ -17,10 +17,7 @@
 package io.github.ololx.moonshine.tuples;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
@@ -68,8 +65,9 @@ import java.util.stream.IntStream;
 public interface Tuple extends Iterable<Object> {
 
     /**
-     * Returns the number of elements in this tuple. The size is a non-negative integer.
-     * If this tuple contains more than {@code Integer.MAX_VALUE} elements,
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer. If this tuple contains more than
+     * {@code Integer.MAX_VALUE} elements,
      * returns {@code Integer.MAX_VALUE}.
      *
      * @return the number of elements in this tuple
@@ -82,20 +80,20 @@ public interface Tuple extends Iterable<Object> {
      * @param index index of the element to return
      * @return the element at the specified position in this tuple
      * @throws IndexOutOfBoundsException if the index is out of
-     * range ({@code index < 0 || index >= size})
+     * range ({@code index < 0 || index >= size()})
      */
     Object get(int index);
 
     /**
      * Returns the element at the specified position in this tuple, or
      * {@code defaultValue} if the index is out of
-     * range ({@code index < 0 || index >= size})
+     * range ({@code index < 0 || index >= size()})
      *
      * @param index index of the element to return
      * @param defaultValue the default mapping of the key
      * @return the element at the specified position in this tuple
-     * @throws ClassCastException if the tuple element is of an inappropriate type
-     * for this {@code defaultValue}
+     * @throws ClassCastException if the tuple element is of an inappropriate
+     * type for this {@code defaultValue}
      */
     default Object getOrDefault(int index, Object defaultValue) {
         if (index < 0 || index >= size()) {
@@ -106,7 +104,7 @@ public interface Tuple extends Iterable<Object> {
     }
 
     /**
-     * Returns an iterator over the elements in the tuple in proper sequence.<p>
+     * Returns an iterator over the elements in the tuple in proper sequence.
      *
      * @implSpec
      * This implementation returns a straightforward implementation of
@@ -118,31 +116,54 @@ public interface Tuple extends Iterable<Object> {
      * {@code remove} method unless the list's {@code remove(int)} method is
      * overridden.<p>
      *
-     * @return an iterator over the elements in this list in proper sequence
+     * @return an iterator over the elements in the tuple in proper sequence
      */
     default Iterator<Object> iterator() {
         return new BaseIterator(this);
     }
 
+
     class BaseIterator implements Iterator<Object> {
 
+        /**
+         * Index of element to be returned by subsequent call to next.
+         */
         private int cursor;
 
+        /**
+         * Tuple witch will be iterated.
+         */
         private final Tuple tuple;
 
+        /**
+         * Create new iterator for the tuple.
+         */
         private BaseIterator(Tuple tuple) {
             this.tuple = tuple;
         }
 
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
         @Override
         public boolean hasNext() {
             return this.tuple.size() > cursor + 1;
         }
 
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
         @Override
         public Object next() {
             if (!this.hasNext()) {
-                throw new NoSuchElementException("There is no such elements");
+                throw new NoSuchElementException("The iteration has no more elements");
             }
 
             return this.tuple.get((++this.cursor) - 1);

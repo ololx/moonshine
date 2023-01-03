@@ -16,52 +16,104 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
+ * The tuple with only two elements.
+ *
+ * The {@code Couple} class implements {@code Tuple2} and provides
+ * all his behaviour.<p>
+ *
+ * @param <T1> the type of first element in this tuple
+ * @param <T2> the type of second element in this tuple
+ *
  * project moonshine
  * created 28.12.2022 20:19
  *
  * @author Alexander A. Kropotin
  */
-public class Couple<A, B> implements Tuple2<A, B> {
+public class Couple<T1, T2> implements Tuple2<T1, T2> {
 
+    /**
+     * The power of this tuple.
+     */
     private static final int SIZE = 2;
 
-    private final A a;
+    /**
+     * First element in this tuple
+     */
+    private final T1 t1;
 
-    private final B b;
+    /**
+     * Second element in this tuple
+     */
+    private final T2 t2;
 
-    public Couple(A a, B b) {
-        this.a = a;
-        this.b = b;
+    /**
+     * Create new tuple with specified elements values
+     *
+     * @param t1 the first element of this tuple
+     * @param t2 the second element of this tuple
+     */
+    public Couple(T1 t1, T2 t2) {
+        this.t1 = t1;
+        this.t2 = t2;
     }
 
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @implSpec
+     * This implementation always return 2 as a size {@code SIZE} of the tuple.
+     *
+     * @return the number of elements in this tuple
+     */
     @Override
     public int size() {
         return SIZE;
     }
 
+    /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @implSpec
+     * This implementation will return the first and second element
+     * if the index is 1; otherwise throw an exception
+     * {@link IndexOutOfBoundsException}.
+     *
+     * @param index index of the element to return
+     * @return the element at the specified position in this tuple
+     * @throws IndexOutOfBoundsException if the index is out of
+     * range ({@code index < 0 || index >= size()})
+     */
     @Override
     public Object get(int index) {
         switch (index) {
             case 1:
-                return this.a;
+                return this.t1;
             case 2:
-                return this.b;
+                return this.t2;
             default:
                 throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
     }
 
+    /**
+     * Returns the first element in this tuple.
+     *
+     * @return  the first element in this tuple.
+     */
     @Override
-    public A getT1() {
-        return this.a;
+    public T1 getT1() {
+        return this.t1;
     }
 
+    /**
+     * Returns the second element in this tuple.
+     *
+     * @return the second element in this tuple.
+     */
     @Override
-    public B getT2() {
-        return this.b;
+    public T2 getT2() {
+        return this.t2;
     }
 }
