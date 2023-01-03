@@ -38,5 +38,10 @@ package io.github.ololx.moonshine.tuples;
  */
 public interface Tuple2<T1, T2> extends Tuple1<T1> {
 
+    /**
+     * Returns the second element in this tuple.
+     *
+     * @return the second element in this tuple.
+     */
     T2 getT2();
 }

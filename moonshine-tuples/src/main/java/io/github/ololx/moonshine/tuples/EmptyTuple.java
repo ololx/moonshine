@@ -16,10 +16,12 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
+ * The tuple with only zero elements.
+ *
+ * The {@code EmptyTuple} class implements {@code Tuple0} and provides
+ * all his behaviour.<p>
+ *
  * project moonshine
  * created 23.12.2022 10:34
  *
@@ -27,16 +29,38 @@ import java.util.NoSuchElementException;
  */
 public class EmptyTuple implements Tuple0 {
 
+    /**
+     * The power of this tuple.
+     */
     private static final int SIZE = 0;
 
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @implSpec
+     * This implementation always return 0 as a size {@code SIZE} of the tuple.
+     *
+     * @return the number of elements in this tuple
+     */
     @Override
     public int size() {
         return SIZE;
     }
 
+    /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @implSpec
+     * This implementation throws an instance of
+     * {@link IndexOutOfBoundsException} and performs no other action.
+     *
+     * @param index index of the element to return
+     * @throws IndexOutOfBoundsException for all method {@code get} invocations
+     */
     @Override
     public Object get(int index) {
-        return null;
+        throw new IndexOutOfBoundsException("There is no elements by index " + index);
     }
 
     @Override
