@@ -16,8 +16,6 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

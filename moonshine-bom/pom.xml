@@ -20,33 +20,33 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--[artifact-->
+    <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine-bom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <!--artifact]-->
+    <!--artifact>-->
 
-    <!--[properties-->
+    <!--<properties-->
     <properties>
-        <!--[distribution plugins versions-->
+        <!--<distribution plugins versions-->
         <plugin.nexus.staging.ver>1.6.8</plugin.nexus.staging.ver>
         <plugin.maven.source.ver>3.2.1</plugin.maven.source.ver>
-        <plugin.maven.javadoc.ver>3.3.1</plugin.maven.javadoc.ver>
+        <plugin.maven.javadoc.ver>3.4.1</plugin.maven.javadoc.ver>
         <plugin.maven.gpg.ver>3.0.1</plugin.maven.gpg.ver>
-        <!--distribution plugins versions]-->
+        <!--distribution plugins versions>-->
 
-        <!--[project specific-->
+        <!--<project specific-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <!--project specific]-->
+        <!--project specific>-->
 
-        <!--[dependencies versions-->
+        <!--<dependencies versions-->
         <dependency.testng.version>7.7.0</dependency.testng.version>
         <dependency.equalsverifier.version>3.0.3</dependency.equalsverifier.version>
-        <!--dependencies versions]-->
+        <!--dependencies versions>-->
 
-        <!--[plugins versions-->
+        <!--<plugins versions-->
         <plugin.flatten-maven-plugin.version>1.2.7</plugin.flatten-maven-plugin.version>
         <plugin.maven-checkstyle-plugin.version>2.17</plugin.maven-checkstyle-plugin.version>
         <plugin.versions-maven-plugin.version>2.5</plugin.versions-maven-plugin.version>
@@ -59,22 +59,22 @@
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
         <plugin.maven-surefire-plugin.version>3.0.0-M5</plugin.maven-surefire-plugin.version>
         <plugin.jacoco-maven-plugin.version>0.8.5</plugin.jacoco-maven-plugin.version>
-        <!--plugins versions]-->
+        <!--plugins versions>-->
     </properties>
-    <!--properties]-->
+    <!--properties>-->
 
-    <!--[dependencies-->
+    <!--<dependencies-->
     <dependencyManagement>
         <dependencies>
-            <!--[project modules-->
+            <!--<project modules-->
             <dependency>
                 <groupId>io.github.ololx.moonshine</groupId>
                 <artifactId>moonshine-tuples</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--project modules]-->
+            <!--project modules>-->
 
-            <!--[test utils-->
+            <!--<test utils-->
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
@@ -85,108 +85,67 @@
                 <artifactId>equalsverifier</artifactId>
                 <version>${dependency.equalsverifier.version}</version>
             </dependency>
-            <!--test utils]-->
+            <!--test utils>-->
         </dependencies>
     </dependencyManagement>
-    <!--dependencies]-->
+    <!--dependencies>-->
 
-    <!--[build-->
+    <!--<build-->
     <build>
-        <!--[plugins versions management-->
+        <!--<plugins versions management-->
         <pluginManagement>
             <plugins>
-            <!--[distribution plugins-->
+            <!--<distribution plugins-->
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>${plugin.nexus.staging.ver}</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <serverId>ossrh</serverId>
-                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${plugin.maven.source.ver}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${plugin.maven.javadoc.ver}</version>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <detectJavaApiLink>false</detectJavaApiLink>
-                        <show>protected</show>
-                        <failOnError>false</failOnError>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${plugin.maven.gpg.ver}</version>
-                    <configuration>
-                        <gpgArguments>
-                            <arg>--pinentry-mode</arg>
-                            <arg>loopback</arg>
-                        </gpgArguments>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                            <configuration>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <keyname>${env.GPQ_KEY}</keyname>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <passphraseServerId>${env.GPQ_KEY}</passphraseServerId>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
-                <!--distribution plugins]-->
+                <!--distribution plugins>-->
 
-                <!--[compiling source-->
+                <!--<flatten pom-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${plugin.flatten-maven-plugin.version}</version>
+                </plugin>
+                <!--flatten pom>-->
+
+                <!--<compiling source-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${plugin.maven-compiler-plugin.version}</version>
                 </plugin>
-                <!--compiling source]-->
+                <!--compiling source>-->
 
-                <!--[test plugins-->
+                <!--<test plugins-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${plugin.maven-surefire-plugin.version}</version>
                 </plugin>
-                <!--test plugins]-->
+                <!--test plugins>-->
             </plugins>
         </pluginManagement>
-        <!--plugins versions management]-->
+        <!--plugins versions management>-->
 
     </build>
-    <!--build]-->
+    <!--build>-->
 
 </project>

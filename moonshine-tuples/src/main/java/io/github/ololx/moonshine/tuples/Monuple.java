@@ -1,13 +1,13 @@
 /**
  * Copyright 2022 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * <p>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,13 +16,11 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import java.util.Objects;
-
 /**
  * The tuple with only one element.
  *
  * The {@code Monuple} class implements {@code Tuple1} and provides
- * all his behaviour.<p>
+ * all his behaviour.
  *
  * @param <T1> the type of element in this tuple
  *
@@ -56,7 +54,7 @@ public class Monuple<T1> implements Tuple1<T1> {
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
-     * @implSpec
+     * <b>implSpec:</b>
      * This implementation always return 1 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
@@ -69,7 +67,7 @@ public class Monuple<T1> implements Tuple1<T1> {
     /**
      * Returns the element at the specified position in this tuple.
      *
-     * @implSpec
+     * <b>implSpec:</b>
      * This implementation will return the first element if the index is 1;
      * otherwise throw an exception {@link IndexOutOfBoundsException}.
      *
