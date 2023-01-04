@@ -125,6 +125,31 @@
                     <version>${plugin.flatten-maven-plugin.version}</version>
                 </plugin>
                 <!--flatten pom>-->
+                
+                <!--<compiling source-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.maven-compiler-plugin.version}</version>
+                </plugin>
+                <!--compiling source>-->
+                
+                <!--<test plugins-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${plugin.maven-surefire-plugin.version}</version>
+                </plugin>
+                <!--test plugins>-->
+                
+                <!--<reporting code coverage-->
+                <!--used for sonarcloud.io-->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${plugin.jacoco-maven-plugin.version}</version>
+                </plugin>
+                <!--reporting code coverage>-->
 
                 <!--<compiling source-->
                 <plugin>
@@ -133,14 +158,7 @@
                     <version>${plugin.maven-compiler-plugin.version}</version>
                 </plugin>
                 <!--compiling source>-->
-
-                <!--<test plugins-->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${plugin.maven-surefire-plugin.version}</version>
-                </plugin>
-                <!--test plugins>-->
+                
             </plugins>
         </pluginManagement>
         <!--plugins versions management>-->
