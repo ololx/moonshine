@@ -35,7 +35,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.outputDirectory}</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/report-aggregate/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <!--properties>-->
 
@@ -161,7 +163,9 @@
                             <dataFileIncludes>
                                 <dataFileInclude>**/jacoco.exec</dataFileInclude>
                             </dataFileIncludes>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            <outputDirectory>
+                                ${project.basedir}/report-aggregate/target/site/jacoco-aggregate/jacoco.xml
+                            </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
