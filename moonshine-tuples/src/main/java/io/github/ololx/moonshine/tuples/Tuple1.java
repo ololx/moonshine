@@ -1,13 +1,13 @@
 /**
  * Copyright 2022 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * <p>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,16 @@
 package io.github.ololx.moonshine.tuples;
 
 /**
- * A tuple that always contains one element.<p>
+ * A tuple that always contains one element.
  *
  * More formally:
  * T1 = (a1) or |T1| = 1.
  *
  * The {@code Tuple1} interface extends {@code Tuple} and provides
- * all his behaviour.<p>
+ * all his behaviour.
  *
  * The {@code Tuple1} interface additionally provides one method for the
- * accessing a tuple element using a {@code getT1} getter.<p>
+ * accessing a tuple element using a {@code getT1} getter.
  *
  * @param <T1> the type of element in this tuple
  *

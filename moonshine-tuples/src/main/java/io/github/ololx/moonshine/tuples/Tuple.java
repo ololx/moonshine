@@ -1,13 +1,13 @@
 /**
  * Copyright 2022 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * <p>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,18 +16,17 @@
  */
 package io.github.ololx.moonshine.tuples;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
  * The user of this interface has precise control over where in the tuple
  * each element is placed. The user can access elements by their integer
- * index (position in the tuple), and search for elements in the tuple.<p>
+ * index (position in the tuple), and search for elements in the tuple.
  *
  * Unlike collections, tuples typically are finite and has a fixed length.
  * Tuples typically allow pairs of elements {@code t1} and {@code t2}
- * such that {@code t1.equals(t2)}.<p>
+ * such that {@code t1.equals(t2)}.
  *
  * More formally:
  * The general rule for the identity of two n-tuples is
@@ -52,10 +51,10 @@ import java.util.NoSuchElementException;
  * specified in the {@code Iterable} interface, on the contracts of
  * the {@code iterator}, {@code get}, {@code getOrDefault}, {@code equals},
  * and {@code hashCode} methods.  Declarations for other inherited methods are
- * also included here for convenience.<p>
+ * also included here for convenience.
  *
  * The {@code Tuple} interface provides two methods for positional (indexed)
- * access to tuple elements. Tuples (like arrays) are zero based.<p>
+ * access to tuple elements. Tuples (like arrays) are zero based.
  *
  * project moonshine
  * created 22.12.2022 11:41
@@ -106,15 +105,14 @@ public interface Tuple extends Iterable<Object> {
     /**
      * Returns an iterator over the elements in the tuple in proper sequence.
      *
-     * @implSpec
+     * <b>implSpec:</b>
      * This implementation returns a straightforward implementation of
      * the iterator interface, relying on the backing tuple's {@code size()},
-     * {@code get(int)} methods.<p>
+     * {@code get(int)} methods.
      *
      * Note that the iterator returned by this method will throw an
      * {@link UnsupportedOperationException} in response to its
-     * {@code remove} method unless the list's {@code remove(int)} method is
-     * overridden.<p>
+     * {@code remove} method.
      *
      * @return an iterator over the elements in the tuple in proper sequence
      */
@@ -123,7 +121,15 @@ public interface Tuple extends Iterable<Object> {
         return new BaseIterator(this);
     }
 
-
+    /**
+     * An iterator over a tuple elements.
+     *
+     * <b>implSpec:</b>
+     * This is a straightforward implementation of the iterator interface,
+     * relying on the backing tuple's {@code size()},{@code get(int)} methods.
+     * This iterator will throw an {@link UnsupportedOperationException} in
+     * response to its {@code remove} method.
+     */
     class BaseIterator implements Iterator<Object> {
 
         /**
