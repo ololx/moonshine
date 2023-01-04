@@ -120,6 +120,18 @@
                 </executions>
             </plugin>
             <!--distribution plugins>-->
+            
+            <!--<compiling source-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!--compiling source>-->
 
             <!--<reporting code coverage-->
             <!--used for sonarcloud.io-->
@@ -150,17 +162,6 @@
             </plugin>
             <!--reporting code coverage>-->
 
-            <!--<compiling source-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <!--compiling source>-->
         </plugins>
     </build>
 </project>

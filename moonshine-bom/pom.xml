@@ -125,7 +125,15 @@
                     <version>${plugin.flatten-maven-plugin.version}</version>
                 </plugin>
                 <!--flatten pom>-->
-
+                
+                <!--<compiling source-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.maven-compiler-plugin.version}</version>
+                </plugin>
+                <!--compiling source>-->
+                
                 <!--<test plugins-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -133,7 +141,7 @@
                     <version>${plugin.maven-surefire-plugin.version}</version>
                 </plugin>
                 <!--test plugins>-->
-
+                
                 <!--<reporting code coverage-->
                 <!--used for sonarcloud.io-->
                 <plugin>
@@ -150,6 +158,7 @@
                     <version>${plugin.maven-compiler-plugin.version}</version>
                 </plugin>
                 <!--compiling source>-->
+                
             </plugins>
         </pluginManagement>
         <!--plugins versions management>-->
