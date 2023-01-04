@@ -94,6 +94,22 @@ public class CoupleTest {
         assertEquals(actual2, defaultValue);
     }
 
+    @Test(dataProvider = "providesConstructorArgs")
+    <T1, T2> void size_whenCreateTuple_thenTupleHasSize(final T1 t1, final T2 t2) {
+        //Given
+        // The tuple with size = 2
+        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
+
+        //When
+        // get tuple size
+        final int actual = tuple.size();
+        final int expected = 2;
+
+        //Then
+        // size equal to expected
+        assertEquals(actual, expected);
+    }
+
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Couple.class)

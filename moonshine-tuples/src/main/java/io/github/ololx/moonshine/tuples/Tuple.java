@@ -118,6 +118,7 @@ public interface Tuple extends Iterable<Object> {
      *
      * @return an iterator over the elements in the tuple in proper sequence
      */
+    @Override
     default Iterator<Object> iterator() {
         return new BaseIterator(this);
     }
@@ -151,7 +152,7 @@ public interface Tuple extends Iterable<Object> {
          */
         @Override
         public boolean hasNext() {
-            return this.tuple.size() > cursor + 1;
+            return this.cursor < this.tuple.size();
         }
 
         /**
