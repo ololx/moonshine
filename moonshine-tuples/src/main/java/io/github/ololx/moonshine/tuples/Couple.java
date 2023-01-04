@@ -116,4 +116,35 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
     public T2 getT2() {
         return this.t2;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Couple)) {
+            return false;
+        }
+
+        Couple<?, ?> other = (Couple<?, ?>) obj;
+
+        final boolean isT1Equals = (this.t1 == null && other.t1 == null)
+                || (this.t1 != null && this.t1.equals(other.t1));
+        final boolean isT2Equals = (this.t2 == null && other.t2 == null)
+                || (this.t2 != null && this.t2.equals(other.t2));
+
+        return isT1Equals && isT2Equals;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+
+        int hash = 1;
+        hash = prime * hash + (this.t1 == null ? 0 : this.t1.hashCode());
+        hash = prime * hash + (this.t2 == null ? 0 : this.t2.hashCode());
+
+        return hash;
+    }
 }

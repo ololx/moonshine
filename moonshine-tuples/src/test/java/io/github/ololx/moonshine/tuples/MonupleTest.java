@@ -16,6 +16,8 @@
  */
 package io.github.ololx.moonshine.tuples;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -66,5 +68,29 @@ public class MonupleTest {
         //Then
         // actual value equals to stored value
         assertEquals(actual, t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <T1> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final T1 t1) {
+        //Given
+        // The tuple with size = 1
+        // and some default value
+        final Monuple<T1> tuple = new Monuple<>(t1);
+        final String defaultValue = "default";
+
+        //When
+        // get values by index < 0 and index >= tuple size
+        final Object actual = tuple.getOrDefault(-1, defaultValue);
+
+        //Then
+        // actual values equal to default
+        assertEquals(actual, defaultValue);
+    }
+
+    @Test
+    public void equalsHashCode_verifyContracts() {
+        EqualsVerifier.forClass(Monuple.class)
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

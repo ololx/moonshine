@@ -16,6 +16,8 @@
  */
 package io.github.ololx.moonshine.tuples;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -59,7 +61,7 @@ public class CoupleTest {
     <T1, T2> void get_whenIndexExists_thenReturnValueByIndex(final T1 t1,
                                                              final T2 t2) {
         //Given
-        // The tuple with size = 1
+        // The tuple with size = 2
         final Couple<T1, T2> tuple = new Couple<>(t1, t2);
 
         //When
@@ -71,5 +73,31 @@ public class CoupleTest {
         // actual values equal to stored values
         assertEquals(actualT1, t1);
         assertEquals(actualT2, t2);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <T1, T2> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final T1 t1, final T2 t2) {
+        //Given
+        // The tuple with size = 2
+        // and some default value
+        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
+        final String defaultValue = "default";
+
+        //When
+        // get values by index < 0 and index >= tuple size
+        final Object actual1 = tuple.getOrDefault(-1, defaultValue);
+        final Object actual2 = tuple.getOrDefault(tuple.size(), defaultValue);
+
+        //Then
+        // actual values equal to default
+        assertEquals(actual1, defaultValue);
+        assertEquals(actual2, defaultValue);
+    }
+
+    @Test
+    public void equalsHashCode_verifyContracts() {
+        EqualsVerifier.forClass(Couple.class)
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

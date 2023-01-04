@@ -16,6 +16,8 @@
  */
 package io.github.ololx.moonshine.tuples;
 
+import java.util.Objects;
+
 /**
  * The tuple with only one element.
  *
@@ -93,5 +95,31 @@ public class Monuple<T1> implements Tuple1<T1> {
     @Override
     public T1 getT1() {
         return this.t1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Monuple)) {
+            return false;
+        }
+
+        Monuple<?> other = (Monuple<?>) obj;
+
+        return (this.t1 == null && other.t1 == null)
+                || (this.t1 != null && this.t1.equals(other.t1));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+
+        int hash = 1;
+        hash = prime * hash + (this.t1 == null ? 0 : this.t1.hashCode());
+
+        return hash;
     }
 }
