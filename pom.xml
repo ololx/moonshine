@@ -159,14 +159,6 @@
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
-                        <configuration>
-                            <dataFileIncludes>
-                                <dataFileInclude>**/jacoco.exec</dataFileInclude>
-                            </dataFileIncludes>
-                            <outputDirectory>
-                                ${project.basedir}/report-aggregate/target/site/jacoco-aggregate/jacoco.xml
-                            </outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
