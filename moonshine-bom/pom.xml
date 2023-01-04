@@ -141,6 +141,15 @@
                     <version>${plugin.maven-surefire-plugin.version}</version>
                 </plugin>
                 <!--test plugins>-->
+
+                <!--<reporting code coverage-->
+                <!--used for sonarcloud.io-->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${plugin.jacoco-maven-plugin.version}</version>
+                </plugin>
+                <!--reporting code coverage>-->
             </plugins>
         </pluginManagement>
         <!--plugins versions management>-->
