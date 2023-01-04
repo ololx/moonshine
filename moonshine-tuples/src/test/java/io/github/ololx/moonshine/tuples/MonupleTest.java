@@ -87,6 +87,22 @@ public class MonupleTest {
         assertEquals(actual, defaultValue);
     }
 
+    @Test(dataProvider = "providesConstructorArgs")
+    <T1> void size_whenCreateTuple_thenTupleHasSize(final T1 t1) {
+        //Given
+        // The tuple with size = 1
+        final Monuple<T1> tuple = new Monuple<>(t1);
+
+        //When
+        // get tuple size
+        final int actual = tuple.size();
+        final int expected = 1;
+
+        //Then
+        // size equal to expected
+        assertEquals(actual, expected);
+    }
+
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Monuple.class)
