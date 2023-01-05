@@ -45,10 +45,10 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final T1 t1) {
+    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1) {
         //When
         // create new tuple with specified args
-        final Monuple<T1> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t1);
 
         //Then
         // tuple contains arg value
@@ -56,10 +56,10 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1> void get_whenIndexExists_thenReturnValueByIndex(final T1 t1) {
+    <A> void get_whenIndexExists_thenReturnValueByIndex(final A t1) {
         //Given
         // The tuple with size = 1
-        final Monuple<T1> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t1);
 
         //When
         // get value by index 0
@@ -71,11 +71,11 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final T1 t1) {
+    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1) {
         //Given
         // The tuple with size = 1
         // and some default value
-        final Monuple<T1> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t1);
         final String defaultValue = "default";
 
         //When
@@ -88,10 +88,10 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1> void size_whenCreateTuple_thenTupleHasSize(final T1 t1) {
+    <A> void size_whenCreateTuple_thenTupleHasSize(final A t1) {
         //Given
         // The tuple with size = 1
-        final Monuple<T1> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t1);
 
         //When
         // get tuple size

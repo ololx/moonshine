@@ -22,15 +22,15 @@ package io.github.ololx.moonshine.tuples;
  * The {@code Couple} class implements {@code Tuple2} and provides
  * all his behaviour.
  *
- * @param <T1> the type of first element in this tuple
- * @param <T2> the type of second element in this tuple
+ * @param <A> the type of first element in this tuple
+ * @param <B> the type of second element in this tuple
  *
  * project moonshine
  * created 28.12.2022 20:19
  *
  * @author Alexander A. Kropotin
  */
-public class Couple<T1, T2> implements Tuple2<T1, T2> {
+public class Couple<A, B> implements Tuple2<A, B> {
 
     /**
      * The power of this tuple.
@@ -40,12 +40,12 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
     /**
      * First element in this tuple
      */
-    private final T1 t1;
+    private final A t1;
 
     /**
      * Second element in this tuple
      */
-    private final T2 t2;
+    private final B t2;
 
     /**
      * Create new tuple with specified elements values
@@ -53,7 +53,7 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
      * @param t1 the first element of this tuple
      * @param t2 the second element of this tuple
      */
-    public Couple(T1 t1, T2 t2) {
+    public Couple(A t1, B t2) {
         this.t1 = t1;
         this.t2 = t2;
     }
@@ -103,7 +103,7 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
      * @return  the first element in this tuple.
      */
     @Override
-    public T1 getT1() {
+    public A getT1() {
         return this.t1;
     }
 
@@ -113,7 +113,7 @@ public class Couple<T1, T2> implements Tuple2<T1, T2> {
      * @return the second element in this tuple.
      */
     @Override
-    public T2 getT2() {
+    public B getT2() {
         return this.t2;
     }
 

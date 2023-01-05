@@ -22,14 +22,14 @@ package io.github.ololx.moonshine.tuples;
  * The {@code Monuple} class implements {@code Tuple1} and provides
  * all his behaviour.
  *
- * @param <T1> the type of element in this tuple
+ * @param <A> the type of element in this tuple
  *
  * project moonshine
  * created 28.12.2022 19:51
  *
  * @author Alexander A. Kropotin
  */
-public class Monuple<T1> implements Tuple1<T1> {
+public class Monuple<A> implements Tuple1<A> {
 
     /**
      * The power of this tuple.
@@ -39,14 +39,14 @@ public class Monuple<T1> implements Tuple1<T1> {
     /**
      * First element in this tuple
      */
-    private final T1 t1;
+    private final A t1;
 
     /**
      * Create new tuple with specified elements values
      *
      * @param t1 the first element of this tuple
      */
-    public Monuple(T1 t1) {
+    public Monuple(A t1) {
         this.t1 = t1;
     }
 
@@ -91,7 +91,7 @@ public class Monuple<T1> implements Tuple1<T1> {
      * @return  the first element in this tuple.
      */
     @Override
-    public T1 getT1() {
+    public A getT1() {
         return this.t1;
     }
 
