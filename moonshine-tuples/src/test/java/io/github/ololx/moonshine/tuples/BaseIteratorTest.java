@@ -21,6 +21,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -76,5 +77,28 @@ public class BaseIteratorTest {
         //Then
         // iteration hasn't more values
         assertFalse(iterator.hasNext());
+    }
+
+    @Test(
+            dataProvider = "providesTuples",
+            expectedExceptions = NoSuchElementException.class,
+            expectedExceptionsMessageRegExp = "The iteration has no more elements"
+    )
+    void next_whenIterationDoesNotHasMoreValues_thenThrowException(final Tuple tuple) {
+        //Given
+        // tuple iterator wih cursor on the last element
+        final Iterator<Object> iterator = tuple.iterator();
+
+        for (int iteration = 0; iteration < tuple.size(); iteration++) {
+            iterator.next();
+        }
+
+        assertFalse(iterator.hasNext());
+
+        //When
+        // get next value (which is not exists)
+        //Then
+        // throw exception
+        iterator.next();
     }
 }
