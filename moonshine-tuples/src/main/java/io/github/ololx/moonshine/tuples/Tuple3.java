@@ -21,28 +21,29 @@ package io.github.ololx.moonshine.tuples;
  * A tuple that always contains two elements.
  *
  * More formally:
- * T2 = (t1, t2) or |T2| = 2.
+ * T3 = (t1, t2, t3) or |T3| = 3.
  *
- * The {@code Tuple2} interface extends {@code Tuple1} and provides
+ * The {@code Tuple3} interface extends {@code Tuple2} and provides
  * all his behaviour.
  *
- * The {@code Tuple2} interface additionally provides one method for the
- * accessing a tuple elements using a {@code getT2} getter.
+ * The {@code Tuple3} interface additionally provides one method for the
+ * accessing a tuple elements using a {@code getT3} getter.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
+ * @param <C> the type of third element in this tuple
  *
  * project moonshine
- * created 28.12.2022 19:56
+ * created 05.01.2023 20:41
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple2<A, B> extends Tuple1<A> {
+public interface Tuple3<A, B, C> extends Tuple2<A, B> {
 
     /**
-     * Returns the second element in this tuple.
+     * Returns the third element in this tuple.
      *
-     * @return the second element in this tuple.
+     * @return the third element in this tuple.
      */
-    B getT2();
+    C getT3();
 }

@@ -21,7 +21,7 @@ package io.github.ololx.moonshine.tuples;
  * A tuple that always contains one element.
  *
  * More formally:
- * T1 = (a1) or |T1| = 1.
+ * T1 = (t1) or |T1| = 1.
  *
  * The {@code Tuple1} interface extends {@code Tuple} and provides
  * all his behaviour.
