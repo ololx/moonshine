@@ -22,7 +22,10 @@ import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
+
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * project moonshine
@@ -108,6 +111,21 @@ public class CoupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1, final B t2) {
+        //Given
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
+
+        //When
+        // create iterator
+        final Iterator<Object> iterator = tuple.iterator();
+
+        //Then
+        // size equal to expected
+        assertNotNull(iterator);
     }
 
     @Test

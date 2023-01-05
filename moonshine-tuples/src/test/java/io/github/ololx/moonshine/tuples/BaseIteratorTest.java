@@ -20,7 +20,9 @@ package io.github.ololx.moonshine.tuples;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.testng.Assert.assertEquals;
@@ -79,6 +81,24 @@ public class BaseIteratorTest {
         assertFalse(iterator.hasNext());
     }
 
+    @Test(dataProvider = "providesTuples")
+    void forEachRemaining_whenIterationHasValues_thenAddToListEachRemaining(final Tuple tuple) {
+        //Given
+        // tuple iterator
+        // and empty list
+        final Iterator<Object> iterator = tuple.iterator();
+        final List<Object> iterationValues = new ArrayList<>();
+
+        //When
+        // forEachRemaining add value to list
+        iterator.forEachRemaining(iterationValues::add);
+
+        //Then
+        // all values from tuple were iterated and add to iterationValues list
+        // with the same order
+        assertEquals(tuple.size(), iterationValues.size());
+    }
+
     @Test(
             dataProvider = "providesTuples",
             expectedExceptions = NoSuchElementException.class,
@@ -100,5 +120,22 @@ public class BaseIteratorTest {
         //Then
         // throw exception
         iterator.next();
+    }
+
+    @Test(
+            dataProvider = "providesTuples",
+            expectedExceptions = UnsupportedOperationException.class,
+            expectedExceptionsMessageRegExp = "remove"
+    )
+    void remove_whenTryToRemoveLastElementFromTuple_thenThrowException(final Tuple tuple) {
+        //Given
+        // tuple iterator
+        final Iterator<Object> iterator = tuple.iterator();
+
+        //When
+        // remove last value from tuple
+        //Then
+        // throw exception
+        iterator.remove();
     }
 }

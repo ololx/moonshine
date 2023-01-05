@@ -22,7 +22,10 @@ import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
+
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * project moonshine
@@ -104,6 +107,21 @@ public class MonupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1) {
+        //Given
+        // The tuple with size = 2
+        final Monuple<A> tuple = new Monuple<>(t1);
+
+        //When
+        // create iterator
+        final Iterator<Object> iterator = tuple.iterator();
+
+        //Then
+        // size equal to expected
+        assertNotNull(iterator);
     }
 
     @Test

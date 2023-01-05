@@ -22,7 +22,10 @@ import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
+
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * project moonshine
@@ -65,6 +68,21 @@ public class EmptyTupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test
+    void iterator_whenCreateIterator_thenReturnNonNullIterator() {
+        //Given
+        // The tuple with size = 0
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // create iterator
+        final Iterator<Object> iterator = tuple.iterator();
+
+        //Then
+        // size equal to expected
+        assertNotNull(iterator);
     }
 
     @Test
