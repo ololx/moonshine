@@ -26,57 +26,18 @@ import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 03.01.2023 12:43
+ * created 05.01.2023 10:00
  *
  * @author Alexander A. Kropotin
  */
-public class MonupleTest {
+public class EmptyTupleTest {
 
-    @DataProvider(name = "providesConstructorArgs")
-    static Object[][] providesConstructorArgs() {
-        return new Object[][] {
-                {Byte.MIN_VALUE},
-                {Character.MIN_VALUE},
-                {Short.MIN_VALUE},
-                {Integer.MIN_VALUE},
-                {Float.MIN_VALUE},
-                {Double.MIN_VALUE},
-                {String.valueOf(Integer.MAX_VALUE)}
-        };
-    }
-
-    @Test(dataProvider = "providesConstructorArgs")
-    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1) {
-        //When
-        // create new tuple with specified args
-        final Monuple<A> tuple = new Monuple<>(t1);
-
-        //Then
-        // tuple contains arg value
-        assertEquals(tuple.getT1(), t1);
-    }
-
-    @Test(dataProvider = "providesConstructorArgs")
-    <A> void get_whenIndexExists_thenReturnValueByIndex(final A t1) {
+    @Test
+    void getOrDefault_whenIndexNotExists_thenReturnDefaultValue() {
         //Given
-        // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t1);
-
-        //When
-        // get value by index 0
-        final Object actual = tuple.get(0);
-
-        //Then
-        // actual value equals to stored value
-        assertEquals(actual, t1);
-    }
-
-    @Test(dataProvider = "providesConstructorArgs")
-    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1) {
-        //Given
-        // The tuple with size = 1
+        // The tuple with size = 0
         // and some default value
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final EmptyTuple tuple = new EmptyTuple();
         final String defaultValue = "default";
 
         //When
@@ -90,16 +51,16 @@ public class MonupleTest {
         assertEquals(actual2, defaultValue);
     }
 
-    @Test(dataProvider = "providesConstructorArgs")
-    <A> void size_whenCreateTuple_thenTupleHasSize(final A t1) {
+    @Test
+    void size_whenCreateTuple_thenTupleHasSize() {
         //Given
-        // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t1);
+        // The tuple with size = 0
+        final EmptyTuple tuple = new EmptyTuple();
 
         //When
         // get tuple size
         final int actual = tuple.size();
-        final int expected = 1;
+        final int expected = 0;
 
         //Then
         // size equal to expected

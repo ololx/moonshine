@@ -55,7 +55,7 @@ public class Monuple<A> implements Tuple1<A> {
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
-     * <b>implSpec:</b>
+     * <b>implSpec</b>
      * This implementation always return 1 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
@@ -68,7 +68,7 @@ public class Monuple<A> implements Tuple1<A> {
     /**
      * Returns the element at the specified position in this tuple.
      *
-     * <b>implSpec:</b>
+     * <b>implSpec</b>
      * This implementation will return the first element if the index is 1;
      * otherwise throw an exception {@link IndexOutOfBoundsException}.
      *
@@ -96,28 +96,62 @@ public class Monuple<A> implements Tuple1<A> {
         return this.t1;
     }
 
+    /**
+     * Indicates whether some other {@code Object} is "equal to" this one.
+     *
+     * <b>implSpec</b>
+     * This implementation will return {@code true}, if one of the following
+     * conditions is true:
+     * <ol>
+     *     <li>
+     *         This tuple and {@code obj} argument refer to the same
+     *         {@code Object} object
+     *     </li>
+     *     <li>
+     *         This tuple and {@code obj} argument has the same type, i.e.
+     *         booth are the realisation of the {@code Tuple1} tuple with
+     *         size = 1. And all values of this tuple has the same order and
+     *         equals to values of the {@code obj} argument
+     *         (T = B if (t1) = (b1) and |T| = |B| = 1)
+     *     </li>
+     * </ol>
+     *
+     * @param   obj   the reference object with which to compare.
+     * @return  {@code true} if this tuple is the same as the obj
+     *          argument; {@code false} otherwise.
+     * @see     #hashCode()
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Monuple)) {
+        if (!(obj instanceof Tuple1)) {
             return false;
         }
 
-        Monuple<?> other = (Monuple<?>) obj;
+        Tuple1<?> other = (Tuple1<?>) obj;
 
-        return (this.t1 == null && other.t1 == null)
-                || (this.t1 != null && this.t1.equals(other.t1));
+        return (this.t1 == null && other.getT1() == null)
+                || (this.t1 != null && this.t1.equals(other.getT1()));
     }
 
+    /**
+     * Returns a hash code value for the tuple.
+     *
+     * <b>implSpec</b>
+     * This implementation generates a hash code given the order of
+     * the elements and their hash code.
+     *
+     * @return  a hash code value for this tuple.
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
 
-        int hash = 1;
-        hash = prime * hash + (this.t1 == null ? 0 : this.t1.hashCode());
+        int index = 0, hash = 0;
+        hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
 
         return hash;
     }
