@@ -17,7 +17,8 @@
 
 package io.github.ololx.moonshine.tuples;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
@@ -89,6 +90,11 @@ public interface Tuple extends Iterable<Object> {
      * {@code defaultValue} if the index is out of
      * range ({@code index < 0 || index >= size()})
      *
+     * <b>implSpec</b>
+     * This implementation returns {@code defaultValue} if the index is out of
+     * range ({@code index < 0 || index >= size()}), otherwise returns
+     * the element at the specified position
+     *
      * @param index index of the element to return
      * @param defaultValue the default mapping of the key
      * @return the element at the specified position in this tuple
@@ -106,7 +112,7 @@ public interface Tuple extends Iterable<Object> {
     /**
      * Returns an iterator over the elements in the tuple in proper sequence.
      *
-     * <b>implSpec:</b>
+     * <b>implSpec</b>
      * This implementation returns a straightforward implementation of
      * the iterator interface, relying on the backing tuple's {@code size()},
      * {@code get(int)} methods.
@@ -125,7 +131,7 @@ public interface Tuple extends Iterable<Object> {
     /**
      * An iterator over a tuple elements.
      *
-     * <b>implSpec:</b>
+     * <b>implSpec</b>
      * This is a straightforward implementation of the iterator interface,
      * relying on the backing tuple's {@code size()},{@code get(int)} methods.
      * This iterator will throw an {@link UnsupportedOperationException} in

@@ -39,7 +39,7 @@ public class EmptyTuple implements Tuple0 {
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
-     * <b>implSpec:</b>
+     * <b>implSpec</b>
      * This implementation always return 0 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
@@ -52,7 +52,7 @@ public class EmptyTuple implements Tuple0 {
     /**
      * Returns the element at the specified position in this tuple.
      *
-     * <b>implSpec:</b>
+     * <b>implSpec</b>
      * This implementation throws an instance of
      * {@link IndexOutOfBoundsException} and performs no other action.
      *
@@ -64,8 +64,72 @@ public class EmptyTuple implements Tuple0 {
         throw new IndexOutOfBoundsException("There is no elements by index " + index);
     }
 
+    /**
+     * Returns the element at the specified position in this tuple, or
+     * {@code defaultValue} if the index is out of
+     * range ({@code index < 0 || index >= size()})
+     *
+     * <b>implSpec</b>
+     * This implementation always returns the {@code defaultValue}
+     *
+     * @param index index of the element to return
+     * @param defaultValue the default mapping of the key
+     * @return the {@code defaultValue}
+     * @throws ClassCastException if the tuple element is of an inappropriate
+     * type for this {@code defaultValue}
+     */
     @Override
     public Object getOrDefault(int index, Object defaultValue) {
         return defaultValue;
+    }
+
+    /**
+     * Indicates whether some other {@code Object} is "equal to" this one.
+     *
+     * <b>implSpec</b>
+     * This implementation will return {@code true}, if one of the following
+     * conditions is true:
+     * <ol>
+     *     <li>
+     *         This tuple and {@code obj} argument refer to the same
+     *         {@code Object} object
+     *     </li>
+     *     <li>
+     *         This tuple and {@code obj} argument has the same type, i.e.
+     *         booth are the realisation of the {@code Tuple0} tuple with
+     *         size = 0 (T = B if |T| = |B| = 0)
+     *     </li>
+     * </ol>
+     *
+     * @param   obj   the reference object with which to compare.
+     * @return  {@code true} if this tuple is the same as the obj
+     *          argument; {@code false} otherwise.
+     * @see     #hashCode()
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        return obj instanceof Tuple0;
+    }
+
+    /**
+     * Returns a hash code value for the tuple.
+     *
+     * <b>implSpec</b>
+     * This implementation always return 31 (31 * 1 + 0)
+     *
+     * @return  a hash code value for this tuple.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+
+        int index = 0, hash = 0;
+        hash = prime * ++index + hash;
+
+        return 31;
     }
 }
