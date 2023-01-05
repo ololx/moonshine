@@ -176,7 +176,8 @@ public class Couple<A, B> implements Tuple2<A, B> {
     public int hashCode() {
         final int prime = 31;
 
-        int index = 0, hash = 0;
+        int hash = 0;
+        int index = 0;
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
         hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
 

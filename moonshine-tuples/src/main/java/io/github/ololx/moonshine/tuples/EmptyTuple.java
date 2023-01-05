@@ -119,7 +119,7 @@ public class EmptyTuple implements Tuple0 {
      * Returns a hash code value for the tuple.
      *
      * <b>implSpec</b>
-     * This implementation always return 31 (31 * 1 + 0)
+     * This implementation always return 32 (31 * 1)
      *
      * @return  a hash code value for this tuple.
      */
@@ -127,8 +127,9 @@ public class EmptyTuple implements Tuple0 {
     public int hashCode() {
         final int prime = 31;
 
-        int index = 0, hash = 0;
-        hash = prime * ++index + hash;
+        int hash = 0;
+        int index = 0;
+        hash = prime * ++index;
 
         return 31;
     }
