@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.github.ololx.moonshine.tuples;
 
 import org.testng.annotations.DataProvider;
