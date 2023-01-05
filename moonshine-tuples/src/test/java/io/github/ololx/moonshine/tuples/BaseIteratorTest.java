@@ -36,6 +36,7 @@ public class BaseIteratorTest {
     @DataProvider(name = "providesTuples")
     static Object[][] providesTuples() {
         return new Object[][] {
+                {new EmptyTuple()},
                 {new Monuple<>(Byte.MIN_VALUE)},
                 {new Couple<>(Byte.MIN_VALUE, Short.MIN_VALUE)}
         };
