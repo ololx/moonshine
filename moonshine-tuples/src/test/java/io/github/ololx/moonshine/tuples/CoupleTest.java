@@ -45,11 +45,11 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1, T2> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final T1 t1,
-                                                                               final T2 t2) {
+    <A, B> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1,
+                                                                             final B t2) {
         //When
         // create new tuple with specified args
-        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //Then
         // tuple contains arg value
@@ -58,11 +58,10 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1, T2> void get_whenIndexExists_thenReturnValueByIndex(final T1 t1,
-                                                             final T2 t2) {
+    <A, B> void get_whenIndexExists_thenReturnValueByIndex(final A t1, final B t2) {
         //Given
         // The tuple with size = 2
-        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //When
         // get values by indexes 0, 1
@@ -76,11 +75,11 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1, T2> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final T1 t1, final T2 t2) {
+    <A, B> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1, final B t2) {
         //Given
         // The tuple with size = 2
         // and some default value
-        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
         final String defaultValue = "default";
 
         //When
@@ -95,10 +94,10 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <T1, T2> void size_whenCreateTuple_thenTupleHasSize(final T1 t1, final T2 t2) {
+    <A, B> void size_whenCreateTuple_thenTupleHasSize(final A t1, final B t2) {
         //Given
         // The tuple with size = 2
-        final Couple<T1, T2> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //When
         // get tuple size

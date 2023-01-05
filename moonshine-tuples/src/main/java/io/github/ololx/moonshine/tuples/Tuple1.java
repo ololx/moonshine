@@ -28,19 +28,19 @@ package io.github.ololx.moonshine.tuples;
  * The {@code Tuple1} interface additionally provides one method for the
  * accessing a tuple element using a {@code getT1} getter.
  *
- * @param <T1> the type of element in this tuple
+ * @param <A> the type of element in this tuple
  *
  * project moonshine
  * created 28.12.2022 19:56
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple1<T1> extends Tuple {
+public interface Tuple1<A> extends Tuple {
 
     /**
      * Returns the first element in this tuple.
      *
      * @return  the first element in this tuple.
      */
-    T1 getT1();
+    A getT1();
 }
