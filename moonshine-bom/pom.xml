@@ -61,7 +61,7 @@
     <!--<ci info-->
     <scm>
         <connection>scm:git:git://github.com/ololx/moonshine.git</connection>
-        <developerConnection>scm:git:ssh://github.com:ololx/moonshine.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/ololx/moonshine.git</developerConnection>
         <url>http://github.com/ololx/moonshine</url>
     </scm>
     <issueManagement>
