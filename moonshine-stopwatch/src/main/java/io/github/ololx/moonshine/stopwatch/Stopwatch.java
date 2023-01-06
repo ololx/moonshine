@@ -22,5 +22,13 @@ package io.github.ololx.moonshine.stopwatch;
  *
  * @author Alexander A. Kropotin
  */
-public interface Stopwatch {
+public interface Stopwatch<U> {
+
+    U start();
+
+    U stop();
+
+    U reset();
+
+    U elapsed();
 }
