@@ -27,6 +27,21 @@
     <packaging>pom</packaging>
     <!--artifact>-->
 
+    <!--<distribution-->
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus Staging Repository</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus Snapshots Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <!--distribution>-->
+
     <!--<properties-->
     <properties>
         <!--<distribution plugins versions-->
@@ -175,11 +190,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <encoding>${project.build.sourceEncoding}</encoding>
-                    </configuration>
+                    <version>${plugin.maven-compiler-plugin.version}</version>
                 </plugin>
                 <!--compiling source>-->
                 

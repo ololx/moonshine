@@ -20,23 +20,99 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-
     <packaging>pom</packaging>
+    <!--artifact>-->
 
+    <!--<info-->
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>
+        Moonshine is a Java library that contains additional useful utilities and extensions.
+    </description>
+    <url>https://ololx.github.io/moonshine</url>
+    <inceptionYear>2022</inceptionYear>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments/>
+        </license>
+    </licenses>
+    <!--info>-->
+
+    <!--<developers and contributors-->
+    <developers>
+        <developer>
+            <id>ololx</id>
+            <name>Alexander A. Kropotin</name>
+            <email>ololx@icloud.com</email>
+            <roles>
+                <role>author</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <!--developers and contributors>-->
+
+    <!--<project modules-->
     <modules>
         <module>moonshine-bom</module>
         <module>moonshine-tuple</module>
     </modules>
+    <!--project modules>-->
 
+    <!--<ci info-->
+    <scm>
+        <connection>scm:git:git://github.com/ololx/moonshine.git</connection>
+        <developerConnection>scm:git:ssh://github.com:ololx/moonshine.git</developerConnection>
+        <url>http://github.com/ololx/moonshine</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/ololx/moonshine/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Github Actions</system>
+        <url>https://github.com/ololx/moonshine/actions</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnSuccess>true</sendOnSuccess>
+                <sendOnWarning>true</sendOnWarning>
+                <address>ololx@icloud.com</address>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+    <!--ci info>-->
+
+    <!--<distribution-->
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus Staging Repository</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus Snapshots Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <!--distribution>-->
+    
     <!--<properties-->
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!--sonar cloud properties-->
         <sonar.organization>ololx</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.outputDirectory}</sonar.coverage.jacoco.xmlReportPaths>
