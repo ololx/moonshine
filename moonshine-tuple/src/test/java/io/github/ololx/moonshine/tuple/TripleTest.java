@@ -49,65 +49,148 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1, 
-                                                                                final B t2,
-                                                                                final C t3) {
+    <A, B, C> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t0, 
+                                                                                final B t1,
+                                                                                final C t2) {
         //When
         // create new tuple with specified args
-        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //Then
         // tuple contains arg value
-        assertEquals(tuple.getT0(), t1);
-        assertEquals(tuple.getT1(), t2);
-        assertEquals(tuple.getT2(), t3);
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void get_whenIndexExists_thenReturnValueByIndex(final A t1, final B t2, final C t3) {
+    <A, B, C> void getT0_whenGet_thenReturnThisElementValue(final A t0, final B t1, final C t2) {
         //Given
-        // The tuple with size = 2
-        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
+        // The tuple with size = 3
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
-        // get values by indexes 0, 1
-        final Object actualT1 = tuple.get(0);
-        final Object actualT2 = tuple.get(1);
-        final Object actualT3 = tuple.get(2);
+        // get values by index 0
+        final Object actual = tuple.getT0();
 
         //Then
         // actual values equal to stored values
-        assertEquals(actualT1, t1);
-        assertEquals(actualT2, t2);
-        assertEquals(actualT3, t3);
+        assertEquals(actual, t0);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1,
-                                                                       final B t2,
-                                                                       final C t3) {
+    <A, B, C> void getT1_whenGet_thenReturnThisElementValue(final A t0, final B t1, final C t2) {
+        //Given
+        // The tuple with size = 3
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get values by index 1
+        final Object actual = tuple.getT1();
+
+        //Then
+        // actual values equal to stored values
+        assertEquals(actual, t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void getT2_whenGet_thenReturnThisElementValue(final A t0, final B t1, final C t2) {
+        //Given
+        // The tuple with size = 3
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get values by index 1
+        final Object actual = tuple.getT2();
+
+        //Then
+        // actual values equal to stored values
+        assertEquals(actual, t2);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void get_whenIndexExists_thenReturnValueByIndex(final A t0, final B t1, final C t2) {
+        //Given
+        // The tuple with size = 3
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get values by indexes 0, 1, 2
+        final Object actualT0 = tuple.get(0);
+        final Object actualT1 = tuple.get(1);
+        final Object actualT2 = tuple.get(2);
+
+        //Then
+        // actual values equal to stored values
+        assertEquals(actualT0, t0);
+        assertEquals(actualT1, t1);
+        assertEquals(actualT2, t2);
+    }
+
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    <A, B, C> void get_whenIndexLessThanZero_thenThrowException(final A t0,
+                                                                final B t1,
+                                                                final C t2) {
+        //Given
+        // The tuple with size = 3
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get values by index < 0
+        //Then
+        // throw exception
+        tuple.get(-1);
+    }
+
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    <A, B, C> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(final A t0,
+                                                                        final B t1,
+                                                                        final C t2) {
+        //Given
+        // The tuple with size = 3
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get values by index == tuple size
+        //Then
+        // throw exception
+        tuple.get(tuple.size());
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t0,
+                                                                       final B t1,
+                                                                       final C t2) {
         //Given
         // The tuple with size = 2
         // and some default value
-        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
         final String defaultValue = "default";
 
         //When
         // get values by index < 0 and index >= tuple size
-        final Object actual1 = tuple.getOrDefault(-1, defaultValue);
-        final Object actual2 = tuple.getOrDefault(tuple.size(), defaultValue);
+        final Object actual0 = tuple.getOrDefault(-1, defaultValue);
+        final Object actual1 = tuple.getOrDefault(tuple.size(), defaultValue);
 
         //Then
         // actual values equal to default
+        assertEquals(actual0, defaultValue);
         assertEquals(actual1, defaultValue);
-        assertEquals(actual2, defaultValue);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void size_whenCreateTuple_thenTupleHasSize(final A t1, final B t2, final C t3) {
+    <A, B, C> void size_whenCreateTuple_thenTupleHasSize(final A t0, final B t1, final C t2) {
         //Given
         // The tuple with size = 2
-        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get tuple size
@@ -120,12 +203,12 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1,
-                                                                         final B t2,
-                                                                         final C t3) {
+    <A, B, C> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t0,
+                                                                         final B t1,
+                                                                         final C t2) {
         //Given
         // The tuple with size = 2
-        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
+        final Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // create iterator
