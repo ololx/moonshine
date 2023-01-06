@@ -139,6 +139,11 @@
                 <artifactId>moonshine-tuple</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.ololx.moonshine</groupId>
+                <artifactId>moonshine-stopwatch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--project modules>-->
 
             <!--<test utils-->
