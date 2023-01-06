@@ -49,59 +49,123 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1,
-                                                                             final B t2) {
+    <A, B> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t0,
+                                                                             final B t1) {
         //When
         // create new tuple with specified args
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
 
         //Then
         // tuple contains arg value
-        assertEquals(tuple.getT0(), t1);
-        assertEquals(tuple.getT1(), t2);
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void get_whenIndexExists_thenReturnValueByIndex(final A t1, final B t2) {
+    <A, B> void getT0_whenGet_thenReturnThisElementValue(final A t0, final B t1) {
         //Given
         // The tuple with size = 2
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get value by index 0
+        final Object actual = tuple.getT0();
+
+        //Then
+        // actual value equals to stored value
+        assertEquals(actual, t0);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void getT1_whenGet_thenReturnThisElementValue(final A t0, final B t1) {
+        //Given
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get value by index 1
+        final Object actual = tuple.getT1();
+
+        //Then
+        // actual value equals to stored value
+        assertEquals(actual, t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void get_whenIndexExists_thenReturnValueByIndex(final A t0, final B t1) {
+        //Given
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
 
         //When
         // get values by indexes 0, 1
-        final Object actualT1 = tuple.get(0);
-        final Object actualT2 = tuple.get(1);
+        final Object actualT0 = tuple.get(0);
+        final Object actualT1 = tuple.get(1);
 
         //Then
         // actual values equal to stored values
+        assertEquals(actualT0, t0);
         assertEquals(actualT1, t1);
-        assertEquals(actualT2, t2);
+    }
+
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    <A, B> void get_whenIndexLessThanZero_thenThrowException(final A t0, final B t1) {
+        //Given
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get values by index < 0
+        //Then
+        // throw exception
+        tuple.get(-1);
+    }
+
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    <A, B> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(final A t0, final B t1) {
+        //Given
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get values by index == tuple size
+        //Then
+        // throw exception
+        tuple.get(tuple.size());
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1, final B t2) {
+    <A, B> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t0, final B t1) {
         //Given
         // The tuple with size = 2
         // and some default value
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
         final String defaultValue = "default";
 
         //When
-        // get values by index < 0 and index >= tuple size
-        final Object actual1 = tuple.getOrDefault(-1, defaultValue);
-        final Object actual2 = tuple.getOrDefault(tuple.size(), defaultValue);
+        // get values by index < 0 and index == tuple size
+        final Object actual0 = tuple.getOrDefault(-1, defaultValue);
+        final Object actual1 = tuple.getOrDefault(tuple.size(), defaultValue);
 
         //Then
         // actual values equal to default
+        assertEquals(actual0, defaultValue);
         assertEquals(actual1, defaultValue);
-        assertEquals(actual2, defaultValue);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void size_whenCreateTuple_thenTupleHasSize(final A t1, final B t2) {
+    <A, B> void size_whenCreateTuple_thenTupleHasSize(final A t0, final B t1) {
         //Given
         // The tuple with size = 2
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
 
         //When
         // get tuple size
@@ -114,10 +178,10 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1, final B t2) {
+    <A, B> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t0, final B t1) {
         //Given
         // The tuple with size = 2
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
 
         //When
         // create iterator

@@ -19,9 +19,11 @@ package io.github.ololx.moonshine.tuple;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.stream.IntStream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -33,6 +35,22 @@ import static org.testng.Assert.assertNotNull;
  * @author Alexander A. Kropotin
  */
 public class EmptyTupleTest {
+
+    @Test(
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
+        //Given
+        // The tuple with size = 0
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // get values by index = size - 1
+        //Then
+        // throw exception
+        tuple.get(tuple.size() - 1);
+    }
 
     @Test
     void getOrDefault_whenIndexNotExists_thenReturnDefaultValue() {

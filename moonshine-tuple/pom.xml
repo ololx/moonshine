@@ -26,7 +26,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>moonshine-tuples</artifactId>
+    <artifactId>moonshine-tuple</artifactId>
 
     <dependencies>
         <dependency>

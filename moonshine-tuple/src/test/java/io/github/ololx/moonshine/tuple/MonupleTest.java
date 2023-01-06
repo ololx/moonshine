@@ -49,21 +49,36 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1) {
+    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t0) {
         //When
         // create new tuple with specified args
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t0);
 
         //Then
         // tuple contains arg value
-        assertEquals(tuple.getT0(), t1);
+        assertEquals(tuple.getT0(), t0);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void get_whenIndexExists_thenReturnValueByIndex(final A t1) {
+    <A> void getT0_whenGet_thenReturnThisElementValue(final A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get value by index 0
+        final Object actual = tuple.getT0();
+
+        //Then
+        // actual value equals to stored value
+        assertEquals(actual, t0);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void get_whenIndexExists_thenReturnValueByIndex(final A t0) {
+        //Given
+        // The tuple with size = 1
+        final Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get value by index 0
@@ -71,33 +86,67 @@ public class MonupleTest {
 
         //Then
         // actual value equals to stored value
-        assertEquals(actual, t1);
+        assertEquals(actual, t0);
+    }
+
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    <A> void get_whenIndexLessThanZero_thenThrowException(final A t0) {
+        //Given
+        // The tuple with size = 1
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get values by index < 0
+        //Then
+        // throw exception
+        tuple.get(-1);
+    }
+
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+    )
+    <A> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(final A t0) {
+        //Given
+        // The tuple with size = 1
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get values by index == tuple size
+        //Then
+        // throw exception
+        tuple.get(tuple.size());
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1) {
+    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t0) {
         //Given
         // The tuple with size = 1
         // and some default value
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t0);
         final String defaultValue = "default";
 
         //When
         // get values by index < 0 and index >= tuple size
-        final Object actual1 = tuple.getOrDefault(-1, defaultValue);
-        final Object actual2 = tuple.getOrDefault(tuple.size(), defaultValue);
+        final Object actual0 = tuple.getOrDefault(-1, defaultValue);
+        final Object actual1 = tuple.getOrDefault(tuple.size(), defaultValue);
 
         //Then
         // actual values equal to default
+        assertEquals(actual0, defaultValue);
         assertEquals(actual1, defaultValue);
-        assertEquals(actual2, defaultValue);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void size_whenCreateTuple_thenTupleHasSize(final A t1) {
+    <A> void size_whenCreateTuple_thenTupleHasSize(final A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get tuple size
@@ -110,10 +159,10 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1) {
+    <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t0) {
         //Given
         // The tuple with size = 2
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // create iterator
