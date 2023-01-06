@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -27,13 +27,13 @@ import java.util.NoSuchElementException;
  * index (position in the tuple), and search for elements in the tuple.
  *
  * Unlike collections, tuples typically are finite and has a fixed length.
- * Tuples typically allow pairs of elements {@code t1} and {@code t2}
- * such that {@code t1.equals(t2)}.
+ * Tuples typically allow pairs of elements {@code t0} and {@code b0}
+ * such that {@code t0.equals(b0)}.
  *
  * More formally:
  * The general rule for the identity of two n-tuples is
- * (a1, a2, ..., an) = (b1, b2, ..., bn) <b>if and only if</b>
- * a1 = b1, a2 = b2, ..., an = bn
+ * (a0, a1, ..., an) = (b0, b1, ..., bn) <b>if and only if</b>
+ * a0 = b0, a1 = b1, ..., an = bn
  *
  * <ul>
  *     <li>

@@ -15,48 +15,32 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 /**
- * The tuple with only one element.
+ * The tuple with only zero elements.
  *
- * The {@code Monuple} class implements {@code Tuple1} and provides
+ * The {@code EmptyTuple} class implements {@code Tuple0} and provides
  * all his behaviour.
  *
- * @param <A> the type of element in this tuple
- *
  * project moonshine
- * created 28.12.2022 19:51
+ * created 23.12.2022 10:34
  *
  * @author Alexander A. Kropotin
  */
-public class Monuple<A> implements Tuple1<A> {
+public class EmptyTuple implements Tuple0 {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 1;
-
-    /**
-     * First element in this tuple
-     */
-    private final A t1;
-
-    /**
-     * Create new tuple with specified elements values
-     *
-     * @param t1 the first element of this tuple
-     */
-    public Monuple(A t1) {
-        this.t1 = t1;
-    }
+    private static final int SIZE = 0;
 
     /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
      * <b>implSpec</b>
-     * This implementation always return 1 as a size {@code SIZE} of the tuple.
+     * This implementation always return 0 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -69,31 +53,34 @@ public class Monuple<A> implements Tuple1<A> {
      * Returns the element at the specified position in this tuple.
      *
      * <b>implSpec</b>
-     * This implementation will return the first element if the index is 1;
-     * otherwise throw an exception {@link IndexOutOfBoundsException}.
+     * This implementation throws an instance of
+     * {@link IndexOutOfBoundsException} and performs no other action.
      *
      * @param index index of the element to return
-     * @return the element at the specified position in this tuple
-     * @throws IndexOutOfBoundsException if the index is out of
-     * range ({@code index < 0 || index >= size()})
+     * @throws IndexOutOfBoundsException for all method {@code get} invocations
      */
     @Override
     public Object get(int index) {
-        if (index < 0 || index >= SIZE) {
-            throw new IndexOutOfBoundsException("There is no elements by index " + index);
-        }
-
-        return this.t1;
+        throw new IndexOutOfBoundsException("There is no elements by index " + index);
     }
 
     /**
-     * Returns the first element in this tuple.
+     * Returns the element at the specified position in this tuple, or
+     * {@code defaultValue} if the index is out of
+     * range ({@code index < 0 || index >= size()})
      *
-     * @return  the first element in this tuple.
+     * <b>implSpec</b>
+     * This implementation always returns the {@code defaultValue}
+     *
+     * @param index index of the element to return
+     * @param defaultValue the default mapping of the key
+     * @return the {@code defaultValue}
+     * @throws ClassCastException if the tuple element is of an inappropriate
+     * type for this {@code defaultValue}
      */
     @Override
-    public A getT1() {
-        return this.t1;
+    public Object getOrDefault(int index, Object defaultValue) {
+        return defaultValue;
     }
 
     /**
@@ -109,10 +96,8 @@ public class Monuple<A> implements Tuple1<A> {
      *     </li>
      *     <li>
      *         This tuple and {@code obj} argument has the same type, i.e.
-     *         booth are the realisation of the {@code Tuple1} tuple with
-     *         size = 1. And all values of this tuple has the same order and
-     *         equals to values of the {@code obj} argument
-     *         (T = B if (t1) = (b1) and |T| = |B| = 1)
+     *         booth are the realisation of the {@code Tuple0} tuple with
+     *         size = 0 (T = B if |T| = |B| = 0)
      *     </li>
      * </ol>
      *
@@ -127,33 +112,19 @@ public class Monuple<A> implements Tuple1<A> {
             return true;
         }
 
-        if (!(obj instanceof Tuple1)) {
-            return false;
-        }
-
-        Tuple1<?> other = (Tuple1<?>) obj;
-
-        return (this.t1 == null && other.getT1() == null)
-                || (this.t1 != null && this.t1.equals(other.getT1()));
+        return obj instanceof Tuple0;
     }
 
     /**
      * Returns a hash code value for the tuple.
      *
      * <b>implSpec</b>
-     * This implementation generates a hash code given the order of
-     * the elements and their hash code.
+     * This implementation always return 31 (31 * 1)
      *
      * @return  a hash code value for this tuple.
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-
-        int hash = 0;
-        int index = 0;
-        hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
-
-        return hash;
+        return 31;
     }
 }

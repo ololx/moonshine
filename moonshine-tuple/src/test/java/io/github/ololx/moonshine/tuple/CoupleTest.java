@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -33,53 +33,57 @@ import static org.testng.Assert.assertNotNull;
  *
  * @author Alexander A. Kropotin
  */
-public class MonupleTest {
+public class CoupleTest {
 
     @DataProvider(name = "providesConstructorArgs")
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
-                {Byte.MIN_VALUE},
-                {Character.MIN_VALUE},
-                {Short.MIN_VALUE},
-                {Integer.MIN_VALUE},
-                {Float.MIN_VALUE},
-                {Double.MIN_VALUE},
-                {String.valueOf(Integer.MAX_VALUE)}
+                {Byte.MIN_VALUE, Character.MAX_VALUE},
+                {Character.MIN_VALUE, Short.MAX_VALUE},
+                {Short.MIN_VALUE, Integer.MAX_VALUE},
+                {Integer.MIN_VALUE, Float.MAX_VALUE},
+                {Float.MIN_VALUE, Double.MAX_VALUE},
+                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE)},
+                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE}
         };
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1) {
+    <A, B> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1,
+                                                                             final B t2) {
         //When
         // create new tuple with specified args
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //Then
         // tuple contains arg value
-        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT0(), t1);
+        assertEquals(tuple.getT1(), t2);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void get_whenIndexExists_thenReturnValueByIndex(final A t1) {
+    <A, B> void get_whenIndexExists_thenReturnValueByIndex(final A t1, final B t2) {
         //Given
-        // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t1);
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //When
-        // get value by index 0
-        final Object actual = tuple.get(0);
+        // get values by indexes 0, 1
+        final Object actualT1 = tuple.get(0);
+        final Object actualT2 = tuple.get(1);
 
         //Then
-        // actual value equals to stored value
-        assertEquals(actual, t1);
+        // actual values equal to stored values
+        assertEquals(actualT1, t1);
+        assertEquals(actualT2, t2);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1) {
+    <A, B> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1, final B t2) {
         //Given
-        // The tuple with size = 1
+        // The tuple with size = 2
         // and some default value
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
         final String defaultValue = "default";
 
         //When
@@ -94,15 +98,15 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void size_whenCreateTuple_thenTupleHasSize(final A t1) {
+    <A, B> void size_whenCreateTuple_thenTupleHasSize(final A t1, final B t2) {
         //Given
-        // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t1);
+        // The tuple with size = 2
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //When
         // get tuple size
         final int actual = tuple.size();
-        final int expected = 1;
+        final int expected = 2;
 
         //Then
         // size equal to expected
@@ -110,10 +114,10 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1) {
+    <A, B> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1, final B t2) {
         //Given
         // The tuple with size = 2
-        final Monuple<A> tuple = new Monuple<>(t1);
+        final Couple<A, B> tuple = new Couple<>(t1, t2);
 
         //When
         // create iterator
@@ -126,7 +130,7 @@ public class MonupleTest {
 
     @Test
     public void equalsHashCode_verifyContracts() {
-        EqualsVerifier.forClass(Monuple.class)
+        EqualsVerifier.forClass(Couple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
     }

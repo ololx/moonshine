@@ -15,56 +15,48 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 /**
- * The tuple with only three elements.
+ * The tuple with only two elements.
  *
- * The {@code Triple} class implements {@code Tuple3} and provides
+ * The {@code Couple} class implements {@code Tuple2} and provides
  * all his behaviour.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
- * @param <C> the type of third element in this tuple
  *
  * project moonshine
- * created 05.01.2023 20:41
+ * created 28.12.2022 20:19
  *
  * @author Alexander A. Kropotin
  */
-public class Triple<A, B, C> implements Tuple3<A, B, C> {
+public class Couple<A, B> implements Tuple2<A, B> {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 3;
+    private static final int SIZE = 2;
 
     /**
      * First element in this tuple
      */
-    private final A t1;
+    private final A t0;
 
     /**
      * Second element in this tuple
      */
-    private final B t2;
-
-    /**
-     * Third element in this tuple
-     */
-    private final C t3;
+    private final B t1;
 
     /**
      * Create new tuple with specified elements values
      *
-     * @param t1 the first element of this tuple
-     * @param t2 the second element of this tuple
-     * @param t3 the third element of this tuple
+     * @param t0 the first element of this tuple
+     * @param t1 the second element of this tuple
      */
-    public Triple(A t1, B t2, C t3) {
+    public Couple(A t0, B t1) {
+        this.t0 = t0;
         this.t1 = t1;
-        this.t2 = t2;
-        this.t3 = t3;
     }
 
     /**
@@ -72,7 +64,7 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      * The size is a non-negative integer.
      *
      * <b>implSpec</b>
-     * This implementation always return 3 as a size {@code SIZE} of the tuple.
+     * This implementation always return 2 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -86,7 +78,7 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      *
      * <b>implSpec</b>
      * This implementation will return the first and second element
-     * if the index is in range [0, 1, 2]; otherwise throw an exception
+     * if the index is in range [0, 1]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
@@ -98,11 +90,9 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
     public Object get(int index) {
         switch (index) {
             case 0:
-                return this.t1;
+                return this.t0;
             case 1:
-                return this.t2;
-            case 2:
-                return this.t3;
+                return this.t1;
             default:
                 throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
@@ -114,8 +104,8 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      * @return  the first element in this tuple.
      */
     @Override
-    public A getT1() {
-        return this.t1;
+    public A getT0() {
+        return this.t0;
     }
 
     /**
@@ -124,18 +114,8 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      * @return the second element in this tuple.
      */
     @Override
-    public B getT2() {
-        return this.t2;
-    }
-
-    /**
-     * Returns the third element in this tuple.
-     *
-     * @return the third element in this tuple.
-     */
-    @Override
-    public C getT3() {
-        return this.t3;
+    public B getT1() {
+        return this.t1;
     }
 
     /**
@@ -151,10 +131,10 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      *     </li>
      *     <li>
      *         This tuple and {@code obj} argument has the same type, i.e.
-     *         booth are the realisation of the {@code Tuple3} tuple with
+     *         booth are the realisation of the {@code Tuple2} tuple with
      *         size = 2. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B if (t1, t2, t3) = (b1, b2, b3) and |T| = |B| = 3)
+     *         (T = B if (t0, t1) = (b0, b1) and |T| = |B| = 2)
      *     </li>
      * </ol>
      *
@@ -169,20 +149,18 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
             return true;
         }
 
-        if (!(obj instanceof Tuple3)) {
+        if (!(obj instanceof Tuple2)) {
             return false;
         }
 
-        Tuple3<?, ?, ?> other = (Tuple3<?, ?, ?>) obj;
+        Tuple2<?, ?> other = (Tuple2<?, ?>) obj;
 
-        final boolean isT1Equals = (this.t1 == null && other.getT1() == null)
+        final boolean isT1Equals = (this.t0 == null && other.getT0() == null)
+                || (this.t0 != null && this.t0.equals(other.getT0()));
+        final boolean isT2Equals = (this.t1 == null && other.getT1() == null)
                 || (this.t1 != null && this.t1.equals(other.getT1()));
-        final boolean isT2Equals = (this.t2 == null && other.getT2() == null)
-                || (this.t2 != null && this.t2.equals(other.getT2()));
-        final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
-                || (this.t3 != null && this.t3.equals(other.getT3()));
 
-        return isT1Equals && isT2Equals && isT3Equals;
+        return isT1Equals && isT2Equals;
     }
 
     /**
@@ -200,9 +178,8 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
 
         int hash = 0;
         int index = 0;
+        hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
-        hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
-        hash = prime * ++index + hash + (this.t3 == null ? 0 : this.t3.hashCode());
 
         return hash;
     }

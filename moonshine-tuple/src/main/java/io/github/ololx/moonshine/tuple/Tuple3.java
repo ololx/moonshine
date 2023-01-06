@@ -15,22 +15,35 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 /**
- * A tuple that contains no elements (otherwise <i>empty sequence</i>),
- * in other words is empty.
+ * A tuple that always contains two elements.
  *
  * More formally:
- * T0 = (∅) or |T0| = 0.
+ * T3 = (t0, t1, t2) or |T3| = 3.
  *
- * The {@code Tuple0} interface extends {@code Tuple} and provides
+ * The {@code Tuple3} interface extends {@code Tuple2} and provides
  * all his behaviour.
  *
+ * The {@code Tuple3} interface additionally provides one method for the
+ * accessing a tuple elements using a {@code getT3} getter.
+ *
+ * @param <A> the type of first element in this tuple
+ * @param <B> the type of second element in this tuple
+ * @param <C> the type of third element in this tuple
+ *
  * project moonshine
- * created 23.12.2022 10:56
+ * created 05.01.2023 20:41
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple0 extends Tuple {
+public interface Tuple3<A, B, C> extends Tuple2<A, B> {
+
+    /**
+     * Returns the third element in this tuple.
+     *
+     * @return the third element in this tuple.
+     */
+    C getT2();
 }

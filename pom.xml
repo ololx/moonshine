@@ -28,7 +28,7 @@
 
     <modules>
         <module>moonshine-bom</module>
-        <module>moonshine-tuples</module>
+        <module>moonshine-tuple</module>
     </modules>
 
     <!--<properties-->

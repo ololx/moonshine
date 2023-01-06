@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 /**
  * A tuple that always contains one element.
  *
  * More formally:
- * T1 = (t1) or |T1| = 1.
+ * T1 = (t0) or |T1| = 1.
  *
  * The {@code Tuple1} interface extends {@code Tuple} and provides
  * all his behaviour.
@@ -43,5 +43,5 @@ public interface Tuple1<A> extends Tuple {
      *
      * @return  the first element in this tuple.
      */
-    A getT1();
+    A getT0();
 }

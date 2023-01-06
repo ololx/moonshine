@@ -64,7 +64,7 @@
             <!--<project modules-->
             <dependency>
                 <groupId>io.github.ololx.moonshine</groupId>
-                <artifactId>moonshine-tuples</artifactId>
+                <artifactId>moonshine-tuple</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--project modules>-->
