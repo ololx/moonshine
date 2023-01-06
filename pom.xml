@@ -62,6 +62,7 @@
     <modules>
         <module>moonshine-bom</module>
         <module>moonshine-tuple</module>
+        <module>moonshine-stopwatch</module>
     </modules>
     <!--project modules>-->
 
