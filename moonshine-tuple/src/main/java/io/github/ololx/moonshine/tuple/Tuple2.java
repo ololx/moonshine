@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 /**
  * A tuple that always contains two elements.
  *
  * More formally:
- * T2 = (t1, t2) or |T2| = 2.
+ * T2 = (t0, t1) or |T2| = 2.
  *
  * The {@code Tuple2} interface extends {@code Tuple1} and provides
  * all his behaviour.
@@ -44,5 +44,5 @@ public interface Tuple2<A, B> extends Tuple1<A> {
      *
      * @return the second element in this tuple.
      */
-    B getT2();
+    B getT1();
 }

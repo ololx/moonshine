@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.tuples;
+package io.github.ololx.moonshine.tuple;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -29,61 +29,67 @@ import static org.testng.Assert.assertNotNull;
 
 /**
  * project moonshine
- * created 03.01.2023 12:43
+ * created 05.01.2023 20:47
  *
  * @author Alexander A. Kropotin
  */
-public class CoupleTest {
+public class TripleTest {
 
     @DataProvider(name = "providesConstructorArgs")
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
-                {Byte.MIN_VALUE, Character.MAX_VALUE},
-                {Character.MIN_VALUE, Short.MAX_VALUE},
-                {Short.MIN_VALUE, Integer.MAX_VALUE},
-                {Integer.MIN_VALUE, Float.MAX_VALUE},
-                {Float.MIN_VALUE, Double.MAX_VALUE},
-                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE)},
-                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE}
+                {Byte.MIN_VALUE, Character.MAX_VALUE, Short.MAX_VALUE},
+                {Character.MIN_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE},
+                {Short.MIN_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE},
+                {Integer.MIN_VALUE, Float.MAX_VALUE, Double.MAX_VALUE},
+                {Float.MIN_VALUE, Double.MAX_VALUE, Byte.MAX_VALUE},
+                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE), Character.MAX_VALUE},
+                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE, Integer.MAX_VALUE}
         };
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1,
-                                                                             final B t2) {
+    <A, B, C> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t1, 
+                                                                                final B t2,
+                                                                                final C t3) {
         //When
         // create new tuple with specified args
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
 
         //Then
         // tuple contains arg value
-        assertEquals(tuple.getT1(), t1);
-        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT0(), t1);
+        assertEquals(tuple.getT1(), t2);
+        assertEquals(tuple.getT2(), t3);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void get_whenIndexExists_thenReturnValueByIndex(final A t1, final B t2) {
+    <A, B, C> void get_whenIndexExists_thenReturnValueByIndex(final A t1, final B t2, final C t3) {
         //Given
         // The tuple with size = 2
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
 
         //When
         // get values by indexes 0, 1
         final Object actualT1 = tuple.get(0);
         final Object actualT2 = tuple.get(1);
+        final Object actualT3 = tuple.get(2);
 
         //Then
         // actual values equal to stored values
         assertEquals(actualT1, t1);
         assertEquals(actualT2, t2);
+        assertEquals(actualT3, t3);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1, final B t2) {
+    <A, B, C> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t1,
+                                                                       final B t2,
+                                                                       final C t3) {
         //Given
         // The tuple with size = 2
         // and some default value
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
         final String defaultValue = "default";
 
         //When
@@ -98,15 +104,15 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void size_whenCreateTuple_thenTupleHasSize(final A t1, final B t2) {
+    <A, B, C> void size_whenCreateTuple_thenTupleHasSize(final A t1, final B t2, final C t3) {
         //Given
         // The tuple with size = 2
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
 
         //When
         // get tuple size
         final int actual = tuple.size();
-        final int expected = 2;
+        final int expected = 3;
 
         //Then
         // size equal to expected
@@ -114,10 +120,12 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1, final B t2) {
+    <A, B, C> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t1,
+                                                                         final B t2,
+                                                                         final C t3) {
         //Given
         // The tuple with size = 2
-        final Couple<A, B> tuple = new Couple<>(t1, t2);
+        final Triple<A, B, C> tuple = new Triple<>(t1, t2, t3);
 
         //When
         // create iterator
@@ -130,7 +138,7 @@ public class CoupleTest {
 
     @Test
     public void equalsHashCode_verifyContracts() {
-        EqualsVerifier.forClass(Couple.class)
+        EqualsVerifier.forClass(Triple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
     }
