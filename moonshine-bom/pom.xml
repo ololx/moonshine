@@ -27,6 +27,63 @@
     <packaging>pom</packaging>
     <!--artifact>-->
 
+    <!--<info-->
+    <name>${project.artifactId}</name>
+    <description>
+        This is the module with Bill Of Materials (BOM) of the project Moonshine.
+    </description>
+    <url>https://ololx.github.io/moonshine</url>
+    <inceptionYear>2022</inceptionYear>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments/>
+        </license>
+    </licenses>
+    <!--info>-->
+
+    <!--<developers and contributors-->
+    <developers>
+        <developer>
+            <id>ololx</id>
+            <name>Alexander A. Kropotin</name>
+            <email>ololx@icloud.com</email>
+            <roles>
+                <role>author</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <!--developers and contributors>-->
+
+    <!--<ci info-->
+    <scm>
+        <connection>scm:git:git://github.com/ololx/moonshine.git</connection>
+        <developerConnection>scm:git:ssh://github.com:ololx/moonshine.git</developerConnection>
+        <url>http://github.com/ololx/moonshine</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/ololx/moonshine/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Github Actions</system>
+        <url>https://github.com/ololx/moonshine/actions</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnSuccess>true</sendOnSuccess>
+                <sendOnWarning>true</sendOnWarning>
+                <address>ololx@icloud.com</address>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+    <!--ci info>-->
+
     <!--<distribution-->
     <distributionManagement>
         <repository>

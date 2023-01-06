@@ -28,7 +28,7 @@
     <!--artifact>-->
 
     <!--<info-->
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.artifactId}</name>
     <description>
         Moonshine is a Java library that contains additional useful utilities and extensions.
     </description>
@@ -119,6 +119,7 @@
     </properties>
     <!--properties>-->
 
+    <!--<import project BOM-->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -130,6 +131,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <!--import project BOM>-->
 
     <build>
         <plugins>
