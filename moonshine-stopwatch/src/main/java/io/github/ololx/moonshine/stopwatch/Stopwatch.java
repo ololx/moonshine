@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.github.ololx.moonshine.stopwatch;
+
+import java.time.Duration;
 
 /**
  * project moonshine
@@ -22,13 +25,13 @@ package io.github.ololx.moonshine.stopwatch;
  *
  * @author Alexander A. Kropotin
  */
-public interface Stopwatch<U> {
+public interface Stopwatch<D extends Duration> {
 
-    U start();
+    void start();
 
-    U stop();
+    void stop();
 
-    U reset();
+    void reset();
 
-    U elapsed();
+    D elapsed();
 }
