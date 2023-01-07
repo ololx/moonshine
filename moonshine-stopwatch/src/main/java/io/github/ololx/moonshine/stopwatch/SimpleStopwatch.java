@@ -25,7 +25,7 @@ import java.time.Duration;
  *
  * @author Alexander A. Kropotin
  */
-public class SimpleStopwatch implements Stopwatch<Duration> {
+public class SimpleStopwatch implements Stopwatch {
 
     protected long startTime;
 
