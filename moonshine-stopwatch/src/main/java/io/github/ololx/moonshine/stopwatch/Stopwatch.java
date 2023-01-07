@@ -25,7 +25,7 @@ import java.time.Duration;
  *
  * @author Alexander A. Kropotin
  */
-public interface Stopwatch<D extends Duration> {
+public interface Stopwatch {
 
     void start();
 
@@ -33,5 +33,5 @@ public interface Stopwatch<D extends Duration> {
 
     void reset();
 
-    D elapsed();
+    Duration elapsed();
 }
