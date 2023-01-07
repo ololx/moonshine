@@ -20,6 +20,17 @@ package io.github.ololx.moonshine.stopwatch;
 import java.time.Duration;
 
 /**
+ **
+ * An object that provides a set of methods and properties that can be used
+ * to accurately measure elapsed time.
+ *
+ * The {@code SimpleStopwatch} class implements {@code Stopwatch} interface
+ * and provides all its behaviour.
+ *
+ * <b>Note</b>
+ * This class is NOT thread-safe!
+ * However, most likely you will be using it as local scope variable in methods.
+ *
  * project moonshine
  * created 07.01.2023 09:47
  *
@@ -27,41 +38,90 @@ import java.time.Duration;
  */
 public class SimpleStopwatch implements Stopwatch {
 
+    /**
+     * The const of state "is not running"
+     */
+    private static long STOPPED = -1;
+
+    /**
+     * The start time when stopwatch was running
+     */
     protected long startTime;
 
-    protected long stopTime;
-
+    /**
+     * The elapsed time before clear
+     */
     protected long elapsedTime;
 
+    /**
+     * Create new SimpleStopwatch which is not running
+     */
+    public SimpleStopwatch() {
+        this.startTime = STOPPED;
+    }
+
+    /**
+     * Starts stopwatch if it wasn't started yet.
+     *
+     * @return this {@code Stopwatch} instance
+     */
     @Override
-    public void start() {
-        if (this.startTime == 0) {
-            this.startTime = System.nanoTime();
-            this.elapsedTime = 0L;
+    public SimpleStopwatch start() {
+        if (this.startTime == STOPPED) {
+            this.startTime = nanoTimeAtPresent();
         }
+
+        return this;
     }
 
+    /**
+     * Stop stopwatch if it wasn't stopped yet.
+     *
+     * @return this {@code Stopwatch} instance
+     */
     @Override
-    public void stop() {
-        if (this.startTime != 0) {
-            this.startTime = 0;
+    public SimpleStopwatch stop() {
+        if (this.startTime != STOPPED) {
+            this.elapsedTime += nanoTimeFromStartTillPresent();
+            this.startTime = STOPPED;
         }
+
+        return this;
     }
 
+    /**
+     * Reset stopwatch and set elapsed time to 0
+     *
+     * @return this {@code Stopwatch} instance
+     */
     @Override
-    public void reset() {
-        this.startTime = 0L;
-        this.stopTime = 0L;
-        this.elapsedTime = 0L;
+    public SimpleStopwatch reset() {
+        this.startTime = STOPPED;
+        this.elapsedTime = 0;
+
+        return this;
     }
 
+    /**
+     * Returns elapsed time
+     *
+     * @return this {@code Stopwatch} instance
+     */
     @Override
     public Duration elapsed() {
-        long elapsedTime = this.elapsedTime;
-        if (elapsedTime == 0L) {
-            elapsedTime = System.nanoTime();
+        long lastElapsedTime = this.elapsedTime;
+        if (startTime != STOPPED) {
+            lastElapsedTime += System.nanoTime() - startTime;
         }
 
-        return Duration.ofNanos(elapsedTime);
+        return Duration.ofNanos(lastElapsedTime);
+    }
+
+    private long nanoTimeFromStartTillPresent() {
+        return System.nanoTime() - startTime;
+    }
+
+    private long nanoTimeAtPresent() {
+        return System.nanoTime();
     }
 }

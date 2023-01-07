@@ -20,6 +20,27 @@ package io.github.ololx.moonshine.stopwatch;
 import java.time.Duration;
 
 /**
+ * An object that provides a set of methods and properties that can be used
+ * to accurately measure elapsed time.
+ *
+ * The {@code Stopwatch} interface provides four methods:
+ * <ul>
+ *     <li>
+ *         {@code start} - start the stopwatch, start at first or after stop
+ *         usage (from idle state).
+ *     </li>
+ *     <li>
+ *         {@code stop} - stop the stopwatch and calculate elapsed time,
+ *         can be used like pause state
+ *     </li>
+ *     <li>
+ *         {@code reset} - reset the stopwatch and clear elapsed time to 0
+ *     </li>
+ *     <li>
+ *         {@code elapsed} - return the elapsed time before current moment.
+ *     </li>
+ * </ul>
+ *
  * project moonshine
  * created 06.01.2023 19:59
  *
@@ -27,11 +48,31 @@ import java.time.Duration;
  */
 public interface Stopwatch {
 
-    void start();
+    /**
+     * Starts stopwatch if it wasn't started yet.
+     *
+     * @return this {@code Stopwatch} instance
+     */
+    Stopwatch start();
 
-    void stop();
+    /**
+     * Stop stopwatch if it wasn't stopped yet.
+     *
+     * @return this {@code Stopwatch} instance
+     */
+    Stopwatch stop();
 
-    void reset();
+    /**
+     * Reset stopwatch and set elapsed time to 0
+     *
+     * @return this {@code Stopwatch} instance
+     */
+    Stopwatch reset();
 
+    /**
+     * Returns elapsed time
+     *
+     * @return this {@code Stopwatch} instance
+     */
     Duration elapsed();
 }
