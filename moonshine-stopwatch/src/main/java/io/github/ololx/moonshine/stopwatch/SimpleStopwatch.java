@@ -41,7 +41,7 @@ public class SimpleStopwatch implements Stopwatch {
     /**
      * The const of state "is not running"
      */
-    private static long STOPPED = -1;
+    private static final long STOPPED = -1;
 
     /**
      * The start time when stopwatch was running
@@ -117,10 +117,20 @@ public class SimpleStopwatch implements Stopwatch {
         return Duration.ofNanos(lastElapsedTime);
     }
 
+    /**
+     * Returns elapsed time in nano
+     *
+     * @return elapsed time in nano
+     */
     private long nanoTimeFromStartTillPresent() {
         return System.nanoTime() - startTime;
     }
 
+    /**
+     * Returns current nano time
+     *
+     * @return current nano time
+     */
     private long nanoTimeAtPresent() {
         return System.nanoTime();
     }
