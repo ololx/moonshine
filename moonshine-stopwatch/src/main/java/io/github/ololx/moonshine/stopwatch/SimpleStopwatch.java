@@ -68,7 +68,7 @@ public class SimpleStopwatch implements Stopwatch {
     @Override
     public SimpleStopwatch start() {
         if (this.startTime == STOPPED) {
-            this.startTime = nanoTimeAtPresent();
+            this.startTime = System.nanoTime();
         }
 
         return this;
@@ -82,7 +82,7 @@ public class SimpleStopwatch implements Stopwatch {
     @Override
     public SimpleStopwatch stop() {
         if (this.startTime != STOPPED) {
-            this.elapsedTime += nanoTimeFromStartTillPresent();
+            this.elapsedTime += System.nanoTime() - startTime;
             this.startTime = STOPPED;
         }
 
@@ -115,23 +115,5 @@ public class SimpleStopwatch implements Stopwatch {
         }
 
         return Duration.ofNanos(lastElapsedTime);
-    }
-
-    /**
-     * Returns elapsed time in nano
-     *
-     * @return elapsed time in nano
-     */
-    private long nanoTimeFromStartTillPresent() {
-        return System.nanoTime() - startTime;
-    }
-
-    /**
-     * Returns current nano time
-     *
-     * @return current nano time
-     */
-    private long nanoTimeAtPresent() {
-        return System.nanoTime();
     }
 }
