@@ -23,7 +23,7 @@
     <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2.1</version>
     <packaging>pom</packaging>
     <!--artifact>-->
 
@@ -117,6 +117,21 @@
         <sonar.organization>ololx</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.outputDirectory}</sonar.coverage.jacoco.xmlReportPaths>
+
+        <!--<plugins versions-->
+        <plugin.flatten-maven-plugin.version>1.2.7</plugin.flatten-maven-plugin.version>
+        <plugin.maven-checkstyle-plugin.version>2.17</plugin.maven-checkstyle-plugin.version>
+        <plugin.versions-maven-plugin.version>2.5</plugin.versions-maven-plugin.version>
+        <plugin.maven-enforcer-plugin.version>3.0.0-M2</plugin.maven-enforcer-plugin.version>
+        <plugin.maven-verifier-plugin.version>1.1</plugin.maven-verifier-plugin.version>
+        <plugin.buildnumber-maven-plugin.version>1.4</plugin.buildnumber-maven-plugin.version>
+        <plugin.maven-clean-plugin.version>3.1.0</plugin.maven-clean-plugin.version>
+        <plugin.maven-compiler-plugin.version>3.8.1</plugin.maven-compiler-plugin.version>
+        <plugin.maven-jar-plugin.version>3.1.1</plugin.maven-jar-plugin.version>
+        <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
+        <plugin.maven-surefire-plugin.version>3.0.0-M5</plugin.maven-surefire-plugin.version>
+        <plugin.jacoco-maven-plugin.version>0.8.8</plugin.jacoco-maven-plugin.version>
+        <!--plugins versions>-->
     </properties>
     <!--properties>-->
 
@@ -135,30 +150,187 @@
     <!--import project BOM>-->
 
     <build>
+        <!--<plugins versions management-->
+        <pluginManagement>
+            <plugins>
+                <!--<distribution plugins-->
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <detectJavaApiLink>false</detectJavaApiLink>
+                        <show>protected</show>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <configuration>
+                        <gpgArguments>
+                            <arg>--pinentry-mode</arg>
+                            <arg>loopback</arg>
+                        </gpgArguments>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                            <configuration>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <keyname>${env.GPQ_KEY}</keyname>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <passphraseServerId>${env.GPQ_KEY}</passphraseServerId>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--distribution plugins>-->
+
+                <!--<flatten pom-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${plugin.flatten-maven-plugin.version}</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--flatten pom>-->
+
+                <!--<compiling source-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${plugin.maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.maven-compiler-plugin.version}</version>
+                </plugin>
+                <!--compiling source>-->
+
+                <!--<reporting code coverage-->
+                <!--used for sonarcloud.io-->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${plugin.jacoco-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>default-prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-prepare-agent-integration</id>
+                            <goals>
+                                <goal>prepare-agent-integration</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <formats>
+                                    <format>XML</format>
+                                </formats>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>report-aggregate</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>report-aggregate</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--reporting code coverage>-->
+
+                <!--<test plugins-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${plugin.maven-surefire-plugin.version}</version>
+                </plugin>
+                <!--test plugins>-->
+
+                <!--<reporting code coverage-->
+                <!--used for sonarcloud.io-->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${plugin.jacoco-maven-plugin.version}</version>
+                </plugin>
+                <!--reporting code coverage>-->
+
+            </plugins>
+        </pluginManagement>
+        <!--plugins versions management>-->
+
         <plugins>
             <!--<flatten pom-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <!--flatten pom>-->
 
@@ -173,46 +345,18 @@
             </plugin>
             <!--compiling source>-->
 
+            <!--<test plugins-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <!--test plugins>-->
+
             <!--<reporting code coverage-->
             <!--used for sonarcloud.io-->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default-prepare-agent-integration</id>
-                        <goals>
-                            <goal>prepare-agent-integration</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <formats>
-                                <format>XML</format>
-                            </formats>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <!--reporting code coverage>-->
 
