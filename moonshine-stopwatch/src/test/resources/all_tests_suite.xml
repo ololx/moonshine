@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="All tests suite">
+    <test name="All tests">
+        <packages>
+            <package name="io.github.ololx.moonshine.stopwatch.*"/>
+        </packages>
+    </test>
+</suite>
