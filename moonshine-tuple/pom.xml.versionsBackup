@@ -26,13 +26,13 @@
     <parent>
         <artifactId>moonshine</artifactId>
         <groupId>io.github.ololx.moonshine</groupId>
-        <version>0.2.2-SNAPSHOT</version>
+        <version>0.2.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!--parent>-->
 
     <!--<artifact-->
-    <artifactId>moonshine-stopwatch</artifactId>
+    <artifactId>moonshine-tuple</artifactId>
     <packaging>jar</packaging>
     <!--artifact>-->
 
