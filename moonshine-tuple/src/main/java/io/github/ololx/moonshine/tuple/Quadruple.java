@@ -93,8 +93,8 @@ public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
      * Returns the element at the specified position in this tuple.
      *
      * <b>implSpec</b>
-     * This implementation will return the first and second element
-     * if the index is in range [0, 1, 2]; otherwise throw an exception
+     * This implementation will return the first, second, third, fourth element
+     * if the index is in range [0, 1, 2, 4]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return

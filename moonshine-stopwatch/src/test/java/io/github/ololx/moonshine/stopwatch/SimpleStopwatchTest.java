@@ -20,6 +20,7 @@ package io.github.ololx.moonshine.stopwatch;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static org.testng.Assert.assertEquals;
@@ -52,7 +53,9 @@ public class SimpleStopwatchTest {
 
         //When
         // stop stopwatch a several times
-        IntStream.range(0, 10).forEach(click -> stopwatch.stop());
+        for (int iteration = 0; iteration < 10; iteration++) {
+            stopwatch.stop();
+        }
 
         //Then
         // elapsed time is 0
@@ -60,7 +63,7 @@ public class SimpleStopwatchTest {
     }
 
     @Test
-    void start_whenStopwatchIsRunning_thenDoesNotStartEveryTime() {
+    void start_whenStopwatchIsRunning_thenDoesNotStartEveryTime() throws InterruptedException {
         //Given
         // the stop watch which is running
         // and current elapsed time
@@ -69,14 +72,10 @@ public class SimpleStopwatchTest {
 
         //When
         // start stopwatch a several times and wait 100 ms
-        IntStream.range(0, 10).forEach(click -> {
+        for (int iteration = 0; iteration < 10; iteration++) {
             stopwatch.start();
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
+            TimeUnit.MILLISECONDS.sleep(100);
+        }
 
         //Then
         // new elapsed time in nano is more than previous elapsed time in nano
@@ -84,7 +83,7 @@ public class SimpleStopwatchTest {
     }
 
     @Test
-    void elapsed_whenStopwatchIsRunning_thenCalcNewElapsedTime() {
+    void elapsed_whenStopwatchIsRunning_thenCalcNewElapsedTime() throws InterruptedException {
         //Given
         // the stop watch which is running
         // and current elapsed time
@@ -93,11 +92,7 @@ public class SimpleStopwatchTest {
 
         //When
         // sleep 1 sec and get elapsed time
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        TimeUnit.MILLISECONDS.sleep(100);
 
         //Then
         // new elapsed time in nano is more than previous elapsed time in nano
@@ -105,18 +100,13 @@ public class SimpleStopwatchTest {
     }
 
     @Test
-    void reset_whenStopwatchHaveBeenRunningBefore_thenElapsedTimeSetTo0() {
+    void reset_whenStopwatchHaveBeenRunningBefore_thenElapsedTimeSetTo0()
+            throws InterruptedException {
         //Given
         // the stop watch which have been running before
         // and current elapsed time
         final Stopwatch stopwatch = new SimpleStopwatch().start();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
+        TimeUnit.MILLISECONDS.sleep(100);
         final Duration currentElapsedTime = stopwatch.stop().elapsed();
         assertTrue(currentElapsedTime.toNanos() > 0);
 
