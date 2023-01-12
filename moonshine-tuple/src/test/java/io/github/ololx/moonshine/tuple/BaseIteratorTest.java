@@ -36,20 +36,11 @@ import static org.testng.Assert.assertFalse;
  */
 public class BaseIteratorTest {
 
-    @DataProvider(name = "providesTuples")
-    static Object[][] providesTuples() {
-        return new Object[][] {
-                {new EmptyTuple()},
-                {new Monuple<>(Byte.MIN_VALUE)},
-                {new Couple<>(Byte.MIN_VALUE, Short.MIN_VALUE)}
-        };
-    }
-
     @Test(dataProvider = "providesTuples")
-    void hasNext_whenIterationHasMoreValues_thenReturnTrue(final Tuple tuple) {
+    void hasNext_whenIterationHasMoreValues_thenReturnTrue(Tuple tuple) {
         //Given
         // tuple iterator
-        final Iterator<Object> iterator = tuple.iterator();
+        Iterator<Object> iterator = tuple.iterator();
 
         //When
         // iterate values
@@ -65,10 +56,10 @@ public class BaseIteratorTest {
     }
 
     @Test(dataProvider = "providesTuples")
-    void next_whenIterationHasMoreValues_thenReturnValueAndIncrementIteration(final Tuple tuple) {
+    void next_whenIterationHasMoreValues_thenReturnValueAndIncrementIteration(Tuple tuple) {
         //Given
         // tuple iterator
-        final Iterator<Object> iterator = tuple.iterator();
+        Iterator<Object> iterator = tuple.iterator();
 
         //When
         // get next value tuple.size times
@@ -82,12 +73,12 @@ public class BaseIteratorTest {
     }
 
     @Test(dataProvider = "providesTuples")
-    void forEachRemaining_whenIterationHasValues_thenAddToListEachRemaining(final Tuple tuple) {
+    void forEachRemaining_whenIterationHasValues_thenAddToListEachRemaining(Tuple tuple) {
         //Given
         // tuple iterator
         // and empty list
-        final Iterator<Object> iterator = tuple.iterator();
-        final List<Object> iterationValues = new ArrayList<>();
+        Iterator<Object> iterator = tuple.iterator();
+        List<Object> iterationValues = new ArrayList<>();
 
         //When
         // forEachRemaining add value to list
@@ -104,10 +95,10 @@ public class BaseIteratorTest {
             expectedExceptions = NoSuchElementException.class,
             expectedExceptionsMessageRegExp = "The iteration has no more elements"
     )
-    void next_whenIterationDoesNotHasMoreValues_thenThrowException(final Tuple tuple) {
+    void next_whenIterationDoesNotHasMoreValues_thenThrowException(Tuple tuple) {
         //Given
         // tuple iterator wih cursor on the last element
-        final Iterator<Object> iterator = tuple.iterator();
+        Iterator<Object> iterator = tuple.iterator();
 
         for (int iteration = 0; iteration < tuple.size(); iteration++) {
             iterator.next();
@@ -127,15 +118,24 @@ public class BaseIteratorTest {
             expectedExceptions = UnsupportedOperationException.class,
             expectedExceptionsMessageRegExp = "remove"
     )
-    void remove_whenTryToRemoveLastElementFromTuple_thenThrowException(final Tuple tuple) {
+    void remove_whenTryToRemoveLastElementFromTuple_thenThrowException(Tuple tuple) {
         //Given
         // tuple iterator
-        final Iterator<Object> iterator = tuple.iterator();
+        Iterator<Object> iterator = tuple.iterator();
 
         //When
         // remove last value from tuple
         //Then
         // throw exception
         iterator.remove();
+    }
+
+    @DataProvider(name = "providesTuples")
+    static Object[][] providesTuples() {
+        return new Object[][] {
+                {new EmptyTuple()},
+                {new Monuple<>(Byte.MIN_VALUE)},
+                {new Couple<>(Byte.MIN_VALUE, Short.MIN_VALUE)}
+        };
     }
 }

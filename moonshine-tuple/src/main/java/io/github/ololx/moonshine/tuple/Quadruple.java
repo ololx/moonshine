@@ -18,26 +18,27 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * The tuple with only three elements.
+ * The tuple with only four elements.
  *
- * The {@code Triple} class implements {@code Tuple3} and provides
+ * The {@code Quadruple} class implements {@code Tuple4} and provides
  * all his behaviour.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
  * @param <C> the type of third element in this tuple
+ * @param <D> the type of fourth element in this tuple
  *
  * project moonshine
  * created 05.01.2023 20:41
  *
  * @author Alexander A. Kropotin
  */
-public class Triple<A, B, C> implements Tuple3<A, B, C> {
+public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 3;
+    private static final int SIZE = 4;
 
     /**
      * First element in this tuple
@@ -55,16 +56,23 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
     private final C t2;
 
     /**
+     * Fourth element in this tuple
+     */
+    private final D t3;
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param t0 the first element of this tuple
      * @param t1 the second element of this tuple
      * @param t2 the third element of this tuple
+     * @param t3 the fourth element of this tuple
      */
-    public Triple(A t0, B t1, C t2) {
+    public Quadruple(A t0, B t1, C t2, D t3) {
         this.t0 = t0;
         this.t1 = t1;
         this.t2 = t2;
+        this.t3 = t3;
     }
 
     /**
@@ -103,6 +111,8 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
                 return this.t1;
             case 2:
                 return this.t2;
+            case 3:
+                return this.t3;
             default:
                 throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
@@ -139,6 +149,16 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
     }
 
     /**
+     * Returns the fourth element in this tuple.
+     *
+     * @return the fourth element in this tuple.
+     */
+    @Override
+    public D getT3() {
+        return this.t3;
+    }
+
+    /**
      * Indicates whether some other {@code Object} is "equal to" this one.
      *
      * <b>implSpec</b>
@@ -169,11 +189,11 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
             return true;
         }
 
-        if (!(obj instanceof Tuple3)) {
+        if (!(obj instanceof Tuple4)) {
             return false;
         }
 
-        Tuple3<?, ?, ?> other = (Tuple3<?, ?, ?>) obj;
+        Tuple4<?, ?, ?, ?> other = (Tuple4<?, ?, ?, ?>) obj;
 
         final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
@@ -181,8 +201,10 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
                 || (this.t1 != null && this.t1.equals(other.getT1()));
         final boolean isT2Equals = (this.t2 == null && other.getT2() == null)
                 || (this.t2 != null && this.t2.equals(other.getT2()));
+        final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
+                || (this.t3 != null && this.t3.equals(other.getT3()));
 
-        return isT0Equals && isT1Equals && isT2Equals;
+        return isT0Equals && isT1Equals && isT2Equals && isT3Equals;
     }
 
     /**
@@ -203,6 +225,7 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
         hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
+        hash = prime * ++index + hash + (this.t3 == null ? 0 : this.t3.hashCode());
 
         return hash;
     }

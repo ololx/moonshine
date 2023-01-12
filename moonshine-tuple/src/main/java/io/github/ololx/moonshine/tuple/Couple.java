@@ -155,12 +155,12 @@ public class Couple<A, B> implements Tuple2<A, B> {
 
         Tuple2<?, ?> other = (Tuple2<?, ?>) obj;
 
-        final boolean isT1Equals = (this.t0 == null && other.getT0() == null)
+        final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
-        final boolean isT2Equals = (this.t1 == null && other.getT1() == null)
+        final boolean isT1Equals = (this.t1 == null && other.getT1() == null)
                 || (this.t1 != null && this.t1.equals(other.getT1()));
 
-        return isT1Equals && isT2Equals;
+        return isT0Equals && isT1Equals;
     }
 
     /**
