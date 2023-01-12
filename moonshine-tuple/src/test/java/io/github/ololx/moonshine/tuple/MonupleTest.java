@@ -35,24 +35,11 @@ import static org.testng.Assert.assertNotNull;
  */
 public class MonupleTest {
 
-    @DataProvider(name = "providesConstructorArgs")
-    static Object[][] providesConstructorArgs() {
-        return new Object[][] {
-                {Byte.MIN_VALUE},
-                {Character.MIN_VALUE},
-                {Short.MIN_VALUE},
-                {Integer.MIN_VALUE},
-                {Float.MIN_VALUE},
-                {Double.MIN_VALUE},
-                {String.valueOf(Integer.MAX_VALUE)}
-        };
-    }
-
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(final A t0) {
+    <A> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0) {
         //When
         // create new tuple with specified args
-        final Monuple<A> tuple = new Monuple<>(t0);
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //Then
         // tuple contains arg value
@@ -60,14 +47,14 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void getT0_whenGet_thenReturnThisElementValue(final A t0) {
+    <A> void getT0_whenGet_thenReturnThisElementValue(A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t0);
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get value by index 0
-        final Object actual = tuple.getT0();
+        Object actual = tuple.getT0();
 
         //Then
         // actual value equals to stored value
@@ -75,14 +62,14 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void get_whenIndexExists_thenReturnValueByIndex(final A t0) {
+    <A> void get_whenIndexExists_thenReturnValueByIndex(A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t0);
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get value by index 0
-        final Object actual = tuple.get(0);
+        Object actual = tuple.get(0);
 
         //Then
         // actual value equals to stored value
@@ -94,10 +81,10 @@ public class MonupleTest {
             expectedExceptions = IndexOutOfBoundsException.class,
             expectedExceptionsMessageRegExp = "There is no elements by index.*"
     )
-    <A> void get_whenIndexLessThanZero_thenThrowException(final A t0) {
+    <A> void get_whenIndexLessThanZero_thenThrowException(A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t0);
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get values by index < 0
@@ -111,10 +98,10 @@ public class MonupleTest {
             expectedExceptions = IndexOutOfBoundsException.class,
             expectedExceptionsMessageRegExp = "There is no elements by index.*"
     )
-    <A> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(final A t0) {
+    <A> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t0);
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get values by index == tuple size
@@ -124,17 +111,17 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(final A t0) {
+    <A> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0) {
         //Given
         // The tuple with size = 1
         // and some default value
-        final Monuple<A> tuple = new Monuple<>(t0);
-        final String defaultValue = "default";
+        Monuple<A> tuple = new Monuple<>(t0);
+        String defaultValue = "default";
 
         //When
         // get values by index < 0 and index >= tuple size
-        final Object actual0 = tuple.getOrDefault(-1, defaultValue);
-        final Object actual1 = tuple.getOrDefault(tuple.size(), defaultValue);
+        Object actual0 = tuple.getOrDefault(-1, defaultValue);
+        Object actual1 = tuple.getOrDefault(tuple.size(), defaultValue);
 
         //Then
         // actual values equal to default
@@ -143,15 +130,15 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void size_whenCreateTuple_thenTupleHasSize(final A t0) {
+    <A> void size_whenCreateTuple_thenTupleHasSize(A t0) {
         //Given
         // The tuple with size = 1
-        final Monuple<A> tuple = new Monuple<>(t0);
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // get tuple size
-        final int actual = tuple.size();
-        final int expected = 1;
+        int actual = tuple.size();
+        int expected = 1;
 
         //Then
         // size equal to expected
@@ -159,14 +146,14 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(final A t0) {
+    <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0) {
         //Given
-        // The tuple with size = 2
-        final Monuple<A> tuple = new Monuple<>(t0);
+        // The tuple with size = 1
+        Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // create iterator
-        final Iterator<Object> iterator = tuple.iterator();
+        Iterator<Object> iterator = tuple.iterator();
 
         //Then
         // size equal to expected
@@ -178,5 +165,18 @@ public class MonupleTest {
         EqualsVerifier.forClass(Monuple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
+    }
+
+    @DataProvider(name = "providesConstructorArgs")
+    static Object[][] providesConstructorArgs() {
+        return new Object[][] {
+                {Byte.MIN_VALUE},
+                {Character.MIN_VALUE},
+                {Short.MIN_VALUE},
+                {Integer.MIN_VALUE},
+                {Float.MIN_VALUE},
+                {Double.MIN_VALUE},
+                {String.valueOf(Integer.MAX_VALUE)}
+        };
     }
 }

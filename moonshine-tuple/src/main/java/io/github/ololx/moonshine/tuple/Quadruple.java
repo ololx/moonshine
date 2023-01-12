@@ -18,25 +18,27 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * The tuple with only two elements.
+ * The tuple with only four elements.
  *
- * The {@code Couple} class implements {@code Tuple2} and provides
+ * The {@code Quadruple} class implements {@code Tuple4} and provides
  * all his behaviour.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
+ * @param <C> the type of third element in this tuple
+ * @param <D> the type of fourth element in this tuple
  *
  * project moonshine
- * created 28.12.2022 20:19
+ * created 05.01.2023 20:41
  *
  * @author Alexander A. Kropotin
  */
-public class Couple<A, B> implements Tuple2<A, B> {
+public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 2;
+    private static final int SIZE = 4;
 
     /**
      * First element in this tuple
@@ -49,14 +51,28 @@ public class Couple<A, B> implements Tuple2<A, B> {
     private final B t1;
 
     /**
+     * Third element in this tuple
+     */
+    private final C t2;
+
+    /**
+     * Fourth element in this tuple
+     */
+    private final D t3;
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param t0 the first element of this tuple
      * @param t1 the second element of this tuple
+     * @param t2 the third element of this tuple
+     * @param t3 the fourth element of this tuple
      */
-    public Couple(A t0, B t1) {
+    public Quadruple(A t0, B t1, C t2, D t3) {
         this.t0 = t0;
         this.t1 = t1;
+        this.t2 = t2;
+        this.t3 = t3;
     }
 
     /**
@@ -64,7 +80,7 @@ public class Couple<A, B> implements Tuple2<A, B> {
      * The size is a non-negative integer.
      *
      * <b>implSpec</b>
-     * This implementation always return 2 as a size {@code SIZE} of the tuple.
+     * This implementation always return 3 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -77,8 +93,8 @@ public class Couple<A, B> implements Tuple2<A, B> {
      * Returns the element at the specified position in this tuple.
      *
      * <b>implSpec</b>
-     * This implementation will return the first and second element
-     * if the index is in range [0, 1]; otherwise throw an exception
+     * This implementation will return the first, second, third, fourth element
+     * if the index is in range [0, 1, 2, 4]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
@@ -93,6 +109,10 @@ public class Couple<A, B> implements Tuple2<A, B> {
                 return this.t0;
             case 1:
                 return this.t1;
+            case 2:
+                return this.t2;
+            case 3:
+                return this.t3;
             default:
                 throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
@@ -119,6 +139,26 @@ public class Couple<A, B> implements Tuple2<A, B> {
     }
 
     /**
+     * Returns the third element in this tuple.
+     *
+     * @return the third element in this tuple.
+     */
+    @Override
+    public C getT2() {
+        return this.t2;
+    }
+
+    /**
+     * Returns the fourth element in this tuple.
+     *
+     * @return the fourth element in this tuple.
+     */
+    @Override
+    public D getT3() {
+        return this.t3;
+    }
+
+    /**
      * Indicates whether some other {@code Object} is "equal to" this one.
      *
      * <b>implSpec</b>
@@ -131,10 +171,10 @@ public class Couple<A, B> implements Tuple2<A, B> {
      *     </li>
      *     <li>
      *         This tuple and {@code obj} argument has the same type, i.e.
-     *         booth are the realisation of the {@code Tuple2} tuple with
+     *         booth are the realisation of the {@code Tuple3} tuple with
      *         size = 2. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B if (t0, t1) = (b0, b1) and |T| = |B| = 2)
+     *         (T = B if (t0, t1, t2) = (b0, b1, b2) and |T| = |B| = 3)
      *     </li>
      * </ol>
      *
@@ -149,18 +189,22 @@ public class Couple<A, B> implements Tuple2<A, B> {
             return true;
         }
 
-        if (!(obj instanceof Tuple2)) {
+        if (!(obj instanceof Tuple4)) {
             return false;
         }
 
-        Tuple2<?, ?> other = (Tuple2<?, ?>) obj;
+        Tuple4<?, ?, ?, ?> other = (Tuple4<?, ?, ?, ?>) obj;
 
         final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
         final boolean isT1Equals = (this.t1 == null && other.getT1() == null)
                 || (this.t1 != null && this.t1.equals(other.getT1()));
+        final boolean isT2Equals = (this.t2 == null && other.getT2() == null)
+                || (this.t2 != null && this.t2.equals(other.getT2()));
+        final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
+                || (this.t3 != null && this.t3.equals(other.getT3()));
 
-        return isT0Equals && isT1Equals;
+        return isT0Equals && isT1Equals && isT2Equals && isT3Equals;
     }
 
     /**
@@ -180,6 +224,8 @@ public class Couple<A, B> implements Tuple2<A, B> {
         int index = 0;
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
+        hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
+        hash = prime * ++index + hash + (this.t3 == null ? 0 : this.t3.hashCode());
 
         return hash;
     }

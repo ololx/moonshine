@@ -85,7 +85,7 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      * Returns the element at the specified position in this tuple.
      *
      * <b>implSpec</b>
-     * This implementation will return the first and second element
+     * This implementation will return the first, second, third element
      * if the index is in range [0, 1, 2]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
@@ -175,14 +175,14 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
 
         Tuple3<?, ?, ?> other = (Tuple3<?, ?, ?>) obj;
 
-        final boolean isT1Equals = (this.t0 == null && other.getT0() == null)
+        final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
-        final boolean isT2Equals = (this.t1 == null && other.getT1() == null)
+        final boolean isT1Equals = (this.t1 == null && other.getT1() == null)
                 || (this.t1 != null && this.t1.equals(other.getT1()));
-        final boolean isT3Equals = (this.t2 == null && other.getT2() == null)
+        final boolean isT2Equals = (this.t2 == null && other.getT2() == null)
                 || (this.t2 != null && this.t2.equals(other.getT2()));
 
-        return isT1Equals && isT2Equals && isT3Equals;
+        return isT0Equals && isT1Equals && isT2Equals;
     }
 
     /**
