@@ -20,8 +20,6 @@ package io.github.ololx.moonshine.stopwatch;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import static org.testng.Assert.assertEquals;
