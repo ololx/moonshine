@@ -41,7 +41,7 @@ public class EmptyTupleTest {
     void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
         //Given
         // The tuple with size = 0
-        final EmptyTuple tuple = new EmptyTuple();
+        EmptyTuple tuple = new EmptyTuple();
 
         //When
         // get values by index = size - 1
@@ -55,13 +55,13 @@ public class EmptyTupleTest {
         //Given
         // The tuple with size = 0
         // and some default value
-        final EmptyTuple tuple = new EmptyTuple();
-        final String defaultValue = "default";
+        EmptyTuple tuple = new EmptyTuple();
+        String defaultValue = "default";
 
         //When
         // get values by index < 0 and index >= tuple size
-        final Object actual1 = tuple.getOrDefault(-1, defaultValue);
-        final Object actual2 = tuple.getOrDefault(tuple.size(), defaultValue);
+        Object actual1 = tuple.getOrDefault(-1, defaultValue);
+        Object actual2 = tuple.getOrDefault(tuple.size(), defaultValue);
 
         //Then
         // actual values equal to default
@@ -73,12 +73,12 @@ public class EmptyTupleTest {
     void size_whenCreateTuple_thenTupleHasSize() {
         //Given
         // The tuple with size = 0
-        final EmptyTuple tuple = new EmptyTuple();
+        EmptyTuple tuple = new EmptyTuple();
 
         //When
         // get tuple size
-        final int actual = tuple.size();
-        final int expected = 0;
+        int actual = tuple.size();
+        int expected = 0;
 
         //Then
         // size equal to expected
@@ -89,11 +89,11 @@ public class EmptyTupleTest {
     void iterator_whenCreateIterator_thenReturnNonNullIterator() {
         //Given
         // The tuple with size = 0
-        final EmptyTuple tuple = new EmptyTuple();
+        EmptyTuple tuple = new EmptyTuple();
 
         //When
         // create iterator
-        final Iterator<Object> iterator = tuple.iterator();
+        Iterator<Object> iterator = tuple.iterator();
 
         //Then
         // size equal to expected

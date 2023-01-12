@@ -46,5 +46,5 @@ public interface Tuple4<A, B, C, D> extends Tuple3<A, B, C> {
      *
      * @return the fourth element in this tuple.
      */
-    C getT3();
+    D getT3();
 }
