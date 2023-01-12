@@ -18,32 +18,33 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * A tuple that always contains three elements.
+ * A tuple that always contains four elements.
  *
  * More formally:
- * T3 = (t0, t1, t2) or |T3| = 3.
+ * T3 = (t0, t1, t2, t3) or |T4| = 4.
  *
- * The {@code Tuple3} interface extends {@code Tuple2} and provides
+ * The {@code Tuple4} interface extends {@code Tuple3} and provides
  * all his behaviour.
  *
  * The {@code Tuple3} interface additionally provides one method for the
- * accessing a tuple elements using a {@code getT2} getter.
+ * accessing a tuple elements using a {@code getT3} getter.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
  * @param <C> the type of third element in this tuple
+ * @param <D> the type of fourth element in this tuple
  *
  * project moonshine
  * created 05.01.2023 20:41
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple3<A, B, C> extends Tuple2<A, B> {
+public interface Tuple4<A, B, C, D> extends Tuple3<A, B, C> {
 
     /**
-     * Returns the third element in this tuple.
+     * Returns the fourth element in this tuple.
      *
-     * @return the third element in this tuple.
+     * @return the fourth element in this tuple.
      */
-    C getT2();
+    C getT3();
 }
