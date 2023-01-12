@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -71,10 +72,10 @@ public class SimpleStopwatchTest {
         final Duration currentElapsedTime = stopwatch.elapsed();
 
         //When
-        // start stopwatch a several times and wait 100 ms
+        // start stopwatch a several times and do something
         for (int iteration = 0; iteration < 10; iteration++) {
             stopwatch.start();
-            TimeUnit.MILLISECONDS.sleep(100);
+            iterateRangeFrom0InclusiveToExclusive(Long.MAX_VALUE);
         }
 
         //Then
@@ -91,8 +92,8 @@ public class SimpleStopwatchTest {
         final Duration currentElapsedTime = stopwatch.elapsed();
 
         //When
-        // sleep 1 sec and get elapsed time
-        TimeUnit.MILLISECONDS.sleep(100);
+        // do something
+        iterateRangeFrom0InclusiveToExclusive(Long.MAX_VALUE);
 
         //Then
         // new elapsed time in nano is more than previous elapsed time in nano
@@ -106,7 +107,7 @@ public class SimpleStopwatchTest {
         // the stop watch which have been running before
         // and current elapsed time
         final Stopwatch stopwatch = new SimpleStopwatch().start();
-        TimeUnit.MILLISECONDS.sleep(100);
+        iterateRangeFrom0InclusiveToExclusive(Long.MAX_VALUE);
         final Duration currentElapsedTime = stopwatch.stop().elapsed();
         assertTrue(currentElapsedTime.toNanos() > 0);
 
@@ -117,5 +118,9 @@ public class SimpleStopwatchTest {
         //Then
         // new elapsed time is 0
         assertTrue(stopwatch.elapsed().isZero());
+    }
+
+    static void iterateRangeFrom0InclusiveToExclusive(long toExclusive) {
+        LongStream.of(0, toExclusive).reduce(Long::sum);
     }
 }
