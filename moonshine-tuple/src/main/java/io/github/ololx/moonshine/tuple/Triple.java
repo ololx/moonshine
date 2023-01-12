@@ -85,7 +85,7 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
      * Returns the element at the specified position in this tuple.
      *
      * <b>implSpec</b>
-     * This implementation will return the first and second element
+     * This implementation will return the first, second, third element
      * if the index is in range [0, 1, 2]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
