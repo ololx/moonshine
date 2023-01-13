@@ -40,7 +40,7 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple4<A, B, C, D> extends Tuple3 {
+public interface Tuple4<A, B, C, D> extends Tuple {
 
     /**
      * Returns the first element in this tuple.
