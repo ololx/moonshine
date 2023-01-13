@@ -23,11 +23,12 @@ package io.github.ololx.moonshine.tuple;
  * More formally:
  * T3 = (t0, t1, t2) or |T3| = 3.
  *
- * The {@code Tuple3} interface extends {@code Tuple2} and provides
+ * The {@code Tuple3} interface extends {@code Tuple} and provides
  * all his behaviour.
  *
  * The {@code Tuple3} interface additionally provides one method for the
- * accessing a tuple elements using a {@code getT2} getter.
+ * accessing a tuple elements using getters {@code getT0}, {@code getT1}
+ * and {@code getT2}.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
@@ -38,7 +39,21 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple3<A, B, C> extends Tuple2<A, B> {
+public interface Tuple3<A, B, C> extends Tuple {
+
+    /**
+     * Returns the first element in this tuple.
+     *
+     * @return  the first element in this tuple.
+     */
+    A getT0();
+
+    /**
+     * Returns the second element in this tuple.
+     *
+     * @return the second element in this tuple.
+     */
+    B getT1();
 
     /**
      * Returns the third element in this tuple.
