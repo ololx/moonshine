@@ -27,7 +27,7 @@ package io.github.ololx.moonshine.tuple;
  * all his behaviour.
  *
  * The {@code Tuple1} interface additionally provides one method for the
- * accessing a tuple element using a {@code getT1} getter.
+ * accessing a tuple element using a {@code getT0} getter.
  *
  * @param <A> the type of element in this tuple
  *
