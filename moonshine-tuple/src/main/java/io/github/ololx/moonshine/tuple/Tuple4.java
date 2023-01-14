@@ -26,7 +26,7 @@ package io.github.ololx.moonshine.tuple;
  * The {@code Tuple4} interface extends {@code Tuple} and provides
  * all his behaviour.
  *
- * The {@code Tuple3} interface additionally provides one method for the
+ * The {@code Tuple4} interface additionally provides one method for the
  * accessing a tuple elements using getters {@code getT0}, {@code getT1},
  * {@code getT2} and {@code getT3}.
  *

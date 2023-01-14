@@ -23,10 +23,10 @@ package io.github.ololx.moonshine.tuple;
  * More formally:
  * T3 = (t0, t1, t2, t3, t4) or |T5| = 5.
  *
- * The {@code Tuple4} interface extends {@code Tuple} and provides
+ * The {@code Tuple5} interface extends {@code Tuple} and provides
  * all his behaviour.
  *
- * The {@code Tuple3} interface additionally provides one method for the
+ * The {@code Tuple5} interface additionally provides one method for the
  * accessing a tuple elements using getters {@code getT0}, {@code getT1},
  * {@code getT2}, {@code getT3} and {@code getT4}.
  *

@@ -37,7 +37,7 @@ public class Triple<A, B, C> implements Tuple3<A, B, C> {
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 3;
+    private static final Integer SIZE = 3;
 
     /**
      * First element in this tuple
