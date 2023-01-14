@@ -18,7 +18,7 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * A tuple that always contains four elements.
+ * A tuple that always contains five elements.
  *
  * More formally:
  * T3 = (t0, t1, t2, t3, t4) or |T5| = 5.
@@ -37,7 +37,7 @@ package io.github.ololx.moonshine.tuple;
  * @param <E> the type of fifth element in this tuple
  *
  * project moonshine
- * created 14.01.2023 10:28
+ * created 14.01.2023 10:31
  *
  * @author Alexander A. Kropotin
  */

@@ -18,7 +18,7 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * A tuple that always contains four elements.
+ * A tuple that always contains seven elements.
  *
  * More formally:
  * T3 = (t0, t1, t2, t3, t4, t5) or |T7| = 7.
@@ -40,7 +40,7 @@ package io.github.ololx.moonshine.tuple;
  * @param <G> the type of seventh element in this tuple
  *
  * project moonshine
- * created 14.01.2023 10:28
+ * created 14.01.2023 10:48
  *
  * @author Alexander A. Kropotin
  */
