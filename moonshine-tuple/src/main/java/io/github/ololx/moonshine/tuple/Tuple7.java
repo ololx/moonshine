@@ -93,5 +93,5 @@ public interface Tuple7<A, B, C, D, E, F, G> extends Tuple {
      *
      * @return the seventh element in this tuple.
      */
-    F getT6();
+    G getT6();
 }

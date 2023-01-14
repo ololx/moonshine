@@ -94,12 +94,12 @@ public interface Tuple8<A, B, C, D, E, F, G, H> extends Tuple {
      *
      * @return the seventh element in this tuple.
      */
-    F getT6();
+    G getT6();
 
     /**
      * Returns the eighth element in this tuple.
      *
      * @return the eighth element in this tuple.
      */
-    F getT7();
+    H getT7();
 }
