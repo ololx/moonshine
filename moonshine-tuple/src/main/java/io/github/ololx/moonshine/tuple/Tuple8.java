@@ -18,10 +18,10 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * A tuple that always contains seven elements.
+ * A tuple that always contains eight elements.
  *
  * More formally:
- * T3 = (t0, t1, t2, t3, t4, t5, t6) or |T7| = 7.
+ * T3 = (t0, t1, t2, t3, t4, t5, t6, t7) or |T8| = 8.
  *
  * The {@code Tuple4} interface extends {@code Tuple} and provides
  * all his behaviour.
@@ -29,7 +29,7 @@ package io.github.ololx.moonshine.tuple;
  * The {@code Tuple3} interface additionally provides one method for the
  * accessing a tuple elements using getters {@code getT0}, {@code getT1},
  * {@code getT2}, {@code getT3}, {@code getT4}, {@code getT5}
- * and {@code getT6}.
+ * {@code getT6} and {@code getT7}.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
@@ -38,13 +38,14 @@ package io.github.ololx.moonshine.tuple;
  * @param <E> the type of fifth element in this tuple
  * @param <F> the type of sixth element in this tuple
  * @param <G> the type of seventh element in this tuple
+ * @param <H> the type of eighth element in this tuple
  *
  * project moonshine
  * created 14.01.2023 10:48
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple7<A, B, C, D, E, F, G> extends Tuple {
+public interface Tuple8<A, B, C, D, E, F, G, H> extends Tuple {
 
     /**
      * Returns the first element in this tuple.
@@ -94,4 +95,11 @@ public interface Tuple7<A, B, C, D, E, F, G> extends Tuple {
      * @return the seventh element in this tuple.
      */
     F getT6();
+
+    /**
+     * Returns the eighth element in this tuple.
+     *
+     * @return the eighth element in this tuple.
+     */
+    F getT7();
 }
