@@ -171,10 +171,10 @@ public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
      *     </li>
      *     <li>
      *         This tuple and {@code obj} argument has the same type, i.e.
-     *         booth are the realisation of the {@code Tuple3} tuple with
-     *         size = 2. And all values of this tuple has the same order and
+     *         booth are the realisation of the {@code Tuple4} tuple with
+     *         size = 4. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B if (t0, t1, t2) = (b0, b1, b2) and |T| = |B| = 3)
+     *         (T = B if (t0, t1, t2, t3) = (b0, b1, b2, b3) and |T| = |B| = 4)
      *     </li>
      * </ol>
      *
@@ -204,7 +204,10 @@ public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
         final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
                 || (this.t3 != null && this.t3.equals(other.getT3()));
 
-        return isT0Equals && isT1Equals && isT2Equals && isT3Equals;
+        return isT0Equals
+                && isT1Equals
+                && isT2Equals
+                && isT3Equals;
     }
 
     /**

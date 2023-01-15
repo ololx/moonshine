@@ -33,16 +33,17 @@ import static org.testng.Assert.assertNotNull;
  *
  * @author Alexander A. Kropotin
  */
-public class QuadrupleTest {
+public class QuintupleTest {
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0,
-                                                                                   B t1,
-                                                                                   C t2,
-                                                                                   D t3) {
+    <A, B, C, D, E> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0, 
+                                                                                      B t1, 
+                                                                                      C t2, 
+                                                                                      D t3,
+                                                                                      E t4) {
         //When
         // create new tuple with specified args
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //Then
         // tuple contains arg value
@@ -50,13 +51,14 @@ public class QuadrupleTest {
         assertEquals(tuple.getT1(), t1);
         assertEquals(tuple.getT2(), t2);
         assertEquals(tuple.getT3(), t3);
+        assertEquals(tuple.getT4(), t4);
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 0
@@ -68,10 +70,10 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void getT1_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void getT1_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 1
@@ -83,10 +85,10 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void getT2_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void getT2_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 2
@@ -98,13 +100,13 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void getT3_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void getT3_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
-        // get values by index 2
+        // get values by index 3
         Object actual = tuple.getT3();
 
         //Then
@@ -113,17 +115,33 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void get_whenIndexExists_thenReturnValueByIndex(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void getT4_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
-        // get values by indexes 0, 1, 2, 3
+        // get values by index 4
+        Object actual = tuple.getT4();
+
+        //Then
+        // actual values equal to stored values
+        assertEquals(actual, t4);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void get_whenIndexExists_thenReturnValueByIndex(A t0, B t1, C t2, D t3, E t4) {
+        //Given
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // get values by indexes 0, 1, 2, 3, 4
         Object actualT0 = tuple.get(0);
         Object actualT1 = tuple.get(1);
         Object actualT2 = tuple.get(2);
         Object actualT3 = tuple.get(3);
+        Object actualT4 = tuple.get(4);
 
         //Then
         // actual values equal to stored values
@@ -131,6 +149,7 @@ public class QuadrupleTest {
         assertEquals(actualT1, t1);
         assertEquals(actualT2, t2);
         assertEquals(actualT3, t3);
+        assertEquals(actualT4, t4);
     }
 
     @Test(
@@ -138,10 +157,14 @@ public class QuadrupleTest {
             expectedExceptions = IndexOutOfBoundsException.class,
             expectedExceptionsMessageRegExp = "There is no elements by index.*"
     )
-    <A, B, C, D> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void get_whenIndexLessThanZero_thenThrowException(A t0,
+                                                                      B t1,
+                                                                      C t2,
+                                                                      D t3,
+                                                                      E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index < 0
@@ -155,10 +178,14 @@ public class QuadrupleTest {
             expectedExceptions = IndexOutOfBoundsException.class,
             expectedExceptionsMessageRegExp = "There is no elements by index.*"
     )
-    <A, B, C, D> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
+                                                                              B t1,
+                                                                              C t2,
+                                                                              D t3,
+                                                                              E t4) {
         //Given
-        // The tuple with size = 4
-        Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index == tuple size
@@ -168,14 +195,15 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0,
-                                                                             B t1,
-                                                                             C t2,
-                                                                             D t3) {
+    <A, B, C, D, E> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0,
+                                                                                B t1,
+                                                                                C t2,
+                                                                                D t3,
+                                                                                E t4) {
         //Given
-        // The tuple with size = 4
+        // The tuple with size = 5
         // and some default value
-        final Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
         final String defaultValue = "default";
 
         //When
@@ -190,15 +218,15 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2, D t3) {
+    <A, B, C, D, E> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2, D t3, E t4) {
         //Given
-        // The tuple with size = 4
-        final Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get tuple size
         final int actual = tuple.size();
-        final int expected = 4;
+        final int expected = 5;
 
         //Then
         // size equal to expected
@@ -206,13 +234,14 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0,
-                                                                            B t1,
-                                                                            C t2,
-                                                                            D t3) {
+    <A, B, C, D, E> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0,
+                                                                               B t1,
+                                                                               C t2,
+                                                                               D t3,
+                                                                               E t4) {
         //Given
-        // The tuple with size = 4
-        final Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+        // The tuple with size = 5
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // create iterator
@@ -225,7 +254,7 @@ public class QuadrupleTest {
 
     @Test
     public void equalsHashCode_verifyContracts() {
-        EqualsVerifier.forClass(Quadruple.class)
+        EqualsVerifier.forClass(Quintuple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
     }
@@ -237,23 +266,27 @@ public class QuadrupleTest {
                         Byte.MIN_VALUE,
                         Character.MAX_VALUE,
                         Short.MAX_VALUE,
-                        Integer.MAX_VALUE
+                        Integer.MAX_VALUE,
+                        Long.MAX_VALUE
                 },
                 {
                         Character.MIN_VALUE,
                         Short.MAX_VALUE,
                         Integer.MAX_VALUE,
+                        Character.MAX_VALUE,
                         Character.MAX_VALUE
                 },
                 {
                         Short.MIN_VALUE,
                         Integer.MAX_VALUE,
                         Float.MAX_VALUE,
+                        Integer.MAX_VALUE,
                         Integer.MAX_VALUE
                 },
                 {
                         Integer.MIN_VALUE,
                         Float.MAX_VALUE,
+                        Double.MAX_VALUE,
                         Double.MAX_VALUE,
                         Double.MAX_VALUE
                 },
@@ -261,18 +294,21 @@ public class QuadrupleTest {
                         Float.MIN_VALUE,
                         Double.MAX_VALUE,
                         Byte.MAX_VALUE,
+                        Integer.MAX_VALUE,
                         Integer.MAX_VALUE
                 },
                 {
                         Double.MIN_VALUE,
                         Byte.MAX_VALUE,
                         Character.MAX_VALUE,
+                        Byte.MAX_VALUE,
                         Byte.MAX_VALUE
                 },
                 {
                         String.valueOf(Integer.MAX_VALUE),
                         Byte.MAX_VALUE,
                         Float.MAX_VALUE,
+                        Byte.MAX_VALUE,
                         Byte.MAX_VALUE
                 }
         };
