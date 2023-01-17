@@ -64,7 +64,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/ololx/moonshine.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/ololx/moonshine.git</developerConnection>
-        <url>https://github.com/ololx/moonshine</url>
+        <url>ssh://git@github.com/ololx/moonshine.git</url>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
