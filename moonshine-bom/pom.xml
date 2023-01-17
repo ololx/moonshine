@@ -62,9 +62,10 @@
 
     <!--<ci info-->
     <scm>
-        <connection>scm:git:git://github.com/ololx/moonshine</connection>
-        <developerConnection>scm:git:ssh://github.com/ololx/moonshine</developerConnection>
-        <url>http://github.com/ololx/moonshine</url>
+        <connection>scm:git:ssh://git@github.com/ololx/moonshine.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/ololx/moonshine.git</developerConnection>
+        <url>https://github.com/ololx/moonshine</url>
+        <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>
