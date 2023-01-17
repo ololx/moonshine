@@ -18,9 +18,9 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * The tuple with only five elements.
+ * The tuple with only four elements.
  *
- * The {@code Quintuple} class implements {@code Tuple5} and provides
+ * The {@code Sextuple} class implements {@code Tuple6} and provides
  * all his behaviour.
  *
  * @param <A> the type of first element in this tuple
@@ -28,18 +28,19 @@ package io.github.ololx.moonshine.tuple;
  * @param <C> the type of third element in this tuple
  * @param <D> the type of fourth element in this tuple
  * @param <E> the type of fifth element in this tuple
+ * @param <F> the type of sixth element in this tuple
  *
  * project moonshine
- * created 05.01.2023 20:41
+ * created 17.01.2023 21:41
  *
  * @author Alexander A. Kropotin
  */
-public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
+public class Sextuple<A, B, C, D, E, F> implements Tuple6<A, B, C, D, E, F> {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 5;
+    private static final int SIZE = 6;
 
     /**
      * First element in this tuple
@@ -67,6 +68,11 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
     private final E t4;
 
     /**
+     * Sixth element in this tuple
+     */
+    private final F t5;
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param t0 the first element of this tuple
@@ -74,13 +80,15 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
      * @param t2 the third element of this tuple
      * @param t3 the fourth element of this tuple
      * @param t4 the fifth element of this tuple
+     * @param t5 the sixth element of this tuple
      */
-    public Quintuple(A t0, B t1, C t2, D t3, E t4) {
+    public Sextuple(A t0, B t1, C t2, D t3, E t4, F t5) {
         this.t0 = t0;
         this.t1 = t1;
         this.t2 = t2;
         this.t3 = t3;
         this.t4 = t4;
+        this.t5 = t5;
     }
 
     /**
@@ -88,7 +96,7 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
      * The size is a non-negative integer.
      *
      * <b>implSpec</b>
-     * This implementation always return 5 as a size {@code SIZE} of the tuple.
+     * This implementation always return 6 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -101,8 +109,8 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
      * Returns the element at the specified position in this tuple.
      *
      * <b>implSpec</b>
-     * This implementation will return the first, second, third, fourth,
-     * fifth element if the index is in range [0, 1, 2, 3, 4];
+     * This implementation will return the first, second, third, fourth, fifth,
+     * sixth element if the index is in range [0, 1, 2, 3, 4, 5];
      * otherwise throw an exception {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
@@ -123,6 +131,8 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
                 return this.t3;
             case 4:
                 return this.t4;
+            case 5:
+                return this.t5;
             default:
                 throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
@@ -179,6 +189,16 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
     }
 
     /**
+     * Returns the sixth element in this tuple.
+     *
+     * @return the sixth element in this tuple.
+     */
+    @Override
+    public F getT5() {
+        return this.t5;
+    }
+
+    /**
      * Indicates whether some other {@code Object} is "equal to" this one.
      * <p>
      * <b>implSpec</b>
@@ -194,8 +214,8 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
      *         booth are the realisation of the {@code Tuple5} tuple with
      *         size = 5. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B if (t0, t1, t2, t3, t4) = (b0, b1, b2, b3, b4)
-     *         and |T| = |B| = 5)
+     *         (T = B if (t0, t1, t2, t3, t4, t5) = (b0, b1, b2, b3, b4, b5)
+     *         and |T| = |B| = 6)
      *     </li>
      * </ol>
      *
@@ -210,11 +230,11 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
             return true;
         }
 
-        if (!(obj instanceof Tuple5)) {
+        if (!(obj instanceof Tuple6)) {
             return false;
         }
 
-        Tuple5<?, ?, ?, ?, ?> other = (Tuple5<?, ?, ?, ?, ?>) obj;
+        Tuple6<?, ?, ?, ?, ?, ?> other = (Tuple6<?, ?, ?, ?, ?, ?>) obj;
 
         final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
@@ -225,13 +245,16 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
         final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
                 || (this.t3 != null && this.t3.equals(other.getT3()));
         final boolean isT4Equals = (this.t4 == null && other.getT4() == null)
-                || (this.t4 != null && this.t4.equals(other.getT4()));
+                || (this.t5 != null && this.t4.equals(other.getT4()));
+        final boolean isT5Equals = (this.t5 == null && other.getT5() == null)
+                || (this.t5 != null && this.t5.equals(other.getT5()));
 
         return isT0Equals
                 && isT1Equals
                 && isT2Equals
                 && isT3Equals
-                && isT4Equals;
+                && isT4Equals
+                && isT5Equals;
     }
 
     /**
@@ -254,6 +277,7 @@ public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
         hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
         hash = prime * ++index + hash + (this.t3 == null ? 0 : this.t3.hashCode());
         hash = prime * ++index + hash + (this.t4 == null ? 0 : this.t4.hashCode());
+        hash = prime * ++index + hash + (this.t5 == null ? 0 : this.t5.hashCode());
 
         return hash;
     }

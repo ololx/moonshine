@@ -80,7 +80,7 @@ public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
      * The size is a non-negative integer.
      *
      * <b>implSpec</b>
-     * This implementation always return 3 as a size {@code SIZE} of the tuple.
+     * This implementation always return 4 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -94,7 +94,7 @@ public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
      *
      * <b>implSpec</b>
      * This implementation will return the first, second, third, fourth element
-     * if the index is in range [0, 1, 2, 4]; otherwise throw an exception
+     * if the index is in range [0, 1, 2, 3]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
