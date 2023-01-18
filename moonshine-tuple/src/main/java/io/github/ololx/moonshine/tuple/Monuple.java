@@ -30,7 +30,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Monuple<A> implements Tuple1<A> {
+public class Monuple<A>
+        extends AbstractTuple
+        implements Tuple1<A> {
 
     /**
      * The power of this tuple.
