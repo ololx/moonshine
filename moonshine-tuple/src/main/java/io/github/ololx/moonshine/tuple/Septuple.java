@@ -41,7 +41,7 @@ public class Septuple<A, B, C, D, E, F, G> implements Tuple7<A, B, C, D, E, F, G
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 6;
+    private static final int SIZE = 7;
 
     /**
      * First element in this tuple
