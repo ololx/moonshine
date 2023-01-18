@@ -152,6 +152,7 @@ public class Monuple<A> implements Tuple1<A> {
 
         int hash = 0;
         int index = 0;
+
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
 
         return hash;

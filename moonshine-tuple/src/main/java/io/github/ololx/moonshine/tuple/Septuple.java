@@ -234,8 +234,7 @@ public class Septuple<A, B, C, D, E, F, G> implements Tuple7<A, B, C, D, E, F, G
      *         booth are the realisation of the {@code Tuple7} tuple with
      *         size = 5. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B
-     *         if (t0, t1, t2, t3, t4, t5, t6) = (b0, b1, b2, b3, b4, b5, b6)
+     *         (T = B if (t0, t1, t2, ..., t6) = (b0, b1, b2, ..., b6)
      *         and |T| = |B| = 7)
      *     </li>
      * </ol>
@@ -296,6 +295,7 @@ public class Septuple<A, B, C, D, E, F, G> implements Tuple7<A, B, C, D, E, F, G
 
         int hash = 0;
         int index = 0;
+
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
         hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
