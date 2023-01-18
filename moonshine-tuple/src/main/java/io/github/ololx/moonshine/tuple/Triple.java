@@ -32,7 +32,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Triple<A, B, C> implements Tuple3<A, B, C> {
+public class Triple<A, B, C>
+        extends AbstractTuple
+        implements Tuple3<A, B, C> {
 
     /**
      * The power of this tuple.

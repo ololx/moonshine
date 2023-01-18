@@ -24,8 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
 /**
  * project moonshine
@@ -194,6 +193,23 @@ public class TripleTest {
         //Then
         // size equal to expected
         assertNotNull(iterator);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void toString_whenBuildString_thenStringContainsAllElements(A t0, B t1, C t2) {
+        //Given
+        // The tuple with args
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.contains(String.valueOf(t0)));
+        assertTrue(tupleInString.contains(String.valueOf(t1)));
+        assertTrue(tupleInString.contains(String.valueOf(t2)));
     }
 
     @Test

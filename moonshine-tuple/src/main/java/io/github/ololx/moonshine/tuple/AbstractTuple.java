@@ -34,9 +34,10 @@ abstract class AbstractTuple implements Tuple {
         final int tupleStringLength = elementsCount == 0 ? 2 : elementsCount * 3;
         final StringBuilder tupleStringBuilder = new StringBuilder(tupleStringLength);
 
-        IntStream.range(0, elementsCount - 1).forEach(index -> {
-            tupleStringBuilder.append(this.get(index));
+        tupleStringBuilder.append(String.valueOf(this.get(0)));
+        IntStream.range(1, elementsCount).forEach(index -> {
             tupleStringBuilder.append(", ");
+            tupleStringBuilder.append(String.valueOf(this.get(index)));
         });
 
         tupleStringBuilder.insert(0, "(");
