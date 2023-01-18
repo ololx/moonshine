@@ -245,7 +245,7 @@ public class Sextuple<A, B, C, D, E, F> implements Tuple6<A, B, C, D, E, F> {
         final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
                 || (this.t3 != null && this.t3.equals(other.getT3()));
         final boolean isT4Equals = (this.t4 == null && other.getT4() == null)
-                || (this.t5 != null && this.t4.equals(other.getT4()));
+                || (this.t4 != null && this.t4.equals(other.getT4()));
         final boolean isT5Equals = (this.t5 == null && other.getT5() == null)
                 || (this.t5 != null && this.t5.equals(other.getT5()));
 
