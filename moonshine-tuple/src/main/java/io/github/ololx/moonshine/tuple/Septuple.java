@@ -270,7 +270,7 @@ public class Septuple<A, B, C, D, E, F, G> implements Tuple7<A, B, C, D, E, F, G
         final boolean isT5Equals = (this.t5 == null && other.getT5() == null)
                 || (this.t5 != null && this.t5.equals(other.getT5()));
         final boolean isT6Equals = (this.t6 == null && other.getT6() == null)
-                || (this.t6 != null && this.t5.equals(other.getT6()));
+                || (this.t6 != null && this.t6.equals(other.getT6()));
 
         return isT0Equals
                 && isT1Equals
