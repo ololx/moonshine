@@ -33,7 +33,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Quadruple<A, B, C, D> implements Tuple4<A, B, C, D> {
+public class Quadruple<A, B, C, D>
+        extends AbstractTuple
+        implements Tuple4<A, B, C, D> {
 
     /**
      * The power of this tuple.

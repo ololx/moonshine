@@ -31,7 +31,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Couple<A, B> implements Tuple2<A, B> {
+public class Couple<A, B>
+        extends AbstractTuple
+        implements Tuple2<A, B> {
 
     /**
      * The power of this tuple.

@@ -36,7 +36,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Septuple<A, B, C, D, E, F, G> implements Tuple7<A, B, C, D, E, F, G> {
+public class Septuple<A, B, C, D, E, F, G>
+        extends AbstractTuple
+        implements Tuple7<A, B, C, D, E, F, G> {
 
     /**
      * The power of this tuple.

@@ -37,7 +37,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Octuple<A, B, C, D, E, F, G, H> implements Tuple8<A, B, C, D, E, F, G, H> {
+public class Octuple<A, B, C, D, E, F, G, H>
+        extends AbstractTuple
+        implements Tuple8<A, B, C, D, E, F, G, H> {
 
     /**
      * The power of this tuple.

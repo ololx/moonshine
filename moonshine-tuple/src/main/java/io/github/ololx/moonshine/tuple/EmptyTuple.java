@@ -28,7 +28,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class EmptyTuple implements Tuple0 {
+public class EmptyTuple
+        extends AbstractTuple
+        implements Tuple0 {
 
     /**
      * The power of this tuple.

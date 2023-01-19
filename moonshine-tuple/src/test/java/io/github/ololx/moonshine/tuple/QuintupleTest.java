@@ -24,8 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
 /**
  * project moonshine
@@ -250,6 +249,29 @@ public class QuintupleTest {
         //Then
         // size equal to expected
         assertNotNull(iterator);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void toString_whenBuildString_thenStringContainsAllElements(A t0,
+                                                                                B t1,
+                                                                                C t2,
+                                                                                D t3,
+                                                                                E t4) {
+        //Given
+        // The tuple with args
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.contains(String.valueOf(t0)));
+        assertTrue(tupleInString.contains(String.valueOf(t1)));
+        assertTrue(tupleInString.contains(String.valueOf(t2)));
+        assertTrue(tupleInString.contains(String.valueOf(t3)));
+        assertTrue(tupleInString.contains(String.valueOf(t4)));
     }
 
     @Test

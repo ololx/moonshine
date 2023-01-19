@@ -35,7 +35,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Sextuple<A, B, C, D, E, F> implements Tuple6<A, B, C, D, E, F> {
+public class Sextuple<A, B, C, D, E, F>
+        extends AbstractTuple
+        implements Tuple6<A, B, C, D, E, F> {
 
     /**
      * The power of this tuple.
