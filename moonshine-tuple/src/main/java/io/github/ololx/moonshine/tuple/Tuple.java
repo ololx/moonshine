@@ -90,7 +90,7 @@ public interface Tuple extends Iterable<Object> {
      * {@code defaultValue} if the index is out of
      * range ({@code index < 0 || index >= size()})
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation returns {@code defaultValue} if the index is out of
      * range ({@code index < 0 || index >= size()}), otherwise returns
      * the element at the specified position
@@ -112,7 +112,7 @@ public interface Tuple extends Iterable<Object> {
     /**
      * Returns an iterator over the elements in the tuple in proper sequence.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation returns a straightforward implementation of
      * the iterator interface, relying on the backing tuple's {@code size()},
      * {@code get(int)} methods.
@@ -131,7 +131,7 @@ public interface Tuple extends Iterable<Object> {
     /**
      * An iterator over a tuple elements.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This is a straightforward implementation of the iterator interface,
      * relying on the backing tuple's {@code size()},{@code get(int)} methods.
      * This iterator will throw an {@link UnsupportedOperationException} in

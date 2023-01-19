@@ -81,7 +81,7 @@ public class Quadruple<A, B, C, D>
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation always return 4 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
@@ -94,7 +94,7 @@ public class Quadruple<A, B, C, D>
     /**
      * Returns the element at the specified position in this tuple.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation will return the first, second, third, fourth element
      * if the index is in range [0, 1, 2, 3]; otherwise throw an exception
      * {@link IndexOutOfBoundsException}.
@@ -161,7 +161,7 @@ public class Quadruple<A, B, C, D>
     /**
      * Indicates whether some other {@code Object} is "equal to" this one.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
      * <ol>
@@ -213,7 +213,7 @@ public class Quadruple<A, B, C, D>
     /**
      * Returns a hash code value for the tuple.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation generates a hash code given the order of
      * the elements and their hash code.
      *

@@ -41,7 +41,7 @@ public class EmptyTuple
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation always return 0 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
@@ -54,7 +54,7 @@ public class EmptyTuple
     /**
      * Returns the element at the specified position in this tuple.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation throws an instance of
      * {@link IndexOutOfBoundsException} and performs no other action.
      *
@@ -71,7 +71,7 @@ public class EmptyTuple
      * {@code defaultValue} if the index is out of
      * range ({@code index < 0 || index >= size()})
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation always returns the {@code defaultValue}
      *
      * @param index index of the element to return
@@ -88,7 +88,7 @@ public class EmptyTuple
     /**
      * Indicates whether some other {@code Object} is "equal to" this one.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
      * <ol>
@@ -120,7 +120,7 @@ public class EmptyTuple
     /**
      * Returns a hash code value for the tuple.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation always return 31 (31 * 1)
      *
      * @return  a hash code value for this tuple.
