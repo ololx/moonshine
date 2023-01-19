@@ -22,7 +22,7 @@ package io.github.ololx.moonshine.tuple;
  * {@code Tuple8.size()} and less than (2^31)-1 {@see Integer.MAX_VALUE}.
  *
  * More formally:
- * T3 = (t0, t1, t2, ... tn) or |TN| = N, where 8 < N <= 2147483647.
+ * T3 = (t0, t1, t2, ... tn) or |TN| = N, where N ∈ (8, 2147483647].
  *
  * The {@code TupleN} interface extends {@code Tuple} and provides
  * all his behaviour.
