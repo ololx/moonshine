@@ -106,17 +106,15 @@ public class Quadruple<A, B, C, D>
      */
     @Override
     public Object get(int index) {
-        switch (index) {
+        switch (this.checkIndex(index)) {
             case 0:
                 return this.t0;
             case 1:
                 return this.t1;
             case 2:
                 return this.t2;
-            case 3:
-                return this.t3;
             default:
-                throw new IndexOutOfBoundsException("There is no elements by index " + index);
+                return this.t3;
         }
     }
 

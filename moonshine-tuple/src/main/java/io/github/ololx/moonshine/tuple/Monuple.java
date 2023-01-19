@@ -81,9 +81,7 @@ public class Monuple<A>
      */
     @Override
     public Object get(int index) {
-        if (index < 0 || index >= SIZE) {
-            throw new IndexOutOfBoundsException("There is no elements by index " + index);
-        }
+        this.checkIndex(index);
 
         return this.t0;
     }

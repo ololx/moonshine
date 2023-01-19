@@ -122,7 +122,7 @@ public class Sextuple<A, B, C, D, E, F>
      */
     @Override
     public Object get(int index) {
-        switch (index) {
+        switch (this.checkIndex(index)) {
             case 0:
                 return this.t0;
             case 1:
@@ -133,10 +133,8 @@ public class Sextuple<A, B, C, D, E, F>
                 return this.t3;
             case 4:
                 return this.t4;
-            case 5:
-                return this.t5;
             default:
-                throw new IndexOutOfBoundsException("There is no elements by index " + index);
+                return this.t5;
         }
     }
 
