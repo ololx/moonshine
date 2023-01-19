@@ -389,13 +389,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <!--reporting code coverage>-->
-
-            <!--<generate javadoc-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <!--generate javadoc>-->
         </plugins>
     </build>
 
@@ -420,6 +413,20 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>javadoc</id>
+            <build>
+                <plugins>
+                    <!--<generate javadoc-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <!--generate javadoc>-->
                 </plugins>
             </build>
         </profile>
