@@ -138,7 +138,7 @@ public class Octuple<A, B, C, D, E, F, G, H>
      */
     @Override
     public Object get(int index) {
-        switch (index) {
+        switch (this.checkIndex(index)) {
             case 0:
                 return this.t0;
             case 1:
@@ -153,10 +153,8 @@ public class Octuple<A, B, C, D, E, F, G, H>
                 return this.t5;
             case 6:
                 return this.t6;
-            case 7:
-                return this.t7;
             default:
-                throw new IndexOutOfBoundsException("There is no elements by index " + index);
+                return this.t7;
         }
     }
 

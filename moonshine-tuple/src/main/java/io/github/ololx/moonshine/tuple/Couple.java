@@ -90,14 +90,11 @@ public class Couple<A, B>
      */
     @Override
     public Object get(int index) {
-        switch (index) {
-            case 0:
-                return this.t0;
-            case 1:
-                return this.t1;
-            default:
-                throw new IndexOutOfBoundsException("There is no elements by index " + index);
+        if (this.checkIndex(index) == 0) {
+            return this.t0;
         }
+
+        return this.t1;
     }
 
     /**

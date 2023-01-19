@@ -114,7 +114,7 @@ public class Quintuple<A, B, C, D, E>
      */
     @Override
     public Object get(int index) {
-        switch (index) {
+        switch (this.checkIndex(index)) {
             case 0:
                 return this.t0;
             case 1:
@@ -123,10 +123,8 @@ public class Quintuple<A, B, C, D, E>
                 return this.t2;
             case 3:
                 return this.t3;
-            case 4:
-                return this.t4;
             default:
-                throw new IndexOutOfBoundsException("There is no elements by index " + index);
+                return this.t4;
         }
     }
 

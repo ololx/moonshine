@@ -63,7 +63,7 @@ public class EmptyTuple
      */
     @Override
     public Object get(int index) {
-        throw new IndexOutOfBoundsException("There is no elements by index " + index);
+        return this.checkIndex(index);
     }
 
     /**

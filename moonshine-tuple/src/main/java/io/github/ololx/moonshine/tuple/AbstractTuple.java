@@ -27,6 +27,14 @@ import java.util.stream.IntStream;
  */
 abstract class AbstractTuple implements Tuple {
 
+    protected final int checkIndex(int index) {
+        if (index < 0 || index >= this.size()) {
+            throw new IndexOutOfBoundsException("There is no elements by index " + index);
+        }
+
+        return index;
+    }
+
     @Override
     public String toString() {
         final int elementsCount = this.size();
