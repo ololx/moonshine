@@ -25,7 +25,6 @@ import org.testng.annotations.Test;
 import java.util.Iterator;
 
 import static org.testng.Assert.*;
-import static org.testng.Assert.assertTrue;
 
 /**
  * project moonshine

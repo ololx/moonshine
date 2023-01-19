@@ -34,7 +34,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Quintuple<A, B, C, D, E> implements Tuple5<A, B, C, D, E> {
+public class Quintuple<A, B, C, D, E>
+        extends AbstractTuple
+        implements Tuple5<A, B, C, D, E> {
 
     /**
      * The power of this tuple.

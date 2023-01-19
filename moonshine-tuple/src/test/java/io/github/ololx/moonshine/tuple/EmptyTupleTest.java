@@ -23,8 +23,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
 /**
  * project moonshine
@@ -98,6 +97,21 @@ public class EmptyTupleTest {
         //Then
         // size equal to expected
         assertNotNull(iterator);
+    }
+
+    @Test
+    void toString_whenBuildString_thenStringContainsAllElements() {
+        //Given
+        // The tuple without args
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation doesn't contain any values
+        assertTrue(tupleInString.equals("()"));
     }
 
     @Test
