@@ -59,7 +59,7 @@ abstract class AbstractTuple implements Tuple {
     static final class IndexBounds {
 
         static boolean checkIndex(int index, int toExclusive) {
-            return index < toExclusive;
+            return checkIndex(index, 0, toExclusive);
         }
 
         static boolean checkIndex(int index, int fromInclusive, int toExclusive) {
