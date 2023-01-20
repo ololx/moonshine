@@ -111,7 +111,7 @@ For any pull request, please refer to this checklist.
 - [ ] Ensure any install or build dependencies are removed before the end of the layer when doing a build.
 - [ ] Make sure you are requesting to **pull a topic/feature/bugfix branch** (right side). Don't request your master!
 - [ ] Make sure you are making a pull request against the **master branch** (left side).
-- [ ] Check the commit's or even all commits' message styles matches our requested structure.
+- [ ] Check the commits or even all commits message styles matches our requested structure.
 - [ ] Check your code additions will fail neither code linting checks nor unit test.
 
 ----

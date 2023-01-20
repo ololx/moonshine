@@ -28,7 +28,7 @@ import java.util.stream.IntStream;
 abstract class AbstractTuple implements Tuple {
 
     protected final int checkIndex(int index) {
-        if (index < 0 || index >= this.size()) {
+        if (IndexBounds.checkIndex(index, this.size())) {
             throw new IndexOutOfBoundsException("There is no elements by index " + index);
         }
 
@@ -51,5 +51,19 @@ abstract class AbstractTuple implements Tuple {
         tupleStringBuilder.append(")");
 
         return tupleStringBuilder.toString();
+    }
+
+    /**
+     * Utility methods to check if state or arguments are correct.
+     */
+    static final class IndexBounds {
+
+        static boolean checkIndex(int index, int toExclusive) {
+            return index < toExclusive;
+        }
+
+        static boolean checkIndex(int index, int fromInclusive, int toExclusive) {
+            return index >= fromInclusive && index < toExclusive;
+        }
     }
 }
