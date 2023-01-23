@@ -17,6 +17,7 @@
 
 package io.github.ololx.moonshine.tuple;
 
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 /**
@@ -51,19 +52,5 @@ abstract class AbstractTuple implements Tuple {
         tupleStringBuilder.append(")");
 
         return tupleStringBuilder.toString();
-    }
-
-    /**
-     * Utility methods to check if state or arguments are correct.
-     */
-    static final class IndexBounds {
-
-        static boolean checkIndex(int index, int toExclusive) {
-            return checkIndex(index, 0, toExclusive);
-        }
-
-        static boolean checkIndex(int index, int fromInclusive, int toExclusive) {
-            return index >= fromInclusive && index < toExclusive;
-        }
     }
 }
