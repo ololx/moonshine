@@ -17,7 +17,7 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * Utility methods to check if state or arguments are correct.
+ * Utility methods to check if index are correct for the specific range.
  *
  * project moonshine
  * created 23.01.2023 16:19
@@ -25,6 +25,12 @@ package io.github.ololx.moonshine.tuple;
  * @author Alexander A. Kropotin
  */
 final class IndexBounds {
+
+    /**
+     * Override constructor by defaults (implicit public constructor).
+     * Because utility class are not meant to be instantiated.
+     */
+    private IndexBounds() {}
 
     /**
      * Checks if the {@code index} is within the bounds of the range from
@@ -65,6 +71,4 @@ final class IndexBounds {
     static boolean checkIndex(int index, int fromInclusive, int toExclusive) {
         return index >= fromInclusive && index < toExclusive;
     }
-
-
 }

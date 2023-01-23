@@ -17,7 +17,6 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 /**
