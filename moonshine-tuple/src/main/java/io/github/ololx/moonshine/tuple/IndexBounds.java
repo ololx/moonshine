@@ -77,6 +77,30 @@ final class IndexBounds {
 
     /**
      * Checks that the {@code index} is out of the bounds
+     * {@link #requireIndexWithinBounds(int, int, int)} and throws
+     * {@link IndexOutOfBoundsException} if it is.
+     *
+     * <p>This method is designed primarily for doing parameter validation
+     * in methods and constructors, as demonstrated below:
+     * <blockquote><pre>
+     * public Object get(int index) {
+     *      int len = elements.length;
+     *      return elements[IndexBounds.requireIndexWithinBounds(index, len)];
+     * }
+     * </pre></blockquote>
+     *
+     * @param index the index
+     * @param toExclusive the upper-bound (exclusive) of the range
+     * @return {@code index} if index is within bounds
+     * @throws IndexOutOfBoundsException if {@code index} is out of
+     * a bounds
+     */
+    static int requireIndexWithinBounds(int index, int toExclusive) {
+        return requireIndexWithinBounds(index, 0, toExclusive);
+    }
+
+    /**
+     * Checks that the {@code index} is out of the bounds
      * {@link #checkIndex(int, int, int)} and throws
      * {@link IndexOutOfBoundsException} if it is.
      *
@@ -92,10 +116,9 @@ final class IndexBounds {
      * @param index the index
      * @param fromInclusive the lower-bound (inclusive) of the range
      * @param toExclusive the upper-bound (exclusive) of the range
-     * @return {@code index} if index is within bounds of the range from
-     * {@code fromInclusive} (inclusive) to {@code toExclusive} (exclusive)
-     * @throws IndexOutOfBoundsException if {@code index} is out of the range
-     * from {@code fromInclusive} (inclusive) to {@code toExclusive} (exclusive)
+     * @return {@code index} if index is within specified bounds
+     * @throws IndexOutOfBoundsException if {@code index} is out of
+     * the specified bounds
      */
     static int requireIndexWithinBounds(int index, int fromInclusive, int toExclusive) {
         if (!checkIndex(index, fromInclusive, toExclusive)) {
