@@ -26,6 +26,8 @@ package io.github.ololx.moonshine.tuple;
  */
 final class IndexBounds {
 
+    private static final String EXCEPTION_MSG = "The index %s out of a bounds [%s, %s)";
+
     /**
      * Override constructor by defaults (implicit public constructor).
      * Because utility class are not meant to be instantiated.
@@ -64,11 +66,44 @@ final class IndexBounds {
      * </ol>
      *
      * @param index the index
+     * @param fromInclusive the lower-bound (inclusive) of the range
      * @param toExclusive the upper-bound (exclusive) of the range
      * @return {@code true} if index is within bounds of the range,
      * or {@code false} otherwise
      */
     static boolean checkIndex(int index, int fromInclusive, int toExclusive) {
         return index >= fromInclusive && index < toExclusive;
+    }
+
+    /**
+     * Checks that the {@code index} is out of the bounds
+     * {@link #checkIndex(int, int, int)} and throws
+     * {@link IndexOutOfBoundsException} if it is.
+     *
+     * <p>This method is designed primarily for doing parameter validation
+     * in methods and constructors, as demonstrated below:
+     * <blockquote><pre>
+     * public Object get(int index) {
+     *      int len = elements.length;
+     *      return elements[IndexBounds.requireIndexWithinBounds(index, 0, len)];
+     * }
+     * </pre></blockquote>
+     *
+     * @param index the index
+     * @param fromInclusive the lower-bound (inclusive) of the range
+     * @param toExclusive the upper-bound (exclusive) of the range
+     * @return {@code index} if index is within bounds of the range from
+     * {@code fromInclusive} (inclusive) to {@code toExclusive} (exclusive)
+     * @throws IndexOutOfBoundsException if {@code index} is out of the range
+     * from {@code fromInclusive} (inclusive) to {@code toExclusive} (exclusive)
+     */
+    static int requireIndexWithinBounds(int index, int fromInclusive, int toExclusive) {
+        if (!checkIndex(index, fromInclusive, toExclusive)) {
+            throw new IndexOutOfBoundsException(
+                    String.format(EXCEPTION_MSG, index, fromInclusive, toExclusive)
+            );
+        }
+
+        return index;
     }
 }
