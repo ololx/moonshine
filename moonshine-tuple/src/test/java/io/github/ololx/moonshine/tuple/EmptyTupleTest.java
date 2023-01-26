@@ -35,8 +35,7 @@ import static org.testng.Assert.assertNotNull;
 public class EmptyTupleTest {
 
     @Test(
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
         //Given
@@ -98,6 +97,21 @@ public class EmptyTupleTest {
         //Then
         // size equal to expected
         assertNotNull(iterator);
+    }
+
+    @Test
+    void toString_whenBuildString_thenStringContainsAllElements() {
+        //Given
+        // The tuple without args
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation doesn't contain any values
+        assertEquals(tupleInString, "()");
     }
 
     @Test

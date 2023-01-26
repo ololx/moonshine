@@ -30,7 +30,9 @@ package io.github.ololx.moonshine.tuple;
  *
  * @author Alexander A. Kropotin
  */
-public class Monuple<A> implements Tuple1<A> {
+public class Monuple<A>
+        extends AbstractTuple
+        implements Tuple1<A> {
 
     /**
      * The power of this tuple.
@@ -55,20 +57,20 @@ public class Monuple<A> implements Tuple1<A> {
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation always return 1 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
     @Override
-    public int size() {
+    public final int size() {
         return SIZE;
     }
 
     /**
      * Returns the element at the specified position in this tuple.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation will return the first element if the index is 1;
      * otherwise throw an exception {@link IndexOutOfBoundsException}.
      *
@@ -79,9 +81,7 @@ public class Monuple<A> implements Tuple1<A> {
      */
     @Override
     public Object get(int index) {
-        if (index < 0 || index >= SIZE) {
-            throw new IndexOutOfBoundsException("There is no elements by index " + index);
-        }
+        IndexBounds.requireIndexWithinBounds(index, this.size());
 
         return this.t0;
     }
@@ -99,7 +99,7 @@ public class Monuple<A> implements Tuple1<A> {
     /**
      * Indicates whether some other {@code Object} is "equal to" this one.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
      * <ol>
@@ -140,7 +140,7 @@ public class Monuple<A> implements Tuple1<A> {
     /**
      * Returns a hash code value for the tuple.
      *
-     * <b>implSpec</b>
+     * @implSpec
      * This implementation generates a hash code given the order of
      * the elements and their hash code.
      *
@@ -152,6 +152,7 @@ public class Monuple<A> implements Tuple1<A> {
 
         int hash = 0;
         int index = 0;
+
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
 
         return hash;

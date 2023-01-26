@@ -10,7 +10,6 @@ This is a java utils and extensions library
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
 [![DeepSource](https://deepsource.io/gh/ololx/moonshine.svg/?label=active+issues&show_trend=true&token=WjXoWTUy4w1uJyI6FIFTFo46)](https://deepsource.io/gh/ololx/moonshine/?ref=repository-badge)
 

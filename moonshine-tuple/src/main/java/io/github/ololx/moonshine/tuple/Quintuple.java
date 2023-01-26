@@ -18,29 +18,30 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * The tuple with only four elements.
+ * The tuple with only five elements.
  *
- * The {@code Quadruple} class implements {@code Tuple4} and provides
+ * The {@code Quintuple} class implements {@code Tuple5} and provides
  * all his behaviour.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
  * @param <C> the type of third element in this tuple
  * @param <D> the type of fourth element in this tuple
+ * @param <E> the type of fifth element in this tuple
  *
  * project moonshine
  * created 05.01.2023 20:41
  *
  * @author Alexander A. Kropotin
  */
-public class Quadruple<A, B, C, D>
+public class Quintuple<A, B, C, D, E>
         extends AbstractTuple
-        implements Tuple4<A, B, C, D> {
+        implements Tuple5<A, B, C, D, E> {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 4;
+    private static final int SIZE = 5;
 
     /**
      * First element in this tuple
@@ -63,18 +64,25 @@ public class Quadruple<A, B, C, D>
     private final D t3;
 
     /**
+     * Fifth element in this tuple
+     */
+    private final E t4;
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param t0 the first element of this tuple
      * @param t1 the second element of this tuple
      * @param t2 the third element of this tuple
      * @param t3 the fourth element of this tuple
+     * @param t4 the fifth element of this tuple
      */
-    public Quadruple(A t0, B t1, C t2, D t3) {
+    public Quintuple(A t0, B t1, C t2, D t3, E t4) {
         this.t0 = t0;
         this.t1 = t1;
         this.t2 = t2;
         this.t3 = t3;
+        this.t4 = t4;
     }
 
     /**
@@ -82,7 +90,7 @@ public class Quadruple<A, B, C, D>
      * The size is a non-negative integer.
      *
      * @implSpec
-     * This implementation always return 4 as a size {@code SIZE} of the tuple.
+     * This implementation always return 5 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -95,9 +103,9 @@ public class Quadruple<A, B, C, D>
      * Returns the element at the specified position in this tuple.
      *
      * @implSpec
-     * This implementation will return the first, second, third, fourth element
-     * if the index is in range [0, 1, 2, 3]; otherwise throw an exception
-     * {@link IndexOutOfBoundsException}.
+     * This implementation will return the first, second, third, fourth,
+     * fifth element if the index is in range [0, 1, 2, 3, 4];
+     * otherwise throw an exception {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
      * @return the element at the specified position in this tuple
@@ -113,8 +121,10 @@ public class Quadruple<A, B, C, D>
                 return this.t1;
             case 2:
                 return this.t2;
-            default:
+            case 3:
                 return this.t3;
+            default:
+                return this.t4;
         }
     }
 
@@ -159,8 +169,18 @@ public class Quadruple<A, B, C, D>
     }
 
     /**
-     * Indicates whether some other {@code Object} is "equal to" this one.
+     * Returns the fifth element in this tuple.
      *
+     * @return the fifth element in this tuple.
+     */
+    @Override
+    public E getT4() {
+        return this.t4;
+    }
+
+    /**
+     * Indicates whether some other {@code Object} is "equal to" this one.
+     * <p>
      * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
@@ -171,10 +191,11 @@ public class Quadruple<A, B, C, D>
      *     </li>
      *     <li>
      *         This tuple and {@code obj} argument has the same type, i.e.
-     *         booth are the realisation of the {@code Tuple4} tuple with
-     *         size = 4. And all values of this tuple has the same order and
+     *         booth are the realisation of the {@code Tuple5} tuple with
+     *         size = 5. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B if (t0, t1, t2, t3) = (b0, b1, b2, b3) and |T| = |B| = 4)
+     *         (T = B if (t0, t1, t2, t3, t4) = (b0, b1, b2, b3, b4)
+     *         and |T| = |B| = 5)
      *     </li>
      * </ol>
      *
@@ -189,11 +210,11 @@ public class Quadruple<A, B, C, D>
             return true;
         }
 
-        if (!(obj instanceof Tuple4)) {
+        if (!(obj instanceof Tuple5)) {
             return false;
         }
 
-        Tuple4<?, ?, ?, ?> other = (Tuple4<?, ?, ?, ?>) obj;
+        Tuple5<?, ?, ?, ?, ?> other = (Tuple5<?, ?, ?, ?, ?>) obj;
 
         final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
@@ -203,11 +224,14 @@ public class Quadruple<A, B, C, D>
                 || (this.t2 != null && this.t2.equals(other.getT2()));
         final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
                 || (this.t3 != null && this.t3.equals(other.getT3()));
+        final boolean isT4Equals = (this.t4 == null && other.getT4() == null)
+                || (this.t4 != null && this.t4.equals(other.getT4()));
 
         return isT0Equals
                 && isT1Equals
                 && isT2Equals
-                && isT3Equals;
+                && isT3Equals
+                && isT4Equals;
     }
 
     /**
@@ -230,6 +254,7 @@ public class Quadruple<A, B, C, D>
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
         hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
         hash = prime * ++index + hash + (this.t3 == null ? 0 : this.t3.hashCode());
+        hash = prime * ++index + hash + (this.t4 == null ? 0 : this.t4.hashCode());
 
         return hash;
     }
