@@ -87,7 +87,7 @@ public class Quadruple<A, B, C, D>
      * @return the number of elements in this tuple
      */
     @Override
-    public int size() {
+    public final int size() {
         return SIZE;
     }
 
@@ -106,7 +106,7 @@ public class Quadruple<A, B, C, D>
      */
     @Override
     public Object get(int index) {
-        switch (this.checkIndex(index)) {
+        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
                 return this.t0;
             case 1:

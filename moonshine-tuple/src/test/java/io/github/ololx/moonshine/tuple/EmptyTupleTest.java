@@ -23,7 +23,8 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * project moonshine
@@ -34,8 +35,7 @@ import static org.testng.Assert.*;
 public class EmptyTupleTest {
 
     @Test(
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
         //Given
@@ -111,7 +111,7 @@ public class EmptyTupleTest {
 
         //Then
         // string representation doesn't contain any values
-        assertTrue(tupleInString.equals("()"));
+        assertEquals(tupleInString, "()");
     }
 
     @Test

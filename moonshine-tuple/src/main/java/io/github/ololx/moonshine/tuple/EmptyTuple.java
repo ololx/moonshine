@@ -47,7 +47,7 @@ public class EmptyTuple
      * @return the number of elements in this tuple
      */
     @Override
-    public int size() {
+    public final int size() {
         return SIZE;
     }
 
@@ -63,7 +63,7 @@ public class EmptyTuple
      */
     @Override
     public Object get(int index) {
-        return this.checkIndex(index);
+        return IndexBounds.requireIndexWithinBounds(index, this.size());
     }
 
     /**

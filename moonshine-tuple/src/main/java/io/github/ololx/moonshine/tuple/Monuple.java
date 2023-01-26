@@ -63,7 +63,7 @@ public class Monuple<A>
      * @return the number of elements in this tuple
      */
     @Override
-    public int size() {
+    public final int size() {
         return SIZE;
     }
 
@@ -81,7 +81,7 @@ public class Monuple<A>
      */
     @Override
     public Object get(int index) {
-        this.checkIndex(index);
+        IndexBounds.requireIndexWithinBounds(index, this.size());
 
         return this.t0;
     }

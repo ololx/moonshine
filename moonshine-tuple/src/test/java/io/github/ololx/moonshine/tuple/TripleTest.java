@@ -113,8 +113,7 @@ public class TripleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2) {
         //Given
@@ -130,8 +129,7 @@ public class TripleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1, C t2) {
         //Given

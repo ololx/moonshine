@@ -102,7 +102,7 @@ public interface Tuple extends Iterable<Object> {
      * type for this {@code defaultValue}
      */
     default Object getOrDefault(int index, Object defaultValue) {
-        if (index < 0 || index >= size()) {
+        if (!IndexBounds.checkIndex(index, this.size())) {
             return defaultValue;
         }
 

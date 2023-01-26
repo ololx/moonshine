@@ -111,7 +111,7 @@ public class Septuple<A, B, C, D, E, F, G>
      * @return the number of elements in this tuple
      */
     @Override
-    public int size() {
+    public final int size() {
         return SIZE;
     }
 
@@ -130,7 +130,7 @@ public class Septuple<A, B, C, D, E, F, G>
      */
     @Override
     public Object get(int index) {
-        switch (this.checkIndex(index)) {
+        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
                 return this.t0;
             case 1:

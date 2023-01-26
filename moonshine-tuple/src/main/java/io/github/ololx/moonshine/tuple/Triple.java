@@ -79,7 +79,7 @@ public class Triple<A, B, C>
      * @return the number of elements in this tuple
      */
     @Override
-    public int size() {
+    public final int size() {
         return SIZE;
     }
 
@@ -98,7 +98,7 @@ public class Triple<A, B, C>
      */
     @Override
     public Object get(int index) {
-        switch (this.checkIndex(index)) {
+        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
                 return this.t0;
             case 1:
