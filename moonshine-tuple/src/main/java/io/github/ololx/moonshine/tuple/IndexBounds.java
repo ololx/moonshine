@@ -26,8 +26,6 @@ package io.github.ololx.moonshine.tuple;
  */
 final class IndexBounds {
 
-    private static final String EXCEPTION_MSG = "The index %s out of a bounds [%s, %s)";
-
     /**
      * Override constructor by defaults (implicit public constructor).
      * Because utility class are not meant to be instantiated.
@@ -122,9 +120,9 @@ final class IndexBounds {
      */
     static int requireIndexWithinBounds(int index, int fromInclusive, int toExclusive) {
         if (!checkIndex(index, fromInclusive, toExclusive)) {
-            throw new IndexOutOfBoundsException(
-                    String.format(EXCEPTION_MSG, index, fromInclusive, toExclusive)
-            );
+            throw new IndexOutOfBoundsException(String.format(
+                    "The index %s out of a bounds [%s, %s)", index, fromInclusive, toExclusive
+            ));
         }
 
         return index;
