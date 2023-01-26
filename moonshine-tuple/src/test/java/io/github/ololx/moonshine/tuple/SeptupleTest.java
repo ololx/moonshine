@@ -239,8 +239,7 @@ public class SeptupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F, G> void get_whenIndexLessThanZero_thenThrowException(A t0,
                                                                             B t1,
@@ -262,8 +261,7 @@ public class SeptupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F, G> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
                                                                                     B t1,

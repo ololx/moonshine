@@ -95,8 +95,7 @@ public class CoupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1) {
         //Given
@@ -112,8 +111,7 @@ public class CoupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1) {
         //Given

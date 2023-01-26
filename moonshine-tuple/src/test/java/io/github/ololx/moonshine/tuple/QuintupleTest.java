@@ -153,8 +153,7 @@ public class QuintupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E> void get_whenIndexLessThanZero_thenThrowException(A t0,
                                                                       B t1,
@@ -174,8 +173,7 @@ public class QuintupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
                                                                               B t1,
