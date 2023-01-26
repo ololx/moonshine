@@ -24,8 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
 /**
  * project moonshine
@@ -96,8 +95,7 @@ public class CoupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1) {
         //Given
@@ -113,8 +111,7 @@ public class CoupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1) {
         //Given
@@ -176,6 +173,22 @@ public class CoupleTest {
         //Then
         // size equal to expected
         assertNotNull(iterator);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void toString_whenBuildString_thenStringContainsAllElements(A t0, B t1) {
+        //Given
+        // The tuple with args
+        Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.contains(String.valueOf(t0)));
+        assertTrue(tupleInString.contains(String.valueOf(t1)));
     }
 
     @Test

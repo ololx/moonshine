@@ -20,27 +20,31 @@ package io.github.ololx.moonshine.tuple;
 /**
  * The tuple with only four elements.
  *
- * The {@code Quadruple} class implements {@code Tuple4} and provides
+ * The {@code Septuple} class implements {@code Tuple8} and provides
  * all his behaviour.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
  * @param <C> the type of third element in this tuple
  * @param <D> the type of fourth element in this tuple
+ * @param <E> the type of fifth element in this tuple
+ * @param <F> the type of sixth element in this tuple
+ * @param <G> the type of seventh element in this tuple
+ * @param <H> the type of eighth element in this tuple
  *
  * project moonshine
- * created 05.01.2023 20:41
+ * created 18.01.2023 13:53
  *
  * @author Alexander A. Kropotin
  */
-public class Quadruple<A, B, C, D>
+public class Octuple<A, B, C, D, E, F, G, H>
         extends AbstractTuple
-        implements Tuple4<A, B, C, D> {
+        implements Tuple8<A, B, C, D, E, F, G, H> {
 
     /**
      * The power of this tuple.
      */
-    private static final int SIZE = 4;
+    private static final int SIZE = 8;
 
     /**
      * First element in this tuple
@@ -63,18 +67,46 @@ public class Quadruple<A, B, C, D>
     private final D t3;
 
     /**
+     * Fifth element in this tuple
+     */
+    private final E t4;
+
+    /**
+     * Sixth element in this tuple
+     */
+    private final F t5;
+
+    /**
+     * Seventh element in this tuple
+     */
+    private final G t6;
+
+    /**
+     * Eighth element in this tuple
+     */
+    private final H t7;
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param t0 the first element of this tuple
      * @param t1 the second element of this tuple
      * @param t2 the third element of this tuple
      * @param t3 the fourth element of this tuple
+     * @param t4 the fifth element of this tuple
+     * @param t5 the sixth element of this tuple
+     * @param t6 the seventh element of this tuple
+     * @param t7 the eighth element of this tuple
      */
-    public Quadruple(A t0, B t1, C t2, D t3) {
+    public Octuple(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
         this.t0 = t0;
         this.t1 = t1;
         this.t2 = t2;
         this.t3 = t3;
+        this.t4 = t4;
+        this.t5 = t5;
+        this.t6 = t6;
+        this.t7 = t7;
     }
 
     /**
@@ -82,7 +114,7 @@ public class Quadruple<A, B, C, D>
      * The size is a non-negative integer.
      *
      * @implSpec
-     * This implementation always return 4 as a size {@code SIZE} of the tuple.
+     * This implementation always return 8 as a size {@code SIZE} of the tuple.
      *
      * @return the number of elements in this tuple
      */
@@ -95,9 +127,9 @@ public class Quadruple<A, B, C, D>
      * Returns the element at the specified position in this tuple.
      *
      * @implSpec
-     * This implementation will return the first, second, third, fourth element
-     * if the index is in range [0, 1, 2, 3]; otherwise throw an exception
-     * {@link IndexOutOfBoundsException}.
+     * This implementation will return the first, second, third, fourth, fifth,
+     * sixth element if the index is in range [0, 1, 2, 3, 4, 5, 6, 7];
+     * otherwise throw an exception {@link IndexOutOfBoundsException}.
      *
      * @param index index of the element to return
      * @return the element at the specified position in this tuple
@@ -113,8 +145,16 @@ public class Quadruple<A, B, C, D>
                 return this.t1;
             case 2:
                 return this.t2;
-            default:
+            case 3:
                 return this.t3;
+            case 4:
+                return this.t4;
+            case 5:
+                return this.t5;
+            case 6:
+                return this.t6;
+            default:
+                return this.t7;
         }
     }
 
@@ -159,8 +199,48 @@ public class Quadruple<A, B, C, D>
     }
 
     /**
-     * Indicates whether some other {@code Object} is "equal to" this one.
+     * Returns the fifth element in this tuple.
      *
+     * @return the fifth element in this tuple.
+     */
+    @Override
+    public E getT4() {
+        return this.t4;
+    }
+
+    /**
+     * Returns the sixth element in this tuple.
+     *
+     * @return the sixth element in this tuple.
+     */
+    @Override
+    public F getT5() {
+        return this.t5;
+    }
+
+    /**
+     * Returns the seventh element in this tuple.
+     *
+     * @return the seventh element in this tuple.
+     */
+    @Override
+    public G getT6() {
+        return this.t6;
+    }
+
+    /**
+     * Returns the eighth element in this tuple.
+     *
+     * @return the eighth element in this tuple.
+     */
+    @Override
+    public H getT7() {
+        return this.t7;
+    }
+
+    /**
+     * Indicates whether some other {@code Object} is "equal to" this one.
+     * <p>
      * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
@@ -171,10 +251,11 @@ public class Quadruple<A, B, C, D>
      *     </li>
      *     <li>
      *         This tuple and {@code obj} argument has the same type, i.e.
-     *         booth are the realisation of the {@code Tuple4} tuple with
-     *         size = 4. And all values of this tuple has the same order and
+     *         booth are the realisation of the {@code Tuple8} tuple with
+     *         size = 5. And all values of this tuple has the same order and
      *         equals to values of the {@code obj} argument
-     *         (T = B if (t0, t1, t2, t3) = (b0, b1, b2, b3) and |T| = |B| = 4)
+     *         (T = B if (t0, t1, t2, ..., t7) = (b0, b1, b2, ..., b7)
+     *         and |T| = |B| = 8)
      *     </li>
      * </ol>
      *
@@ -189,11 +270,11 @@ public class Quadruple<A, B, C, D>
             return true;
         }
 
-        if (!(obj instanceof Tuple4)) {
+        if (!(obj instanceof Tuple8)) {
             return false;
         }
 
-        Tuple4<?, ?, ?, ?> other = (Tuple4<?, ?, ?, ?>) obj;
+        Tuple8<?, ?, ?, ?, ?, ?, ?, ?> other = (Tuple8<?, ?, ?, ?, ?, ?, ?, ?>) obj;
 
         final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
                 || (this.t0 != null && this.t0.equals(other.getT0()));
@@ -203,11 +284,23 @@ public class Quadruple<A, B, C, D>
                 || (this.t2 != null && this.t2.equals(other.getT2()));
         final boolean isT3Equals = (this.t3 == null && other.getT3() == null)
                 || (this.t3 != null && this.t3.equals(other.getT3()));
+        final boolean isT4Equals = (this.t4 == null && other.getT4() == null)
+                || (this.t4 != null && this.t4.equals(other.getT4()));
+        final boolean isT5Equals = (this.t5 == null && other.getT5() == null)
+                || (this.t5 != null && this.t5.equals(other.getT5()));
+        final boolean isT6Equals = (this.t6 == null && other.getT6() == null)
+                || (this.t6 != null && this.t6.equals(other.getT6()));
+        final boolean isT7Equals = (this.t7 == null && other.getT7() == null)
+                || (this.t7 != null && this.t7.equals(other.getT7()));
 
         return isT0Equals
                 && isT1Equals
                 && isT2Equals
-                && isT3Equals;
+                && isT3Equals
+                && isT4Equals
+                && isT5Equals
+                && isT6Equals
+                && isT7Equals;
     }
 
     /**
@@ -230,6 +323,10 @@ public class Quadruple<A, B, C, D>
         hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
         hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
         hash = prime * ++index + hash + (this.t3 == null ? 0 : this.t3.hashCode());
+        hash = prime * ++index + hash + (this.t4 == null ? 0 : this.t4.hashCode());
+        hash = prime * ++index + hash + (this.t5 == null ? 0 : this.t5.hashCode());
+        hash = prime * ++index + hash + (this.t6 == null ? 0 : this.t6.hashCode());
+        hash = prime * ++index + hash + (this.t7 == null ? 0 : this.t7.hashCode());
 
         return hash;
     }

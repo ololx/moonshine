@@ -17,9 +17,7 @@
  - limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--<artifact-->
@@ -41,7 +39,7 @@
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
-            <comments/>
+            <comments />
         </license>
     </licenses>
     <!--info>-->
@@ -62,9 +60,10 @@
 
     <!--<ci info-->
     <scm>
-        <connection>scm:git:git://github.com/ololx/moonshine</connection>
-        <developerConnection>scm:git:ssh://github.com/ololx/moonshine</developerConnection>
-        <url>http://github.com/ololx/moonshine</url>
+        <connection>scm:git:ssh://git@github.com/ololx/moonshine.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/ololx/moonshine.git</developerConnection>
+        <url>ssh://git@github.com/ololx/moonshine.git</url>
+        <tag>0.3.1</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>

@@ -17,9 +17,7 @@
  - limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--<artifact-->
@@ -41,7 +39,7 @@
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
-            <comments/>
+            <comments />
         </license>
     </licenses>
     <!--info>-->
@@ -70,9 +68,10 @@
 
     <!--<ci info-->
     <scm>
-        <connection>scm:git:git://github.com/ololx/moonshine</connection>
-        <developerConnection>scm:git:ssh://github.com:ololx/moonshine</developerConnection>
-        <url>http://github.com/ololx/moonshine</url>
+        <connection>scm:git:ssh://git@github.com/ololx/moonshine.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/ololx/moonshine.git</developerConnection>
+        <url>ssh://git@github.com/ololx/moonshine.git</url>
+        <tag>0.3.1</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>
@@ -180,12 +179,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <detectJavaApiLink>false</detectJavaApiLink>
-                        <show>protected</show>
-                        <failOnError>false</failOnError>
-                    </configuration>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
@@ -194,6 +187,33 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <detectJavaApiLink>true</detectJavaApiLink>
+                        <show>protected</show>
+                        <failOnError>true</failOnError>
+                        <javaApiLinks>
+                            <property>
+                                <name>api_1.8</name>
+                                <value>https://docs.oracle.com/javase/8/docs/api/</value>
+                            </property>
+                        </javaApiLinks>
+                        <bottom>
+                            <![CDATA[This documentation was released into the public domain.]]>
+                        </bottom>
+                        <tags>
+                            <tag><name>apiNote</name></tag>
+                            <tag><name>implSpec</name></tag>
+                            <tag><name>implNote</name></tag>
+                            <tag><name>param</name></tag>
+                            <tag><name>return</name></tag>
+                            <tag><name>throws</name></tag>
+                            <tag><name>since</name></tag>
+                            <tag><name>version</name></tag>
+                            <tag><name>serialData</name></tag>
+                            <tag><name>see</name></tag>
+                        </tags>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -369,13 +389,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <!--reporting code coverage>-->
-
-            <!--<generate javadoc-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <!--generate javadoc>-->
         </plugins>
     </build>
 
@@ -400,6 +413,20 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>javadoc</id>
+            <build>
+                <plugins>
+                    <!--<generate javadoc-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <!--generate javadoc>-->
                 </plugins>
             </build>
         </profile>

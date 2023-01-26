@@ -24,8 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
 /**
  * project moonshine
@@ -78,8 +77,7 @@ public class MonupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A> void get_whenIndexLessThanZero_thenThrowException(A t0) {
         //Given
@@ -95,8 +93,7 @@ public class MonupleTest {
 
     @Test(
             dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "There is no elements by index.*"
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0) {
         //Given
@@ -158,6 +155,21 @@ public class MonupleTest {
         //Then
         // size equal to expected
         assertNotNull(iterator);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toString_whenBuildString_thenStringContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.contains(String.valueOf(t0)));
     }
 
     @Test

@@ -18,29 +18,30 @@
 package io.github.ololx.moonshine.tuple;
 
 /**
- * A tuple that always contains four elements.
+ * A tuple that always contains five elements.
  *
  * More formally:
- * T3 = (t0, t1, t2, t3) or |T4| = 4.
+ * T3 = (t0, t1, t2, t3, t4) or |T5| = 5.
  *
- * The {@code Tuple4} interface extends {@code Tuple} and provides
+ * The {@code Tuple5} interface extends {@code Tuple} and provides
  * all his behaviour.
  *
- * The {@code Tuple4} interface additionally provides one method for the
+ * The {@code Tuple5} interface additionally provides one method for the
  * accessing a tuple elements using getters {@code getT0}, {@code getT1},
- * {@code getT2} and {@code getT3}.
+ * {@code getT2}, {@code getT3} and {@code getT4}.
  *
  * @param <A> the type of first element in this tuple
  * @param <B> the type of second element in this tuple
  * @param <C> the type of third element in this tuple
  * @param <D> the type of fourth element in this tuple
+ * @param <E> the type of fifth element in this tuple
  *
  * project moonshine
- * created 05.01.2023 20:41
+ * created 14.01.2023 10:31
  *
  * @author Alexander A. Kropotin
  */
-public interface Tuple4<A, B, C, D> extends Tuple {
+public interface Tuple5<A, B, C, D, E> extends Tuple {
 
     /**
      * Returns the first element in this tuple.
@@ -69,4 +70,11 @@ public interface Tuple4<A, B, C, D> extends Tuple {
      * @return the fourth element in this tuple.
      */
     D getT3();
+
+    /**
+     * Returns the fifth element in this tuple.
+     *
+     * @return the fifth element in this tuple.
+     */
+    E getT4();
 }
