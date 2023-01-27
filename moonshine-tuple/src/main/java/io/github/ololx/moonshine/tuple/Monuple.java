@@ -80,7 +80,7 @@ public class Monuple<A>
      * range ({@code index < 0 || index >= size()})
      */
     @Override
-    public Object get(int index) {
+    public final Object get(int index) {
         IndexBounds.requireIndexWithinBounds(index, this.size());
 
         return this.t0;

@@ -97,7 +97,7 @@ public class Triple<A, B, C>
      * range ({@code index < 0 || index >= size()})
      */
     @Override
-    public Object get(int index) {
+    public final Object get(int index) {
         switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
                 return this.t0;
