@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.3.0] - 2023-01-27
+
 ### Added
 
 - New tuple of 4 elements with the basic implementation `Quadruple`.
