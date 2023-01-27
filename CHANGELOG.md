@@ -16,6 +16,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - New tuple of N elements, just interface.
 - New abstraction for all tuples `AbstractTuple`.
 - Basic realization of method `toString()` for all tuples.
+- New Utility class for the checking index bounds.
+
+### Changed
+
+- Method `get()` realization for all Tuple realizations to `final`.
+- Method `size()` realization for all Tuple realizations to `final`.
 
 ## [0.2.3] - 2023-01-09
 

@@ -90,7 +90,7 @@ public class Couple<A, B>
      * range ({@code index < 0 || index >= size()})
      */
     @Override
-    public Object get(int index) {
+    public final Object get(int index) {
         if (IndexBounds.requireIndexWithinBounds(index, this.size()) == 0) {
             return this.t0;
         }
