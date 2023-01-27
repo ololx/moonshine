@@ -34,6 +34,32 @@
     <packaging>jar</packaging>
     <!--artifact>-->
 
+    <!--<info-->
+    <name>${project.artifactId}</name>
+    <description>
+        The Moonshine Tuple module also contains classes - implementations
+        of such a data structure as tuples. These classes can be used when
+        it is required to operate on ordered finite sets of objects
+        of various types. Such as: couples, triples, quadruples and e.t.c.
+    </description>
+    <url>https://ololx.github.io/moonshine</url>
+    <inceptionYear>2022</inceptionYear>
+    <!--info>-->
+
+    <!--<developers and contributors-->
+    <developers>
+        <developer>
+            <id>ololx</id>
+            <name>Alexander A. Kropotin</name>
+            <email>ololx@icloud.com</email>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <!--developers and contributors>-->
+
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>

@@ -51,7 +51,7 @@
             <name>Alexander A. Kropotin</name>
             <email>ololx@icloud.com</email>
             <roles>
-                <role>author</role>
+                <role>owner</role>
                 <role>developer</role>
             </roles>
         </developer>
@@ -63,7 +63,7 @@
         <connection>scm:git:ssh://git@github.com/ololx/moonshine.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/ololx/moonshine.git</developerConnection>
         <url>ssh://git@github.com/ololx/moonshine.git</url>
-        <tag>0.3.1</tag>
+        <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>

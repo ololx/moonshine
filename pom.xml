@@ -30,7 +30,10 @@
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        Moonshine is a Java library that contains additional useful utilities and extensions.
+        The project Moonshine is a set of useful utilities and tools for
+        productive and comfortable coding. This project consists of modules,
+        each of which contains classes united by one common goal - to solve
+        a specific problem: tuples, iterators, stopwatches and e.t.c.
     </description>
     <url>https://ololx.github.io/moonshine</url>
     <inceptionYear>2022</inceptionYear>
@@ -51,7 +54,7 @@
             <name>Alexander A. Kropotin</name>
             <email>ololx@icloud.com</email>
             <roles>
-                <role>author</role>
+                <role>owner</role>
                 <role>developer</role>
             </roles>
         </developer>
@@ -71,7 +74,7 @@
         <connection>scm:git:ssh://git@github.com/ololx/moonshine.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/ololx/moonshine.git</developerConnection>
         <url>ssh://git@github.com/ololx/moonshine.git</url>
-        <tag>0.3.1</tag>
+        <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>

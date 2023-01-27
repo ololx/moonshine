@@ -34,6 +34,31 @@
     <packaging>jar</packaging>
     <!--artifact>-->
 
+    <!--<info-->
+    <name>${project.artifactId}</name>
+    <description>
+        The Moonshine Stopwatch module also contains utilities for measuring
+        elapsed time. These utilities can be useful if you need to measure
+        the execution time of a block of code.
+    </description>
+    <url>https://ololx.github.io/moonshine</url>
+    <inceptionYear>2022</inceptionYear>
+    <!--info>-->
+
+    <!--<developers and contributors-->
+    <developers>
+        <developer>
+            <id>ololx</id>
+            <name>Alexander A. Kropotin</name>
+            <email>ololx@icloud.com</email>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <!--developers and contributors>-->
+
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
