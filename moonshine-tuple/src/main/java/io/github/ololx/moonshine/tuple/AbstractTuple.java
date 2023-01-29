@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.stream.IntStream;
-
 /**
  * project moonshine
  * created 18.01.2023 18:59
@@ -29,19 +27,6 @@ abstract class AbstractTuple implements Tuple {
 
     @Override
     public String toString() {
-        final int elementsCount = this.size();
-        final int tupleStringLength = elementsCount == 0 ? 2 : elementsCount * 3;
-        final StringBuilder tupleStringBuilder = new StringBuilder(tupleStringLength);
-
-        tupleStringBuilder.append(String.valueOf(this.getOrDefault(0, "")));
-        IntStream.range(1, elementsCount).forEach(index -> {
-            tupleStringBuilder.append(", ");
-            tupleStringBuilder.append(String.valueOf(this.getOrDefault(index, "")));
-        });
-
-        tupleStringBuilder.insert(0, "(");
-        tupleStringBuilder.append(")");
-
-        return tupleStringBuilder.toString();
+        return TupleString.format(this);
     }
 }
