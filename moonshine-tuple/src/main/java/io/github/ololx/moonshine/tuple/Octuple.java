@@ -240,7 +240,7 @@ public class Octuple<A, B, C, D, E, F, G, H>
 
     /**
      * Indicates whether some other {@code Object} is "equal to" this one.
-     * <p>
+     *
      * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
