@@ -200,7 +200,7 @@ public class Sextuple<A, B, C, D, E, F>
 
     /**
      * Indicates whether some other {@code Object} is "equal to" this one.
-     * <p>
+     *
      * @implSpec
      * This implementation will return {@code true}, if one of the following
      * conditions is true:
