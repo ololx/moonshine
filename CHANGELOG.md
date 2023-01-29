@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
-## [0.3.0] - 2023-01-27
+## [0.3.0] - 2023-01-29
 
 ### Added
 
@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - New abstraction for all tuples `AbstractTuple`.
 - Basic realization of method `toString()` for all tuples.
 - New Utility class for the checking index bounds.
+- New Utility class for the building string of tuple.
 
 ### Changed
 
