@@ -1,13 +1,13 @@
 /**
  * Copyright 2023 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * <p>
+ * <br/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <br/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <br/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,31 +17,30 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.stream.IntStream;
-
 /**
+ * This class provides a skeletal implementation of {@code Tuple}
+ * interface to minimize the effort required to implement that interface.
+ * <br/>
+ * This class contains basic realizations of {@code Tuple} interface methods.
+ *
  * project moonshine
  * created 18.01.2023 18:59
- * <p>
+ * <br/>
  * @author Alexander A. Kropotin
  */
 abstract class AbstractTuple implements Tuple {
 
+    /**
+     * Returns a string representation of this tuple. The string
+     * representation consists of a list of the tuple's elements in their
+     * order, enclosed in round brackets ({@code "()"}).  Adjacent elements
+     * are separated by the characters {@code ", "} (comma and space).
+     * Elements are converted to strings as by {@link String#valueOf(Object)}.
+     *
+     * @return a string representation of this tuple
+     */
     @Override
     public String toString() {
-        final int elementsCount = this.size();
-        final int tupleStringLength = elementsCount == 0 ? 2 : elementsCount * 3;
-        final StringBuilder tupleStringBuilder = new StringBuilder(tupleStringLength);
-
-        tupleStringBuilder.append(String.valueOf(this.getOrDefault(0, "")));
-        IntStream.range(1, elementsCount).forEach(index -> {
-            tupleStringBuilder.append(", ");
-            tupleStringBuilder.append(String.valueOf(this.getOrDefault(index, "")));
-        });
-
-        tupleStringBuilder.insert(0, "(");
-        tupleStringBuilder.append(")");
-
-        return tupleStringBuilder.toString();
+        return TupleString.format(this);
     }
 }
