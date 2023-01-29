@@ -1,13 +1,13 @@
 /**
  * Copyright 2023 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * <p>
+ * <br/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <br/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <br/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ import java.util.stream.IntStream;
  *
  * project moonshine
  * created 29.01.2023 12:34
- * <p>
+ * <br/>
  * @author Alexander A. Kropotin
  */
 final class TupleString {
@@ -47,6 +47,11 @@ final class TupleString {
 
     /**
      * Returns a formatted string using the tuple argument.
+     *
+     * @implSpec
+     * The string consists of a list of the tuple's elements in their order,
+     * enclosed in round brackets ({@code "()"}).  Adjacent elements are
+     * separated by the characters {@code ", "} (comma and space).
      *
      * @param tuple the specified tuple
      * @return the formatted string of the specified tuple. Typically,
