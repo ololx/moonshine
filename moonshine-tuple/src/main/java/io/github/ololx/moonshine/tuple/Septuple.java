@@ -128,23 +128,24 @@ public class Septuple<A, B, C, D, E, F, G>
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public final Object get(int index) {
+    public final <V> V get(int index) {
         switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
-                return this.t0;
+                return (V) this.t0;
             case 1:
-                return this.t1;
+                return (V) this.t1;
             case 2:
-                return this.t2;
+                return (V) this.t2;
             case 3:
-                return this.t3;
+                return (V) this.t3;
             case 4:
-                return this.t4;
+                return (V) this.t4;
             case 5:
-                return this.t5;
+                return (V) this.t5;
             default:
-                return this.t6;
+                return (V) this.t6;
         }
     }
 

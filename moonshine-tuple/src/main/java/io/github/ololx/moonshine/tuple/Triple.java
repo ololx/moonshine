@@ -96,15 +96,16 @@ public class Triple<A, B, C>
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public final <E> E get(int index) {
+    public final <V> V get(int index) {
         switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
-                return (E) this.t0;
+                return (V) this.t0;
             case 1:
-                return (E) this.t1;
+                return (V) this.t1;
             default:
-                return (E) this.t2;
+                return (V) this.t2;
         }
     }
 

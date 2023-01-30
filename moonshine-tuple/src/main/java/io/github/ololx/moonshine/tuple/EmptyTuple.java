@@ -62,8 +62,9 @@ public class EmptyTuple
      * @throws IndexOutOfBoundsException for all method {@code get} invocations
      */
     @Override
-    public final Object get(int index) {
-        return IndexBounds.requireIndexWithinBounds(index, this.size());
+    public final <V> V get(int index) {
+        IndexBounds.requireIndexWithinBounds(index, this.size());
+        return null;
     }
 
     /**
