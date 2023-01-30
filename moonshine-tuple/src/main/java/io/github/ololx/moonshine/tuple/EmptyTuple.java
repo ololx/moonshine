@@ -81,7 +81,7 @@ public class EmptyTuple
      * type for this {@code defaultValue}
      */
     @Override
-    public final Object getOrDefault(int index, Object defaultValue) {
+    public final <E> E getOrDefault(int index, E defaultValue) {
         return defaultValue;
     }
 
