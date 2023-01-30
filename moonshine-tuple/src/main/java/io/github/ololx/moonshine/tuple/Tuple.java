@@ -83,7 +83,7 @@ public interface Tuple extends Iterable<Object> {
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
-    <E> E get(int index);
+    <V> V get(int index);
 
     /**
      * Returns the element at the specified position in this tuple, or
@@ -101,12 +101,13 @@ public interface Tuple extends Iterable<Object> {
      * @throws ClassCastException if the tuple element is of an inappropriate
      * type for this {@code defaultValue}
      */
-    default <E> E getOrDefault(int index, E defaultValue) {
+    @SuppressWarnings("unchecked")
+    default <V> V getOrDefault(int index, V defaultValue) {
         if (!IndexBounds.checkIndex(index, this.size())) {
             return defaultValue;
         }
 
-        return (E) get(index);
+        return (V) get(index);
     }
 
     /**
