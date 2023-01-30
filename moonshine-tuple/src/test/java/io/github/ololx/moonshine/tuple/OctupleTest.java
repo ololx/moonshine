@@ -22,6 +22,7 @@ import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 import static org.testng.Assert.*;
