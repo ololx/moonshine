@@ -18,8 +18,12 @@
 package io.github.ololx.moonshine.tuple;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
@@ -111,11 +115,21 @@ public interface Tuple extends Iterable<Object> {
         return (V) get(index);
     }
 
-    @SuppressWarnings("unchecked")
-    default <V> V[] toArray() {
-        return (V[]) IntStream.range(0, this.size())
-                .mapToObj(this::get)
-                .toArray();
+    default Object[] toArray() {
+        return this.toStream().toArray();
+    }
+
+    default List<Object> toList() {
+        return this.toStream().collect(Collectors.toList());
+    }
+
+    default Set<Object> toSet() {
+        return this.toStream().collect(Collectors.toSet());
+    }
+
+    default Stream<Object> toStream() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get);
     }
 
     /**

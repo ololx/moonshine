@@ -211,6 +211,14 @@ public class TripleTest {
     }
 
     @Test
+    void toArray() {
+        Triple<Double, Double, Double> triple = new Triple<>(12d, 22d, 23d);
+
+        Object[] ddf = triple.toArray();
+        assertEquals(ddf[0], 12D);
+    }
+
+    @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Triple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
