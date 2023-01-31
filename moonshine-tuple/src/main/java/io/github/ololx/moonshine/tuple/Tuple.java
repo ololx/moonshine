@@ -17,10 +17,7 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -115,16 +112,61 @@ public interface Tuple extends Iterable<Object> {
         return (V) get(index);
     }
 
+    default <V> boolean contains(final V value) {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .anyMatch(tupleValue -> {
+                    if (tupleValue == null) {
+                        return value == null;
+                    }
+
+                    return tupleValue.equals(value);
+                });
+    }
+
+    default <V> int indexOf(final V value) {
+        return IntStream.range(0, this.size())
+                .filter(index -> {
+                    if (this.get(index) == null) {
+                        return value == null;
+                    }
+
+                    return this.get(index).equals(value);
+                })
+                .findFirst()
+                .orElse(-1);
+    }
+
+    default <V> int lastIndexOf(final V value) {
+        return IntStream.iterate(this.size() - 1, index -> index - 1)
+                .limit(this.size())
+                .filter(index -> {
+                    if (this.get(index) == null) {
+                        return value == null;
+                    }
+
+                    return this.get(index).equals(value);
+                })
+                .findFirst()
+                .orElse(-1);
+    }
+
     default Object[] toArray() {
-        return this.toStream().toArray();
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .toArray();
     }
 
     default List<Object> toList() {
-        return this.toStream().collect(Collectors.toList());
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
     }
 
     default Set<Object> toSet() {
-        return this.toStream().collect(Collectors.toSet());
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toSet());
     }
 
     default Stream<Object> toStream() {
@@ -140,6 +182,7 @@ public interface Tuple extends Iterable<Object> {
      * the iterator interface, relying on the backing tuple's {@code size()},
      * {@code get(int)} methods.
      *
+     * @implNote
      * Note that the iterator returned by this method will throw an
      * {@link UnsupportedOperationException} in response to its
      * {@code remove} method.

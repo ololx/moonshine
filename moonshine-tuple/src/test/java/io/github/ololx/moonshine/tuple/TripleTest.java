@@ -212,10 +212,10 @@ public class TripleTest {
 
     @Test
     void toArray() {
-        Triple<Double, Double, Double> triple = new Triple<>(12d, 22d, 23d);
+        Triple<Double, Double, Double> triple = new Triple<>(12d, 12d, 12d);
 
-        Object[] ddf = triple.toArray();
-        assertEquals(ddf[0], 12D);
+        int ddf = triple.indexOf(12d);
+        assertEquals(ddf, 0);
     }
 
     @Test
