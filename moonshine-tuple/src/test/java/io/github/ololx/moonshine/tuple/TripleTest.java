@@ -23,6 +23,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -210,12 +211,38 @@ public class TripleTest {
         assertTrue(tupleInString.contains(String.valueOf(t2)));
     }
 
-    @Test
-    void toArray() {
-        Triple<Double, Double, Double> triple = new Triple<>(12d, 12d, 12d);
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0, B t1, C t2) {
+        //Given
+        // The tuple with args
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
-        int ddf = triple.indexOf(12d);
-        assertEquals(ddf, 0);
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array contains all tuple values
+        assertEquals(tupleInArray[0], t0);
+        assertEquals(tupleInArray[1], t1);
+        assertEquals(tupleInArray[2], t2);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void toList_whenBuildList_thenListContainsAllElements(A t0, B t1, C t2) {
+        //Given
+        // The tuple with args
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list contains all tuple values
+        assertEquals(tupleInList.get(0), t0);
+        assertEquals(tupleInList.get(1), t1);
+        assertEquals(tupleInList.get(2), t2);
     }
 
     @Test
