@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
+
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
  * The user of this interface has precise control over where in the tuple
@@ -192,6 +194,15 @@ public interface Tuple extends Iterable<Object> {
     @Override
     default Iterator<Object> iterator() {
         return new BaseIterator(this);
+    }
+
+    @Override
+    default Spliterator<Object> spliterator() {
+        return Spliterators.spliterator(
+                iterator(),
+                this.size(),
+                SIZED | IMMUTABLE | ORDERED
+        );
     }
 
     /**
