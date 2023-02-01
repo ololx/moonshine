@@ -309,7 +309,7 @@ public class TripleTest {
                 .verify();
     }
 
-    @DataProvider(name = "providesConstructorArgs")
+    @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
                 {Byte.MIN_VALUE, Character.MAX_VALUE, Short.MAX_VALUE},
