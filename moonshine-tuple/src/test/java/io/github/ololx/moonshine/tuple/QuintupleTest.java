@@ -245,7 +245,7 @@ public class QuintupleTest {
         final Iterator<Object> iterator = tuple.iterator();
 
         //Then
-        // size equal to expected
+        // iterator is not null
         assertNotNull(iterator);
     }
 
