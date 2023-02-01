@@ -24,7 +24,11 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
 import static org.testng.Assert.*;
 
 /**
@@ -180,38 +184,6 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0, B t1, C t2) {
-        //Given
-        // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
-
-        //When
-        // create iterator
-        Iterator<Object> iterator = tuple.iterator();
-
-        //Then
-        // size equal to expected
-        assertNotNull(iterator);
-    }
-
-    @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void toString_whenBuildString_thenStringContainsAllElements(A t0, B t1, C t2) {
-        //Given
-        // The tuple with args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
-
-        //When
-        // build string representation for this tuple
-        String tupleInString = tuple.toString();
-
-        //Then
-        // string representation contains all tuple values
-        assertTrue(tupleInString.contains(String.valueOf(t0)));
-        assertTrue(tupleInString.contains(String.valueOf(t1)));
-        assertTrue(tupleInString.contains(String.valueOf(t2)));
-    }
-
-    @Test(dataProvider = "providesConstructorArgs")
     <A, B, C> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
@@ -243,6 +215,91 @@ public class TripleTest {
         assertEquals(tupleInList.get(0), t0);
         assertEquals(tupleInList.get(1), t1);
         assertEquals(tupleInList.get(2), t2);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void toSet_whenBuildSet_thenSetContainsAllElements(A t0, B t1, C t2) {
+        //Given
+        // The tuple with args
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // build list from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInSet.contains(t0));
+        assertTrue(tupleInSet.contains(t1));
+        assertTrue(tupleInSet.contains(t2));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1, C t2) {
+        //Given
+        // The tuple with args
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // build list from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+            return tupleElement.equals(t0)
+                    || tupleElement.equals(t1)
+                    || tupleElement.equals(t2);
+        }));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0, B t1, C t2) {
+        //Given
+        // The tuple with size = 3
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // create iterator
+        Iterator<Object> iterator = tuple.iterator();
+
+        //Then
+        // size iterator is not null
+        assertNotNull(iterator);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0, B t1, C t2) {
+        //Given
+        // The tuple with size = 3
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void toString_whenBuildString_thenStringContainsAllElements(A t0, B t1, C t2) {
+        //Given
+        // The tuple with args
+        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.toString();
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.contains(String.valueOf(t0)));
+        assertTrue(tupleInString.contains(String.valueOf(t1)));
+        assertTrue(tupleInString.contains(String.valueOf(t2)));
     }
 
     @Test
