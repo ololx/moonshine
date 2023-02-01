@@ -21,13 +21,14 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
 import java.util.stream.Stream;
 
 import static java.util.Spliterator.*;
-import static java.util.Spliterator.ORDERED;
 import static org.testng.Assert.*;
-import static org.testng.Assert.assertTrue;
 
 /**
  * project moonshine
