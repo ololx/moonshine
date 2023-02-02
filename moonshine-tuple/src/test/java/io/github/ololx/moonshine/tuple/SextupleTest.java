@@ -23,7 +23,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
 import static org.testng.Assert.*;
 
 /**
@@ -290,6 +295,130 @@ public class SextupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0,
+                                                                                B t1,
+                                                                                C t2,
+                                                                                D t3,
+                                                                                E t4,
+                                                                                F t5) {
+        //Given
+        // The tuple with args
+        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array contains all tuple values
+        assertEquals(tupleInArray[0], t0);
+        assertEquals(tupleInArray[1], t1);
+        assertEquals(tupleInArray[2], t2);
+        assertEquals(tupleInArray[3], t3);
+        assertEquals(tupleInArray[4], t4);
+        assertEquals(tupleInArray[5], t5);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void toList_whenBuildList_thenListContainsAllElements(A t0,
+                                                                             B t1,
+                                                                             C t2,
+                                                                             D t3,
+                                                                             E t4,
+                                                                             F t5) {
+        //Given
+        // The tuple with args
+        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list contains all tuple values
+        assertEquals(tupleInList.get(0), t0);
+        assertEquals(tupleInList.get(1), t1);
+        assertEquals(tupleInList.get(2), t2);
+        assertEquals(tupleInList.get(3), t3);
+        assertEquals(tupleInList.get(4), t4);
+        assertEquals(tupleInList.get(5), t5);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void toSet_whenBuildSet_thenSetContainsAllElements(A t0,
+                                                                          B t1,
+                                                                          C t2,
+                                                                          D t3,
+                                                                          E t4,
+                                                                          F t5) {
+        //Given
+        // The tuple with args
+        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // build list from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInSet.contains(t0));
+        assertTrue(tupleInSet.contains(t1));
+        assertTrue(tupleInSet.contains(t2));
+        assertTrue(tupleInSet.contains(t3));
+        assertTrue(tupleInSet.contains(t4));
+        assertTrue(tupleInSet.contains(t5));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0,
+                                                                                   B t1,
+                                                                                   C t2,
+                                                                                   D t3,
+                                                                                   E t4,
+                                                                                   F t5) {
+        //Given
+        // The tuple with args
+        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // build list from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+            return tupleElement.equals(t0)
+                    || tupleElement.equals(t1)
+                    || tupleElement.equals(t2)
+                    || tupleElement.equals(t3)
+                    || tupleElement.equals(t4)
+                    || tupleElement.equals(t5);
+        }));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0,
+                                                                                        B t1,
+                                                                                        C t2,
+                                                                                        D t3,
+                                                                                        E t4,
+                                                                                        F t5) {
+        //Given
+        // The tuple with size = 7
+        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
     }
 
     @Test(dataProvider = "providesConstructorArgs")

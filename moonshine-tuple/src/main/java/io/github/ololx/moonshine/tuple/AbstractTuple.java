@@ -31,11 +31,13 @@ package io.github.ololx.moonshine.tuple;
 abstract class AbstractTuple implements Tuple {
 
     /**
-     * Returns a string representation of this tuple. The string
-     * representation consists of a list of the tuple's elements in their
-     * order, enclosed in round brackets ({@code "()"}).  Adjacent elements
-     * are separated by the characters {@code ", "} (comma and space).
-     * Elements are converted to strings as by {@link String#valueOf(Object)}.
+     * Returns a string representation of this tuple.
+     *
+     * @implSpec
+     * The string consists of a list of the tuple's elements in their order,
+     * enclosed in round brackets ({@code "()"}).  Adjacent elements are
+     * separated by the characters {@code ", "} (comma and space). Elements
+     * are converted to strings as by {@link String#valueOf(Object)}.
      *
      * @return a string representation of this tuple
      */
