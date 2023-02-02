@@ -23,7 +23,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
 import static org.testng.Assert.*;
 
 /**
@@ -140,6 +145,85 @@ public class MonupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array contains all tuple values
+        assertEquals(tupleInArray[0], t0);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toList_whenBuildList_thenListContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list contains all tuple values
+        assertEquals(tupleInList.get(0), t0);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toSet_whenBuildSet_thenSetContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build list from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInSet.contains(t0));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build list from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+            return tupleElement.equals(t0);
+        }));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0) {
+        //Given
+        // The tuple with size = 1
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
     }
 
     @Test(dataProvider = "providesConstructorArgs")
