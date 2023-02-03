@@ -203,6 +203,44 @@ public class TripleTest {
         assertFalse(allContainsResults.contains(true));
     }
 
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A t1,
+                                                                 A t2,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Triple<A, A, A> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A t1,
+                                                                     A t2,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Triple<A, A, A> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
     @Test(dataProvider = "providesConstructorArgs")
     <A, B, C> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2) {
         //Given
@@ -343,6 +381,24 @@ public class TripleTest {
         EqualsVerifier.forClass(Triple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 2, 1, 1, 0},
+                {1, 2, 2, 2, 1},
+                {1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 2, 1, 1, 2},
+                {1, 2, 2, 2, 2},
+                {1, 2, 3, 0, -1}
+        };
     }
 
     @DataProvider

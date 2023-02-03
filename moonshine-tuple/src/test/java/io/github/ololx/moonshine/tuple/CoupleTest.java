@@ -185,6 +185,42 @@ public class CoupleTest {
         assertFalse(allContainsResults.contains(true));
     }
 
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A t1,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Couple<A, A> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A t1,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Couple<A, A> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
     @Test(dataProvider = "providesConstructorArgs")
     <A, B> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1) {
         //Given
@@ -319,6 +355,23 @@ public class CoupleTest {
         EqualsVerifier.forClass(Couple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 2, 1, 0},
+                {1, 2, 2, 1},
+                {1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 1, 1, 1},
+                {1, 2, 0, -1}
+        };
     }
 
     @DataProvider

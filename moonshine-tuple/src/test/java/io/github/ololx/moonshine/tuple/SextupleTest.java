@@ -322,6 +322,50 @@ public class SextupleTest {
         assertFalse(allContainsResults.contains(true));
     }
 
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A t1,
+                                                                 A t2,
+                                                                 A t3,
+                                                                 A t4,
+                                                                 A t5,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Sextuple<A, A, A, A, A, A> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A t1,
+                                                                     A t2,
+                                                                     A t3,
+                                                                     A t4,
+                                                                     A t5,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Sextuple<A, A, A, A, A, A> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+    
     @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E, F> void size_whenCreateTuple_thenTupleHasSize(A t0,
                                                                   B t1,
@@ -519,7 +563,27 @@ public class SextupleTest {
                 .verify();
     }
 
-    @DataProvider(name = "providesConstructorArgs")
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 2, 3, 1, 2, 3, 1, 0},
+                {1, 2, 3, 1, 2, 3, 2, 1},
+                {1, 2, 3, 1, 2, 3, 3, 2},
+                {1, 2, 3, 1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 2, 3, 1, 2, 3, 1, 3},
+                {1, 2, 3, 1, 2, 3, 2, 4},
+                {1, 2, 3, 1, 2, 3, 3, 5},
+                {1, 2, 3, 1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
                 {
