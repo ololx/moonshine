@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Spliterator.*;
@@ -131,6 +132,41 @@ public class MonupleTest {
         assertEquals(actual1, defaultValue);
     }
 
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void contains_whenTupleContainsValue_thenReturnTrue(A t0) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // check that tuple contains construct args
+        final Set<Boolean> allContainsResults = Stream.of(t0)
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return false
+        assertFalse(allContainsResults.contains(false));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("wrong value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
+    }
+    
     @Test(dataProvider = "providesConstructorArgs")
     <A> void size_whenCreateTuple_thenTupleHasSize(A t0) {
         //Given
