@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Spliterator.*;
@@ -217,6 +218,49 @@ public class QuintupleTest {
         // actual values equal to default
         assertEquals(actual0, defaultValue);
         assertEquals(actual1, defaultValue);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void contains_whenTupleContainsValue_thenReturnTrue(A t0,
+                                                                        B t1,
+                                                                        C t2,
+                                                                        D t3,
+                                                                        E t4) {
+        //Given
+        // The tuple with values
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // check that tuple contains construct args
+        final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4)
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return false
+        assertFalse(allContainsResults.contains(false));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0,
+                                                                             B t1,
+                                                                             C t2,
+                                                                             D t3,
+                                                                             E t4) {
+        //Given
+        // The tuple with values
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("wrong value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
     }
 
     @Test(dataProvider = "providesConstructorArgs")

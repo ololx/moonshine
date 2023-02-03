@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Spliterator.*;
@@ -38,9 +39,7 @@ import static org.testng.Assert.*;
  */
 public class EmptyTupleTest {
 
-    @Test(
-            expectedExceptions = IndexOutOfBoundsException.class
-    )
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
     void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
         //Given
         // The tuple with size = 0
@@ -86,6 +85,24 @@ public class EmptyTupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test
+    void contains_whenTupleIsEmpty_thenAlwaysReturnFalse() {
+        //Given
+        // The tuple with values
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("some value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
     }
 
     @Test
