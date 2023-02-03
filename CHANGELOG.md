@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.4.0] - 2023-02-03
+
+### Added
+
+- New tuple method `toArray()`, which return an array of tuple elements
+- New tuple method `toList()`, which return a list of tuple elements
+- New tuple method `toSet()`, which return a set of tuple elements
+- New tuple method `toStream()`, which return a stream of tuple elements
+- New tuple method `contains()`, which allows to check that element contains in tuple
+- New tuple methods `indexOf()` and `lastIndexOf()`, which allow to get first and last index of specified element
+
 ## [0.3.0] - 2023-01-29
 
 ### Added
