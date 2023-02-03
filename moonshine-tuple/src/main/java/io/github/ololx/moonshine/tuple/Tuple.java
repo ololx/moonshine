@@ -17,8 +17,12 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static java.util.Spliterator.*;
 
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
@@ -83,7 +87,7 @@ public interface Tuple extends Iterable<Object> {
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
-    Object get(int index);
+    <V> V get(int index);
 
     /**
      * Returns the element at the specified position in this tuple, or
@@ -96,17 +100,184 @@ public interface Tuple extends Iterable<Object> {
      * the element at the specified position
      *
      * @param index index of the element to return
-     * @param defaultValue the default mapping of the key
+     * @param defaultValue the default value
      * @return the element at the specified position in this tuple
      * @throws ClassCastException if the tuple element is of an inappropriate
      * type for this {@code defaultValue}
      */
-    default Object getOrDefault(int index, Object defaultValue) {
+    @SuppressWarnings("unchecked")
+    default <V> V getOrDefault(int index, V defaultValue) {
         if (!IndexBounds.checkIndex(index, this.size())) {
             return defaultValue;
         }
 
-        return get(index);
+        return (V) get(index);
+    }
+
+    /**
+     * Returns {@code true} if this list tuple the specified {@code value}
+     * element.
+     *
+     * @implSpec
+     * This implementation returns {@code true} if and only if this tuple
+     * contains at least one element such that value ∈ (a0, a1, ..., an) or
+     * in another words {@code Objects.equals(tupleElement, value)}.
+     *
+     * @param value element whose presence in this tuple is to be tested
+     * @return {@code true} if this tuple contains the specified element
+     */
+    default <V> boolean contains(final V value) {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .anyMatch(tupleValue -> {
+                    if (tupleValue == null) {
+                        return value == null;
+                    }
+
+                    return tupleValue.equals(value);
+                });
+    }
+
+    /**
+     * Returns the index of the first occurrence of the specified {@code value}
+     * element in this tuple, or -1 if this tuple does not contain the element.
+     *
+     * @implSpec
+     * This implementation returns the lowest index {@code i} such that
+     * value = am | am ∈ (a0, a1, ..., an) or in another words
+     * {@code Objects.equals(o, get(i))}; or -1 if there is no such index.
+     *
+     * @param value element whose index in this tuple is requested
+     * @return the lowest index {@code i} or -1 if there is no such index
+     */
+    default <V> int indexOf(final V value) {
+        return IntStream.range(0, this.size())
+                .filter(index -> {
+                    if (this.get(index) == null) {
+                        return value == null;
+                    }
+
+                    return this.get(index).equals(value);
+                })
+                .findFirst()
+                .orElse(-1);
+    }
+
+    /**
+     * Returns the index of the last occurrence of the specified {@code value}
+     * element in this tuple, or -1 if this tuple does not contain the element.
+     *
+     * @implSpec
+     * This implementation returns the highest index {@code i} such that
+     * value = am | am ∈ (a0, a1, ..., an) or in another words
+     * {@code Objects.equals(o, get(i))}; or -1 if there is no such index.
+     *
+     * @param value element whose index in this tuple is requested
+     * @return the highest index {@code i} or -1 if there is no such index
+     */
+    default <V> int lastIndexOf(final V value) {
+        return IntStream.iterate(this.size() - 1, index -> index - 1)
+                .limit(this.size())
+                .filter(index -> {
+                    if (this.get(index) == null) {
+                        return value == null;
+                    }
+
+                    return this.get(index).equals(value);
+                })
+                .findFirst()
+                .orElse(-1);
+    }
+
+    /**
+     * Returns an {@code Object[]} array containing all the elements in this
+     * tuple in proper sequence (from first to last element).
+     *
+     * @implSpec
+     * The returned {@code Object[]} array will be "safe" in that no references
+     * to it are maintained by this tuple.  (In other words, this method must
+     * allocate a new {@code Object[]} array). The caller is thus free to
+     * modify the returned {@code Object[]} array.
+     *
+     * <br/>
+     * This method acts as bridge between array-based, collection-based
+     * and tuple-based APIs.
+     *
+     * @return an {@code Object[]} array containing all the elements in this
+     * tuple in proper sequence
+     */
+    default Object[] toArray() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .toArray();
+    }
+
+    /**
+     * Returns a {@code List<Object>} collection containing all the elements in
+     * this tuple in proper sequence (from first to last element).
+     *
+     * @implSpec
+     * The returned {@code List<Object>} collection will be "safe" in that no
+     * references to it are maintained by this tuple.  (In other words, this
+     * method must allocate a new {@code List<Object>} collection). The caller
+     * is thus free to modify the returned {@code List<Object>} collection.
+     *
+     * <br/>
+     * This method acts as bridge between array-based, collection-based
+     * and tuple-based APIs.
+     *
+     * @return a {@code List<Object>} collection containing all the elements in
+     * this tuple in proper sequence
+     */
+    default List<Object> toList() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a {@code Set<Object>} collection containing all the elements in
+     * this tuple in proper sequence (from first to last element).
+     *
+     * @implSpec
+     * The returned {@code Set<Object>} collection will be "safe" in that no
+     * references to it are maintained by this tuple.  (In other words, this
+     * method must allocate a new {@code Set<Object>} collection). The caller
+     * is thus free to modify the returned {@code Set<Object>} collection.
+     *
+     * <br/>
+     * This method acts as bridge between array-based, collection-based
+     * and tuple-based APIs.
+     *
+     * @return a {@code Set<Object>} collection containing all the elements in
+     * this tuple in proper sequence
+     */
+    default Set<Object> toSet() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a {@code Stream<Object>} stream containing all the elements in
+     * this tuple in proper sequence (from first to last element).
+     *
+     * @implSpec
+     * The returned {@code Stream<Object>} stream will be "safe" in that no
+     * references to it are maintained by this tuple.  (In other words, this
+     * method must allocate a new {@code Stream<Object>} stream). The caller
+     * is thus free to modify the returned {@code Stream<Object>} stream.
+     *
+     * <br/>
+     * This method acts as bridge between array-based, collection-based
+     * and tuple-based APIs.
+     *
+     * @return a {@code Stream<Object>} stream containing all the elements in
+     * this tuple in proper sequence
+     */
+    default Stream<Object> toStream() {
+        return IntStream.range(0, this.size())
+                .mapToObj(this::get);
     }
 
     /**
@@ -117,6 +288,7 @@ public interface Tuple extends Iterable<Object> {
      * the iterator interface, relying on the backing tuple's {@code size()},
      * {@code get(int)} methods.
      *
+     * @implNote
      * Note that the iterator returned by this method will throw an
      * {@link UnsupportedOperationException} in response to its
      * {@code remove} method.
@@ -126,6 +298,29 @@ public interface Tuple extends Iterable<Object> {
     @Override
     default Iterator<Object> iterator() {
         return new BaseIterator(this);
+    }
+
+    /**
+     * Creates a {@link Spliterator} over the elements in this tuple.
+     *
+     * @implSpec
+     * This method will return the {@code Spliterator} which reports
+     * {@link Spliterator#SIZED}, {@link Spliterator#SUBSIZED},
+     * {@link Spliterator#IMMUTABLE} and {@link Spliterator#ORDERED}.
+     *
+     * @implNote
+     * Overriding implementations should document the reporting of additional
+     * characteristic values.
+     *
+     * @return a {@code Spliterator} over the elements in this tuple
+     */
+    @Override
+    default Spliterator<Object> spliterator() {
+        return Spliterators.spliterator(
+                iterator(),
+                this.size(),
+                SIZED | IMMUTABLE | ORDERED
+        );
     }
 
     /**

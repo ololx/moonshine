@@ -104,17 +104,18 @@ public class Quadruple<A, B, C, D>
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public final Object get(int index) {
+    public final <V> V get(int index) {
         switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
             case 0:
-                return this.t0;
+                return (V) this.t0;
             case 1:
-                return this.t1;
+                return (V) this.t1;
             case 2:
-                return this.t2;
+                return (V) this.t2;
             default:
-                return this.t3;
+                return (V) this.t3;
         }
     }
 

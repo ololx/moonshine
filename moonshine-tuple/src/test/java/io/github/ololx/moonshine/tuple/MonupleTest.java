@@ -23,7 +23,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
 import static org.testng.Assert.*;
 
 /**
@@ -127,6 +133,76 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A> void contains_whenTupleContainsValue_thenReturnTrue(A t0) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // check that tuple contains construct args
+        final Set<Boolean> allContainsResults = Stream.of(t0)
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return false
+        assertFalse(allContainsResults.contains(false));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("wrong value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A> void size_whenCreateTuple_thenTupleHasSize(A t0) {
         //Given
         // The tuple with size = 1
@@ -143,6 +219,85 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array contains all tuple values
+        assertEquals(tupleInArray[0], t0);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toList_whenBuildList_thenListContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list contains all tuple values
+        assertEquals(tupleInList.get(0), t0);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toSet_whenBuildSet_thenSetContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build list from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInSet.contains(t0));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0) {
+        //Given
+        // The tuple with args
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // build list from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+            return tupleElement.equals(t0);
+        }));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0) {
+        //Given
+        // The tuple with size = 1
+        Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0) {
         //Given
         // The tuple with size = 1
@@ -153,7 +308,7 @@ public class MonupleTest {
         Iterator<Object> iterator = tuple.iterator();
 
         //Then
-        // size equal to expected
+        // iterator is not null
         assertNotNull(iterator);
     }
 
@@ -177,6 +332,22 @@ public class MonupleTest {
         EqualsVerifier.forClass(Monuple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 1, 0},
+                {1, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 1, 0},
+                {1, 0, -1}
+        };
     }
 
     @DataProvider(name = "providesConstructorArgs")

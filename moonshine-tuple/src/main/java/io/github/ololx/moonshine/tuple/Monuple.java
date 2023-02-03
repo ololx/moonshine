@@ -79,11 +79,12 @@ public class Monuple<A>
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public final Object get(int index) {
+    public final <V> V get(int index) {
         IndexBounds.requireIndexWithinBounds(index, this.size());
 
-        return this.t0;
+        return (V) this.t0;
     }
 
     /**

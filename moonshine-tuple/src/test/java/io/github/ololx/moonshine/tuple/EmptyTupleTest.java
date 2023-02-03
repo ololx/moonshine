@@ -22,9 +22,14 @@ import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static java.util.Spliterator.*;
+import static org.testng.Assert.*;
 
 /**
  * project moonshine
@@ -34,9 +39,7 @@ import static org.testng.Assert.assertNotNull;
  */
 public class EmptyTupleTest {
 
-    @Test(
-            expectedExceptions = IndexOutOfBoundsException.class
-    )
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
     void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
         //Given
         // The tuple with size = 0
@@ -85,6 +88,115 @@ public class EmptyTupleTest {
     }
 
     @Test
+    void indexOf_whenTupleIsEmpty_thenAlwaysReturnMinusOne() {
+        //Given
+        // The tuple with values
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf("some value");
+
+        //Then
+        // actual index equals is -1
+        assertEquals(actualIndex, -1);
+    }
+
+    @Test
+    void lastIndexOf_whenTupleIsEmpty_thenAlwaysReturnMinusOne() {
+        //Given
+        // The tuple with values
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf("some value");
+
+        //Then
+        // actual index is -1
+        assertEquals(actualIndex, -1);
+    }
+
+
+    @Test
+    void contains_whenTupleIsEmpty_thenAlwaysReturnFalse() {
+        //Given
+        // The tuple with values
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("some value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
+    }
+
+    @Test
+    void toArray_whenBuildArray_thenArrayContainsAllElements() {
+        //Given
+        // The tuple with args
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array is empty
+        assertEquals(tupleInArray.length, 0);
+    }
+
+    @Test
+    void toList_whenBuildList_thenListContainsAllElements() {
+        //Given
+        // The tuple with args
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list is empty
+        assertTrue(tupleInList.isEmpty());
+    }
+
+    @Test
+    void toSet_whenBuildSet_thenSetContainsAllElements() {
+        //Given
+        // The tuple with args
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // build set from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // set is empty
+        assertTrue(tupleInSet.isEmpty());
+    }
+
+    @Test
+    void toStream_whenBuildStream_thenStreamContainsAllElements() {
+        //Given
+        // The tuple with args
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // build stream from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // stream is empty
+        assertEquals(tupleInStream.count(), 0);
+    }
+
+    @Test
     void iterator_whenCreateIterator_thenReturnNonNullIterator() {
         //Given
         // The tuple with size = 0
@@ -95,8 +207,25 @@ public class EmptyTupleTest {
         Iterator<Object> iterator = tuple.iterator();
 
         //Then
-        // size equal to expected
+        // iterator is not null
         assertNotNull(iterator);
+    }
+
+    @Test
+    void spliterator_whenCreateSpliterator_thenReturnNonNullIterator() {
+        //Given
+        // The tuple with size = 0
+        EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
     }
 
     @Test
