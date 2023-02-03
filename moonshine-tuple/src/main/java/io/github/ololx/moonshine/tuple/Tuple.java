@@ -82,6 +82,7 @@ public interface Tuple extends Iterable<Object> {
     /**
      * Returns the element at the specified position in this tuple.
      *
+     * @param <V> the type of this tuple element to return
      * @param index index of the element to return
      * @return the element at the specified position in this tuple
      * @throws IndexOutOfBoundsException if the index is out of
@@ -99,6 +100,8 @@ public interface Tuple extends Iterable<Object> {
      * range ({@code index < 0 || index >= size()}), otherwise returns
      * the element at the specified position
      *
+     * @param <V> the type of this tuple element to return or
+     * {@code defaultValue} to return
      * @param index index of the element to return
      * @param defaultValue the default value
      * @return the element at the specified position in this tuple
@@ -123,6 +126,8 @@ public interface Tuple extends Iterable<Object> {
      * contains at least one element such that value ∈ (a0, a1, ..., an) or
      * in another words {@code Objects.equals(tupleElement, value)}.
      *
+     * @param <V> the type of element whose presence in this tuple is to
+     *           be tested
      * @param value element whose presence in this tuple is to be tested
      * @return {@code true} if this tuple contains the specified element
      */
@@ -147,6 +152,7 @@ public interface Tuple extends Iterable<Object> {
      * value = am | am ∈ (a0, a1, ..., an) or in another words
      * {@code Objects.equals(o, get(i))}; or -1 if there is no such index.
      *
+     * @param <V> the type of element whose index in this tuple is requested
      * @param value element whose index in this tuple is requested
      * @return the lowest index {@code i} or -1 if there is no such index
      */
@@ -172,6 +178,7 @@ public interface Tuple extends Iterable<Object> {
      * value = am | am ∈ (a0, a1, ..., an) or in another words
      * {@code Objects.equals(o, get(i))}; or -1 if there is no such index.
      *
+     * @param <V> the type of element whose index in this tuple is requested
      * @param value element whose index in this tuple is requested
      * @return the highest index {@code i} or -1 if there is no such index
      */
