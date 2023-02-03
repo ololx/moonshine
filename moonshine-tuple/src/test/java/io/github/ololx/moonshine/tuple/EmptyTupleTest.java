@@ -88,6 +88,37 @@ public class EmptyTupleTest {
     }
 
     @Test
+    void indexOf_whenTupleIsEmpty_thenAlwaysReturnMinusOne() {
+        //Given
+        // The tuple with values
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf("some value");
+
+        //Then
+        // actual index equals is -1
+        assertEquals(actualIndex, -1);
+    }
+
+    @Test
+    void lastIndexOf_whenTupleIsEmpty_thenAlwaysReturnMinusOne() {
+        //Given
+        // The tuple with values
+        final EmptyTuple tuple = new EmptyTuple();
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf("some value");
+
+        //Then
+        // actual index is -1
+        assertEquals(actualIndex, -1);
+    }
+
+
+    @Test
     void contains_whenTupleIsEmpty_thenAlwaysReturnFalse() {
         //Given
         // The tuple with values

@@ -166,7 +166,42 @@ public class MonupleTest {
         // no one check return true
         assertFalse(allContainsResults.contains(true));
     }
-    
+
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+
     @Test(dataProvider = "providesConstructorArgs")
     <A> void size_whenCreateTuple_thenTupleHasSize(A t0) {
         //Given
@@ -297,6 +332,22 @@ public class MonupleTest {
         EqualsVerifier.forClass(Monuple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 1, 0},
+                {1, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 1, 0},
+                {1, 0, -1}
+        };
     }
 
     @DataProvider(name = "providesConstructorArgs")
