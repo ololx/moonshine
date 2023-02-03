@@ -89,13 +89,14 @@ public class Couple<A, B>
      * @throws IndexOutOfBoundsException if the index is out of
      * range ({@code index < 0 || index >= size()})
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public final Object get(int index) {
+    public final <V> V get(int index) {
         if (IndexBounds.requireIndexWithinBounds(index, this.size()) == 0) {
-            return this.t0;
+            return (V) this.t0;
         }
 
-        return this.t1;
+        return (V) this.t1;
     }
 
     /**

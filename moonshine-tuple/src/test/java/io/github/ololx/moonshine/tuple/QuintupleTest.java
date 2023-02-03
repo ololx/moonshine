@@ -23,7 +23,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
 import static org.testng.Assert.*;
 
 /**
@@ -215,6 +221,91 @@ public class QuintupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void contains_whenTupleContainsValue_thenReturnTrue(A t0,
+                                                                        B t1,
+                                                                        C t2,
+                                                                        D t3,
+                                                                        E t4) {
+        //Given
+        // The tuple with values
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // check that tuple contains construct args
+        final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4)
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return false
+        assertFalse(allContainsResults.contains(false));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0,
+                                                                             B t1,
+                                                                             C t2,
+                                                                             D t3,
+                                                                             E t4) {
+        //Given
+        // The tuple with values
+        final Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("wrong value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A t1,
+                                                                 A t2,
+                                                                 A t3,
+                                                                 A t4,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Quintuple<A, A, A, A, A> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A t1,
+                                                                     A t2,
+                                                                     A t3,
+                                                                     A t4,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Quintuple<A, A, A, A, A> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
@@ -228,6 +319,121 @@ public class QuintupleTest {
         //Then
         // size equal to expected
         assertEquals(actual, expected);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0,
+                                                                             B t1,
+                                                                             C t2,
+                                                                             D t3,
+                                                                             E t4) {
+        //Given
+        // The tuple with args
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array contains all tuple values
+        assertEquals(tupleInArray[0], t0);
+        assertEquals(tupleInArray[1], t1);
+        assertEquals(tupleInArray[2], t2);
+        assertEquals(tupleInArray[3], t3);
+        assertEquals(tupleInArray[4], t4);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void toList_whenBuildList_thenListContainsAllElements(A t0,
+                                                                          B t1,
+                                                                          C t2,
+                                                                          D t3,
+                                                                          E t4) {
+        //Given
+        // The tuple with args
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list contains all tuple values
+        assertEquals(tupleInList.get(0), t0);
+        assertEquals(tupleInList.get(1), t1);
+        assertEquals(tupleInList.get(2), t2);
+        assertEquals(tupleInList.get(3), t3);
+        assertEquals(tupleInList.get(4), t4);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void toSet_whenBuildSet_thenSetContainsAllElements(A t0,
+                                                                       B t1,
+                                                                       C t2,
+                                                                       D t3,
+                                                                       E t4) {
+        //Given
+        // The tuple with args
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // build list from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInSet.contains(t0));
+        assertTrue(tupleInSet.contains(t1));
+        assertTrue(tupleInSet.contains(t2));
+        assertTrue(tupleInSet.contains(t3));
+        assertTrue(tupleInSet.contains(t4));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0,
+                                                                                B t1,
+                                                                                C t2,
+                                                                                D t3,
+                                                                                E t4) {
+        //Given
+        // The tuple with args
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // build list from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+            return tupleElement.equals(t0)
+                    || tupleElement.equals(t1)
+                    || tupleElement.equals(t2)
+                    || tupleElement.equals(t3)
+                    || tupleElement.equals(t4);
+        }));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0,
+                                                                                     B t1,
+                                                                                     C t2,
+                                                                                     D t3,
+                                                                                     E t4) {
+        //Given
+        // The tuple with size = 7
+        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
     }
 
     @Test(dataProvider = "providesConstructorArgs")
@@ -245,7 +451,7 @@ public class QuintupleTest {
         final Iterator<Object> iterator = tuple.iterator();
 
         //Then
-        // size equal to expected
+        // iterator is not null
         assertNotNull(iterator);
     }
 
@@ -279,7 +485,27 @@ public class QuintupleTest {
                 .verify();
     }
 
-    @DataProvider(name = "providesConstructorArgs")
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 2, 3, 1, 2, 1, 0},
+                {1, 2, 3, 1, 2, 2, 1},
+                {1, 2, 3, 1, 2, 3, 2},
+                {1, 2, 3, 1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 2, 3, 1, 2, 1, 3},
+                {1, 2, 3, 1, 2, 2, 4},
+                {1, 2, 3, 1, 2, 3, 2},
+                {1, 2, 3, 1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
                 {

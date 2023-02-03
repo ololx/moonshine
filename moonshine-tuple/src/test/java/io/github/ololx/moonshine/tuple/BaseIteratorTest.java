@@ -130,7 +130,7 @@ public class BaseIteratorTest {
         iterator.remove();
     }
 
-    @DataProvider(name = "providesTuples")
+    @DataProvider
     static Object[][] providesTuples() {
         return new Object[][] {
                 {new EmptyTuple()},

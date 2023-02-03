@@ -23,7 +23,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.Spliterator.*;
 import static org.testng.Assert.*;
 
 /**
@@ -145,6 +151,77 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void contains_whenTupleContainsValue_thenReturnTrue(A t0, B t1) {
+        //Given
+        // The tuple with values
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // check that tuple contains construct args
+        final Set<Boolean> allContainsResults = Stream.of(t0, t1)
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return false
+        assertFalse(allContainsResults.contains(false));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0, B t1) {
+        //Given
+        // The tuple with values
+        final Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // check that tuple contains some value,
+        // not from this tuple
+        final Set<Boolean> allContainsResults = Stream.of("wrong value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
+
+        //Then
+        // no one check return true
+        assertFalse(allContainsResults.contains(true));
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndIndexes")
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A t1,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Couple<A, A> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get index of some value
+        final int actualIndex = tuple.indexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A t1,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
+        //Given
+        // The tuple with values
+        final Couple<A, A> tuple = new Couple<>(t0, t1);
+
+        //When
+        // get last index of some value
+        final int actualIndex = tuple.lastIndexOf(someValue);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, expectedIndex);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1) {
         //Given
         // The tuple with size = 2
@@ -161,6 +238,88 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0, B t1) {
+        //Given
+        // The tuple with args
+        Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // build array from this tuple
+        Object[] tupleInArray = tuple.toArray();
+
+        //Then
+        // array contains all tuple values
+        assertEquals(tupleInArray[0], t0);
+        assertEquals(tupleInArray[1], t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void toList_whenBuildList_thenListContainsAllElements(A t0, B t1) {
+        //Given
+        // The tuple with args
+        Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // build list from this tuple
+        List<Object> tupleInList = tuple.toList();
+
+        //Then
+        // list contains all tuple values
+        assertEquals(tupleInList.get(0), t0);
+        assertEquals(tupleInList.get(1), t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void toSet_whenBuildSet_thenSetContainsAllElements(A t0, B t1) {
+        //Given
+        // The tuple with args
+        Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // build list from this tuple
+        Set<Object> tupleInSet = tuple.toSet();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInSet.contains(t0));
+        assertTrue(tupleInSet.contains(t1));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1) {
+        //Given
+        // The tuple with args
+        Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // build list from this tuple
+        Stream<Object> tupleInStream = tuple.toStream();
+
+        //Then
+        // list contains all tuple values
+        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+            return tupleElement.equals(t0) || tupleElement.equals(t1);
+        }));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0, B t1) {
+        //Given
+        // The tuple with size = 2
+        Couple<A, B> tuple = new Couple<>(t0, t1);
+
+        //When
+        // create spliterator
+        Spliterator<Object> spliterator = tuple.spliterator();
+
+        //Then
+        // spliterator is not null
+        // and spliterator contains sized, immutable, and ordered in characteristics
+        assertNotNull(spliterator);
+        assertEquals(spliterator.characteristics() ^ SUBSIZED, (SIZED | IMMUTABLE | ORDERED));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0, B t1) {
         //Given
         // The tuple with size = 2
@@ -171,7 +330,7 @@ public class CoupleTest {
         Iterator<Object> iterator = tuple.iterator();
 
         //Then
-        // size equal to expected
+        // iterator is not null
         assertNotNull(iterator);
     }
 
@@ -198,7 +357,24 @@ public class CoupleTest {
                 .verify();
     }
 
-    @DataProvider(name = "providesConstructorArgs")
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+                {1, 2, 1, 0},
+                {1, 2, 2, 1},
+                {1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+                {1, 1, 1, 1},
+                {1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
                 {Byte.MIN_VALUE, Character.MAX_VALUE},
