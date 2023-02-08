@@ -134,13 +134,7 @@ public interface Tuple extends Iterable<Object> {
     default <V> boolean contains(final V value) {
         return IntStream.range(0, this.size())
                 .mapToObj(this::get)
-                .anyMatch(tupleValue -> {
-                    if (tupleValue == null) {
-                        return value == null;
-                    }
-
-                    return tupleValue.equals(value);
-                });
+                .anyMatch(tupleValue -> Objects.equals(tupleValue, value));
     }
 
     /**
@@ -158,13 +152,7 @@ public interface Tuple extends Iterable<Object> {
      */
     default <V> int indexOf(final V value) {
         return IntStream.range(0, this.size())
-                .filter(index -> {
-                    if (this.get(index) == null) {
-                        return value == null;
-                    }
-
-                    return this.get(index).equals(value);
-                })
+                .filter(index -> Objects.equals(this.get(index), value))
                 .findFirst()
                 .orElse(-1);
     }
@@ -185,13 +173,7 @@ public interface Tuple extends Iterable<Object> {
     default <V> int lastIndexOf(final V value) {
         return IntStream.iterate(this.size() - 1, index -> index - 1)
                 .limit(this.size())
-                .filter(index -> {
-                    if (this.get(index) == null) {
-                        return value == null;
-                    }
-
-                    return this.get(index).equals(value);
-                })
+                .filter(index -> Objects.equals(this.get(index), value))
                 .findFirst()
                 .orElse(-1);
     }
