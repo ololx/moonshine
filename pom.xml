@@ -193,7 +193,7 @@
                     <configuration>
                         <source>${java.version}</source>
                         <detectJavaApiLink>true</detectJavaApiLink>
-                        <show>protected</show>
+                        <show>package</show>
                         <failOnError>true</failOnError>
                         <javaApiLinks>
                             <property>
@@ -202,7 +202,7 @@
                             </property>
                         </javaApiLinks>
                         <bottom>
-                            <![CDATA[This documentation was released into the public domain.]]>
+                            <![CDATA[Copyright 2021, <a href="https://ololx.github.io"> ololx </a>]]>
                         </bottom>
                         <tags>
                             <tag><name>apiNote</name></tag>
