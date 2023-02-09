@@ -22,10 +22,7 @@ import nl.jqno.equalsverifier.Warning;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -149,6 +146,21 @@ public class MonupleTest {
         assertFalse(allContainsResults.contains(false));
     }
 
+    @Test
+    void contains_whenTupleContainsNull_thenReturnTrue() {
+        //Given
+        // The tuple with values
+        final Monuple<Object> tuple = new Monuple<>(null);
+
+        //When
+        // check that tuple contains construct args
+        final boolean containsNull = tuple.contains(null);
+
+        //Then
+        // no one check return true
+        assertTrue(containsNull);
+    }
+
     @Test(dataProvider = "providesConstructorArgs")
     <A> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0) {
         //Given
@@ -165,6 +177,22 @@ public class MonupleTest {
         //Then
         // no one check return true
         assertFalse(allContainsResults.contains(true));
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A> void contains_whenTupleDoNotContainsNull_thenReturnTrue(A t0) {
+        //Given
+        // The tuple with values
+        final Monuple<A> tuple = new Monuple<>(t0);
+
+        //When
+        // check that tuple contains null value,
+        // not from this tuple
+        final boolean containsNull = tuple.contains(null);
+
+        //Then
+        // check return false
+        assertFalse(containsNull);
     }
 
     @Test(dataProvider = "providesConstructorArgsAndIndexes")
@@ -184,6 +212,21 @@ public class MonupleTest {
         assertEquals(actualIndex, expectedIndex);
     }
 
+    @Test
+    void indexOf_whenTupleContainsNull_thenReturnTheirIndex() {
+        //Given
+        // The tuple with values
+        final Monuple<Object> tuple = new Monuple<>(null);
+
+        //When
+        // get index of null value
+        final int actualIndex = tuple.indexOf(null);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, 0);
+    }
+
     @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
     <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
                                                                      A someValue,
@@ -201,6 +244,20 @@ public class MonupleTest {
         assertEquals(actualIndex, expectedIndex);
     }
 
+    @Test
+    void lastIndexOf_whenTupleContainsNull_thenReturnTheirIndex() {
+        //Given
+        // The tuple with values
+        final Monuple<Object> tuple = new Monuple<>(null);
+
+        //When
+        // get last index of null value
+        final int actualIndex = tuple.lastIndexOf(null);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, 0);
+    }
 
     @Test(dataProvider = "providesConstructorArgs")
     <A> void size_whenCreateTuple_thenTupleHasSize(A t0) {
@@ -350,7 +407,7 @@ public class MonupleTest {
         };
     }
 
-    @DataProvider(name = "providesConstructorArgs")
+    @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][] {
                 {Byte.MIN_VALUE},
