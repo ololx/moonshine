@@ -212,6 +212,21 @@ public class MonupleTest {
         assertEquals(actualIndex, expectedIndex);
     }
 
+    @Test
+    void indexOf_whenTupleContainsNull_thenReturnTheirIndex() {
+        //Given
+        // The tuple with values
+        final Monuple<Object> tuple = new Monuple<>(null);
+
+        //When
+        // get index of null value
+        final int actualIndex = tuple.indexOf(null);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, 0);
+    }
+
     @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
     <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
                                                                      A someValue,
@@ -229,6 +244,20 @@ public class MonupleTest {
         assertEquals(actualIndex, expectedIndex);
     }
 
+    @Test
+    void lastIndexOf_whenTupleContainsNull_thenReturnTheirIndex() {
+        //Given
+        // The tuple with values
+        final Monuple<Object> tuple = new Monuple<>(null);
+
+        //When
+        // get last index of null value
+        final int actualIndex = tuple.lastIndexOf(null);
+
+        //Then
+        // actual index equals expected index
+        assertEquals(actualIndex, 0);
+    }
 
     @Test(dataProvider = "providesConstructorArgs")
     <A> void size_whenCreateTuple_thenTupleHasSize(A t0) {
