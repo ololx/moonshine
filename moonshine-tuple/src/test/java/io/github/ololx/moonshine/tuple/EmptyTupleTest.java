@@ -49,7 +49,7 @@ public class EmptyTupleTest {
         // get values by index = size - 1
         //Then
         // throw exception
-        tuple.get(tuple.size() - 1);
+        assertNull(tuple.get(tuple.size() - 1));
     }
 
     @Test
@@ -245,7 +245,7 @@ public class EmptyTupleTest {
 
     @Test
     public void equalsHashCode_verifyContracts() {
-        EqualsVerifier.forClass(Monuple.class)
+        EqualsVerifier.forClass(EmptyTuple.class)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
     }
