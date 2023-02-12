@@ -23,9 +23,9 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class IntCoding {
+public final class IntEncoding {
 
-    private IntCoding() {}
+    private IntEncoding() {}
 
     static byte[] encode(int value) {
         return new byte[] {
