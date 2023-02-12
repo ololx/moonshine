@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.coding;
+package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
