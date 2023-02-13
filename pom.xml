@@ -66,7 +66,7 @@
         <module>moonshine-bom</module>
         <module>moonshine-tuple</module>
         <module>moonshine-stopwatch</module>
-        <module>moonshine-coding</module>
+        <module>moonshine-bytes</module>
     </modules>
     <!--project modules>-->
 
