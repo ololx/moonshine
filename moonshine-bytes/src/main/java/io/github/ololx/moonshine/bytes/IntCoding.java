@@ -23,11 +23,11 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class IntEncoder {
+public final class IntCoding {
 
-    private IntEncoder() {}
+    private IntCoding() {}
 
-    static byte[] encodeInBigEndian(int value) {
+    static byte[] encodeBigEndian(int value) {
         return new byte[] {
                 (byte)(value >>> 24),
                 (byte)(value >>> 16),
@@ -36,12 +36,26 @@ public final class IntEncoder {
         };
     }
 
-    static byte[] encodeInLittleEndian(int value) {
+    static byte[] encodeLittleEndian(int value) {
         return new byte[] {
                 (byte)(value),
                 (byte)(value >>> 8),
                 (byte)(value >>> 16),
                 (byte)(value >>> 24)
         };
+    }
+
+    static int decodeBigEndian(byte[] bytes) {
+        return (int)bytes[0] << 24
+                | (int)bytes[1] << 16
+                | (int)bytes[2] << 8
+                | (int)bytes[3];
+    }
+
+    static int decodeLittleEndian(byte[] bytes) {
+        return (int)bytes[0]
+                | (int)bytes[1] << 8
+                | (int)bytes[2] << 16
+                | (int)bytes[3] << 24;
     }
 }

@@ -28,19 +28,31 @@ package io.github.ololx.moonshine.bytes;
   *
   * @author Alexander A. Kropotin
   */
-public class IntEncoderTest {
+public class IntCodingTest {
 
     @Test(dataProvider = "providesIntegersInBigEndian")
     void encodeInBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int value, byte[] expected) {
-        byte[] actualIntInBytes = IntEncoder.encodeInBigEndian(value);
+        byte[] actualIntInBytes = IntCoding.encodeBigEndian(value);
         assertEquals(actualIntInBytes, expected);
     }
 
     @Test(dataProvider = "providesIntegersInLittleEndian")
     void encodeInLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int value, byte[] expected) {
-        byte[] actualIntInBytes = IntEncoder.encodeInLittleEndian(value);
+        byte[] actualIntInBytes = IntCoding.encodeLittleEndian(value);
         assertEquals(actualIntInBytes, expected);
     }
+
+     @Test(dataProvider = "providesIntegersInBigEndian")
+     void decodeInBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int expected, byte[] bytes) {
+         int actualInt = IntCoding.decodeBigEndian(bytes);
+         assertEquals(actualInt, expected);
+     }
+
+     @Test(dataProvider = "providesIntegersInLittleEndian")
+     void decodeInLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int expected, byte[] bytes) {
+         int actualInt = IntCoding.decodeLittleEndian(bytes);
+         assertEquals(actualInt, expected);
+     }
 
      @DataProvider
      static Object[][] providesIntegersInBigEndian() {
