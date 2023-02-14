@@ -19,16 +19,20 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 10.02.2023 13:45
+ * created 10.02.2023 15:45
  *
  * @author Alexander A. Kropotin
  */
-public final class IntCoding {
+public final class LongCoding {
 
-    private IntCoding() {}
+    private LongCoding() {}
 
-    static byte[] encodeBigEndian(int value) {
+    static byte[] encodeBigEndian(long value) {
         return new byte[] {
+                (byte)(value >> 56),
+                (byte)(value >> 48),
+                (byte)(value >> 40),
+                (byte)(value >> 32),
                 (byte)(value >> 24),
                 (byte)(value >> 16),
                 (byte)(value >> 8),
@@ -36,26 +40,38 @@ public final class IntCoding {
         };
     }
 
-    static byte[] encodeLittleEndian(int value) {
+    static byte[] encodeLittleEndian(long value) {
         return new byte[] {
                 (byte)(value),
                 (byte)(value >> 8),
                 (byte)(value >> 16),
-                (byte)(value >> 24)
+                (byte)(value >> 24),
+                (byte)(value >> 32),
+                (byte)(value >> 40),
+                (byte)(value >> 48),
+                (byte)(value >> 56)
         };
     }
 
-    static int decodeBigEndian(byte[] bytes) {
-        return (int)bytes[0] << 24
-                | (int)bytes[1] << 16
-                | (int)bytes[2] << 8
-                | (int)bytes[3];
+    static long decodeBigEndian(byte[] bytes) {
+        return (long)bytes[0] << 56
+                | (long)bytes[1] << 48
+                | (long)bytes[2] << 40
+                | (long)bytes[3] << 32
+                | (int)bytes[4] << 24
+                | (int)bytes[5] << 16
+                | (int)bytes[6] << 8
+                | (int)bytes[7];
     }
 
-    static int decodeLittleEndian(byte[] bytes) {
+    static long decodeLittleEndian(byte[] bytes) {
         return (int)bytes[0]
                 | (int)bytes[1] << 8
                 | (int)bytes[2] << 16
-                | (int)bytes[3] << 24;
+                | (int)bytes[3] << 24
+                | (long)bytes[4] << 32
+                | (long)bytes[5] << 40
+                | (long)bytes[6] << 48
+                | (long)bytes[7] << 56;
     }
 }
