@@ -37,9 +37,9 @@
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Cosing module contains classes - utilities for string encoding and decoding.
-        These classes can be used when it is required to encode/decode some java types to bytes
-        and e.t.c.
+        The Moonshine Bytes module contains classes - utilities for java types to bytes
+        encoding/decoding. These classes can be used when it is required to encode/decode some
+        java types to bytes and e.t.c.
     </description>
     <url>https://ololx.github.io/moonshine</url>
     <inceptionYear>2023</inceptionYear>
