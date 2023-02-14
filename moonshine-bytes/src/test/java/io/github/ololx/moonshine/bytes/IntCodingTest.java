@@ -17,10 +17,10 @@
 
 package io.github.ololx.moonshine.bytes;
 
- import org.testng.annotations.DataProvider;
- import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
- import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
  /**
   * project moonshine
