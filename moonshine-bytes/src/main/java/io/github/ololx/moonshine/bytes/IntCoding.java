@@ -46,16 +46,16 @@ public final class IntCoding {
     }
 
     static int decodeBigEndian(byte[] bytes) {
-        return (int)bytes[0] << 24
-                | (int)bytes[1] << 16
-                | (int)bytes[2] << 8
-                | (int)bytes[3];
+        return bytes[0] << 24
+                | bytes[1] << 16
+                | bytes[2] << 8
+                | bytes[3];
     }
 
     static int decodeLittleEndian(byte[] bytes) {
-        return (int)bytes[0]
-                | (int)bytes[1] << 8
-                | (int)bytes[2] << 16
-                | (int)bytes[3] << 24;
+        return bytes[0]
+                | bytes[1] << 8
+                | bytes[2] << 16
+                | bytes[3] << 24;
     }
 }

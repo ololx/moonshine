@@ -58,17 +58,17 @@ public final class LongCoding {
                 | (long)bytes[1] << 48
                 | (long)bytes[2] << 40
                 | (long)bytes[3] << 32
-                | (int)bytes[4] << 24
-                | (int)bytes[5] << 16
-                | (int)bytes[6] << 8
-                | (int)bytes[7];
+                | bytes[4] << 24
+                | bytes[5] << 16
+                | bytes[6] << 8
+                | bytes[7];
     }
 
     static long decodeLittleEndian(byte[] bytes) {
-        return (int)bytes[0]
-                | (int)bytes[1] << 8
-                | (int)bytes[2] << 16
-                | (int)bytes[3] << 24
+        return bytes[0]
+                | bytes[1] << 8
+                | bytes[2] << 16
+                | bytes[3] << 24
                 | (long)bytes[4] << 32
                 | (long)bytes[5] << 40
                 | (long)bytes[6] << 48
