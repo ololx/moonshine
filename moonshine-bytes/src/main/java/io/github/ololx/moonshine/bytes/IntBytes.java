@@ -23,8 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class IntBytes implements Bytes {
-
+public final class IntBytes {
     private IntBytes() {}
 
     static byte[] encodeBigEndian(int value) {

@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class LongBytes implements Bytes {
+public final class LongBytes {
 
     private LongBytes() {}
 

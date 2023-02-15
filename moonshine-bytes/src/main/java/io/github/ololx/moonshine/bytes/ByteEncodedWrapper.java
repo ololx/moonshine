@@ -19,9 +19,13 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 15.02.2023 13:37
+ * created 15.02.2023 16:33
  *
  * @author Alexander A. Kropotin
  */
-public interface Bytes {
+public interface ByteEncodedWrapper {
+
+    int size();
+
+    byte[] toBytes();
 }
