@@ -23,9 +23,9 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class LongCoding {
+public final class LongBytes implements Bytes {
 
-    private LongCoding() {}
+    private LongBytes() {}
 
     static byte[] encodeBigEndian(long value) {
         return new byte[] {
@@ -54,24 +54,24 @@ public final class LongCoding {
     }
 
     static long decodeBigEndian(byte[] bytes) {
-        return (long)bytes[0] << 56
-                | (long)bytes[1] << 48
-                | (long)bytes[2] << 40
-                | (long)bytes[3] << 32
-                | bytes[4] << 24
-                | bytes[5] << 16
-                | bytes[6] << 8
-                | bytes[7];
+        return (bytes[0] & 0xFFL) << 56
+                | (bytes[1] & 0xFFL) << 48
+                | (bytes[2] & 0xFFL) << 40
+                | (bytes[3] & 0xFFL) << 32
+                | (bytes[4] & 0xFFL) << 24
+                | (bytes[5] & 0xFFL) << 16
+                | (bytes[6] & 0xFFL) << 8
+                | (bytes[7] & 0xFFL);
     }
 
     static long decodeLittleEndian(byte[] bytes) {
-        return bytes[0]
-                | bytes[1] << 8
-                | bytes[2] << 16
-                | bytes[3] << 24
-                | (long)bytes[4] << 32
-                | (long)bytes[5] << 40
-                | (long)bytes[6] << 48
-                | (long)bytes[7] << 56;
+        return (bytes[0] & 0xFFL)
+                | (bytes[1] & 0xFFL) << 8
+                | (bytes[2] & 0xFFL) << 16
+                | (bytes[3] & 0xFFL) << 24
+                | (bytes[4] & 0xFFL) << 32
+                | (bytes[5] & 0xFFL) << 40
+                | (bytes[6] & 0xFFL) << 48
+                | (bytes[7] & 0xFFL) << 54;
     }
 }

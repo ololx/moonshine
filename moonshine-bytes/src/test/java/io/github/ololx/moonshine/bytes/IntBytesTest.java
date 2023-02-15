@@ -28,29 +28,29 @@ import static org.testng.Assert.assertEquals;
   *
   * @author Alexander A. Kropotin
   */
-public class IntCodingTest {
+public class IntBytesTest {
 
     @Test(dataProvider = "providesIntegersInBigEndian")
     void encodeInBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int value, byte[] expected) {
-        byte[] actualIntInBytes = IntCoding.encodeBigEndian(value);
+        byte[] actualIntInBytes = IntBytes.encodeBigEndian(value);
         assertEquals(actualIntInBytes, expected);
     }
 
     @Test(dataProvider = "providesIntegersInLittleEndian")
     void encodeInLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int value, byte[] expected) {
-        byte[] actualIntInBytes = IntCoding.encodeLittleEndian(value);
+        byte[] actualIntInBytes = IntBytes.encodeLittleEndian(value);
         assertEquals(actualIntInBytes, expected);
     }
 
      @Test(dataProvider = "providesIntegersInBigEndian")
      void decodeInBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int expected, byte[] bytes) {
-         int actualInt = IntCoding.decodeBigEndian(bytes);
+         int actualInt = IntBytes.decodeBigEndian(bytes);
          assertEquals(actualInt, expected);
      }
 
      @Test(dataProvider = "providesIntegersInLittleEndian")
      void decodeInLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int expected, byte[] bytes) {
-         int actualInt = IntCoding.decodeLittleEndian(bytes);
+         int actualInt = IntBytes.decodeLittleEndian(bytes);
          assertEquals(actualInt, expected);
      }
 
