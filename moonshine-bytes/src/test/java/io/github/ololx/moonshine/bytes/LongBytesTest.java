@@ -28,29 +28,29 @@ import static org.testng.Assert.assertEquals;
  *
  * @author Alexander A. Kropotin
  */
-public class LongCodingTest {
+public class LongBytesTest {
 
    @Test(dataProvider = "providesLongsInBigEndian")
    void encodeInBigEndian_whenEncodeLongToBytes_thenBytesWillBeInBigEndianOrder(long value, byte[] expected) {
-       byte[] actualLongInBytes = LongCoding.encodeBigEndian(value);
+       byte[] actualLongInBytes = LongBytes.encodeBigEndian(value);
        assertEquals(actualLongInBytes, expected);
    }
 
    @Test(dataProvider = "providesLongsInLittleEndian")
    void encodeInLittleEndian_whenEncodeLongToBytes_thenBytesWillBeInLittleEndianOrder(long value, byte[] expected) {
-       byte[] actualLongInBytes = LongCoding.encodeLittleEndian(value);
+       byte[] actualLongInBytes = LongBytes.encodeLittleEndian(value);
        assertEquals(actualLongInBytes, expected);
    }
 
     @Test(dataProvider = "providesLongsInBigEndian")
     void decodeInBigEndian_whenEncodeLongToBytes_thenBytesWillBeInBigEndianOrder(long expected, byte[] bytes) {
-        long actualLong = LongCoding.decodeBigEndian(bytes);
+        long actualLong = LongBytes.decodeBigEndian(bytes);
         assertEquals(actualLong, expected);
     }
 
     @Test(dataProvider = "providesLongsInLittleEndian")
     void decodeInLittleEndian_whenEncodeLongToBytes_thenBytesWillBeInLittleEndianOrder(long expected, byte[] bytes) {
-        long actualLong = LongCoding.decodeLittleEndian(bytes);
+        long actualLong = LongBytes.decodeLittleEndian(bytes);
         assertEquals(actualLong, expected);
     }
 
