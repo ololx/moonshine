@@ -72,6 +72,6 @@ public final class LongBytes {
                 | (bytes[4] & 0xFFL) << 32
                 | (bytes[5] & 0xFFL) << 40
                 | (bytes[6] & 0xFFL) << 48
-                | (bytes[7] & 0xFFL) << 54;
+                | (bytes[7] & 0xFFL) << 56;
     }
 }

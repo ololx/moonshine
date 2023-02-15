@@ -62,6 +62,7 @@ public class LongBytesTest {
                 new Object[]{3, new byte[] {0, 0, 0, 0, 0, 0, 0, 3}},
                 new Object[]{4, new byte[] {0, 0, 0, 0, 0, 0, 0, 4}},
                 new Object[]{5, new byte[] {0, 0, 0, 0, 0, 0, 0, 5}},
+                new Object[]{4617315517961601024L, new byte[] {64, 20, 0, 0, 0, 0, 0, 0}},
         };
     }
 
@@ -73,6 +74,7 @@ public class LongBytesTest {
                new Object[]{3, new byte[] {3, 0, 0, 0, 0, 0, 0, 0}},
                new Object[]{4, new byte[] {4, 0, 0, 0, 0, 0, 0, 0}},
                new Object[]{5, new byte[] {5, 0, 0, 0, 0, 0, 0, 0}},
+               new Object[]{4617315517961601024L, new byte[] {0, 0, 0, 0, 0, 0, 20, 64}},
        };
    }
 }
