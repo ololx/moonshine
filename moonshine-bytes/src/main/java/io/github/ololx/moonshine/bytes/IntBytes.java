@@ -45,7 +45,7 @@ public final class IntBytes {
     }
 
     static int decodeBigEndian(byte[] bytes) {
-        return (bytes[0] & 0xF) << 24
+        return (bytes[0] & 0xFF) << 24
                 | (bytes[1] & 0xFF) << 16
                 | (bytes[2] & 0xFF) << 8
                 | (bytes[3] & 0xFF);
@@ -55,6 +55,6 @@ public final class IntBytes {
         return (bytes[0] & 0xFF)
                 | (bytes[1] & 0xFF) << 8
                 | (bytes[2] & 0xFF) << 16
-                | (bytes[3] & 0xF) << 24;
+                | (bytes[3] & 0xFF) << 24;
     }
 }
