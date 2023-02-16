@@ -19,13 +19,25 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 15.02.2023 16:33
+ * created 16.02.2023 11:57
  *
  * @author Alexander A. Kropotin
  */
-public interface ByteEncodedWrapper {
+public class IntEncodedWrapper implements ByteArrayEncodedWrapper {
 
-    int size();
+    private final int value;
 
-    byte[] toBytes();
+    public IntEncodedWrapper(int value) {
+        this.value = value;
+    }
+
+    @Override
+    public int size() {
+        return Integer.BYTES;
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return IntCoding.encodeBigEndian(this.value);
+    }
 }

@@ -32,25 +32,25 @@ public class LongBytesTest {
 
    @Test(dataProvider = "providesLongsInBigEndian")
    void encodeInBigEndian_whenEncodeLongToBytes_thenBytesWillBeInBigEndianOrder(long value, byte[] expected) {
-       byte[] actualLongInBytes = LongBytes.encodeBigEndian(value);
+       byte[] actualLongInBytes = LongCoding.encodeBigEndian(value);
        assertEquals(actualLongInBytes, expected);
    }
 
    @Test(dataProvider = "providesLongsInLittleEndian")
    void encodeInLittleEndian_whenEncodeLongToBytes_thenBytesWillBeInLittleEndianOrder(long value, byte[] expected) {
-       byte[] actualLongInBytes = LongBytes.encodeLittleEndian(value);
+       byte[] actualLongInBytes = LongCoding.encodeLittleEndian(value);
        assertEquals(actualLongInBytes, expected);
    }
 
     @Test(dataProvider = "providesLongsInBigEndian")
     void decodeInBigEndian_whenEncodeLongToBytes_thenBytesWillBeInBigEndianOrder(long expected, byte[] bytes) {
-        long actualLong = LongBytes.decodeBigEndian(bytes);
+        long actualLong = LongCoding.decodeBigEndian(bytes);
         assertEquals(actualLong, expected);
     }
 
     @Test(dataProvider = "providesLongsInLittleEndian")
     void decodeInLittleEndian_whenEncodeLongToBytes_thenBytesWillBeInLittleEndianOrder(long expected, byte[] bytes) {
-        long actualLong = LongBytes.decodeLittleEndian(bytes);
+        long actualLong = LongCoding.decodeLittleEndian(bytes);
         assertEquals(actualLong, expected);
     }
 

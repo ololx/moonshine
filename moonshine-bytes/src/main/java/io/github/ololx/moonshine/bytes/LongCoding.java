@@ -23,9 +23,9 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class LongBytes {
+public final class LongCoding {
 
-    private LongBytes() {}
+    private LongCoding() {}
 
     static byte[] encodeBigEndian(long value) {
         return new byte[] {

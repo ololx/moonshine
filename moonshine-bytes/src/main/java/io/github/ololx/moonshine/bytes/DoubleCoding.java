@@ -23,23 +23,23 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public final class FloatBytes {
+public final class DoubleCoding {
 
-    private FloatBytes() {}
+    private DoubleCoding() {}
 
-    static byte[] encodeBigEndian(float value) {
-        return IntBytes.encodeBigEndian(Float.floatToIntBits(value));
+    static byte[] encodeBigEndian(double value) {
+        return LongCoding.encodeBigEndian(Double.doubleToLongBits(value));
     }
 
-    static byte[] encodeLittleEndian(float value) {
-        return IntBytes.encodeLittleEndian(Float.floatToIntBits(value));
+    static byte[] encodeLittleEndian(double value) {
+        return LongCoding.encodeLittleEndian(Double.doubleToLongBits(value));
     }
 
-    static float decodeBigEndian(byte[] bytes) {
-        return Float.intBitsToFloat(IntBytes.decodeBigEndian(bytes));
+    static double decodeBigEndian(byte[] bytes) {
+        return Double.longBitsToDouble(LongCoding.decodeBigEndian(bytes));
     }
 
-    static float decodeLittleEndian(byte[] bytes) {
-        return Float.intBitsToFloat(IntBytes.decodeLittleEndian(bytes));
+    static double decodeLittleEndian(byte[] bytes) {
+        return Double.longBitsToDouble(LongCoding.decodeLittleEndian(bytes));
     }
 }
