@@ -32,25 +32,25 @@ public class FloatBytesTest {
 
    @Test(dataProvider = "providesFloatsInBigEndian")
    void encodeInBigEndian_whenEncodeFloatToBytes_thenBytesWillBeInBigEndianOrder(float value, byte[] expected) {
-       byte[] actualFloatInBytes = FloatBytes.encodeBigEndian(value);
+       byte[] actualFloatInBytes = FloatCoding.encodeBigEndian(value);
        assertEquals(actualFloatInBytes, expected);
    }
 
    @Test(dataProvider = "providesFloatsInLittleEndian")
    void encodeInLittleEndian_whenEncodeFloatToBytes_thenBytesWillBeInLittleEndianOrder(float value, byte[] expected) {
-       byte[] actualFloatInBytes = FloatBytes.encodeLittleEndian(value);
-       assertEquals(actualFloatInBytes, FloatBytes.encodeLittleEndian(value));
+       byte[] actualFloatInBytes = FloatCoding.encodeLittleEndian(value);
+       assertEquals(actualFloatInBytes, FloatCoding.encodeLittleEndian(value));
    }
 
     @Test(dataProvider = "providesFloatsInBigEndian")
     void decodeInBigEndian_whenEncodeFloatToBytes_thenBytesWillBeInBigEndianOrder(float expected, byte[] bytes) {
-        float actualFloat = FloatBytes.decodeBigEndian(bytes);
+        float actualFloat = FloatCoding.decodeBigEndian(bytes);
         assertEquals(actualFloat, expected);
     }
 
     @Test(dataProvider = "providesFloatsInLittleEndian")
     void decodeInLittleEndian_whenEncodeFloatToBytes_thenBytesWillBeInLittleEndianOrder(float expected, byte[] bytes) {
-        float actualFloat = FloatBytes.decodeLittleEndian(bytes);
+        float actualFloat = FloatCoding.decodeLittleEndian(bytes);
         assertEquals(actualFloat, expected);
     }
 

@@ -20,8 +20,6 @@ package io.github.ololx.moonshine.bytes;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -34,25 +32,25 @@ public class DoubleBytesTest {
 
    @Test(dataProvider = "providesDoublesInBigEndian")
    void encodeInBigEndian_whenEncodeDoubleToBytes_thenBytesWillBeInBigEndianOrder(double value, byte[] expected) {
-       byte[] actualDoubleInBytes = DoubleBytes.encodeBigEndian(value);
+       byte[] actualDoubleInBytes = DoubleCoding.encodeBigEndian(value);
        assertEquals(actualDoubleInBytes, expected);
    }
 
    @Test(dataProvider = "providesDoublesInLittleEndian")
    void encodeInLittleEndian_whenEncodeDoubleToBytes_thenBytesWillBeInLittleEndianOrder(double value, byte[] expected) {
-       byte[] actualDoubleInBytes = DoubleBytes.encodeLittleEndian(value);
-       assertEquals(actualDoubleInBytes, DoubleBytes.encodeLittleEndian(value));
+       byte[] actualDoubleInBytes = DoubleCoding.encodeLittleEndian(value);
+       assertEquals(actualDoubleInBytes, DoubleCoding.encodeLittleEndian(value));
    }
 
     @Test(dataProvider = "providesDoublesInBigEndian")
     void decodeInBigEndian_whenEncodeDoubleToBytes_thenBytesWillBeInBigEndianOrder(double expected, byte[] bytes) {
-        double actualDouble = DoubleBytes.decodeBigEndian(bytes);
+        double actualDouble = DoubleCoding.decodeBigEndian(bytes);
         assertEquals(actualDouble, expected);
     }
 
     @Test(dataProvider = "providesDoublesInLittleEndian")
     void decodeInLittleEndian_whenEncodeDoubleToBytes_thenBytesWillBeInLittleEndianOrder(double expected, byte[] bytes) {
-        double actualDouble = DoubleBytes.decodeLittleEndian(bytes);
+        double actualDouble = DoubleCoding.decodeLittleEndian(bytes);
         assertEquals(actualDouble, expected);
     }
 
