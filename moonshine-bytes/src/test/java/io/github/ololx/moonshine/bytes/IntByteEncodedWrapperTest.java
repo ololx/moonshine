@@ -32,8 +32,8 @@ public class IntByteEncodedWrapperTest {
 
    @Test(dataProvider = "providesIntegersInBigEndian")
    void toBytes_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int value, byte[] expected) {
-       ByteArrayEncodedWrapper encoded = new IntEncodedWrapper(value);
-       byte[] actualIntInBytes = encoded.toBytes();
+       ByteArray<?> encoded = new IntByteArray(value);
+       byte[] actualIntInBytes = encoded.array();
        assertEquals(actualIntInBytes, expected);
    }
 
