@@ -27,7 +27,9 @@ public interface ByteArray<T> {
 
     int size();
 
-    byte[] array();
+    T get(int index);
 
-    T value();
+    void put(T origin);
+
+    byte[] array();
 }

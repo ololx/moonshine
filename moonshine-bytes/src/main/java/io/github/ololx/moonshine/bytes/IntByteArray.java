@@ -25,7 +25,7 @@ package io.github.ololx.moonshine.bytes;
  */
 public class IntByteArray implements ByteArray<Integer> {
 
-    private final int value;
+    private int value;
 
     public IntByteArray(int value) {
         this.value = value;
@@ -37,12 +37,17 @@ public class IntByteArray implements ByteArray<Integer> {
     }
 
     @Override
-    public byte[] array() {
-        return IntCoding.encodeBigEndian(this.value);
+    public Integer get(int index) {
+        return this.value;
     }
 
     @Override
-    public Integer value() {
-        return this.value;
+    public void put(Integer value) {
+        this.value = value;
+    }
+
+    @Override
+    public byte[] array() {
+        return IntCoding.encodeBigEndian(this.value);
     }
 }
