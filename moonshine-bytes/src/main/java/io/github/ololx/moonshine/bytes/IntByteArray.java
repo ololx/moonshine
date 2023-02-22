@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public class IntByteArray implements ByteArray<Integer> {
+public class IntByteArray implements ValueBytesArray<Integer> {
 
     private int[] value;
 
@@ -47,7 +47,7 @@ public class IntByteArray implements ByteArray<Integer> {
     }
 
     @Override
-    public byte[] array() {
+    public byte[] getBytes() {
         return IntCoding.encodeBigEndian(this.value[0]);
     }
 }
