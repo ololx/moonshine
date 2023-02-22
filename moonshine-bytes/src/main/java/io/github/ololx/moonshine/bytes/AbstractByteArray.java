@@ -23,6 +23,6 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public abstract class AbstractByteArray<T> implements ByteArray<T> {
+public abstract class AbstractByteArray<T> implements ValueBytesArray<T> {
 
 }

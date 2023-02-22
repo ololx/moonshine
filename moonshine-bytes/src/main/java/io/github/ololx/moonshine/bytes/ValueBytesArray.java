@@ -23,13 +23,11 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface ByteArray<T> {
+public interface ValueBytesArray<T> extends ValueBytes {
 
     int size();
 
     T get(int index);
 
     void put(T origin);
-
-    byte[] array();
 }
