@@ -19,17 +19,10 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 15.02.2023 16:33
+ * created 22.02.2023 10:23
  *
  * @author Alexander A. Kropotin
  */
-public interface ByteArray<T> {
+public abstract class AbstractByteArray<T> implements ByteArray<T> {
 
-    int size();
-
-    T get(int index);
-
-    void put(T origin);
-
-    byte[] array();
 }
