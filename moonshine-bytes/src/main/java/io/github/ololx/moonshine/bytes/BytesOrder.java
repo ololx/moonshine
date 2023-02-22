@@ -17,42 +17,35 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import jdk.internal.misc.Unsafe;
+
+import java.util.Objects;
+
 /**
  * project moonshine
- * created 16.02.2023 11:57
+ * created 22.02.2023 14:13
  *
  * @author Alexander A. Kropotin
  */
-public class IntByteArray implements ValueBytesArray<Integer> {
+public class BytesOrder {
 
-    private int[] value;
+    public static BytesOrder BIG_ENDIAN = new BytesOrder("Big-Endian");
 
-    public IntByteArray(int... value) {
-        this.value = value;
+    public static BytesOrder LITTLE_ENDIAN = new BytesOrder("Little-Endian");
+
+    public static BytesOrder DEFAULT = BIG_ENDIAN;
+
+    public static BytesOrder SYSTEM_DEFAULT = Unsafe.getUnsafe().isBigEndian()
+            ? BIG_ENDIAN
+            : LITTLE_ENDIAN;
+
+    private final String name;
+
+    public BytesOrder(String name) {
+        this.name = Objects.requireNonNull(name);
     }
 
-    @Override
-    public int size() {
-        return Integer.BYTES;
-    }
-
-    @Override
-    public Integer get(int index) {
-        return this.value[index];
-    }
-
-    @Override
-    public void put(Integer value) {
-        this.value[0] = value;
-    }
-
-    @Override
-    public byte[] getBytes() {
-        return IntCoding.encodeBigEndian(this.value[0]);
-    }
-
-    @Override
-    public byte[] getBytes(BytesOrder order) {
-        return new byte[0];
+    public String getName() {
+        return this.name;
     }
 }
