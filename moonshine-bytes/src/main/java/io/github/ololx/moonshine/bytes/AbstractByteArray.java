@@ -19,35 +19,10 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 16.02.2023 11:57
+ * created 22.02.2023 10:23
  *
  * @author Alexander A. Kropotin
  */
-public class IntByteArray implements ByteArray<Integer> {
+public abstract class AbstractByteArray<T> implements ByteArray<T> {
 
-    private int[] value;
-
-    public IntByteArray(int... value) {
-        this.value = value;
-    }
-
-    @Override
-    public int size() {
-        return Integer.BYTES;
-    }
-
-    @Override
-    public Integer get(int index) {
-        return this.value[index];
-    }
-
-    @Override
-    public void put(Integer value) {
-        this.value[0] = value;
-    }
-
-    @Override
-    public byte[] array() {
-        return IntCoding.encodeBigEndian(this.value[0]);
-    }
 }
