@@ -25,5 +25,9 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface ValueBytes {
 
-    byte[] getBytes();
+    default byte[] getBytes() {
+        return this.getBytes(BytesOrder.SYSTEM_DEFAULT);
+    }
+
+    byte[] getBytes(BytesOrder order);
 }
