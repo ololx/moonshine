@@ -48,11 +48,15 @@ public class IntByteArray implements ValueBytesArray<Integer> {
 
     @Override
     public byte[] getBytes() {
-        return IntCoding.encodeBigEndian(this.value[0]);
+        if (Endianness.SYSTEM_DEFAULT.equals(Endianness.LITTLE_ENDIAN)) {
+            return IntCoding.encodeBigEndian(this.value[0]);
+        }
+
+        return new byte[0];
     }
 
     @Override
-    public byte[] getBytes(BytesOrder order) {
+    public byte[] getBytes(Endianness order) {
         return new byte[0];
     }
 }
