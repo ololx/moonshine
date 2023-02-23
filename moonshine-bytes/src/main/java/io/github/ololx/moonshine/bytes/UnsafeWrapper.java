@@ -52,10 +52,10 @@ public final class UnsafeWrapper {
 
     public boolean isBigEndian() {
         try {
-            long a = (long) allocateMemoryHandle.invoke(getUnsafeInstance(), 2);
+            long a = (long) allocateMemoryHandle.invoke(theUnsafeInstance, 2);
             try {
-                putShortHandle.invoke(getUnsafeInstance(), a, (short) 0x10000001);
-                byte b = (byte) getByteHandle.invoke(getUnsafeInstance(), a);
+                putShortHandle.invoke(theUnsafeInstance, a, (short) 0x10000001);
+                byte b = (byte) getByteHandle.invoke(theUnsafeInstance, a);
 
                 switch (b) {
                     case 0x01:
@@ -67,7 +67,7 @@ public final class UnsafeWrapper {
                         return false;
                 }
             } finally {
-                freeMemoryHandle.invoke(getUnsafeInstance(), a);
+                freeMemoryHandle.invoke(theUnsafeInstance, a);
             }
         } catch (Throwable e) {
             throw new RuntimeException(e);
