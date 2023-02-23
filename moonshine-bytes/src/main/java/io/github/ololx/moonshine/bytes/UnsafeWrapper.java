@@ -34,7 +34,7 @@ public final class UnsafeWrapper {
 
     private static final Class<?> theUnsafeClass = unsafeClass();
 
-    private static final Class<?> theUnsafeInstance = unsafeClass();
+    private static final Object theUnsafeInstance = getUnsafeInstance();
 
     private static final MethodHandle allocateMemoryHandle = allocateMemoryHandle();
 
