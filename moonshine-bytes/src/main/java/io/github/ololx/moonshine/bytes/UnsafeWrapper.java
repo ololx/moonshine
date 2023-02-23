@@ -96,10 +96,10 @@ public final class UnsafeWrapper {
 
     private static Class<?> unsafeClass() {
         try {
-            return Class.forName("jdk.internal.ref.Unsafe");
+            return Class.forName("sun.misc.Unsafe");
         } catch (ClassNotFoundException e) {
             try {
-                return Class.forName("sun.misc.Unsafe");
+                return Class.forName("jdk.internal.misc.Unsafe");
             } catch (ClassNotFoundException e1) {
                 throw new RuntimeException(e1);
             }
