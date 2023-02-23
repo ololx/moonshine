@@ -17,16 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import sun.misc.Unsafe;
-
-import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Collection;
 import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.IntUnaryOperator;
-import java.util.stream.IntStream;
 
 /**
  * project moonshine
@@ -36,36 +27,13 @@ import java.util.stream.IntStream;
  */
 public final class Endianness {
 
-    public static Endianness BIG_ENDIAN;
+    private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static Endianness LITTLE_ENDIAN;
+    public static final Endianness BIG_ENDIAN = new Endianness("big-endian");
 
-    public static Endianness SYSTEM_DEFAULT;
+    public static final Endianness LITTLE_ENDIAN = new Endianness("little-endian");
 
-    static {
-        LITTLE_ENDIAN = new Endianness("little-endian");
-        BIG_ENDIAN = new Endianness("big-endian");
-
-        Unsafe unsafe = UnsafeSupplier.getInstance().get();
-        long a = unsafe.allocateMemory(2);
-        try {
-            unsafe.putShort(a, (short) 0x01000010);
-            byte b = unsafe.getByte(a);
-
-            switch (b) {
-                case 0x01:
-                    SYSTEM_DEFAULT = BIG_ENDIAN;
-                    break;
-                case 0x10:
-                    SYSTEM_DEFAULT = LITTLE_ENDIAN;
-                    break;
-                default:
-                    assert false;
-            }
-        } finally {
-            unsafe.freeMemory(a);
-        }
-    }
+    public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
 
     private final String name;
 
