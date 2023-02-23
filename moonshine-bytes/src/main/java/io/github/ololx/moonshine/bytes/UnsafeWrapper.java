@@ -118,8 +118,10 @@ public final class UnsafeWrapper {
         try {
             Field f = theUnsafeClass.getDeclaredField(fieldName);
             f.setAccessible(true);
+            Object obj = f.get(null);
+            f.setAccessible(false);
 
-            return f.get(null);
+            return obj;
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
