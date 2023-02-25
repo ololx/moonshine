@@ -24,6 +24,7 @@ package io.github.ololx.moonshine.bytes;
  * @author Alexander A. Kropotin
  */
 public final class IntCoding {
+
     private IntCoding() {}
 
     static byte[] encodeBigEndian(int value) {

@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
  *
  * @author Alexander A. Kropotin
  */
-public final class UnsafeWrapper {
+final class UnsafeWrapper {
 
     public static final UnsafeWrapper INSTANCE = new UnsafeWrapper();
 

@@ -17,46 +17,41 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import static io.github.ololx.moonshine.bytes.Endianness.BIG_ENDIAN;
+
 /**
  * project moonshine
  * created 16.02.2023 11:57
  *
  * @author Alexander A. Kropotin
  */
-public class IntByteArray implements ValueBytesArray<Integer> {
+public class IntBytes implements ValueBytesCell<Integer> {
 
-    private int[] value;
+    private final int value;
 
-    public IntByteArray(int... value) {
+    public IntBytes(int value) {
         this.value = value;
     }
 
     @Override
-    public int size() {
-        return Integer.BYTES;
-    }
-
-    @Override
-    public Integer get(int index) {
-        return this.value[index];
-    }
-
-    @Override
-    public void put(Integer value) {
-        this.value[0] = value;
+    public Integer get() {
+        return this.value;
     }
 
     @Override
     public byte[] getBytes() {
-        if (Endianness.SYSTEM_DEFAULT.equals(Endianness.LITTLE_ENDIAN)) {
-            return IntCoding.encodeBigEndian(this.value[0]);
-        }
-
-        return new byte[0];
+        return IntCoding.encodeBigEndian(this.value);
     }
 
     @Override
     public byte[] getBytes(Endianness order) {
-        return new byte[0];
+        switch (order.getName()) {
+            case "little-endian":
+                return IntCoding.encodeLittleEndian(this.value);
+            case "big-endian":
+                return IntCoding.encodeBigEndian(this.value);
+            default:
+                throw new RuntimeException("Unknown order type - " + order.getName());
+        }
     }
 }

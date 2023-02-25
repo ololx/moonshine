@@ -32,10 +32,24 @@ public class IntByteEncodedWrapperTest {
 
    @Test(dataProvider = "providesIntegersInBigEndian")
    void toBytes_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int value, byte[] expected) {
-       ValueBytesArray<?> encoded = new IntByteArray(value);
+       ValueBytesCell<Integer> encoded = new IntBytes(value);
        byte[] actualIntInBytes = encoded.getBytes();
        assertEquals(actualIntInBytes, expected);
    }
+
+    @Test(dataProvider = "providesIntegersInBigEndian")
+    void toBytesBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int value, byte[] expected) {
+        ValueBytesCell<Integer> encoded = new IntBytes(value);
+        byte[] actualIntInBytes = encoded.getBytes(Endianness.BIG_ENDIAN);
+        assertEquals(actualIntInBytes, expected);
+    }
+
+    @Test(dataProvider = "providesIntegersInLittleEndian")
+    void toBytesLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int value, byte[] expected) {
+        ValueBytesCell<Integer> encoded = new IntBytes(value);
+        byte[] actualIntInBytes = encoded.getBytes(Endianness.LITTLE_ENDIAN);
+        assertEquals(actualIntInBytes, expected);
+    }
 
     @DataProvider
     static Object[][] providesIntegersInBigEndian() {
@@ -45,6 +59,17 @@ public class IntByteEncodedWrapperTest {
                 new Object[]{3, new byte[] {0, 0, 0, 3}},
                 new Object[]{4, new byte[] {0, 0, 0, 4}},
                 new Object[]{5, new byte[] {0, 0, 0, 5}},
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesIntegersInLittleEndian() {
+        return new Object[][]{
+                new Object[]{1, new byte[] {1, 0, 0, 0}},
+                new Object[]{2, new byte[] {2, 0, 0, 0}},
+                new Object[]{3, new byte[] {3, 0, 0, 0}},
+                new Object[]{4, new byte[] {4, 0, 0, 0}},
+                new Object[]{5, new byte[] {5, 0, 0, 0}},
         };
     }
 }
