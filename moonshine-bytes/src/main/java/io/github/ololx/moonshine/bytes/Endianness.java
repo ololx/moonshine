@@ -35,6 +35,8 @@ public final class Endianness {
 
     public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
 
+    public static final Endianness DEFAULT = SYSTEM_DEFAULT;
+
     private final String name;
 
     public Endianness(String name) {
