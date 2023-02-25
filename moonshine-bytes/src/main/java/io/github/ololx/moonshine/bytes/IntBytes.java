@@ -17,7 +17,11 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import static io.github.ololx.moonshine.bytes.Endianness.BIG_ENDIAN;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import static io.github.ololx.moonshine.bytes.Endianness.*;
 
 /**
  * project moonshine
@@ -26,6 +30,13 @@ import static io.github.ololx.moonshine.bytes.Endianness.BIG_ENDIAN;
  * @author Alexander A. Kropotin
  */
 public class IntBytes implements ValueBytesCell<Integer> {
+
+    private final Map<String, Function<Integer, byte[]>> coding = new HashMap<>();
+
+    {
+        coding.put(BIG_ENDIAN.getName(), IntCoding::encodeBigEndian);
+        coding.put(LITTLE_ENDIAN.getName(), IntCoding::encodeLittleEndian);
+    }
 
     private final int value;
 
@@ -40,18 +51,15 @@ public class IntBytes implements ValueBytesCell<Integer> {
 
     @Override
     public byte[] getBytes() {
-        return IntCoding.encodeBigEndian(this.value);
+        return this.getBytes(DEFAULT);
     }
 
     @Override
     public byte[] getBytes(Endianness order) {
-        switch (order.getName()) {
-            case "little-endian":
-                return IntCoding.encodeLittleEndian(this.value);
-            case "big-endian":
-                return IntCoding.encodeBigEndian(this.value);
-            default:
-                throw new RuntimeException("Unknown order type - " + order.getName());
+        if (!this.coding.containsKey(order.getName())) {
+            throw new RuntimeException("Unknown order type - " + order.getName());
         }
+
+        return this.coding.get(order.getName()).apply(this.value);
     }
 }
