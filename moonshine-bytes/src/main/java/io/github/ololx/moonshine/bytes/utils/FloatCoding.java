@@ -15,21 +15,31 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes;
-
-import io.github.ololx.moonshine.bytes.Endianness;
+package io.github.ololx.moonshine.bytes.utils;
 
 /**
  * project moonshine
- * created 22.02.2023 10:39
+ * created 15.02.2023 20:31
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytes {
+public final class FloatCoding {
 
-    default byte[] getBytes() {
-        return this.getBytes(Endianness.DEFAULT);
+    private FloatCoding() {}
+
+    public static byte[] encodeBigEndian(float value) {
+        return IntCoding.encodeBigEndian(Float.floatToIntBits(value));
     }
 
-    byte[] getBytes(Endianness order);
+    public static byte[] encodeLittleEndian(float value) {
+        return IntCoding.encodeLittleEndian(Float.floatToIntBits(value));
+    }
+
+    public static float decodeBigEndian(byte[] bytes) {
+        return Float.intBitsToFloat(IntCoding.decodeBigEndian(bytes));
+    }
+
+    public static float decodeLittleEndian(byte[] bytes) {
+        return Float.intBitsToFloat(IntCoding.decodeLittleEndian(bytes));
+    }
 }

@@ -21,15 +21,11 @@ import io.github.ololx.moonshine.bytes.Endianness;
 
 /**
  * project moonshine
- * created 22.02.2023 10:39
+ * created 27.02.2023 10:50
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytes {
+public interface ValueBytesEncoder<T> {
 
-    default byte[] getBytes() {
-        return this.getBytes(Endianness.DEFAULT);
-    }
-
-    byte[] getBytes(Endianness order);
+    byte[] encode(T value);
 }

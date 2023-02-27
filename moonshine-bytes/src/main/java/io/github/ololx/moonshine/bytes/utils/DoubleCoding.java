@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes;
+package io.github.ololx.moonshine.bytes.utils;
 
 /**
  * project moonshine
@@ -27,19 +27,19 @@ public final class DoubleCoding {
 
     private DoubleCoding() {}
 
-    static byte[] encodeBigEndian(double value) {
+    public static byte[] encodeBigEndian(double value) {
         return LongCoding.encodeBigEndian(Double.doubleToLongBits(value));
     }
 
-    static byte[] encodeLittleEndian(double value) {
+    public static byte[] encodeLittleEndian(double value) {
         return LongCoding.encodeLittleEndian(Double.doubleToLongBits(value));
     }
 
-    static double decodeBigEndian(byte[] bytes) {
+    public static double decodeBigEndian(byte[] bytes) {
         return Double.longBitsToDouble(LongCoding.decodeBigEndian(bytes));
     }
 
-    static double decodeLittleEndian(byte[] bytes) {
+    public static double decodeLittleEndian(byte[] bytes) {
         return Double.longBitsToDouble(LongCoding.decodeLittleEndian(bytes));
     }
 }

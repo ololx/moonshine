@@ -17,9 +17,10 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.utils.IntCoding;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 import static io.github.ololx.moonshine.bytes.Endianness.*;
 
@@ -31,11 +32,15 @@ import static io.github.ololx.moonshine.bytes.Endianness.*;
  */
 public class IntBytes implements ValueBytesCell<Integer> {
 
-    private final Map<String, Function<Integer, byte[]>> coding = new HashMap<>();
+    public static final ValueBytesEncoder<Integer> BEEncoder = (IntCoding::encodeBigEndian);
+
+    public static final ValueBytesEncoder<Integer> LEEncoder = (IntCoding::encodeLittleEndian);
+
+    private final Map<String, ValueBytesEncoder<Integer>> coding = new HashMap<>();
 
     {
-        coding.put(BIG_ENDIAN.getName(), IntCoding::encodeBigEndian);
-        coding.put(LITTLE_ENDIAN.getName(), IntCoding::encodeLittleEndian);
+        coding.put(BIG_ENDIAN.getName(), BEEncoder);
+        coding.put(LITTLE_ENDIAN.getName(), LEEncoder);
     }
 
     private final int value;
@@ -50,16 +55,11 @@ public class IntBytes implements ValueBytesCell<Integer> {
     }
 
     @Override
-    public byte[] getBytes() {
-        return this.getBytes(DEFAULT);
-    }
-
-    @Override
-    public byte[] getBytes(Endianness order) {
-        if (!this.coding.containsKey(order.getName())) {
-            throw new RuntimeException("Unknown order type - " + order.getName());
+    public byte[] getBytes(Endianness endianness) {
+        if (!this.coding.containsKey(endianness.getName())) {
+            throw new RuntimeException("Unknown endianness type - " + endianness.getName());
         }
 
-        return this.coding.get(order.getName()).apply(this.value);
+        return this.coding.get(endianness.getName()).encode(this.value);
     }
 }
