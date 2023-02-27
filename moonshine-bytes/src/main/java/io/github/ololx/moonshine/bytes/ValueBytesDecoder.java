@@ -17,29 +17,15 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.Endianness;
+
 /**
  * project moonshine
- * created 15.02.2023 20:31
+ * created 27.02.2023 10:50
  *
  * @author Alexander A. Kropotin
  */
-public final class FloatCoding {
+public interface ValueBytesDecoder<T> {
 
-    private FloatCoding() {}
-
-    static byte[] encodeBigEndian(float value) {
-        return IntCoding.encodeBigEndian(Float.floatToIntBits(value));
-    }
-
-    static byte[] encodeLittleEndian(float value) {
-        return IntCoding.encodeLittleEndian(Float.floatToIntBits(value));
-    }
-
-    static float decodeBigEndian(byte[] bytes) {
-        return Float.intBitsToFloat(IntCoding.decodeBigEndian(bytes));
-    }
-
-    static float decodeLittleEndian(byte[] bytes) {
-        return Float.intBitsToFloat(IntCoding.decodeLittleEndian(bytes));
-    }
+    T decode(byte[] bytes);
 }

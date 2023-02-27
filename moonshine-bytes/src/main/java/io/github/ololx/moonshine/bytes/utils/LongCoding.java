@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes;
+package io.github.ololx.moonshine.bytes.utils;
 
 /**
  * project moonshine
@@ -27,7 +27,7 @@ public final class LongCoding {
 
     private LongCoding() {}
 
-    static byte[] encodeBigEndian(long value) {
+    public static byte[] encodeBigEndian(long value) {
         return new byte[] {
                 (byte)(value >> 56),
                 (byte)(value >> 48),
@@ -40,7 +40,7 @@ public final class LongCoding {
         };
     }
 
-    static byte[] encodeLittleEndian(long value) {
+    public static byte[] encodeLittleEndian(long value) {
         return new byte[] {
                 (byte)(value),
                 (byte)(value >> 8),
@@ -53,7 +53,7 @@ public final class LongCoding {
         };
     }
 
-    static long decodeBigEndian(byte[] bytes) {
+    public static long decodeBigEndian(byte[] bytes) {
         return (bytes[0] & 0xFFL) << 56
                 | (bytes[1] & 0xFFL) << 48
                 | (bytes[2] & 0xFFL) << 40
@@ -64,7 +64,7 @@ public final class LongCoding {
                 | (bytes[7] & 0xFFL);
     }
 
-    static long decodeLittleEndian(byte[] bytes) {
+    public static long decodeLittleEndian(byte[] bytes) {
         return (bytes[0] & 0xFFL)
                 | (bytes[1] & 0xFFL) << 8
                 | (bytes[2] & 0xFFL) << 16
