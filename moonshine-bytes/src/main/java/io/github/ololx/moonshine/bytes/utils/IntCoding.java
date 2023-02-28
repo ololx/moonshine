@@ -37,12 +37,29 @@ public final class IntCoding {
         return encode(value, 0, num -> num << 3);
     }
 
+    public static byte[] encodePDPEndian(int value) {
+        return encode(value, 0, num -> {
+            switch (num) {
+                case 0:
+                    return 24 - 8;
+                case 1:
+                    return 24;
+                case 2:
+                    return 0;
+                case 3:
+                    return 24 - 16;
+            }
+
+            return 0;
+        });
+    }
+
     public static byte[] encode(int value, int offset, IntUnaryOperator endianness) {
         byte[] encoded =  new byte[offset + 4];
-        encoded[offset] = (byte) (value >> endianness.applyAsInt(offset));
-        encoded[offset + 1] = (byte) (value >> endianness.applyAsInt(offset + 1));
-        encoded[offset + 2] = (byte) (value >> endianness.applyAsInt(offset + 2));
-        encoded[offset + 3] = (byte) (value >> endianness.applyAsInt(offset + 3));
+        encoded[offset] = (byte) (value >> endianness.applyAsInt(0));
+        encoded[offset + 1] = (byte) (value >> endianness.applyAsInt(1));
+        encoded[offset + 2] = (byte) (value >> endianness.applyAsInt(2));
+        encoded[offset + 3] = (byte) (value >> endianness.applyAsInt(3));
 
         return encoded;
     }
