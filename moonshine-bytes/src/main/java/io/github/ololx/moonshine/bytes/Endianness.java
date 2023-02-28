@@ -29,9 +29,9 @@ public final class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static final Endianness BIG_ENDIAN = new Endianness("big-endian");
+    public static final Endianness BIG_ENDIAN = new Endianness("big-endian", "BE");
 
-    public static final Endianness LITTLE_ENDIAN = new Endianness("little-endian");
+    public static final Endianness LITTLE_ENDIAN = new Endianness("little-endian", "LE");
 
     public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
 
@@ -39,11 +39,19 @@ public final class Endianness {
 
     private final String name;
 
-    public Endianness(String name) {
+    private final String shortName;
+
+    public Endianness(String name, String shortName) {
         this.name = Objects.requireNonNull(name);
+        this.shortName = Objects.requireNonNull(shortName);
     }
 
     public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String toString() {
         return this.name;
     }
 }

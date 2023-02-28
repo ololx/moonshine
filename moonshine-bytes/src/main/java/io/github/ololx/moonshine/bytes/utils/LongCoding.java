@@ -30,38 +30,43 @@ public final class LongCoding {
     private LongCoding() {}
 
     public static byte[] encodeBigEndian(long value) {
-        return encode(value, 0, 8, it -> 56 - (it << 3));
+        return encode(value, 0, it -> 56 - (it << 3));
     }
 
     public static byte[] encodeLittleEndian(long value) {
-        return encode(value, 0, 8, it -> it << 3);
+        return encode(value, 0, it -> it << 3);
     }
 
-    static byte[] encode(long value, int start, int count, IntUnaryOperator step) {
-        byte[] result = new byte[count];
+    public static byte[] encode(long value, int offset, IntUnaryOperator endianness) {
+        byte[] encoded =  new byte[offset + 8];
+        encoded[offset] = (byte) (value >> endianness.applyAsInt(offset));
+        encoded[offset + 1] = (byte) (value >> endianness.applyAsInt(offset + 1));
+        encoded[offset + 2] = (byte) (value >> endianness.applyAsInt(offset + 2));
+        encoded[offset + 3] = (byte) (value >> endianness.applyAsInt(offset + 3));
+        encoded[offset + 4] = (byte) (value >> endianness.applyAsInt(offset + 4));
+        encoded[offset + 5] = (byte) (value >> endianness.applyAsInt(offset + 5));
+        encoded[offset + 6] = (byte) (value >> endianness.applyAsInt(offset + 6));
+        encoded[offset + 7] = (byte) (value >> endianness.applyAsInt(offset + 7));
 
-        for (int iteration = start; iteration < count; iteration++) {
-            result[iteration] = (byte) (value >> step.applyAsInt(iteration));
-        }
-
-        return result;
+        return encoded;
     }
 
     public static long decodeBigEndian(byte[] bytes) {
-        return decode(bytes, 0, 8, it -> 56 - (it << 3));
+        return decode(bytes, 0, it -> 56 - (it << 3));
     }
 
     public static long decodeLittleEndian(byte[] bytes) {
-        return decode(bytes, 0, 8, it -> it << 3);
+        return decode(bytes, 0, it -> it << 3);
     }
 
-    static long decode(byte[] bytes, int start, int count, IntUnaryOperator step) {
-        long result = 0L;
-
-        for (int iteration = start; iteration < count; iteration++) {
-            result |= (bytes[iteration] & 0xFFL) << step.applyAsInt(iteration);
-        }
-
-        return result;
+    public static long decode(byte[] bytes, int offset, IntUnaryOperator endianness) {
+        return (bytes[offset] & 0xFFL) << endianness.applyAsInt(offset)
+                | (bytes[offset + 1] & 0xFFL) << endianness.applyAsInt(offset + 1)
+                | (bytes[offset + 2] & 0xFFL) << endianness.applyAsInt(offset + 2)
+                | (bytes[offset + 3] & 0xFFL) << endianness.applyAsInt(offset + 3)
+                | (bytes[offset + 4] & 0xFFL) << endianness.applyAsInt(offset + 4)
+                | (bytes[offset + 5] & 0xFFL) << endianness.applyAsInt(offset + 5)
+                | (bytes[offset + 6] & 0xFFL) << endianness.applyAsInt(offset + 6)
+                | (bytes[offset + 7] & 0xFFL) << endianness.applyAsInt(offset + 7);
     }
 }
