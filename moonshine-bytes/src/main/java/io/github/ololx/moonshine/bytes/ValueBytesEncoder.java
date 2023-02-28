@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.ololx.moonshine.bytes.Endianness;
-
 /**
  * project moonshine
  * created 27.02.2023 10:50

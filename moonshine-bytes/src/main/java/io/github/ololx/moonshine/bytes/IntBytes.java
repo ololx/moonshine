@@ -22,7 +22,8 @@ import io.github.ololx.moonshine.bytes.utils.IntCoding;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.ololx.moonshine.bytes.Endianness.*;
+import static io.github.ololx.moonshine.bytes.Endianness.BIG_ENDIAN;
+import static io.github.ololx.moonshine.bytes.Endianness.LITTLE_ENDIAN;
 
 /**
  * project moonshine
