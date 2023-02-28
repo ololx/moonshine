@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.utils;
 
+import java.util.function.IntUnaryOperator;
+
 /**
  * project moonshine
  * created 10.02.2023 13:45
@@ -46,16 +48,17 @@ public final class IntCoding {
     }
 
     public static int decodeBigEndian(byte[] bytes) {
-        return (bytes[0] & 0xFF) << 24
-                | (bytes[1] & 0xFF) << 16
-                | (bytes[2] & 0xFF) << 8
-                | (bytes[3] & 0xFF);
+        return decode(bytes, 0, num -> 24 - (num << 3));
     }
 
     public static int decodeLittleEndian(byte[] bytes) {
-        return (bytes[0] & 0xFF)
-                | (bytes[1] & 0xFF) << 8
-                | (bytes[2] & 0xFF) << 16
-                | (bytes[3] & 0xFF) << 24;
+        return decode(bytes, 0, num -> num << 3);
+    }
+
+    public static int decode(byte[] bytes, int offset, IntUnaryOperator endianness) {
+        return (bytes[offset] & 0xFF) << endianness.applyAsInt(offset)
+                | (bytes[++offset] & 0xFF) << endianness.applyAsInt(offset)
+                | (bytes[++offset] & 0xFF) << endianness.applyAsInt(offset)
+                | (bytes[++offset] & 0xFF) << endianness.applyAsInt(offset);
     }
 }
