@@ -43,6 +43,12 @@ public class IntBytesTest {
         assertEquals(actualIntInBytes, expected);
     }
 
+     @Test(dataProvider = "providesIntegersInPDPEndian")
+     void encodeInPDP_whenEncodeIntToBytes_thenBytesWillBeInPDPEndianOrder(int value, byte[] expected) {
+         byte[] actualIntInBytes = IntCoding.encodePDPEndian(value);
+         assertEquals(actualIntInBytes, expected);
+     }
+
      @Test(dataProvider = "providesIntegersInBigEndian")
      void decodeInBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int expected, byte[] bytes) {
          int actualInt = IntCoding.decodeBigEndian(bytes);
@@ -76,4 +82,15 @@ public class IntBytesTest {
                 new Object[]{5, new byte[] {5, 0, 0, 0}},
         };
     }
+
+     @DataProvider
+     static Object[][] providesIntegersInPDPEndian() {
+         return new Object[][]{
+                 new Object[]{1, new byte[] {0, 0, 1, 0}},
+                 new Object[]{2, new byte[] {0, 0, 2, 0}},
+                 new Object[]{3, new byte[] {0, 0, 3, 0}},
+                 new Object[]{4, new byte[] {0, 0, 4, 0}},
+                 new Object[]{5, new byte[] {0, 0, 5, 0}},
+         };
+     }
 }
