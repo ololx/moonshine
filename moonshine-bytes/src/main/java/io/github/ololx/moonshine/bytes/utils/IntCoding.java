@@ -57,8 +57,8 @@ public final class IntCoding {
 
     public static int decode(byte[] bytes, int offset, IntUnaryOperator endianness) {
         return (bytes[offset] & 0xFF) << endianness.applyAsInt(offset)
-                | (bytes[++offset] & 0xFF) << endianness.applyAsInt(offset)
-                | (bytes[++offset] & 0xFF) << endianness.applyAsInt(offset)
-                | (bytes[++offset] & 0xFF) << endianness.applyAsInt(offset);
+                | (bytes[offset + 1] & 0xFF) << endianness.applyAsInt(offset + 1)
+                | (bytes[offset + 2] & 0xFF) << endianness.applyAsInt(offset + 2)
+                | (bytes[offset + 3] & 0xFF) << endianness.applyAsInt(offset + 3);
     }
 }
