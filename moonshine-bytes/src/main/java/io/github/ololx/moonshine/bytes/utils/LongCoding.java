@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.utils;
 
+import java.util.function.IntUnaryOperator;
+
 /**
  * project moonshine
  * created 10.02.2023 15:45
@@ -28,50 +30,38 @@ public final class LongCoding {
     private LongCoding() {}
 
     public static byte[] encodeBigEndian(long value) {
-        return new byte[] {
-                (byte)(value >> 56),
-                (byte)(value >> 48),
-                (byte)(value >> 40),
-                (byte)(value >> 32),
-                (byte)(value >> 24),
-                (byte)(value >> 16),
-                (byte)(value >> 8),
-                (byte)(value)
-        };
+        return encode(value, 0, 8, it -> 56 - (it << 3));
     }
 
     public static byte[] encodeLittleEndian(long value) {
-        return new byte[] {
-                (byte)(value),
-                (byte)(value >> 8),
-                (byte)(value >> 16),
-                (byte)(value >> 24),
-                (byte)(value >> 32),
-                (byte)(value >> 40),
-                (byte)(value >> 48),
-                (byte)(value >> 56)
-        };
+        return encode(value, 0, 8, it -> it << 3);
+    }
+
+    static byte[] encode(long value, int start, int count, IntUnaryOperator step) {
+        byte[] result = new byte[count];
+
+        for (int iteration = start; iteration < count; iteration++) {
+            result[iteration] = (byte) (value >> step.applyAsInt(iteration));
+        }
+
+        return result;
     }
 
     public static long decodeBigEndian(byte[] bytes) {
-        return (bytes[0] & 0xFFL) << 56
-                | (bytes[1] & 0xFFL) << 48
-                | (bytes[2] & 0xFFL) << 40
-                | (bytes[3] & 0xFFL) << 32
-                | (bytes[4] & 0xFFL) << 24
-                | (bytes[5] & 0xFFL) << 16
-                | (bytes[6] & 0xFFL) << 8
-                | (bytes[7] & 0xFFL);
+        return decode(bytes, 0, 8, it -> 56 - (it << 3));
     }
 
     public static long decodeLittleEndian(byte[] bytes) {
-        return (bytes[0] & 0xFFL)
-                | (bytes[1] & 0xFFL) << 8
-                | (bytes[2] & 0xFFL) << 16
-                | (bytes[3] & 0xFFL) << 24
-                | (bytes[4] & 0xFFL) << 32
-                | (bytes[5] & 0xFFL) << 40
-                | (bytes[6] & 0xFFL) << 48
-                | (bytes[7] & 0xFFL) << 56;
+        return decode(bytes, 0, 8, it -> it << 3);
+    }
+
+    static long decode(byte[] bytes, int start, int count, IntUnaryOperator step) {
+        long result = 0L;
+
+        for (int iteration = start; iteration < count; iteration++) {
+            result |= (bytes[iteration] & 0xFFL) << step.applyAsInt(iteration);
+        }
+
+        return result;
     }
 }
