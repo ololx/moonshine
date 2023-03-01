@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.utils;
 
+import io.github.ololx.moonshine.bytes.Endianness;
+
 import java.util.function.IntUnaryOperator;
 
 /**
@@ -30,24 +32,24 @@ public final class IntCoding {
     private IntCoding() {}
 
     public static byte[] encodeBigEndian(int value) {
-        return encode(value, 0, num -> 24 - (num << 3));
+        return encode(value, 0, Endianness.BIG_ENDIAN.getOrder());
     }
 
     public static byte[] encodeLittleEndian(int value) {
-        return encode(value, 0, num -> num << 3);
+        return encode(value, 0, Endianness.LITTLE_ENDIAN.getOrder());
     }
 
     public static byte[] encodePDPEndian(int value) {
         return encode(value, 0, num -> {
             switch (num) {
                 case 0:
-                    return 24 - 8;
+                    return 2;
                 case 1:
-                    return 24;
+                    return 3;
                 case 2:
                     return 0;
                 case 3:
-                    return 24 - 16;
+                    return 1;
             }
 
             return 0;
@@ -56,10 +58,10 @@ public final class IntCoding {
 
     public static byte[] encode(int value, int offset, IntUnaryOperator endianness) {
         byte[] encoded =  new byte[offset + 4];
-        encoded[offset] = (byte) (value >> endianness.applyAsInt(0));
-        encoded[offset + 1] = (byte) (value >> endianness.applyAsInt(1));
-        encoded[offset + 2] = (byte) (value >> endianness.applyAsInt(2));
-        encoded[offset + 3] = (byte) (value >> endianness.applyAsInt(3));
+        encoded[offset] = (byte) (value >> (8 * endianness.applyAsInt(0)));
+        encoded[offset + 1] = (byte) (value >> (8 * endianness.applyAsInt(1)));
+        encoded[offset + 2] = (byte) (value >> (8 * endianness.applyAsInt(2)));
+        encoded[offset + 3] = (byte) (value >> (8 * endianness.applyAsInt(3)));
 
         return encoded;
     }

@@ -18,6 +18,7 @@
 package io.github.ololx.moonshine.bytes;
 
 import java.util.Objects;
+import java.util.function.IntUnaryOperator;
 
 /**
  * project moonshine
@@ -29,9 +30,11 @@ public final class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static final Endianness BIG_ENDIAN = new Endianness("big-endian", "BE");
+    public static final Endianness BIG_ENDIAN = new Endianness("Big-endian", "BE", i -> 3 - i);
 
-    public static final Endianness LITTLE_ENDIAN = new Endianness("little-endian", "LE");
+    public static final Endianness LITTLE_ENDIAN = new Endianness("Little-endian", "LE", i -> i);
+
+    public static final Endianness PDP_ENDIAN = new Endianness("PDP-endian", "PDP-11", i -> i);
 
     public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
 
@@ -41,9 +44,12 @@ public final class Endianness {
 
     private final String shortName;
 
-    public Endianness(String name, String shortName) {
+    private final IntUnaryOperator order;
+
+    public Endianness(String name, String shortName, IntUnaryOperator order) {
         this.name = Objects.requireNonNull(name);
         this.shortName = Objects.requireNonNull(shortName);
+        this.order = order;
     }
 
     public String getName() {
@@ -53,5 +59,9 @@ public final class Endianness {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public IntUnaryOperator getOrder() {
+        return this.order;
     }
 }

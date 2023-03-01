@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytesCell<T> extends ValueBytes {
+public interface ValueBytesElement<T> extends ValueBytes {
 
     T get();
 }

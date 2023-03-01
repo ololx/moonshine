@@ -31,7 +31,7 @@ import static io.github.ololx.moonshine.bytes.Endianness.LITTLE_ENDIAN;
  *
  * @author Alexander A. Kropotin
  */
-public class IntBytes implements ValueBytesCell<Integer> {
+public class IntBytes implements ValueBytesElement<Integer> {
 
     public static final ValueBytesEncoder<Integer> BEEncoder = (IntCoding::encodeBigEndian);
 
