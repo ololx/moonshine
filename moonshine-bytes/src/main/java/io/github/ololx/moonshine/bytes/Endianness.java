@@ -30,11 +30,11 @@ public final class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static final Endianness BIG_ENDIAN = new Endianness("Big-endian", "BE", i -> 3 - i);
+    public static final Endianness BIG_ENDIAN = new Endianness("Big-endian", "BE", (seed, i) -> --seed - i);
 
-    public static final Endianness LITTLE_ENDIAN = new Endianness("Little-endian", "LE", i -> i);
+    public static final Endianness LITTLE_ENDIAN = new Endianness("Little-endian", "LE", (seed, i) -> i);
 
-    public static final Endianness PDP_ENDIAN = new Endianness("PDP-endian", "PDP-11", i -> i);
+    public static final Endianness PDP_ENDIAN = new Endianness("PDP-endian", "PDP-11", (seed, i) -> --seed - i);
 
     public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
 
@@ -44,12 +44,12 @@ public final class Endianness {
 
     private final String shortName;
 
-    private final IntUnaryOperator order;
+    private final BytesOrderOperator bytesOrderOperator;
 
-    public Endianness(String name, String shortName, IntUnaryOperator order) {
+    public Endianness(String name, String shortName, BytesOrderOperator bytesOrderOperator) {
         this.name = Objects.requireNonNull(name);
         this.shortName = Objects.requireNonNull(shortName);
-        this.order = order;
+        this.bytesOrderOperator = Objects.requireNonNull(bytesOrderOperator);
     }
 
     public String getName() {
@@ -61,7 +61,7 @@ public final class Endianness {
         return this.name;
     }
 
-    public IntUnaryOperator getOrder() {
-        return this.order;
+    public BytesOrderOperator getBytesOrderOperator() {
+        return this.bytesOrderOperator;
     }
 }
