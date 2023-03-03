@@ -18,7 +18,6 @@
 package io.github.ololx.moonshine.bytes;
 
 import java.util.Objects;
-import java.util.function.IntUnaryOperator;
 
 /**
  * project moonshine

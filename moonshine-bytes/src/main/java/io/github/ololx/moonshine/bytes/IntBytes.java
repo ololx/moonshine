@@ -19,12 +19,6 @@ package io.github.ololx.moonshine.bytes;
 
 import io.github.ololx.moonshine.bytes.util.IntCoding;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static io.github.ololx.moonshine.bytes.Endianness.BIG_ENDIAN;
-import static io.github.ololx.moonshine.bytes.Endianness.LITTLE_ENDIAN;
-
 /**
  * project moonshine
  * created 16.02.2023 11:57
@@ -33,16 +27,9 @@ import static io.github.ololx.moonshine.bytes.Endianness.LITTLE_ENDIAN;
  */
 public class IntBytes implements ValueBytesElement<Integer> {
 
-    public static final ValueBytesEncoder<Integer> BEEncoder = (IntCoding::encodeBigEndian);
+    public static final BytesEncoder<Integer> ENCODER = IntCoding::encode;
 
-    public static final ValueBytesEncoder<Integer> LEEncoder = (IntCoding::encodeLittleEndian);
-
-    private final Map<String, ValueBytesEncoder<Integer>> coding = new HashMap<>();
-
-    {
-        coding.put(BIG_ENDIAN.getName(), BEEncoder);
-        coding.put(LITTLE_ENDIAN.getName(), LEEncoder);
-    }
+    private final BytesEncoder<Integer> encoder = ENCODER;
 
     private final int value;
 
@@ -57,10 +44,6 @@ public class IntBytes implements ValueBytesElement<Integer> {
 
     @Override
     public byte[] getBytes(Endianness endianness) {
-        if (!this.coding.containsKey(endianness.getName())) {
-            throw new RuntimeException("Unknown endianness type - " + endianness.getName());
-        }
-
-        return this.coding.get(endianness.getName()).encode(this.value);
+        return this.encoder.encode(this.value, 0, endianness.getBytesOrderOperator());
     }
 }

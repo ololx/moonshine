@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytesDecoder<T> {
+public interface BytesDecoder<T> {
 
     T decode(byte[] bytes);
 }

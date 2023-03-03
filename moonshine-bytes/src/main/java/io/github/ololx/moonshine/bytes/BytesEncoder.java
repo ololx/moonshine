@@ -23,7 +23,11 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytesEncoder<T> {
+public interface BytesEncoder<T> {
 
-    byte[] encode(T value);
+    default byte[] encode(T value, BytesOrderOperator bytesOrderOperator) {
+        return this.encode(value, 0, bytesOrderOperator);
+    }
+
+    byte[] encode(T value, int offset, BytesOrderOperator bytesOrderOperator);
 }
