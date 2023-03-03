@@ -17,11 +17,10 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.ololx.moonshine.bytes.utils.IntCoding;
+import io.github.ololx.moonshine.bytes.util.IntCoding;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import static io.github.ololx.moonshine.bytes.Endianness.BIG_ENDIAN;
 import static io.github.ololx.moonshine.bytes.Endianness.LITTLE_ENDIAN;

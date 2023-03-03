@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.utils;
+package io.github.ololx.moonshine.bytes.util;
 
 import java.util.function.IntUnaryOperator;
 
