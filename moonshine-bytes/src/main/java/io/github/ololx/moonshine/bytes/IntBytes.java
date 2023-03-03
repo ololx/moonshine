@@ -29,12 +29,18 @@ public class IntBytes implements ValueBytesElement<Integer> {
 
     public static final BytesEncoder<Integer> ENCODER = IntCoding::encode;
 
+    public static final BytesDecoder<Integer> DECODER = IntCoding::decode;
+
     private final BytesEncoder<Integer> encoder = ENCODER;
 
     private final int value;
 
     public IntBytes(int value) {
         this.value = value;
+    }
+
+    public static IntBytes fromBytes(byte[] bytes, Endianness endianness) {
+        return new IntBytes(DECODER.decode(bytes, 0, endianness.getBytesOrderOperator()));
     }
 
     @Override
