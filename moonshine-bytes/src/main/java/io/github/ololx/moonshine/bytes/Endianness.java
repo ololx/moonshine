@@ -30,11 +30,11 @@ public final class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static final Endianness BIG_ENDIAN = new Endianness("Big-endian", "BE", (seed, i) -> --seed - i);
+    public static final Endianness BIG_ENDIAN = new Endianness("Big-endian", "BE", (seed, i) -> seed - i);
 
     public static final Endianness LITTLE_ENDIAN = new Endianness("Little-endian", "LE", (seed, i) -> i);
 
-    public static final Endianness PDP_ENDIAN = new Endianness("PDP-endian", "PDP-11", (seed, i) -> --seed - i);
+    public static final Endianness PDP_ENDIAN = new Endianness("PDP-endian", "PDP-11", (seed, i) -> i % 2 == 0 ? seed - (i + 1) : seed - (i - 1));
 
     public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
 

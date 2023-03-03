@@ -27,5 +27,5 @@ import java.util.function.IntUnaryOperator;
  */
 public interface BytesOrderOperator {
 
-    int apply(int capacity, int current);
+    int apply(int mostSignificantByte, int currentByte);
 }

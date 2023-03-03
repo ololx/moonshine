@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.ololx.moonshine.bytes.utils.IntCoding;
+import io.github.ololx.moonshine.bytes.util.IntCoding;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -58,6 +58,12 @@ public class IntBytesTest {
      @Test(dataProvider = "providesIntegersInLittleEndian")
      void decodeInLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int expected, byte[] bytes) {
          int actualInt = IntCoding.decodeLittleEndian(bytes);
+         assertEquals(actualInt, expected);
+     }
+
+     @Test(dataProvider = "providesIntegersInPDPEndian")
+     void decodeInPDPEndian_whenEncodeIntToBytes_thenBytesWillBeInPDPEndianOrder(int expected, byte[] bytes) {
+         int actualInt = IntCoding.decodePDPEndian(bytes);
          assertEquals(actualInt, expected);
      }
 

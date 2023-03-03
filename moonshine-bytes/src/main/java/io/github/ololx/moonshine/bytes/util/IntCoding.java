@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.utils;
+package io.github.ololx.moonshine.bytes.util;
 
 import io.github.ololx.moonshine.bytes.BytesOrderOperator;
 import io.github.ololx.moonshine.bytes.Endianness;
-
-import java.util.function.IntUnaryOperator;
 
 /**
  * project moonshine
@@ -41,28 +39,15 @@ public final class IntCoding {
     }
 
     public static byte[] encodePDPEndian(int value) {
-        return encode(value, 0, (seed, num) -> {
-            switch (num) {
-                case 0:
-                    return 2;
-                case 1:
-                    return 3;
-                case 2:
-                    return 0;
-                case 3:
-                    return 1;
-            }
-
-            return 0;
-        });
+        return encode(value, 0, Endianness.PDP_ENDIAN.getBytesOrderOperator());
     }
 
     public static byte[] encode(int value, int offset, BytesOrderOperator endianness) {
         byte[] encoded =  new byte[offset + 4];
-        encoded[offset] = (byte) (value >> (8 * endianness.apply(4, 0)));
-        encoded[offset + 1] = (byte) (value >> (8 * endianness.apply(4, 1)));
-        encoded[offset + 2] = (byte) (value >> (8 * endianness.apply(4, 2)));
-        encoded[offset + 3] = (byte) (value >> (8 * endianness.apply(4, 3)));
+        encoded[offset] = (byte) (value >> (8 * endianness.apply(3, 0)));
+        encoded[offset + 1] = (byte) (value >> (8 * endianness.apply(3, 1)));
+        encoded[offset + 2] = (byte) (value >> (8 * endianness.apply(3, 2)));
+        encoded[offset + 3] = (byte) (value >> (8 * endianness.apply(3, 3)));
 
         return encoded;
     }
@@ -75,10 +60,17 @@ public final class IntCoding {
         return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getBytesOrderOperator());
     }
 
+    public static int decodePDPEndian(byte[] bytes) {
+        return decode(bytes, 0, Endianness.PDP_ENDIAN.getBytesOrderOperator());
+    }
+
     public static int decode(byte[] bytes, int offset, BytesOrderOperator endianness) {
-        return (bytes[offset] & 0xFF) << (8 * endianness.apply(4, 0))
-                | (bytes[offset + 1] & 0xFF) << (8 * endianness.apply(4, 1))
-                | (bytes[offset + 2] & 0xFF) << (8 * endianness.apply(4, 2))
-                | (bytes[offset + 3] & 0xFF) << (8 * endianness.apply(4, 3));
+        int decoded = 0;
+        decoded |= (bytes[offset] & 0xFF) << (8 * endianness.apply(3, 0));
+        decoded |= (bytes[offset + 1] & 0xFF) << (8 * endianness.apply(3, 1));
+        decoded |= (bytes[offset + 2] & 0xFF) << (8 * endianness.apply(3, 2));
+        decoded |= (bytes[offset + 3] & 0xFF) << (8 * endianness.apply(3, 3));
+
+        return decoded;
     }
 }
