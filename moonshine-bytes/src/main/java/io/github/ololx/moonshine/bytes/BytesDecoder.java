@@ -25,9 +25,9 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface BytesDecoder<T> {
 
-    default T decode(byte[] bytes, BytesOrderOperator bytesOrderOperator) {
-        return decode(bytes, 0, bytesOrderOperator);
+    default T decode(byte[] bytes, int[] endianness) {
+        return decode(bytes, 0, endianness);
     }
 
-    T decode(byte[] bytes, int offset, BytesOrderOperator bytesOrderOperator);
+    T decode(byte[] bytes, int offset, int[] endianness);
 }

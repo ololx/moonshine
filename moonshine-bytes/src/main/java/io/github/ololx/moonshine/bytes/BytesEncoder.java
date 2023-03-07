@@ -25,9 +25,9 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface BytesEncoder<T> {
 
-    default byte[] encode(T value, BytesOrderOperator bytesOrderOperator) {
-        return this.encode(value, 0, bytesOrderOperator);
+    default byte[] encode(T value, int[] endianness) {
+        return this.encode(value, 0, endianness);
     }
 
-    byte[] encode(T value, int offset, BytesOrderOperator bytesOrderOperator);
+    byte[] encode(T value, int offset, int[] endianness);
 }

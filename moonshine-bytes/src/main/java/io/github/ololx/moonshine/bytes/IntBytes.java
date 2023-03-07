@@ -39,8 +39,8 @@ public class IntBytes implements ValueBytesElement<Integer> {
         this.value = value;
     }
 
-    public static IntBytes fromBytes(byte[] bytes, Endianness endianness) {
-        return new IntBytes(DECODER.decode(bytes, 0, endianness.getBytesOrderOperator()));
+    public static IntBytes fromBytes(byte[] bytes, int[] endianness) {
+        return new IntBytes(DECODER.decode(bytes, 0, endianness));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class IntBytes implements ValueBytesElement<Integer> {
     }
 
     @Override
-    public byte[] getBytes(Endianness endianness) {
-        return this.encoder.encode(this.value, 0, endianness.getBytesOrderOperator());
+    public byte[] getBytes(int[] endianness) {
+        return this.encoder.encode(this.value, 0, endianness);
     }
 }
