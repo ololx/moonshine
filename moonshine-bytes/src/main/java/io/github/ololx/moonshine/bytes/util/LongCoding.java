@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.util;
 
+import io.github.ololx.moonshine.bytes.Endianness;
+
 /**
  * project moonshine
  * created 10.02.2023 15:45
@@ -28,11 +30,11 @@ public final class LongCoding {
     private LongCoding() {}
 
     public static byte[] encodeBigEndian(long value) {
-        return encode(value, 0, new int[] {7, 6, 5, 4, 3, 2, 1, 0});
+        return encode(value, 0, Endianness.BIG_ENDIAN.getBytesOrderProvider().provide(7));
     }
 
     public static byte[] encodeLittleEndian(long value) {
-        return encode(value, 0,new int[] {0, 1, 2, 3, 4, 5, 6, 7});
+        return encode(value, 0, Endianness.LITTLE_ENDIAN.getBytesOrderProvider().provide(7));
     }
 
     public static byte[] encode(long value, int offset, int[] endianness) {
@@ -50,11 +52,11 @@ public final class LongCoding {
     }
 
     public static long decodeBigEndian(byte[] bytes) {
-        return decode(bytes, 0, new int[] {7, 6, 5, 4, 3, 2, 1, 0});
+        return decode(bytes, 0, Endianness.BIG_ENDIAN.getBytesOrderProvider().provide(7));
     }
 
     public static long decodeLittleEndian(byte[] bytes) {
-        return decode(bytes, 0, new int[] {0, 1, 2, 3, 4, 5, 6, 7});
+        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getBytesOrderProvider().provide(7));
     }
 
     public static long decode(byte[] bytes, int offset, int[] endianness) {
