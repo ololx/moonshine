@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface BytesOrderOperator {
+public interface BytesOrderProvider {
 
-    int apply(int mostSignificantByte, int currentByte);
+    int[] provide(int mostSignificantByte);
 }

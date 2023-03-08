@@ -18,6 +18,7 @@
 package io.github.ololx.moonshine.bytes;
 
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 /**
  * project moonshine
@@ -29,13 +30,34 @@ public final class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static final Endianness BIG_ENDIAN = new Endianness("Big-endian", "BE", (seed, i) -> seed - i);
+    public static final Endianness BIG_ENDIAN = new Endianness(
+            "Big-endian",
+            "BE",
+            (msb) -> IntStream.iterate(msb, i -> i - 1)
+                    .limit(msb + 1)
+                    .toArray()
+    );
 
-    public static final Endianness LITTLE_ENDIAN = new Endianness("Little-endian", "LE", (seed, i) -> i);
+    public static final Endianness LITTLE_ENDIAN = new Endianness(
+            "Little-endian",
+            "LE",
+            (msb) -> IntStream.iterate(0, i -> i + 1)
+                    .limit(msb + 1)
+                    .toArray()
+    );
 
-    public static final Endianness PDP_ENDIAN = new Endianness("PDP-endian", "PDP-11", (seed, i) -> i % 2 == 0 ? seed - (i + 1) : seed - (i - 1));
+    public static final Endianness PDP_ENDIAN = new Endianness(
+            "PDP-endian",
+            "PDP-11",
+            (msb) -> IntStream.iterate(0, i -> i + 1)
+                    .limit(msb + 1)
+                    .map(i -> i % 2 == 0 ? msb - (i + 1) : msb - (i - 1))
+                    .toArray()
+    );
 
-    public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian() ? BIG_ENDIAN : LITTLE_ENDIAN;
+    public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian()
+            ? BIG_ENDIAN
+            : LITTLE_ENDIAN;
 
     public static final Endianness DEFAULT = BIG_ENDIAN;
 
@@ -43,24 +65,28 @@ public final class Endianness {
 
     private final String shortName;
 
-    private final BytesOrderOperator bytesOrderOperator;
+    private final BytesOrderProvider bytesOrderProvider;
 
-    public Endianness(String name, String shortName, BytesOrderOperator bytesOrderOperator) {
+    public Endianness(String name, String shortName, BytesOrderProvider bytesOrderProvider) {
         this.name = Objects.requireNonNull(name);
         this.shortName = Objects.requireNonNull(shortName);
-        this.bytesOrderOperator = Objects.requireNonNull(bytesOrderOperator);
+        this.bytesOrderProvider = Objects.requireNonNull(bytesOrderProvider);
     }
 
     public String getName() {
         return this.name;
     }
 
+    public String getShortName() {
+        return this.shortName;
+    }
+
+    public BytesOrderProvider getBytesOrderProvider() {
+        return this.bytesOrderProvider;
+    }
+
     @Override
     public String toString() {
         return this.name;
-    }
-
-    public BytesOrderOperator getBytesOrderOperator() {
-        return this.bytesOrderOperator;
     }
 }
