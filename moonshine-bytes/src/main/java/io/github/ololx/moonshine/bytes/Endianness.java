@@ -33,24 +33,24 @@ public final class Endianness {
     public static final Endianness BIG_ENDIAN = new Endianness(
             "Big-endian",
             "BE",
-            (msb) -> IntStream.iterate(msb, i -> i - 1)
-                    .limit(msb + 1)
+            msb -> IntStream.iterate(msb, i -> i - 1)
+                    .limit(msb + 1L)
                     .toArray()
     );
 
     public static final Endianness LITTLE_ENDIAN = new Endianness(
             "Little-endian",
             "LE",
-            (msb) -> IntStream.iterate(0, i -> i + 1)
-                    .limit(msb + 1)
+            msb -> IntStream.iterate(0, i -> i + 1)
+                    .limit(msb + 1L)
                     .toArray()
     );
 
     public static final Endianness PDP_ENDIAN = new Endianness(
             "PDP-endian",
             "PDP-11",
-            (msb) -> IntStream.iterate(0, i -> i + 1)
-                    .limit(msb + 1)
+            msb -> IntStream.iterate(0, i -> i + 1)
+                    .limit(msb + 1L)
                     .map(i -> i % 2 == 0 ? msb - (i + 1) : msb - (i - 1))
                     .toArray()
     );
