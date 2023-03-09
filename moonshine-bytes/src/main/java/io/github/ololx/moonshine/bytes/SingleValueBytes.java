@@ -19,15 +19,11 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 15.02.2023 16:33
+ * created 22.02.2023 10:36
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytesArray<T extends ValueBytes> extends ValueBytes {
+public interface SingleValueBytes<T> extends ValueBytes {
 
-    int size();
-
-    T get(int index);
-
-    void put(T origin);
+    T get();
 }

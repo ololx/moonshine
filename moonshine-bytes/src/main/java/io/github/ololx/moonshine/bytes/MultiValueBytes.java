@@ -19,15 +19,15 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 27.02.2023 10:50
+ * created 15.02.2023 16:33
  *
  * @author Alexander A. Kropotin
  */
-public interface BytesDecoder<T> {
+public interface MultiValueBytes<T extends ValueBytes> extends ValueBytes {
 
-    T decode(byte[] bytes, int offset, int[] endianness);
+    int size();
 
-    default T decode(byte[] bytes, int[] endianness) {
-        return decode(bytes, 0, endianness);
-    }
+    T get(int index);
+
+    void put(T origin);
 }
