@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
  *
  * @author Alexander A. Kropotin
  */
-public class Endianness implements BytesOrder {
+public class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
@@ -65,26 +65,23 @@ public class Endianness implements BytesOrder {
 
     private final String name;
 
-    private final BytesOrderProvider bytesOrderProvider;
+    private final EndiannessProvider bytesOrderProvider;
 
-    public Endianness(String name, int id, BytesOrderProvider bytesOrderProvider) {
+    public Endianness(String name, int id, EndiannessProvider bytesOrderProvider) {
         this.name = Objects.requireNonNull(name);
         this.id = id;
         this.bytesOrderProvider = Objects.requireNonNull(bytesOrderProvider);
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public int getId() {
         return this.id;
     }
 
-    @Override
-    public BytesOrderProvider getBytesOrderProvider() {
+    public EndiannessProvider getBytesOrderProvider() {
         return this.bytesOrderProvider;
     }
 

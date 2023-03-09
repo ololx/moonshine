@@ -29,5 +29,5 @@ public interface ValueBytes {
         return this.getBytes(Endianness.BIG_ENDIAN);
     }
 
-    byte[] getBytes(BytesOrder bytesOrder);
+    byte[] getBytes(Endianness bytesOrder);
 }
