@@ -26,29 +26,29 @@ import java.util.stream.IntStream;
  *
  * @author Alexander A. Kropotin
  */
-public final class Endianness {
+public class Endianness implements BytesOrder {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
     public static final Endianness BIG_ENDIAN = new Endianness(
-            "Big-endian",
-            "BE",
+            "Big-Endian",
+            0x1,
             msb -> IntStream.iterate(msb, i -> i - 1)
                     .limit(msb + 1L)
                     .toArray()
     );
 
     public static final Endianness LITTLE_ENDIAN = new Endianness(
-            "Little-endian",
-            "LE",
+            "Little-Endian",
+            0x2,
             msb -> IntStream.iterate(0, i -> i + 1)
                     .limit(msb + 1L)
                     .toArray()
     );
 
     public static final Endianness PDP_ENDIAN = new Endianness(
-            "PDP-endian",
-            "PDP-11",
+            "PDP-Endian",
+            0x3,
             msb -> IntStream.iterate(0, i -> i + 1)
                     .limit(msb + 1L)
                     .map(i -> i % 2 == 0 ? msb - (i + 1) : msb - (i - 1))
@@ -61,26 +61,29 @@ public final class Endianness {
 
     public static final Endianness DEFAULT = BIG_ENDIAN;
 
-    private final String name;
+    private final int id;
 
-    private final String shortName;
+    private final String name;
 
     private final BytesOrderProvider bytesOrderProvider;
 
-    public Endianness(String name, String shortName, BytesOrderProvider bytesOrderProvider) {
+    public Endianness(String name, int id, BytesOrderProvider bytesOrderProvider) {
         this.name = Objects.requireNonNull(name);
-        this.shortName = Objects.requireNonNull(shortName);
+        this.id = id;
         this.bytesOrderProvider = Objects.requireNonNull(bytesOrderProvider);
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
-    public String getShortName() {
-        return this.shortName;
+    @Override
+    public int getId() {
+        return this.id;
     }
 
+    @Override
     public BytesOrderProvider getBytesOrderProvider() {
         return this.bytesOrderProvider;
     }
