@@ -49,7 +49,7 @@ public class IntBytes implements ValueBytesElement<Integer> {
     }
 
     @Override
-    public byte[] getBytes(int[] endianness) {
-        return this.encoder.encode(this.value, 0, endianness);
+    public byte[] getBytes(BytesOrder bytesOrder) {
+        return this.encoder.encode(this.value, 0, bytesOrder.getBytesOrderProvider().provide(3));
     }
 }

@@ -40,14 +40,14 @@ public class IntByteEncodedWrapperTest {
     @Test(dataProvider = "providesIntegersInBigEndian")
     void toBytesBigEndian_whenEncodeIntToBytes_thenBytesWillBeInBigEndianOrder(int value, byte[] expected) {
         ValueBytesElement<Integer> encoded = new IntBytes(value);
-        byte[] actualIntInBytes = encoded.getBytes(new int[] {3, 2, 1, 0});
+        byte[] actualIntInBytes = encoded.getBytes(Endianness.BIG_ENDIAN);
         assertEquals(actualIntInBytes, expected);
     }
 
     @Test(dataProvider = "providesIntegersInLittleEndian")
     void toBytesLittleEndian_whenEncodeIntToBytes_thenBytesWillBeInLittleEndianOrder(int value, byte[] expected) {
         ValueBytesElement<Integer> encoded = new IntBytes(value);
-        byte[] actualIntInBytes = encoded.getBytes(new int[] {0, 1, 2, 3});
+        byte[] actualIntInBytes = encoded.getBytes(Endianness.LITTLE_ENDIAN);
         assertEquals(actualIntInBytes, expected);
     }
 

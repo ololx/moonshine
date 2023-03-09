@@ -19,15 +19,15 @@ package io.github.ololx.moonshine.bytes;
 
 /**
  * project moonshine
- * created 27.02.2023 10:50
+ * created 09.03.2023 09:47
  *
  * @author Alexander A. Kropotin
  */
-public interface BytesEncoder<T> {
+public interface BytesOrder {
 
-    byte[] encode(T value, int offset, int[] endianness);
+    BytesOrderProvider getBytesOrderProvider();
 
-    default byte[] encode(T value, int[] endianness) {
-        return this.encode(value, 0, endianness);
-    }
+    int getId();
+
+    String getName();
 }
