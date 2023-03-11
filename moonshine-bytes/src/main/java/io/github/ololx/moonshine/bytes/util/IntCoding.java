@@ -17,8 +17,9 @@
 
 package io.github.ololx.moonshine.bytes.util;
 
-import io.github.ololx.moonshine.bytes.ValueBytesEncoder;
 import io.github.ololx.moonshine.bytes.Endianness;
+import io.github.ololx.moonshine.bytes.ValueBytesDecoder;
+import io.github.ololx.moonshine.bytes.ValueBytesEncoder;
 
 /**
  * project moonshine
@@ -43,7 +44,7 @@ public final class IntCoding {
     }
 
     public static byte[] encode(int value, int offset, int[] endianness) {
-        return ValueBytesEncoder.intEncoder().encode(value, offset, endianness);
+        return ValueBytesEncoder.bit32Encoder().encode(value, offset, endianness);
     }
 
     public static int decodeBigEndian(byte[] bytes) {
@@ -59,12 +60,6 @@ public final class IntCoding {
     }
 
     public static int decode(byte[] bytes, int offset, int[] endianness) {
-        int decoded = 0;
-        decoded |= (bytes[offset] & 0xFF) << ( endianness[0] << 3);
-        decoded |= (bytes[offset + 1] & 0xFF) << (endianness[1] << 3);
-        decoded |= (bytes[offset + 2] & 0xFF) << (endianness[2] << 3);
-        decoded |= (bytes[offset + 3] & 0xFF) << (endianness[3] << 3);
-
-        return decoded;
+        return ValueBytesDecoder.bit32Decoder().decode(bytes, offset, endianness);
     }
 }
