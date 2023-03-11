@@ -26,8 +26,8 @@ package io.github.ololx.moonshine.bytes;
 public interface ValueBytes {
 
     default byte[] getBytes() {
-        return this.getBytes(new int[] {3, 2, 1, 0});
+        return this.getBytes(Endianness.BIG_ENDIAN);
     }
 
-    byte[] getBytes(int[] order);
+    byte[] getBytes(Endianness bytesOrder);
 }

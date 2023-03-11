@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface ValueBytesArray<T extends ValueBytes> extends ValueBytes {
+public interface MultiValueBytes<T extends ValueBytes> extends ValueBytes {
 
     int size();
 
