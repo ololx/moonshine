@@ -18,6 +18,8 @@
 package io.github.ololx.moonshine.bytes.util;
 
 import io.github.ololx.moonshine.bytes.Endianness;
+import io.github.ololx.moonshine.bytes.ValueBytesDecoder;
+import io.github.ololx.moonshine.bytes.ValueBytesEncoder;
 
 /**
  * project moonshine
@@ -38,17 +40,7 @@ public final class LongCoding {
     }
 
     public static byte[] encode(long value, int offset, int[] endianness) {
-        byte[] encoded =  new byte[offset + 8];
-        encoded[offset] = (byte) (value >> (endianness[0] << 3));
-        encoded[offset + 1] = (byte) (value >> (endianness[1] << 3));
-        encoded[offset + 2] = (byte) (value >> (endianness[2] << 3));
-        encoded[offset + 3] = (byte) (value >> (endianness[3] << 3));
-        encoded[offset + 4] = (byte) (value >> (endianness[4] << 3));
-        encoded[offset + 5] = (byte) (value >> (endianness[5] << 3));
-        encoded[offset + 6] = (byte) (value >> (endianness[6] << 3));
-        encoded[offset + 7] = (byte) (value >> (endianness[7] << 3));
-
-        return encoded;
+        return ValueBytesEncoder.bit64Encoder().encode(value, offset, endianness);
     }
 
     public static long decodeBigEndian(byte[] bytes) {
@@ -60,13 +52,6 @@ public final class LongCoding {
     }
 
     public static long decode(byte[] bytes, int offset, int[] endianness) {
-        return (bytes[offset] & 0xFFL) << (endianness[0] << 3)
-                | (bytes[offset + 1] & 0xFFL) << (endianness[1] << 3)
-                | (bytes[offset + 2] & 0xFFL) << (endianness[2] << 3)
-                | (bytes[offset + 3] & 0xFFL) << (endianness[3] << 3)
-                | (bytes[offset + 4] & 0xFFL) << (endianness[4] << 3)
-                | (bytes[offset + 5] & 0xFFL) << (endianness[5] << 3)
-                | (bytes[offset + 6] & 0xFFL) << (endianness[6] << 3)
-                | (bytes[offset + 7] & 0xFFL) << (endianness[7] << 3);
+        return ValueBytesDecoder.bit64Decoder().decode(bytes, offset, endianness);
     }
 }

@@ -25,13 +25,13 @@ import io.github.ololx.moonshine.bytes.util.IntCoding;
  *
  * @author Alexander A. Kropotin
  */
-public class IntBytes implements ValueBytesElement<Integer> {
+public class IntBytes implements SingleValueBytes<Integer> {
 
-    public static final BytesEncoder<Integer> ENCODER = IntCoding::encode;
+    public static final ValueBytesEncoder<Integer> ENCODER = IntCoding::encode;
 
-    public static final BytesDecoder<Integer> DECODER = IntCoding::decode;
+    public static final ValueBytesDecoder<Integer> DECODER = IntCoding::decode;
 
-    private final BytesEncoder<Integer> encoder = ENCODER;
+    private final ValueBytesEncoder<Integer> encoder = ENCODER;
 
     private final int value;
 
@@ -49,7 +49,7 @@ public class IntBytes implements ValueBytesElement<Integer> {
     }
 
     @Override
-    public byte[] getBytes(int[] endianness) {
-        return this.encoder.encode(this.value, 0, endianness);
+    public byte[] getBytes(Endianness bytesOrder) {
+        return this.encoder.encode(this.value, 0, bytesOrder.getBytesOrderProvider().provide(3));
     }
 }
