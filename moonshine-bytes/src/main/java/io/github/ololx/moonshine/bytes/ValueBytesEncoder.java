@@ -18,7 +18,8 @@
 package io.github.ololx.moonshine.bytes;
 
 /**
- * Encodes a given value to a byte array using the specified endianness.
+ * The encoder that converts given value to a byte array using the specified
+ * endianness.
  *
  * @param <T> The type of value to be encoded
  *
@@ -33,10 +34,10 @@ public interface ValueBytesEncoder<T> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value The value to be encoded
-     * @param offset The starting offset for encoding in the byte array
-     * @param endianness The endianness to be used for encoding
-     * @return The byte array that contains the encoded value
+     * @param value the value to be encoded
+     * @param offset the starting offset for encoding in the byte array
+     * @param endianness the endianness to be used for encoding
+     * @return the byte array that contains the encoded value
      */
     byte[] encode(T value, int offset, int[] endianness);
 
@@ -44,13 +45,13 @@ public interface ValueBytesEncoder<T> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at offset 0.
      *
-     * @param value The value to be encoded
-     * @param endianness The endianness to be used for encoding
-     * @return The byte array that contains the encoded value
-     *
      * @implSpec
      * This method is a default implementation of the {@code encode}
      * method that starts encoding at offset 0.
+     *
+     * @param value the value to be encoded
+     * @param endianness the endianness to be used for encoding
+     * @return the byte array that contains the encoded value
      */
     default byte[] encode(T value, int[] endianness) {
         return this.encode(value, 0, endianness);
@@ -62,9 +63,9 @@ public interface ValueBytesEncoder<T> {
      *
      * @implSpec
      * This implementation encodes the value to a byte array of size
-     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
-     * {@code offset} index in the array. The endianness is used to determine
-     * the byte order of the encoded value
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to
+     * determine the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 8-bit values
      */
@@ -83,9 +84,9 @@ public interface ValueBytesEncoder<T> {
      *
      * @implSpec
      * This implementation encodes the value to a byte array of size
-     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
-     * {@code offset} index in the array. The endianness is used to determine
-     * the byte order of the encoded value
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to
+     * determine the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 16-bit values
      */
@@ -105,9 +106,9 @@ public interface ValueBytesEncoder<T> {
      *
      * @implSpec
      * This implementation encodes the value to a byte array of size
-     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
-     * {@code offset} index in the array. The endianness is used to determine
-     * the byte order of the encoded value
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to
+     * determine the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 32-bit values
      */
@@ -129,9 +130,9 @@ public interface ValueBytesEncoder<T> {
      *
      * @implSpec
      * This implementation encodes the value to a byte array of size
-     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
-     * {@code offset} index in the array. The endianness is used to determine
-     * the byte order of the encoded value
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to
+     * determine the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 64-bit values
      */
