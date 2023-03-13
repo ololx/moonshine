@@ -18,6 +18,10 @@
 package io.github.ololx.moonshine.bytes;
 
 /**
+ * Encodes a given value to a byte array using the specified endianness.
+ *
+ * @param <T> The type of value to be encoded
+ *
  * project moonshine
  * created 27.02.2023 10:50
  *
@@ -25,54 +29,123 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface ValueBytesEncoder<T> {
 
+    /**
+     * Encodes a given value to a byte array using the specified endianness
+     * starting at the specified offset.
+     *
+     * @param value The value to be encoded
+     * @param offset The starting offset for encoding in the byte array
+     * @param endianness The endianness to be used for encoding
+     * @return The byte array that contains the encoded value
+     */
     byte[] encode(T value, int offset, int[] endianness);
 
+    /**
+     * Encodes a given value to a byte array using the specified endianness
+     * starting at offset 0.
+     *
+     * @param value The value to be encoded
+     * @param endianness The endianness to be used for encoding
+     * @return The byte array that contains the encoded value
+     *
+     * @implSpec
+     * This method is a default implementation of the {@code encode}
+     * method that starts encoding at offset 0.
+     */
     default byte[] encode(T value, int[] endianness) {
         return this.encode(value, 0, endianness);
     }
 
+    /**
+     * Returns a {@code ValueBytesEncoder} instance that can encode 8-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation encodes the value to a byte array of size
+     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 8-bit values
+     */
     static ValueBytesEncoder<Byte> value8BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Byte.BYTES];
-            encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
+            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
 
             return encoded;
         };
     }
 
+    /**
+     * Returns a {@code ValueBytesEncoder} instance that can encode 16-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation encodes the value to a byte array of size
+     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 16-bit values
+     */
     static ValueBytesEncoder<Short> value16BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Short.BYTES];
-            encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
-            encoded[offset + 1] = (byte) (value >> endianness[1] * Byte.SIZE);
+            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
+            encoded[offset + 1] = (byte) ((value >> endianness[1] * Byte.SIZE) & 0xFF);
 
             return encoded;
         };
     }
 
+    /**
+     * Returns a {@code ValueBytesEncoder} instance that can encode 32-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation encodes the value to a byte array of size
+     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 32-bit values
+     */
     static ValueBytesEncoder<Integer> value32BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Integer.BYTES];
-            encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
-            encoded[offset + 1] = (byte) (value >> endianness[1] * Byte.SIZE);
-            encoded[offset + 2] = (byte) (value >> endianness[2] * Byte.SIZE);
-            encoded[offset + 3] = (byte) (value >> endianness[3] * Byte.SIZE);
+            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
+            encoded[offset + 1] = (byte) ((value >> endianness[1] * Byte.SIZE) & 0xFF);
+            encoded[offset + 2] = (byte) ((value >> endianness[2] * Byte.SIZE) & 0xFF);
+            encoded[offset + 3] = (byte) ((value >> endianness[3] * Byte.SIZE) & 0xFF);
 
             return encoded;
         };
     }
 
+    /**
+     * Returns a {@code ValueBytesEncoder} instance that can encode 64-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation encodes the value to a byte array of size
+     * {@code offset + Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 64-bit values
+     */
     static ValueBytesEncoder<Long> value64BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Long.BYTES];
-            encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
-            encoded[offset + 1] = (byte) (value >> endianness[1] * Byte.SIZE);
-            encoded[offset + 2] = (byte) (value >> endianness[2] * Byte.SIZE);
-            encoded[offset + 3] = (byte) (value >> endianness[3] * Byte.SIZE);
-            encoded[offset + 4] = (byte) (value >> endianness[4] * Byte.SIZE);
-            encoded[offset + 5] = (byte) (value >> endianness[5] * Byte.SIZE);
-            encoded[offset + 6] = (byte) (value >> endianness[6] * Byte.SIZE);
-            encoded[offset + 7] = (byte) (value >> endianness[7] * Byte.SIZE);
+            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
+            encoded[offset + 1] = (byte) ((value >> endianness[1] * Byte.SIZE) & 0xFF);
+            encoded[offset + 2] = (byte) ((value >> endianness[2] * Byte.SIZE) & 0xFF);
+            encoded[offset + 3] = (byte) ((value >> endianness[3] * Byte.SIZE) & 0xFF);
+            encoded[offset + 4] = (byte) ((value >> endianness[4] * Byte.SIZE) & 0xFF);
+            encoded[offset + 5] = (byte) ((value >> endianness[5] * Byte.SIZE) & 0xFF);
+            encoded[offset + 6] = (byte) ((value >> endianness[6] * Byte.SIZE) & 0xFF);
+            encoded[offset + 7] = (byte) ((value >> endianness[7] * Byte.SIZE) & 0xFF);
 
             return encoded;
         };

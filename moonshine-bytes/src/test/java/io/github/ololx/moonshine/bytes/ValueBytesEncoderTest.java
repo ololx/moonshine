@@ -22,7 +22,6 @@ import org.testng.annotations.Test;
 
 import static io.github.ololx.moonshine.bytes.ValueBytesEncoder.*;
 import static org.testng.Assert.assertEquals;
-import static org.testng.internal.junit.ArrayAsserts.assertArrayEquals;
 
 /**
  * project moonshine
@@ -83,5 +82,24 @@ public class ValueBytesEncoderTest {
         ValueBytesEncoder<Integer> encoder = value32BitEncoder();
         byte[] encodedValue = encoder.encode(value, byteOrder);
         assertEquals(encodedValue, expected);
+    }
+
+    @DataProvider(name = "encodeData")
+    public Object[][] encodeData() {
+        return new Object[][] {
+                {Long.MIN_VALUE, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7}, new byte[]{0, 0, 0, 0, 0, 0, 0, -128}},
+                {0L, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7}, new byte[]{0, 0, 0, 0, 0, 0, 0, 0}},
+                {255L, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7}, new byte[]{-1, 0, 0, 0, 0, 0, 0, 0}},
+                {-1L, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7}, new byte[]{-1, -1, -1, -1, -1, -1, -1, -1}},
+                {65536L, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7}, new byte[]{0, 0, 1, 0, 0, 0, 0, 0}},
+                {Long.MAX_VALUE, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7}, new byte[]{-1, -1, -1, -1, -1, -1, -1, 127}},
+        };
+    }
+
+    @Test(dataProvider = "encodeData")
+    public void testValue64BitEncoder(long value, int offset, int[] endianness, byte[] expected) {
+        ValueBytesEncoder<Long> encoder = value64BitEncoder();
+        byte[] actual = encoder.encode(value, offset, endianness);
+        assertEquals(actual, expected);
     }
 }
