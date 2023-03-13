@@ -31,7 +31,7 @@ public interface ValueBytesDecoder<T> {
         return decode(bytes, 0, endianness);
     }
 
-    static ValueBytesDecoder<Byte> bit8Decoder() {
+    static ValueBytesDecoder<Byte> value8BitDecoder() {
         return (bytes, offset, endianness) -> {
             byte decoded = 0;
             decoded |= (bytes[offset] & 0xFF);
@@ -40,7 +40,7 @@ public interface ValueBytesDecoder<T> {
         };
     }
 
-    static ValueBytesDecoder<Short> bit16Decoder() {
+    static ValueBytesDecoder<Short> value16BitDecoder() {
         return (bytes, offset, endianness) -> {
             short decoded = 0;
             decoded |= (bytes[offset] & 0xFF) << endianness[0] * Byte.SIZE;
@@ -50,7 +50,7 @@ public interface ValueBytesDecoder<T> {
         };
     }
 
-    static ValueBytesDecoder<Integer> bit32Decoder() {
+    static ValueBytesDecoder<Integer> value32BitDecoder() {
         return (bytes, offset, endianness) -> {
             int decoded = 0;
             decoded |= (bytes[offset] & 0xFF) << endianness[0] * Byte.SIZE;
@@ -62,7 +62,7 @@ public interface ValueBytesDecoder<T> {
         };
     }
 
-    static ValueBytesDecoder<Long> bit64Decoder() {
+    static ValueBytesDecoder<Long> value64BitDecoder() {
         return (bytes, offset, endianness) -> {
             long decoded = 0;
             decoded |= (bytes[offset] & 0xFFL) << endianness[0] * Byte.SIZE;
