@@ -18,6 +18,10 @@
 package io.github.ololx.moonshine.bytes;
 
 /**
+ * The decoder that converts byte arrays to value of given type.
+ *
+ * @param <T> the type of value to be decoded
+ *
  * project moonshine
  * created 27.02.2023 10:50
  *
@@ -25,12 +29,44 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface ValueBytesDecoder<T> {
 
+    /**
+     * Decodes a byte array to a value of given type starting at a given offset
+     * with specified endianness.
+     *
+     * @param bytes the byte array to decode
+     * @param offset the offset at which decoding should start
+     * @param endianness the endianness to be used for encoding
+     * @return the decoded value of given type
+     */
     T decode(byte[] bytes, int offset, int[] endianness);
 
+    /**
+     * Decodes a byte array to a value of given type with specified endianness.
+     *
+     * @implSpec
+     * This method is a default implementation of the {@code decode}
+     * method that starts decoding at offset 0.
+     *
+     * @param bytes the byte array to decode
+     * @param endianness the endianness to be used for encoding
+     * @return the decoded value of given type
+     */
     default T decode(byte[] bytes, int[] endianness) {
         return decode(bytes, 0, endianness);
     }
 
+    /**
+     * Returns a {@code ValueBytesDecoder} instance that can encode 8-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation decodes a value from the byte array of size 
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 8-bit values
+     */
     static ValueBytesDecoder<Byte> value8BitDecoder() {
         return (bytes, offset, endianness) -> {
             byte decoded = 0;
@@ -40,6 +76,18 @@ public interface ValueBytesDecoder<T> {
         };
     }
 
+    /**
+     * Returns a {@code ValueBytesDecoder} instance that can encode 16-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation decodes a value from the byte array of size
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 16-bit values
+     */
     static ValueBytesDecoder<Short> value16BitDecoder() {
         return (bytes, offset, endianness) -> {
             short decoded = 0;
@@ -50,6 +98,18 @@ public interface ValueBytesDecoder<T> {
         };
     }
 
+    /**
+     * Returns a {@code ValueBytesDecoder} instance that can encode 32-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation decodes a value from the byte array of size
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 32-bit values
+     */
     static ValueBytesDecoder<Integer> value32BitDecoder() {
         return (bytes, offset, endianness) -> {
             int decoded = 0;
@@ -62,6 +122,18 @@ public interface ValueBytesDecoder<T> {
         };
     }
 
+    /**
+     * Returns a {@code ValueBytesDecoder} instance that can encode 64-bit
+     * values to a byte array using the specified endianness.
+     *
+     * @implSpec
+     * This implementation decodes a value from the byte array of size
+     * {@code offset * Byte.BYTES}, where the encoded value is stored at the
+     * {@code offset + i} index in the array. The endianness is used to determine
+     * the byte order of the encoded value
+     *
+     * @return the {@code ValueBytesEncoder} instance for 64-bit values
+     */
     static ValueBytesDecoder<Long> value64BitDecoder() {
         return (bytes, offset, endianness) -> {
             long decoded = 0;
