@@ -40,7 +40,7 @@ public final class LongCoding {
     }
 
     public static byte[] encode(long value, int offset, int[] endianness) {
-        return ValueBytesEncoder.bit64Encoder().encode(value, offset, endianness);
+        return ValueBytesEncoder.value64BitEncoder().encode(value, offset, endianness);
     }
 
     public static long decodeBigEndian(byte[] bytes) {
@@ -52,6 +52,6 @@ public final class LongCoding {
     }
 
     public static long decode(byte[] bytes, int offset, int[] endianness) {
-        return ValueBytesDecoder.bit64Decoder().decode(bytes, offset, endianness);
+        return ValueBytesDecoder.value64BitDecoder().decode(bytes, offset, endianness);
     }
 }
