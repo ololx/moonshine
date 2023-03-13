@@ -25,5 +25,5 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface SingleValueBytes<T> extends ValueBytes {
 
-    T get();
+    T getValue();
 }

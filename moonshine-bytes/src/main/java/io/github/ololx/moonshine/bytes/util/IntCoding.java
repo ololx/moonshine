@@ -44,7 +44,7 @@ public final class IntCoding {
     }
 
     public static byte[] encode(int value, int offset, int[] endianness) {
-        return ValueBytesEncoder.bit32Encoder().encode(value, offset, endianness);
+        return ValueBytesEncoder.value32BitEncoder().encode(value, offset, endianness);
     }
 
     public static int decodeBigEndian(byte[] bytes) {
@@ -60,6 +60,6 @@ public final class IntCoding {
     }
 
     public static int decode(byte[] bytes, int offset, int[] endianness) {
-        return ValueBytesDecoder.bit32Decoder().decode(bytes, offset, endianness);
+        return ValueBytesDecoder.value32BitDecoder().decode(bytes, offset, endianness);
     }
 }
