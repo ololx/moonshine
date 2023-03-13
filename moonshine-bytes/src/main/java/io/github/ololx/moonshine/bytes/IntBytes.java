@@ -19,6 +19,8 @@ package io.github.ololx.moonshine.bytes;
 
 import io.github.ololx.moonshine.bytes.util.IntCoding;
 
+import java.nio.ByteBuffer;
+
 /**
  * project moonshine
  * created 16.02.2023 11:57
@@ -27,15 +29,13 @@ import io.github.ololx.moonshine.bytes.util.IntCoding;
  */
 public class IntBytes implements SingleValueBytes<Integer> {
 
-    public static final ValueBytesEncoder<Integer> ENCODER = IntCoding::encode;
+    static final ValueBytesEncoder<Integer> ENCODER = IntCoding::encode;
 
-    public static final ValueBytesDecoder<Integer> DECODER = IntCoding::decode;
-
-    private final ValueBytesEncoder<Integer> encoder = ENCODER;
+    static final ValueBytesDecoder<Integer> DECODER = IntCoding::decode;
 
     private final int value;
 
-    public IntBytes(int value) {
+    private IntBytes(int value) {
         this.value = value;
     }
 
@@ -43,13 +43,17 @@ public class IntBytes implements SingleValueBytes<Integer> {
         return new IntBytes(DECODER.decode(bytes, 0, endianness));
     }
 
+    public static IntBytes fromValue(int value) {
+        return new IntBytes(value);
+    }
+
     @Override
-    public Integer get() {
+    public Integer getValue() {
         return this.value;
     }
 
     @Override
     public byte[] getBytes(Endianness bytesOrder) {
-        return this.encoder.encode(this.value, 0, bytesOrder.getBytesOrderProvider().provide(3));
+        return ENCODER.encode(this.value, 0, bytesOrder.getBytesOrderProvider().provide(3));
     }
 }

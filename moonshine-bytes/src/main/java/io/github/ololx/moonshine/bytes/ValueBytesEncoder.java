@@ -31,7 +31,7 @@ public interface ValueBytesEncoder<T> {
         return this.encode(value, 0, endianness);
     }
 
-    static ValueBytesEncoder<Byte> bit8Encoder() {
+    static ValueBytesEncoder<Byte> value8BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Byte.BYTES];
             encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
@@ -40,7 +40,7 @@ public interface ValueBytesEncoder<T> {
         };
     }
 
-    static ValueBytesEncoder<Short> bit16Encoder() {
+    static ValueBytesEncoder<Short> value16BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Short.BYTES];
             encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
@@ -50,7 +50,7 @@ public interface ValueBytesEncoder<T> {
         };
     }
 
-    static ValueBytesEncoder<Integer> bit32Encoder() {
+    static ValueBytesEncoder<Integer> value32BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Integer.BYTES];
             encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
@@ -62,7 +62,7 @@ public interface ValueBytesEncoder<T> {
         };
     }
 
-    static ValueBytesEncoder<Long> bit64Encoder() {
+    static ValueBytesEncoder<Long> value64BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Long.BYTES];
             encoded[offset] = (byte) (value >> endianness[0] * Byte.SIZE);
