@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.ololx.moonshine.bytes.util.FloatCoding;
+import io.github.ololx.moonshine.bytes.coding.FloatCoding;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

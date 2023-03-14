@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.util;
+package io.github.ololx.moonshine.bytes.coding;
 
 /**
  * project moonshine
@@ -23,23 +23,23 @@ package io.github.ololx.moonshine.bytes.util;
  *
  * @author Alexander A. Kropotin
  */
-public final class FloatCoding {
+public final class DoubleCoding {
 
-    private FloatCoding() {}
+    private DoubleCoding() {}
 
-    public static byte[] encodeBigEndian(float value) {
-        return IntCoding.encodeBigEndian(Float.floatToIntBits(value));
+    public static byte[] encodeBigEndian(double value) {
+        return LongCoding.encodeBigEndian(Double.doubleToLongBits(value));
     }
 
-    public static byte[] encodeLittleEndian(float value) {
-        return IntCoding.encodeLittleEndian(Float.floatToIntBits(value));
+    public static byte[] encodeLittleEndian(double value) {
+        return LongCoding.encodeLittleEndian(Double.doubleToLongBits(value));
     }
 
-    public static float decodeBigEndian(byte[] bytes) {
-        return Float.intBitsToFloat(IntCoding.decodeBigEndian(bytes));
+    public static double decodeBigEndian(byte[] bytes) {
+        return Double.longBitsToDouble(LongCoding.decodeBigEndian(bytes));
     }
 
-    public static float decodeLittleEndian(byte[] bytes) {
-        return Float.intBitsToFloat(IntCoding.decodeLittleEndian(bytes));
+    public static double decodeLittleEndian(byte[] bytes) {
+        return Double.longBitsToDouble(LongCoding.decodeLittleEndian(bytes));
     }
 }
