@@ -17,10 +17,11 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.ValueBytesEncoder.*;
+import static io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder.*;
 import static org.testng.Assert.assertEquals;
 
 /**

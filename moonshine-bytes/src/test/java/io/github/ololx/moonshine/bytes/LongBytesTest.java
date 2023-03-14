@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.ololx.moonshine.bytes.util.LongCoding;
+import io.github.ololx.moonshine.bytes.coding.LongCoding;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

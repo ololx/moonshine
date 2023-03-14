@@ -17,33 +17,40 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.coding.IntCoding;
 import io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder;
 import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
-import io.github.ololx.moonshine.bytes.coding.IntCoding;
 
 /**
  * project moonshine
- * created 16.02.2023 11:57
+ * created 14.03.2023 21:57
  *
  * @author Alexander A. Kropotin
  */
-public class IntBytes extends AbstractSingleValueBytes<Integer> {
+public class AbstractSingleValueBytes<T> implements SingleValueBytes<T> {
 
-    static final ValueBytesEncoder<Integer> ENCODER = IntCoding::encode;
+    protected final ValueBytesEncoder<T> encoder;
 
-    static final ValueBytesDecoder<Integer> DECODER = IntCoding::decode;
+    protected final ValueBytesDecoder<T> decoder;
 
-    static final int MSB = Integer.BYTES - 1;
+    private final int msb;
 
-    private IntBytes(int value) {
-        super(ENCODER, DECODER, MSB, value);
+    private final T value;
+
+    AbstractSingleValueBytes(ValueBytesEncoder<T> encoder, ValueBytesDecoder<T> decoder, int msb, T value) {
+        this.encoder = encoder;
+        this.decoder = decoder;
+        this.value = value;
+        this.msb = msb;
     }
 
-    public static IntBytes wrap(byte[] bytes, int[] endianness) {
-        return new IntBytes(DECODER.decode(bytes, 0, endianness));
+    @Override
+    public final T getValue() {
+        return this.value;
     }
 
-    public static IntBytes wrap(int value) {
-        return new IntBytes(value);
+    @Override
+    public final byte[] getBytes(Endianness bytesOrder) {
+        return this.encoder.encode(this.value, bytesOrder.getBytesOrderProvider().provide(this.msb));
     }
 }

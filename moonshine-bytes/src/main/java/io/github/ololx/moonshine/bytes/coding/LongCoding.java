@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.util;
+package io.github.ololx.moonshine.bytes.coding;
 
 import io.github.ololx.moonshine.bytes.Endianness;
-import io.github.ololx.moonshine.bytes.ValueBytesDecoder;
-import io.github.ololx.moonshine.bytes.ValueBytesEncoder;
+import io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder;
+import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
 
 /**
  * project moonshine

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes;
+package io.github.ololx.moonshine.bytes.coding.decoders;
 
 /**
  * The decoder that converts byte arrays to value of given type.
