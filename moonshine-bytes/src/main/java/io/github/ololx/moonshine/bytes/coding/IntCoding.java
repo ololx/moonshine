@@ -32,15 +32,15 @@ public final class IntCoding {
     private IntCoding() {}
 
     public static byte[] encodeBigEndian(int value) {
-        return encode(value, 0, Endianness.BIG_ENDIAN.getBytesOrderProvider().provide(3));
+        return encode(value, 0, Endianness.BIG_ENDIAN.getByteOrderProvider().provide(3));
     }
 
     public static byte[] encodeLittleEndian(int value) {
-        return encode(value, 0, Endianness.LITTLE_ENDIAN.getBytesOrderProvider().provide(3));
+        return encode(value, 0, Endianness.LITTLE_ENDIAN.getByteOrderProvider().provide(3));
     }
 
     public static byte[] encodePDPEndian(int value) {
-        return encode(value, 0, Endianness.PDP_ENDIAN.getBytesOrderProvider().provide(3));
+        return encode(value, 0, Endianness.PDP_ENDIAN.getByteOrderProvider().provide(3));
     }
 
     public static byte[] encode(int value, int offset, int[] endianness) {
@@ -48,15 +48,15 @@ public final class IntCoding {
     }
 
     public static int decodeBigEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.BIG_ENDIAN.getBytesOrderProvider().provide(3));
+        return decode(bytes, 0, Endianness.BIG_ENDIAN.getByteOrderProvider().provide(3));
     }
 
     public static int decodeLittleEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getBytesOrderProvider().provide(3));
+        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getByteOrderProvider().provide(3));
     }
 
     public static int decodePDPEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.PDP_ENDIAN.getBytesOrderProvider().provide(3));
+        return decode(bytes, 0, Endianness.PDP_ENDIAN.getByteOrderProvider().provide(3));
     }
 
     public static int decode(byte[] bytes, int offset, int[] endianness) {
