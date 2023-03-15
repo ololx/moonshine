@@ -32,11 +32,11 @@ public final class LongCoding {
     private LongCoding() {}
 
     public static byte[] encodeBigEndian(long value) {
-        return encode(value, 0, Endianness.BIG_ENDIAN.getBytesOrderProvider().provide(7));
+        return encode(value, 0, Endianness.BIG_ENDIAN.getByteOrderProvider().provide(7));
     }
 
     public static byte[] encodeLittleEndian(long value) {
-        return encode(value, 0, Endianness.LITTLE_ENDIAN.getBytesOrderProvider().provide(7));
+        return encode(value, 0, Endianness.LITTLE_ENDIAN.getByteOrderProvider().provide(7));
     }
 
     public static byte[] encode(long value, int offset, int[] endianness) {
@@ -44,11 +44,11 @@ public final class LongCoding {
     }
 
     public static long decodeBigEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.BIG_ENDIAN.getBytesOrderProvider().provide(7));
+        return decode(bytes, 0, Endianness.BIG_ENDIAN.getByteOrderProvider().provide(7));
     }
 
     public static long decodeLittleEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getBytesOrderProvider().provide(7));
+        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getByteOrderProvider().provide(7));
     }
 
     public static long decode(byte[] bytes, int offset, int[] endianness) {

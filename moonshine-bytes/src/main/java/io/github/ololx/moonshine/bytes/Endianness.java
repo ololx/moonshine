@@ -18,6 +18,7 @@
 package io.github.ololx.moonshine.bytes;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
@@ -26,67 +27,35 @@ import java.util.stream.IntStream;
  *
  * @author Alexander A. Kropotin
  */
-public class Endianness {
+public final class Endianness {
 
     private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
 
-    public static final Endianness BIG_ENDIAN = new Endianness(
+    public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
-            0x1,
             msb -> IntStream.iterate(msb, i -> i - 1)
                     .limit(msb + 1L)
                     .toArray()
     );
 
-    public static final Endianness LITTLE_ENDIAN = new Endianness(
+    public static final ByteOrder LITTLE_ENDIAN = new ByteOrder(
             "Little-Endian",
-            0x2,
             msb -> IntStream.iterate(0, i -> i + 1)
                     .limit(msb + 1L)
                     .toArray()
     );
 
-    public static final Endianness PDP_ENDIAN = new Endianness(
+    public static final ByteOrder PDP_ENDIAN = new ByteOrder(
             "PDP-Endian",
-            0x3,
             msb -> IntStream.iterate(0, i -> i + 1)
                     .limit(msb + 1L)
                     .map(i -> i % 2 == 0 ? msb - (i + 1) : msb - (i - 1))
                     .toArray()
     );
 
-    public static final Endianness SYSTEM_DEFAULT = unsafe.isBigEndian()
+    public static final ByteOrder SYSTEM_DEFAULT = unsafe.isBigEndian()
             ? BIG_ENDIAN
             : LITTLE_ENDIAN;
 
-    public static final Endianness DEFAULT = BIG_ENDIAN;
-
-    private final int id;
-
-    private final String name;
-
-    private final EndiannessProvider bytesOrderProvider;
-
-    public Endianness(String name, int id, EndiannessProvider bytesOrderProvider) {
-        this.name = Objects.requireNonNull(name);
-        this.id = id;
-        this.bytesOrderProvider = Objects.requireNonNull(bytesOrderProvider);
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public EndiannessProvider getBytesOrderProvider() {
-        return this.bytesOrderProvider;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
+    public static final ByteOrder DEFAULT = BIG_ENDIAN;
 }
