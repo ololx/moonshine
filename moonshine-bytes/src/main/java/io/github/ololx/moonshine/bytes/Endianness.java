@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
@@ -29,7 +27,7 @@ import java.util.stream.IntStream;
  */
 public final class Endianness {
 
-    private static final UnsafeWrapper unsafe = UnsafeWrapper.getInstance();
+    private static final UnsafeHelper unsafe = UnsafeHelper.getInstance();
 
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
