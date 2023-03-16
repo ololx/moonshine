@@ -28,15 +28,23 @@ import java.lang.reflect.Field;
  * low-level memory-related operations that are not accessible through standard
  * Java APIs.
  *
+ * @implNote
+ * This class is not thread-safe and should be used with
+ * caution. In particular, the behavior of the methods provided by this class is
+ * undefined if called concurrently from multiple threads.
+ *
+ * @implSpec
+ * This class relies on the availability of the {@code sun.misc.Unsafe} or
+ * {@code jdk.internal.misc.Unsafe} class and the ability to access its
+ * internal methods using reflection.
+ *
+ * project moonshine
+ * created 23.02.2023 11:06
+ *
  * @author Alexander A. Kropotin
- * @implNote This  class is not thread-safe and should be used with caution. In particular, the behavior of the methods provided by this class is undefined if called concurrently from multiple threads.
- * @implSpec This  class relies on the availability of the {@code sun.misc.Unsafe} or {@code jdk.internal.misc.Unsafe} class and the ability to access its internal methods using reflection. project moonshine created 23.02.2023 11:06
  */
 final class UnsafeHelper {
 
-    /**
-     * The constant INSTANCE.
-     */
     public static final UnsafeHelper INSTANCE = new UnsafeHelper();
 
     private static final Class<?> UNSAFE_CLASS = unsafeClass();
@@ -53,11 +61,6 @@ final class UnsafeHelper {
 
     private UnsafeHelper() {}
 
-    /**
-     * Gets instance.
-     *
-     * @return the instance
-     */
     public static UnsafeHelper getInstance() {
         return INSTANCE;
     }
@@ -66,9 +69,20 @@ final class UnsafeHelper {
      * Determines whether the underlying platform is <b>big-endian</b> or
      * <b>little-endian</b>.
      *
-     * @return {@code true} if the platform is big-endian, {@code false} if it is little-endian.
+     * @implSpec
+     * This method uses a byte-order probe to determine whether the underlying
+     * platform is big-endian or little-endian. It allocates a 2-byte buffer
+     * using the {@code allocateMemory} method, writes the value
+     * {@codee 0x10000001} to the buffer using the {@code putShort} method,
+     * reads the first byte of the buffer using the {@code getByte} method, and
+     * then deallocates the buffer using the {@code freeMemory} method.
+     * If the first byte of the buffer is {@code 0x01}, the platform is
+     * little-endian; if it is {@code 0x10}, the platform is big-endian.
+     *
+     * @return {@code true} if the platform is big-endian, {@code false} if it
+     * is little-endian.
+     *
      * @throws RuntimeException if an error occurs during executing.
-     * @implSpec This  method uses a byte-order probe to determine whether the underlying platform is big-endian or little-endian. It allocates a 2-byte buffer using the {@code allocateMemory} method, writes the value {@codee 0x10000001} to the buffer using the {@code putShort} method, reads the first byte of the buffer using the {@code getByte} method, and then deallocates the buffer using the {@code freeMemory} method. If the first byte of the buffer is {@code 0x01}, the platform is little-endian; if it is {@code 0x10}, the platform is big-endian.
      */
     public boolean isBigEndian() {
         try (MemoryBlock block = new MemoryBlock(2)) {
@@ -153,8 +167,19 @@ final class UnsafeHelper {
      * try-with-resources statement. The memory address of the block can be
      * obtained by calling the {@link #getAddress()} method.</p>
      *
-     * @implNote <p>This class is not thread-safe and should be used with caution. In particular, the behavior of the methods provided by this class is undefined if called concurrently from multiple threads.</p> <p>The memory allocated by this class is not managed by the Java garbage collector and must be freed explicitly using the {@link #free()} method or by using the block in a try-with-resources statement.</p>
-     * @implSpec This  class uses the {@code UnsafeHelper} class to allocate and free memory blocks. It allocates memory by invoking the {@code allocateMemory} method, and frees memory by invoking the {@code freeMemory} method. The address of the allocated memory block is stored as an instance variable.
+     * @implNote
+     * <p>This class is not thread-safe and should be used with caution. In particular,
+     * the behavior of the methods provided by this class is undefined
+     * if called concurrently from multiple threads.</p>
+     * <p>The memory allocated by this class is not managed by the Java garbage
+     * collector and must be freed explicitly using the {@link #free()} method
+     * or by using the block in a try-with-resources statement.</p>
+     *
+     * @implSpec
+     * This class uses the {@code UnsafeHelper} class to allocate and free
+     * memory blocks. It allocates memory by invoking the {@code allocateMemory}
+     * method, and frees memory by invoking the {@code freeMemory} method.
+     * The address of the allocated memory block is stored as an instance variable.
      */
     final static class MemoryBlock implements AutoCloseable {
 
