@@ -23,7 +23,7 @@ package io.github.ololx.moonshine.bytes;
  *
  * @author Alexander A. Kropotin
  */
-public interface EndiannessProvider {
+public interface ByteOrderProvider {
 
     int[] provide(int mostSignificantByte);
 }
