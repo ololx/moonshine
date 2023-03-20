@@ -27,10 +27,9 @@ import java.util.stream.IntStream;
  */
 public final class Endianness {
 
-    private static final UnsafeHelper unsafe = UnsafeHelper.getInstance();
-
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
+            0x1,
             msb -> IntStream.iterate(msb, i -> i - 1)
                     .limit(msb + 1L)
                     .toArray()
@@ -38,6 +37,7 @@ public final class Endianness {
 
     public static final ByteOrder LITTLE_ENDIAN = new ByteOrder(
             "Little-Endian",
+            0x2,
             msb -> IntStream.iterate(0, i -> i + 1)
                     .limit(msb + 1L)
                     .toArray()
@@ -45,13 +45,14 @@ public final class Endianness {
 
     public static final ByteOrder PDP_ENDIAN = new ByteOrder(
             "PDP-Endian",
+            0x3,
             msb -> IntStream.iterate(0, i -> i + 1)
                     .limit(msb + 1L)
                     .map(i -> i % 2 == 0 ? msb - (i + 1) : msb - (i - 1))
                     .toArray()
     );
 
-    public static final ByteOrder SYSTEM_DEFAULT = unsafe.isBigEndian()
+    public static final ByteOrder SYSTEM_DEFAULT = UnsafeHelper.getInstance().isBigEndian()
             ? BIG_ENDIAN
             : LITTLE_ENDIAN;
 

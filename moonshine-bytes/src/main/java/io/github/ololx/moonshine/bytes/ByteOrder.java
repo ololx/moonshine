@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A class representing a byte order, , with a name, unique ID, and providing
+ * A class representing a byte order, with a name, unique ID, and providing
  * access to a {@link ByteOrderProvider} to retrieve the byte order.
  *
  * @implSpec
@@ -83,8 +83,28 @@ public class ByteOrder {
      */
     public ByteOrder(String name, ByteOrderProvider byteOrderProvider) {
         this.name = Objects.requireNonNull(name);
-        this.id = instancesCount.incrementAndGet();
         this.byteOrderProvider = Objects.requireNonNull(byteOrderProvider);
+        this.id = instancesCount.incrementAndGet();
+    }
+
+    /**
+     * Constructs a ByteOrder object with the given name, id and provider.
+     *
+     * @implSpec
+     * This is the special implementation for internal use only. This
+     * constructor allows creating new {@code ByteOrder} instance with the
+     * specified {@code id}.
+     *
+     * @param id the id of the byte order.
+     * @param name the name of the byte order.
+     * @param byteOrderProvider the provider for the byte order array.
+     * @throws NullPointerException if the name or provider is null.
+     */
+    ByteOrder(String name, int id, ByteOrderProvider byteOrderProvider) {
+        this.name = Objects.requireNonNull(name);
+        this.byteOrderProvider = Objects.requireNonNull(byteOrderProvider);
+        this.id = id;
+        instancesCount.incrementAndGet();
     }
 
     /**
