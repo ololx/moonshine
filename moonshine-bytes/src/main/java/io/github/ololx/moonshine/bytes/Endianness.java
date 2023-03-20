@@ -20,6 +20,10 @@ package io.github.ololx.moonshine.bytes;
 import java.util.stream.IntStream;
 
 /**
+ * This class provides constants for different byte orders,
+ * namely big-endian, little-endian, and PDP-endian. It also provides constants
+ * for the system default byte order and the default byte order, which is big-endian.
+ *
  * project moonshine
  * created 22.02.2023 14:13
  *
@@ -27,6 +31,11 @@ import java.util.stream.IntStream;
  */
 public final class Endianness {
 
+    /**
+     * A constant representing the big-endian byte order, in which the most
+     * significant byte of a multi-byte value is stored at the lowest memory
+     * address.
+     */
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
             0x1,
@@ -35,6 +44,11 @@ public final class Endianness {
                     .toArray()
     );
 
+    /**
+     * A constant representing the little-endian byte order, in which the least
+     * significant byte of a multi-byte value is stored at the lowest memory
+     * address.
+     */
     public static final ByteOrder LITTLE_ENDIAN = new ByteOrder(
             "Little-Endian",
             0x2,
@@ -43,6 +57,10 @@ public final class Endianness {
                     .toArray()
     );
 
+    /**
+     * A constant representing the PDP-endian byte order, which is a variation
+     * of the big-endian order where adjacent bytes are swapped in pairs.
+     */
     public static final ByteOrder PDP_ENDIAN = new ByteOrder(
             "PDP-Endian",
             0x3,
@@ -52,9 +70,18 @@ public final class Endianness {
                     .toArray()
     );
 
+    /**
+     * A constant representing the default byte order for the Java platform,
+     * which is big-endian.
+     */
+    public static final ByteOrder DEFAULT = BIG_ENDIAN;
+
+    /**
+     * A constant representing the default byte order of the system on which
+     * the Java virtual machine is running. This is determined at runtime by
+     * the {@code UnsafeHelper} class.
+     */
     public static final ByteOrder SYSTEM_DEFAULT = UnsafeHelper.getInstance().isBigEndian()
             ? BIG_ENDIAN
             : LITTLE_ENDIAN;
-
-    public static final ByteOrder DEFAULT = BIG_ENDIAN;
 }
