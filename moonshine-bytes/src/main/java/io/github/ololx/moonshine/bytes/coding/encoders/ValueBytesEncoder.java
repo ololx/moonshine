@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import java.util.function.IntUnaryOperator;
+
 /**
  * The encoder that converts given value to a byte array using the specified
  * endianness.
