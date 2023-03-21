@@ -17,6 +17,7 @@
 
 package io.github.ololx.moonshine.bytes.coding;
 
+import io.github.ololx.moonshine.bytes.ByteIndexOperator;
 import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder;
 import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
@@ -32,34 +33,34 @@ public final class IntCoding {
     private IntCoding() {}
 
     public static byte[] encodeBigEndian(int value) {
-        return encode(value, 0, Endianness.BIG_ENDIAN.getByteOrderProvider().provide(3));
+        return encode(value, 0, Endianness.BIG_ENDIAN.byteOrder(3));
     }
 
     public static byte[] encodeLittleEndian(int value) {
-        return encode(value, 0, Endianness.LITTLE_ENDIAN.getByteOrderProvider().provide(3));
+        return encode(value, 0, Endianness.LITTLE_ENDIAN.byteOrder(3));
     }
 
     public static byte[] encodePDPEndian(int value) {
-        return encode(value, 0, Endianness.PDP_ENDIAN.getByteOrderProvider().provide(3));
+        return encode(value, 0, Endianness.PDP_ENDIAN.byteOrder(3));
     }
 
-    public static byte[] encode(int value, int offset, int[] endianness) {
+    public static byte[] encode(int value, int offset, ByteIndexOperator endianness) {
         return ValueBytesEncoder.value32BitEncoder().encode(value, offset, endianness);
     }
 
     public static int decodeBigEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.BIG_ENDIAN.getByteOrderProvider().provide(3));
+        return decode(bytes, 0, Endianness.BIG_ENDIAN.byteOrder(3));
     }
 
     public static int decodeLittleEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.getByteOrderProvider().provide(3));
+        return decode(bytes, 0, Endianness.LITTLE_ENDIAN.byteOrder(3));
     }
 
     public static int decodePDPEndian(byte[] bytes) {
-        return decode(bytes, 0, Endianness.PDP_ENDIAN.getByteOrderProvider().provide(3));
+        return decode(bytes, 0, Endianness.PDP_ENDIAN.byteOrder(3));
     }
 
-    public static int decode(byte[] bytes, int offset, int[] endianness) {
+    public static int decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
         return ValueBytesDecoder.value32BitDecoder().decode(bytes, offset, endianness);
     }
 }

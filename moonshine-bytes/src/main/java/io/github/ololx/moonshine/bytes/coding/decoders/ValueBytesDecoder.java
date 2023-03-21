@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.decoders;
 
+import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+
 /**
  * The decoder that converts byte arrays to value of given type.
  *
@@ -38,7 +40,7 @@ public interface ValueBytesDecoder<T> {
      * @param endianness the endianness to be used for encoding
      * @return the decoded value of given type
      */
-    T decode(byte[] bytes, int offset, int[] endianness);
+    T decode(byte[] bytes, int offset, ByteIndexOperator endianness);
 
     /**
      * Decodes a byte array to a value of given type with specified endianness.
@@ -51,7 +53,7 @@ public interface ValueBytesDecoder<T> {
      * @param endianness the endianness to be used for encoding
      * @return the decoded value of given type
      */
-    default T decode(byte[] bytes, int[] endianness) {
+    default T decode(byte[] bytes, ByteIndexOperator endianness) {
         return decode(bytes, 0, endianness);
     }
 
@@ -91,8 +93,8 @@ public interface ValueBytesDecoder<T> {
     static ValueBytesDecoder<Short> value16BitDecoder() {
         return (bytes, offset, endianness) -> {
             short decoded = 0;
-            decoded |= (bytes[offset] & 0xFF) << endianness[0] * Byte.SIZE;
-            decoded |= (bytes[offset + 1] & 0xFF) << endianness[1] * Byte.SIZE;
+            decoded |= (bytes[offset] & 0xFF) << endianness.apply(0) * Byte.SIZE;
+            decoded |= (bytes[offset + 1] & 0xFF) << endianness.apply(1) * Byte.SIZE;
 
             return decoded;
         };
@@ -113,10 +115,10 @@ public interface ValueBytesDecoder<T> {
     static ValueBytesDecoder<Integer> value32BitDecoder() {
         return (bytes, offset, endianness) -> {
             int decoded = 0;
-            decoded |= (bytes[offset] & 0xFF) << endianness[0] * Byte.SIZE;
-            decoded |= (bytes[offset + 1] & 0xFF) << endianness[1] * Byte.SIZE;
-            decoded |= (bytes[offset + 2] & 0xFF) << endianness[2] * Byte.SIZE;
-            decoded |= (bytes[offset + 3] & 0xFF) << endianness[3] * Byte.SIZE;
+            decoded |= (bytes[offset] & 0xFF) << endianness.apply(0) * Byte.SIZE;
+            decoded |= (bytes[offset + 1] & 0xFF) << endianness.apply(1) * Byte.SIZE;
+            decoded |= (bytes[offset + 2] & 0xFF) << endianness.apply(2) * Byte.SIZE;
+            decoded |= (bytes[offset + 3] & 0xFF) << endianness.apply(3) * Byte.SIZE;
 
             return decoded;
         };
@@ -137,14 +139,14 @@ public interface ValueBytesDecoder<T> {
     static ValueBytesDecoder<Long> value64BitDecoder() {
         return (bytes, offset, endianness) -> {
             long decoded = 0;
-            decoded |= (bytes[offset] & 0xFFL) << endianness[0] * Byte.SIZE;
-            decoded |= (bytes[offset + 1] & 0xFFL) << endianness[1] * Byte.SIZE;
-            decoded |= (bytes[offset + 2] & 0xFFL) << endianness[2] * Byte.SIZE;
-            decoded |= (bytes[offset + 3] & 0xFFL) << endianness[3] * Byte.SIZE;
-            decoded |= (bytes[offset + 4] & 0xFFL) << endianness[4] * Byte.SIZE;
-            decoded |= (bytes[offset + 5] & 0xFFL) << endianness[5] * Byte.SIZE;
-            decoded |= (bytes[offset + 6] & 0xFFL) << endianness[6] * Byte.SIZE;
-            decoded |= (bytes[offset + 7] & 0xFFL) << endianness[7] * Byte.SIZE;
+            decoded |= (bytes[offset] & 0xFFL) << endianness.apply(0) * Byte.SIZE;
+            decoded |= (bytes[offset + 1] & 0xFFL) << endianness.apply(1) * Byte.SIZE;
+            decoded |= (bytes[offset + 2] & 0xFFL) << endianness.apply(2) * Byte.SIZE;
+            decoded |= (bytes[offset + 3] & 0xFFL) << endianness.apply(3) * Byte.SIZE;
+            decoded |= (bytes[offset + 4] & 0xFFL) << endianness.apply(4) * Byte.SIZE;
+            decoded |= (bytes[offset + 5] & 0xFFL) << endianness.apply(5) * Byte.SIZE;
+            decoded |= (bytes[offset + 6] & 0xFFL) << endianness.apply(6) * Byte.SIZE;
+            decoded |= (bytes[offset + 7] & 0xFFL) << endianness.apply(7) * Byte.SIZE;
 
             return decoded;
         };
