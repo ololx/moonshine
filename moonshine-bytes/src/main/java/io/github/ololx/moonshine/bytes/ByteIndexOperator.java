@@ -15,16 +15,21 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.coding;
+package io.github.ololx.moonshine.bytes;
 
 /**
+ *
+ *
  * project moonshine
- * created 21.03.2023 09:40
+ * created 02.03.2023 10:22
  *
  * @author Alexander A. Kropotin
  */
-@FunctionalInterface
-public interface ByteOrderOperator {
+public interface ByteIndexOperator {
 
-    int[] provide(int mostSignificantByte);
+    int apply(int index);
+
+    static ByteIndexOperator identity() {
+        return t -> t;
+    }
 }

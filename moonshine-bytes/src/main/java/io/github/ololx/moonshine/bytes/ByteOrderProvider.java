@@ -25,5 +25,5 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface ByteOrderProvider {
 
-    int[] provide(int mostSignificantByte);
+    ByteIndexOperator provide(int mostSignificantByte);
 }

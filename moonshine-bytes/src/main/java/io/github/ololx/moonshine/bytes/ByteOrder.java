@@ -131,7 +131,7 @@ public class ByteOrder {
      * @param mostSignificantByte The most significant byte.
      * @return the byte order array.
      */
-    public final int[] byteOrder(int mostSignificantByte) {
+    public final ByteIndexOperator byteOrder(int mostSignificantByte) {
         return this.byteOrderProvider.provide(mostSignificantByte);
     }
 

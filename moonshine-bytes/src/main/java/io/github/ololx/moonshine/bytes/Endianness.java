@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import java.util.stream.IntStream;
-
 /**
  * This class provides constants for different byte orders,
  * namely big-endian, little-endian, and PDP-endian. It also provides constants
@@ -39,9 +37,7 @@ public final class Endianness {
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
             0x1,
-            msb -> IntStream.iterate(msb, i -> i - 1)
-                    .limit(msb + 1L)
-                    .toArray()
+            msb -> index -> msb - index
     );
 
     /**
@@ -52,9 +48,7 @@ public final class Endianness {
     public static final ByteOrder LITTLE_ENDIAN = new ByteOrder(
             "Little-Endian",
             0x2,
-            msb -> IntStream.iterate(0, i -> i + 1)
-                    .limit(msb + 1L)
-                    .toArray()
+            msb -> index -> index
     );
 
     /**
@@ -64,10 +58,7 @@ public final class Endianness {
     public static final ByteOrder PDP_ENDIAN = new ByteOrder(
             "PDP-Endian",
             0x3,
-            msb -> IntStream.iterate(0, i -> i + 1)
-                    .limit(msb + 1L)
-                    .map(i -> i % 2 == 0 ? msb - (i + 1) : msb - (i - 1))
-                    .toArray()
+            msb -> index -> index % 2 == 0 ? msb - (index + 1) : msb - (index - 1)
     );
 
     /**
