@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+
 /**
  * The encoder that converts given value to a byte array using the specified
  * endianness.
@@ -38,7 +40,7 @@ public class IntEncoder implements ValueBytesEncoder<Integer> {
      * @return the byte array that contains the encoded value
      */
     @Override
-    public byte[] encode(Integer value, int offset, int[] endianness) {
+    public byte[] encode(Integer value, int offset, ByteIndexOperator endianness) {
         return ValueBytesEncoder.value32BitEncoder().encode(value, offset, endianness);
     }
 }

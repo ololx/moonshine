@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+
 /**
  * The encoder that converts given value to a byte array using the specified
  * endianness.
@@ -38,7 +40,7 @@ public class DoubleEncoder implements ValueBytesEncoder<Double> {
      * @return the byte array that contains the encoded value
      */
     @Override
-    public byte[] encode(Double value, int offset, int[] endianness) {
+    public byte[] encode(Double value, int offset, ByteIndexOperator endianness) {
         long longBitsValue = Double.doubleToLongBits(value);
         return ValueBytesEncoder.value64BitEncoder().encode(longBitsValue, offset, endianness);
     }

@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+
 /**
  * The encoder that converts given value to a byte array using the specified
  * endianness.
@@ -39,7 +41,7 @@ public interface ValueBytesEncoder<T> {
      * @param endianness the endianness to be used for encoding
      * @return the byte array that contains the encoded value
      */
-    byte[] encode(T value, int offset, int[] endianness);
+    byte[] encode(T value, int offset, ByteIndexOperator endianness);
 
     /**
      * Encodes a given value to a byte array using the specified endianness
@@ -53,7 +55,7 @@ public interface ValueBytesEncoder<T> {
      * @param endianness the endianness to be used for encoding
      * @return the byte array that contains the encoded value
      */
-    default byte[] encode(T value, int[] endianness) {
+    default byte[] encode(T value, ByteIndexOperator endianness) {
         return this.encode(value, 0, endianness);
     }
 
@@ -72,7 +74,7 @@ public interface ValueBytesEncoder<T> {
     static ValueBytesEncoder<Byte> value8BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Byte.BYTES];
-            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
+            encoded[offset] = (byte) ((value >> endianness.apply(0) * Byte.SIZE) & 0xFF);
 
             return encoded;
         };
@@ -93,8 +95,8 @@ public interface ValueBytesEncoder<T> {
     static ValueBytesEncoder<Short> value16BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Short.BYTES];
-            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
-            encoded[offset + 1] = (byte) ((value >> endianness[1] * Byte.SIZE) & 0xFF);
+            encoded[offset] = (byte) ((value >> endianness.apply(0) * Byte.SIZE) & 0xFF);
+            encoded[offset + 1] = (byte) ((value >> endianness.apply(1) * Byte.SIZE) & 0xFF);
 
             return encoded;
         };
@@ -115,10 +117,10 @@ public interface ValueBytesEncoder<T> {
     static ValueBytesEncoder<Integer> value32BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Integer.BYTES];
-            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
-            encoded[offset + 1] = (byte) ((value >> endianness[1] * Byte.SIZE) & 0xFF);
-            encoded[offset + 2] = (byte) ((value >> endianness[2] * Byte.SIZE) & 0xFF);
-            encoded[offset + 3] = (byte) ((value >> endianness[3] * Byte.SIZE) & 0xFF);
+            encoded[offset] = (byte) ((value >> endianness.apply(0) * Byte.SIZE) & 0xFF);
+            encoded[offset + 1] = (byte) ((value >> endianness.apply(1) * Byte.SIZE) & 0xFF);
+            encoded[offset + 2] = (byte) ((value >> endianness.apply(2) * Byte.SIZE) & 0xFF);
+            encoded[offset + 3] = (byte) ((value >> endianness.apply(3) * Byte.SIZE) & 0xFF);
 
             return encoded;
         };
@@ -139,14 +141,14 @@ public interface ValueBytesEncoder<T> {
     static ValueBytesEncoder<Long> value64BitEncoder() {
         return (value, offset, endianness) -> {
             byte[] encoded =  new byte[offset + Long.BYTES];
-            encoded[offset] = (byte) ((value >> endianness[0] * Byte.SIZE) & 0xFF);
-            encoded[offset + 1] = (byte) ((value >> endianness[1] * Byte.SIZE) & 0xFF);
-            encoded[offset + 2] = (byte) ((value >> endianness[2] * Byte.SIZE) & 0xFF);
-            encoded[offset + 3] = (byte) ((value >> endianness[3] * Byte.SIZE) & 0xFF);
-            encoded[offset + 4] = (byte) ((value >> endianness[4] * Byte.SIZE) & 0xFF);
-            encoded[offset + 5] = (byte) ((value >> endianness[5] * Byte.SIZE) & 0xFF);
-            encoded[offset + 6] = (byte) ((value >> endianness[6] * Byte.SIZE) & 0xFF);
-            encoded[offset + 7] = (byte) ((value >> endianness[7] * Byte.SIZE) & 0xFF);
+            encoded[offset] = (byte) ((value >> endianness.apply(0) * Byte.SIZE) & 0xFF);
+            encoded[offset + 1] = (byte) ((value >> endianness.apply(1) * Byte.SIZE) & 0xFF);
+            encoded[offset + 2] = (byte) ((value >> endianness.apply(2) * Byte.SIZE) & 0xFF);
+            encoded[offset + 3] = (byte) ((value >> endianness.apply(3) * Byte.SIZE) & 0xFF);
+            encoded[offset + 4] = (byte) ((value >> endianness.apply(4) * Byte.SIZE) & 0xFF);
+            encoded[offset + 5] = (byte) ((value >> endianness.apply(5) * Byte.SIZE) & 0xFF);
+            encoded[offset + 6] = (byte) ((value >> endianness.apply(6) * Byte.SIZE) & 0xFF);
+            encoded[offset + 7] = (byte) ((value >> endianness.apply(7) * Byte.SIZE) & 0xFF);
 
             return encoded;
         };

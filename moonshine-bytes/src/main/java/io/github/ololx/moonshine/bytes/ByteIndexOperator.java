@@ -18,12 +18,18 @@
 package io.github.ololx.moonshine.bytes;
 
 /**
+ *
+ *
  * project moonshine
  * created 02.03.2023 10:22
  *
  * @author Alexander A. Kropotin
  */
-public interface ByteOrderProvider {
+public interface ByteIndexOperator {
 
-    ByteIndexOperator provide(int mostSignificantByte);
+    int apply(int index);
+
+    static ByteIndexOperator identity() {
+        return t -> t;
+    }
 }
