@@ -37,9 +37,8 @@ public interface ByteOrderProvider {
      * This method should return a non-null {@code ByteIndexOperator} instance
      * for all valid byte orders.
      *
-     *
-     * @param mostSignificantByte the most significant byte in the byte order.
+     * @param size (value size) the number of bytes occupied by the value.
      * @return a {@code ByteIndexOperator} instance for the given byte order.
      */
-    ByteIndexOperator provide(int mostSignificantByte);
+    ByteIndexOperator provide(int size);
 }

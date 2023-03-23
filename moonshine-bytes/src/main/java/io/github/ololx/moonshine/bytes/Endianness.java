@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+
 /**
  * This class provides constants for different byte orders,
  * namely big-endian, little-endian, and PDP-endian. It also provides constants
@@ -37,12 +39,12 @@ public final class Endianness {
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
             0x1,
-            msb -> index -> {
-                if (msb == 0) {
+            size -> index -> {
+                if (size == 1) {
                     return 0;
                 }
 
-                return msb - index;
+                return size - 1 - index;
             }
     );
 
@@ -54,7 +56,7 @@ public final class Endianness {
     public static final ByteOrder LITTLE_ENDIAN = new ByteOrder(
             "Little-Endian",
             0x2,
-            msb -> index -> index
+            size -> ByteIndexOperator.identity()
     );
 
     /**
@@ -64,12 +66,14 @@ public final class Endianness {
     public static final ByteOrder PDP_ENDIAN = new ByteOrder(
             "PDP-Endian",
             0x3,
-            msb -> index -> {
-                if (msb == 0) {
+            size -> index -> {
+                if (size == 1) {
                     return 0;
                 }
 
-                return index % 2 == 0 ? msb - (index + 1) : msb - (index - 1);
+                return index % 2 == 0
+                        ? size - 1 - (index + 1)
+                        : size - 1 - (index - 1);
             }
     );
 
@@ -84,7 +88,7 @@ public final class Endianness {
      * the Java virtual machine is running. This is determined at runtime by
      * the {@code UnsafeHelper} class.
      */
-    public static final ByteOrder SYSTEM_DEFAULT = UnsafeHelper.getInstance().isBigEndian()
+    static final ByteOrder SYSTEM_DEFAULT = UnsafeHelper.getInstance().isBigEndian()
             ? BIG_ENDIAN
             : LITTLE_ENDIAN;
 }
