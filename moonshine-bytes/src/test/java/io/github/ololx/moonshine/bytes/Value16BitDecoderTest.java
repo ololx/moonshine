@@ -18,11 +18,11 @@
 package io.github.ololx.moonshine.bytes;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
+import io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder.value16BitEncoder;
+import static io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder.value16BitDecoder;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -31,7 +31,7 @@ import static org.testng.Assert.assertEquals;
  *
  * @author Alexander A. Kropotin
  */
-public class Value16BitEncoderTest {
+public class Value16BitDecoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
@@ -100,19 +100,19 @@ public class Value16BitEncoderTest {
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(Short value,
+    public void decode_whenDecodeBytes_thenDecodedValueEqualsExpectedValue(short expected,
                                                                            ByteIndexOperator byteOrder,
-                                                                           byte[] expected) {
+                                                                           byte[] value) {
         //Given
-        //value bytes encoder and origin value
-        ValueBytesEncoder<Short> encoder = value16BitEncoder();
+        //value bytes decoder and origin value
+        ValueBytesDecoder<Short> decoder = value16BitDecoder();
 
         //When
-        //encode value
-        byte[] encodedValue = encoder.encode(value, byteOrder);
+        //decode value
+        short decodedValue = decoder.decode(value, byteOrder);
 
         //Then
-        //encoded value equals expected bytes
-        assertEquals(encodedValue, expected);
+        //decoded value equals expected bytes
+        assertEquals(decodedValue, expected);
     }
 }
