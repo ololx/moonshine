@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
-import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
 /**
  * The encoder that converts given value to a byte array using the specified
@@ -41,7 +41,7 @@ public class CharEncoder implements ValueBytesEncoder<Character> {
      */
     @Override
     public byte[] encode(Character value, int offset, ByteIndexOperator endianness) {
-        short shortValue = (short)value.charValue();
+        short shortValue = (short) value.charValue();
         return ValueBytesEncoder.value16BitEncoder().encode(shortValue, offset, endianness);
     }
 }

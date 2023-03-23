@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
-import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
 /**
  * The encoder that converts given value to a byte array using the specified
@@ -41,7 +41,7 @@ public class FloatEncoder implements ValueBytesEncoder<Float> {
      */
     @Override
     public byte[] encode(Float value, int offset, ByteIndexOperator endianness) {
-        int intBitsValue = Float.floatToIntBits(value);
-        return ValueBytesEncoder.value32BitEncoder().encode(intBitsValue, offset, endianness);
+        int intValue = Float.floatToIntBits(value);
+        return ValueBytesEncoder.value32BitEncoder().encode(intValue, offset, endianness);
     }
 }
