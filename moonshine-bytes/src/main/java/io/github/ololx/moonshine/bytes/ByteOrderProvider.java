@@ -18,6 +18,9 @@
 package io.github.ololx.moonshine.bytes;
 
 /**
+ * An interface for providing {@code ByteIndexOperator} based on the most
+ * significant byte.
+ *
  * project moonshine
  * created 02.03.2023 10:22
  *
@@ -25,5 +28,16 @@ package io.github.ololx.moonshine.bytes;
  */
 public interface ByteOrderProvider {
 
+    /**
+     * Returns a byte index operator based on the given most significant byte.
+     *
+     * @implSpec
+     * This method should return a non-null {@code ByteIndexOperator} instance
+     * for all valid byte orders.
+     *
+     *
+     * @param mostSignificantByte the most significant byte in the byte order.
+     * @return a {@code ByteIndexOperator} instance for the given byte order.
+     */
     ByteIndexOperator provide(int mostSignificantByte);
 }
