@@ -94,11 +94,66 @@ public class ValueBytesEncoderTest {
     @DataProvider
     public static Object[][] providesShortAndEndianness() {
         return new Object[][]{
-                {Short.MIN_VALUE, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{-128, 0}},
-                {(short) -258, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{-2, -2}},
-                {(short) 0, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{0, 0}},
-                {(short) 258, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{1, 2}},
-                {Short.MAX_VALUE, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{127, -1}},
+                {
+                        Short.MIN_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(1),
+                        new byte[]{-128, 0}
+                },
+                {
+                        Short.MIN_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
+                        new byte[]{0, -128}
+                },
+                {
+                        Short.MIN_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(1),
+                        new byte[]{0, -128}
+                },
+                {
+                        (short) 0,
+                        Endianness.BIG_ENDIAN.byteOrder(1),
+                        new byte[]{0, 0}
+                },
+                {
+                        (short) 0,
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
+                        new byte[]{0, 0}
+                },
+                {
+                        (short) 0,
+                        Endianness.PDP_ENDIAN.byteOrder(1),
+                        new byte[]{0, 0}
+                },
+                {
+                        (short) -258,
+                        Endianness.BIG_ENDIAN.byteOrder(1),
+                        new byte[]{-2, -2}
+                },
+                {
+                        (short) -258,
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
+                        new byte[]{-2, -2}
+                },
+                {
+                        (short) -258,
+                        Endianness.PDP_ENDIAN.byteOrder(1),
+                        new byte[]{-2, -2}
+                },
+                {
+                        (short) 258,
+                        Endianness.BIG_ENDIAN.byteOrder(1),
+                        new byte[]{1, 2}
+                },
+                {
+                        (short) 258,
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
+                        new byte[]{2, 1}
+                },
+                {
+                        (short) 258,
+                        Endianness.PDP_ENDIAN.byteOrder(1),
+                        new byte[]{2, 1}
+                },
         };
     }
 
@@ -109,41 +164,119 @@ public class ValueBytesEncoderTest {
         assertEquals(encodedValue, expected);
     }
 
-    @DataProvider(name = "intProvider")
-    public static Object[][] intProvider() {
+    @DataProvider
+    public static Object[][] providesIntAndEndianness() {
         return new Object[][]{
-                {Integer.MIN_VALUE, Endianness.BIG_ENDIAN.byteOrder(3), new byte[]{-128, 0, 0, 0}},
-                {-65536, Endianness.BIG_ENDIAN.byteOrder(3), new byte[]{-1, -1, 0, 0}},
-                {-1, Endianness.BIG_ENDIAN.byteOrder(3), new byte[]{-1, -1, -1, -1}},
-                {0, Endianness.BIG_ENDIAN.byteOrder(3), new byte[]{0, 0, 0, 0}},
-                {65536, Endianness.BIG_ENDIAN.byteOrder(3), new byte[]{0, 1, 0, 0}},
-                {Integer.MAX_VALUE, Endianness.BIG_ENDIAN.byteOrder(3), new byte[]{127, -1, -1, -1}},
+                {
+                        Integer.MIN_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(3),
+                        new byte[]{-128, 0, 0, 0}
+                },
+                {
+                        Integer.MIN_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
+                        new byte[]{0, 0, 0, -128}
+                },
+                {
+                        Integer.MIN_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(3),
+                        new byte[]{0, -128, 0, 0}
+                },
+                {
+                        0,
+                        Endianness.BIG_ENDIAN.byteOrder(3),
+                        new byte[]{0, 0, 0, 0}
+                },
+                {
+                        0,
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
+                        new byte[]{0, 0, 0, 0}
+                },
+                {
+                        0,
+                        Endianness.PDP_ENDIAN.byteOrder(3),
+                        new byte[]{0, 0, 0 , 0}
+                },
+                {
+                        -65536,
+                        Endianness.BIG_ENDIAN.byteOrder(3),
+                        new byte[]{-1, -1, 0, 0}
+                },
+                {
+                        -65536,
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
+                        new byte[]{0, 0, -1, -1}
+                },
+                {
+                        -65536,
+                        Endianness.PDP_ENDIAN.byteOrder(3),
+                        new byte[]{-1, -1, 0, 0}
+                },
+                {
+                        65536,
+                        Endianness.BIG_ENDIAN.byteOrder(3),
+                        new byte[]{0, 1, 0, 0}
+                },
+                {
+                        65536,
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
+                        new byte[]{0, 0, 1, 0}
+                },
+                {
+                        65536,
+                        Endianness.PDP_ENDIAN.byteOrder(3),
+                        new byte[]{1, 0, 0, 0}
+                },
         };
     }
 
-    @Test(dataProvider = "intProvider")
+    @Test(dataProvider = "providesIntAndEndianness")
     public void testValue32BitEncoder(Integer value, ByteIndexOperator byteOrder, byte[] expected) {
         ValueBytesEncoder<Integer> encoder = value32BitEncoder();
         byte[] encodedValue = encoder.encode(value, byteOrder);
         assertEquals(encodedValue, expected);
     }
 
-    @DataProvider(name = "encodeData")
-    public Object[][] encodeData() {
+    @DataProvider
+    public Object[][] providesLongAndEndianness() {
         return new Object[][] {
-                {Long.MIN_VALUE, 0, ByteIndexOperator.identity(), new byte[]{0, 0, 0, 0, 0, 0, 0, -128}},
-                {0L, 0, ByteIndexOperator.identity(), new byte[]{0, 0, 0, 0, 0, 0, 0, 0}},
-                {255L, 0, ByteIndexOperator.identity(), new byte[]{-1, 0, 0, 0, 0, 0, 0, 0}},
-                {-1L, 0, ByteIndexOperator.identity(), new byte[]{-1, -1, -1, -1, -1, -1, -1, -1}},
-                {65536L, 0, ByteIndexOperator.identity(), new byte[]{0, 0, 1, 0, 0, 0, 0, 0}},
-                {Long.MAX_VALUE, 0, ByteIndexOperator.identity(), new byte[]{-1, -1, -1, -1, -1, -1, -1, 127}},
+                {
+                        Long.MIN_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(7),
+                        new byte[]{-128, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        Long.MIN_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
+                        new byte[]{0, 0, 0, 0, 0, 0, 0, -128}
+                },
+                {
+                        Long.MIN_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(7),
+                        new byte[]{0, -128, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        0L,
+                        Endianness.BIG_ENDIAN.byteOrder(7),
+                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        0L,
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
+                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        0L,
+                        Endianness.PDP_ENDIAN.byteOrder(7),
+                        new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
+                },
         };
     }
 
-    @Test(dataProvider = "encodeData")
-    public void testValue64BitEncoder(long value, int offset, ByteIndexOperator endianness, byte[] expected) {
+    @Test(dataProvider = "providesLongAndEndianness")
+    public void testValue64BitEncoder(Long value, ByteIndexOperator endianness, byte[] expected) {
         ValueBytesEncoder<Long> encoder = value64BitEncoder();
-        byte[] actual = encoder.encode(value, offset, endianness);
+        byte[] actual = encoder.encode(value, endianness);
         assertEquals(actual, expected);
     }
 }
