@@ -91,4 +91,10 @@ public final class Endianness {
     static final ByteOrder SYSTEM_DEFAULT = UnsafeHelper.getInstance().isBigEndian()
             ? BIG_ENDIAN
             : LITTLE_ENDIAN;
+
+    /**
+     * Override constructor by defaults (implicit public constructor).
+     * Because utility class are not meant to be instantiated.
+     */
+    private Endianness() {}
 }

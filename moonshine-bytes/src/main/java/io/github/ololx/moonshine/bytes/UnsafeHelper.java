@@ -281,7 +281,7 @@ final class UnsafeHelper {
      * method, and frees memory by invoking the {@code freeMemory} method.
      * The address of the allocated memory block is stored as an instance variable.
      */
-    final static class MemoryBlock implements AutoCloseable {
+    static final class MemoryBlock implements AutoCloseable {
 
         /**
          * The address of the allocated memory block.
