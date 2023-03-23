@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes;
+package io.github.ololx.moonshine.bytes.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
 import org.testng.annotations.Test;
