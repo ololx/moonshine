@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes;
+package io.github.ololx.moonshine.bytes.coding;
 
 /**
  * A functional interface for applying a mapping function to a byte index.

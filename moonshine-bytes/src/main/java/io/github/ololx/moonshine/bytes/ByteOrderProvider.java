@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+
 /**
  * An interface for providing {@code ByteIndexOperator} based on the most
  * significant byte.

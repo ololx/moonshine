@@ -37,7 +37,13 @@ public final class Endianness {
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
             "Big-Endian",
             0x1,
-            msb -> index -> msb - index
+            msb -> index -> {
+                if (msb == 0) {
+                    return 0;
+                }
+
+                return msb - index;
+            }
     );
 
     /**
@@ -58,7 +64,13 @@ public final class Endianness {
     public static final ByteOrder PDP_ENDIAN = new ByteOrder(
             "PDP-Endian",
             0x3,
-            msb -> index -> index % 2 == 0 ? msb - (index + 1) : msb - (index - 1)
+            msb -> index -> {
+                if (msb == 0) {
+                    return 0;
+                }
+
+                return index % 2 == 0 ? msb - (index + 1) : msb - (index - 1);
+            }
     );
 
     /**

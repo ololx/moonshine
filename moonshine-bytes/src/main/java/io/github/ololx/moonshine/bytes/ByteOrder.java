@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 

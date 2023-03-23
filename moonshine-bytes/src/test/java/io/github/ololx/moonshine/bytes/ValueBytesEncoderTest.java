@@ -17,6 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,24 +33,66 @@ import static org.testng.Assert.assertEquals;
  */
 public class ValueBytesEncoderTest {
 
-    @DataProvider(name = "byteProvider")
-    public static Object[][] byteProvider() {
+    @DataProvider
+    public static Object[][] providesByteAndEndianness() {
         return new Object[][]{
-                {Byte.MIN_VALUE, ByteIndexOperator.identity(), new byte[]{-128}},
-                {(byte) 0, ByteIndexOperator.identity(), new byte[]{0}},
-                {Byte.MAX_VALUE, ByteIndexOperator.identity(), new byte[]{127}},
+                {
+                    Byte.MIN_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(0),
+                        new byte[]{-128}
+                },
+                {
+                    Byte.MIN_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(0),
+                        new byte[]{-128}
+                },
+                {
+                    Byte.MIN_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(0),
+                        new byte[]{-128}
+                },
+                {
+                        (byte) 0,
+                        Endianness.BIG_ENDIAN.byteOrder(0),
+                        new byte[]{0}
+                },
+                {
+                        (byte) 0,
+                        Endianness.LITTLE_ENDIAN.byteOrder(0),
+                        new byte[]{0}
+                },
+                {
+                        (byte) 0,
+                        Endianness.PDP_ENDIAN.byteOrder(0),
+                        new byte[]{0}
+                },
+                {
+                        Byte.MAX_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(0),
+                        new byte[]{127}
+                },
+                {
+                        Byte.MAX_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(0),
+                        new byte[]{127}
+                },
+                {
+                        Byte.MAX_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(0),
+                        new byte[]{127}
+                },
         };
     }
 
-    @Test(dataProvider = "byteProvider")
+    @Test(dataProvider = "providesByteAndEndianness")
     public void testValue8BitEncoder(Byte value, ByteIndexOperator byteOrder, byte[] expected) {
         ValueBytesEncoder<Byte> encoder = value8BitEncoder();
         byte[] encodedValue = encoder.encode(value, byteOrder);
         assertEquals(encodedValue, expected);
     }
 
-    @DataProvider(name = "shortProvider")
-    public static Object[][] shortProvider() {
+    @DataProvider
+    public static Object[][] providesShortAndEndianness() {
         return new Object[][]{
                 {Short.MIN_VALUE, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{-128, 0}},
                 {(short) -258, Endianness.BIG_ENDIAN.byteOrder(1), new byte[]{-2, -2}},
@@ -59,7 +102,7 @@ public class ValueBytesEncoderTest {
         };
     }
 
-    @Test(dataProvider = "shortProvider")
+    @Test(dataProvider = "providesShortAndEndianness")
     public void testValue16BitEncoder(Short value, ByteIndexOperator byteOrder, byte[] expected) {
         ValueBytesEncoder<Short> encoder = value16BitEncoder();
         byte[] encodedValue = encoder.encode(value, byteOrder);

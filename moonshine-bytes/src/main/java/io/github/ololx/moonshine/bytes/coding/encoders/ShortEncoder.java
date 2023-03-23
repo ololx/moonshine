@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
-import io.github.ololx.moonshine.bytes.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
 /**
  * The encoder that converts given value to a byte array using the specified
