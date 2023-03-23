@@ -111,7 +111,7 @@ final class UnsafeHelper {
      * This method uses a byte-order probe to determine whether the underlying
      * platform is big-endian or little-endian. It allocates a 2-byte buffer
      * using the {@code allocateMemory} method, writes the value
-     * {@codee 0x10000001} to the buffer using the {@code putShort} method,
+     * {@code 0x10000001} to the buffer using the {@code putShort} method,
      * reads the first byte of the buffer using the {@code getByte} method, and
      * then deallocates the buffer using the {@code freeMemory} method.
      * If the first byte of the buffer is {@code 0x01}, the platform is
