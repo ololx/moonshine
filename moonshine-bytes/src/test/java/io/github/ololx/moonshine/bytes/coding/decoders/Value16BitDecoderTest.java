@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.decoders;
+package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -105,15 +104,15 @@ public class Value16BitDecoderTest {
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] value) {
         //Given
-        //value bytes decoder and origin value
+        // value bytes decoder and origin value
         ValueBytesDecoder<Short> decoder = value16BitDecoder();
 
         //When
-        //decode value
+        // decode value
         short decodedValue = decoder.decode(value, byteOrder);
 
         //Then
-        //decoded value equals expected bytes
+        // decoded value equals expected bytes
         assertEquals(decodedValue, expected);
     }
 }

@@ -17,8 +17,9 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
@@ -28,36 +29,60 @@ import org.testng.annotations.Test;
  */
 public class EndiannessTest {
 
-    @Test
-    public void testBigEndian() {
-        Assert.assertEquals(Endianness.BIG_ENDIAN.getName(), "Big-Endian");
-        Assert.assertEquals(Endianness.BIG_ENDIAN.getId(), 0x1);
+    @Test(invocationCount = 10)
+    public void BIG_ENDIAN_whenGetByteOrderFromEndianessConst_thenThisByteOrderEqualsExpected() {
+        //When
+        // get order from const
+        ByteOrder byteOrder = Endianness.BIG_ENDIAN;
 
-        Assert.assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(0), 3);
-        Assert.assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(1), 2);
-        Assert.assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(2), 1);
-        Assert.assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(3), 0);
+        //Then
+        // name of byte order equals expected
+        assertEquals(Endianness.BIG_ENDIAN.getName(), "Big-Endian");
+        // id of byte order equals expected
+        assertEquals(Endianness.BIG_ENDIAN.getId(), 0x1);
+
+        // byte order operator is same expected
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(0), 3);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(1), 2);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(2), 1);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(3), 0);
     }
 
-    @Test
-    public void testLittleEndian() {
-        Assert.assertEquals(Endianness.LITTLE_ENDIAN.getName(), "Little-Endian");
-        Assert.assertEquals(Endianness.LITTLE_ENDIAN.getId(), 0x2);
+    @Test(invocationCount = 10)
+    public void LITTLE_ENDIAN_whenGetByteOrderFromEndianessConst_thenThisByteOrderEqualsExpected() {
+        //When
+        // get order from const
+        ByteOrder byteOrder = Endianness.LITTLE_ENDIAN;
 
-        Assert.assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(0), 0);
-        Assert.assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(1), 1);
-        Assert.assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(2), 2);
-        Assert.assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(3), 3);
+        //Then
+        // name of byte order equals expected
+        assertEquals(Endianness.LITTLE_ENDIAN.getName(), "Little-Endian");
+        // id of byte order equals expected
+        assertEquals(Endianness.LITTLE_ENDIAN.getId(), 0x2);
+
+        // byte order operator is same expected
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(0), 0);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(1), 1);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(2), 2);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(3), 3);
     }
 
-    @Test
-    public void testPdpEndian() {
-        Assert.assertEquals(Endianness.PDP_ENDIAN.getName(), "PDP-Endian");
-        Assert.assertEquals(Endianness.PDP_ENDIAN.getId(), 0x3);
+    @Test(invocationCount = 10)
+    public void PDP_ENDIAN_whenGetByteOrderFromEndianessConst_thenThisByteOrderEqualsExpected() {
+        //When
+        // get order from const
+        ByteOrder byteOrder = Endianness.LITTLE_ENDIAN;
 
-        Assert.assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(0), 2);
-        Assert.assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(1), 3);
-        Assert.assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(2), 0);
-        Assert.assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(3), 1);
+        //Then
+        // name of byte order equals expected
+        assertEquals(Endianness.PDP_ENDIAN.getName(), "PDP-Endian");
+        // id of byte order equals expected
+        assertEquals(Endianness.PDP_ENDIAN.getId(), 0x3);
+
+        // byte order operator is same expected
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(0), 2);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(1), 3);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(2), 0);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(3), 1);
     }
 }
