@@ -22,90 +22,89 @@ import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder.value16BitEncoder;
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 13.03.2023 18:28
+ * created 25.03.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
-public class Value16BitEncoderTest {
+public class CharEncoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
         return new Object[][]{
                 {
-                        Short.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
-                        new byte[]{-128, 0}
-                },
-                {
-                        Short.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
-                        new byte[]{0, -128}
-                },
-                {
-                        Short.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
-                        new byte[]{0, -128}
-                },
-                {
-                        (short) 0,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        Character.MIN_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{0, 0}
                 },
                 {
-                        (short) 0,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        Character.MIN_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{0, 0}
                 },
                 {
-                        (short) 0,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        Character.MIN_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{0, 0}
                 },
                 {
-                        (short) -258,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        (char) 0,
+                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
+                        new byte[]{0, 0}
+                },
+                {
+                        (char) 0,
+                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
+                        new byte[]{0, 0}
+                },
+                {
+                        (char) 0,
+                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
+                        new byte[]{0, 0}
+                },
+                {
+                        (char) -258,
+                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{-2, -2}
                 },
                 {
-                        (short) -258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        (char) -258,
+                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{-2, -2}
                 },
                 {
-                        (short) -258,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        (char) -258,
+                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{-2, -2}
                 },
                 {
-                        (short) 258,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        (char) 258,
+                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{1, 2}
                 },
                 {
-                        (short) 258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        (char) 258,
+                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{2, 1}
                 },
                 {
-                        (short) 258,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        (char) 258,
+                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
                         new byte[]{2, 1}
                 },
         };
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(short value,
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(char value,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given
-        // value bytes encoder and origin value
-        ValueBytesEncoder<Short> encoder = value16BitEncoder();
+        // short encoder and origin value
+        CharEncoder encoder = new CharEncoder();
 
         //When
         // encode value
