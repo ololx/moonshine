@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.encoders;
+package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -105,15 +104,15 @@ public class Value32BitEncoderTest {
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given
-        //value bytes encoder and origin value
+        // value bytes encoder and origin value
         ValueBytesEncoder<Integer> encoder = value32BitEncoder();
 
         //When
-        //encode value
+        // encode value
         byte[] encodedValue = encoder.encode(value, byteOrder);
 
         //Then
-        //encoded value equals expected bytes
+        // encoded value equals expected bytes
         assertEquals(encodedValue, expected);
     }
 }

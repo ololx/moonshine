@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.encoders;
+package io.github.ololx.moonshine.bytes.coding.encoders;
 
-import io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder;
 import org.testng.annotations.Test;
 
 import static io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder.*;
@@ -34,44 +33,44 @@ public class ValueBytesEncoderTest {
     @Test
     public void value8BitEncoder_whenGetNewInstanceOfEncoder_thenInstanceIsNotNull() {
         //When
-        //get instance
+        // get instance
         ValueBytesEncoder<Byte> encoder = value8BitEncoder();
 
         //Then
-        //instance is not null
+        // instance is not null
         assertNotNull(encoder);
     }
 
     @Test
     public void value16BitEncoder_whenGetNewInstanceOfEncoder_thenInstanceIsNotNull() {
         //When
-        //get instance
+        // get instance
         ValueBytesEncoder<Short> encoder = value16BitEncoder();
 
         //Then
-        //instance is not null
+        // instance is not null
         assertNotNull(encoder);
     }
 
     @Test
     public void value32BitEncoder_whenGetNewInstanceOfEncoder_thenInstanceIsNotNull() {
         //When
-        //get instance
+        // get instance
         ValueBytesEncoder<Integer> encoder = value32BitEncoder();
 
         //Then
-        //instance is not null
+        // instance is not null
         assertNotNull(encoder);
     }
 
     @Test
     public void value64BitEncoder_whenGetNewInstanceOfEncoder_thenInstanceIsNotNull() {
         //When
-        //get instance
+        // get instance
         ValueBytesEncoder<Long> encoder = value64BitEncoder();
 
         //Then
-        //instance is not null
+        // instance is not null
         assertNotNull(encoder);
     }
 }

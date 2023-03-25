@@ -97,7 +97,7 @@ public interface ByteIndexOperator {
      * @return a byte index operator that applies the identity function
      */
     static ByteIndexOperator identity() {
-        return i -> i;
+        return index -> index;
     }
 }
 
