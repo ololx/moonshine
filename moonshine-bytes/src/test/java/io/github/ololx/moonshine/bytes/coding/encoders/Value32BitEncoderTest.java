@@ -100,7 +100,7 @@ public class Value32BitEncoderTest {
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(Integer value,
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(int value,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given

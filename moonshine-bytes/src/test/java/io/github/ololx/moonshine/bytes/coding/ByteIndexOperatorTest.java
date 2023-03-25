@@ -17,7 +17,6 @@
 
 package io.github.ololx.moonshine.bytes.coding;
 
-import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

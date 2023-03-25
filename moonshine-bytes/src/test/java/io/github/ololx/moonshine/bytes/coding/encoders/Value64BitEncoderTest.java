@@ -70,7 +70,7 @@ public class Value64BitEncoderTest {
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(Long value,
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(long value,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given

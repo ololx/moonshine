@@ -85,7 +85,7 @@ public class Value8BitEncoderTest {
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(Byte value,
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(byte value,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given
