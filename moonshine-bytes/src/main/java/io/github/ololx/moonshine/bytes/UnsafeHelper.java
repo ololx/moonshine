@@ -129,15 +129,7 @@ final class UnsafeHelper {
             PUT_SHORT_HANDLE.invoke(UNSAFE_INSTANCE, a, (short) 0x10000001);
             byte b = (byte) GET_BYTE_HANDLE.invoke(UNSAFE_INSTANCE, a);
 
-            switch (b) {
-                case 0x01:
-                    return false;
-                case 0x10:
-                    return true;
-                default:
-                    assert false;
-                    return false;
-            }
+            return b == 0x10;
         } catch (Throwable e) {
             throw new UnsafeHelperException(e);
         }

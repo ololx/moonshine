@@ -93,7 +93,21 @@ public class EndiannessTest {
         ByteOrder byteOrder = Endianness.DEFAULT;
 
         //Then
-        // byte order equals gib endian
+        // byte order equals big endian
         assertEquals(byteOrder, Endianness.BIG_ENDIAN);
+    }
+
+    @Test(invocationCount = 10)
+    public void NATIVE_whenGetByteOrderFromEndianessConst_thenThisByteOrderEqualsExpected() {
+        //When
+        // get order from const
+        ByteOrder byteOrder = Endianness.NATIVE;
+
+        //Then
+        // byte order equals system native
+        ByteOrder expected = UnsafeHelper.getInstance().isBigEndian()
+                ?  Endianness.BIG_ENDIAN
+                : Endianness.LITTLE_ENDIAN;
+        assertEquals(byteOrder, expected);
     }
 }

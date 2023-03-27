@@ -84,11 +84,11 @@ public final class Endianness {
     public static final ByteOrder DEFAULT = BIG_ENDIAN;
 
     /**
-     * A constant representing the default byte order of the system on which
+     * A constant representing the native byte order of the system on which
      * the Java virtual machine is running. This is determined at runtime by
      * the {@code UnsafeHelper} class.
      */
-    static final ByteOrder SYSTEM_DEFAULT = UnsafeHelper.getInstance().isBigEndian()
+    static final ByteOrder NATIVE = UnsafeHelper.getInstance().isBigEndian()
             ? BIG_ENDIAN
             : LITTLE_ENDIAN;
 
