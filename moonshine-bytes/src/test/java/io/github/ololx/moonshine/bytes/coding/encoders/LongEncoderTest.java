@@ -35,7 +35,7 @@ public class LongEncoderTest extends Value64BitEncoderTest {
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given
-        // int encoder and origin value
+        // long encoder and origin value
         LongEncoder encoder = new LongEncoder();
 
         //When

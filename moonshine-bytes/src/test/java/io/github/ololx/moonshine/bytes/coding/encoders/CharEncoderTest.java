@@ -103,7 +103,7 @@ public class CharEncoderTest {
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] expected) {
         //Given
-        // short encoder and origin value
+        // char encoder and origin value
         CharEncoder encoder = new CharEncoder();
 
         //When
