@@ -85,4 +85,15 @@ public class EndiannessTest {
         assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(2), 0);
         assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(3), 1);
     }
+
+    @Test(invocationCount = 10)
+    public void DEFAULT_whenGetByteOrderFromEndianessConst_thenThisByteOrderEqualsExpected() {
+        //When
+        // get order from const
+        ByteOrder byteOrder = Endianness.DEFAULT;
+
+        //Then
+        // byte order equals gib endian
+        assertEquals(byteOrder, Endianness.BIG_ENDIAN);
+    }
 }
