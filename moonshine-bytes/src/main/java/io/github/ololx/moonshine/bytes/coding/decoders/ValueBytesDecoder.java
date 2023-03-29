@@ -68,6 +68,8 @@ public interface ValueBytesDecoder<T> {
      * the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 8-bit values
+     * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
+     * is out of the {@code bytes} bounds
      */
     static ValueBytesDecoder<Byte> value8BitDecoder() {
         return (bytes, offset, endianness) -> {
@@ -89,6 +91,8 @@ public interface ValueBytesDecoder<T> {
      * the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 16-bit values
+     * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
+     * is out of the {@code bytes} bounds
      */
     static ValueBytesDecoder<Short> value16BitDecoder() {
         return (bytes, offset, endianness) -> {
@@ -111,6 +115,8 @@ public interface ValueBytesDecoder<T> {
      * the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 32-bit values
+     * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
+     * is out of the {@code bytes} bounds
      */
     static ValueBytesDecoder<Integer> value32BitDecoder() {
         return (bytes, offset, endianness) -> {
@@ -135,6 +141,8 @@ public interface ValueBytesDecoder<T> {
      * the byte order of the encoded value
      *
      * @return the {@code ValueBytesEncoder} instance for 64-bit values
+     * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
+     * is out of the {@code bytes} bounds
      */
     static ValueBytesDecoder<Long> value64BitDecoder() {
         return (bytes, offset, endianness) -> {

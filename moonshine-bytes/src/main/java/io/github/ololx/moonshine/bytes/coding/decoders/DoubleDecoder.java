@@ -37,6 +37,8 @@ public class DoubleDecoder implements ValueBytesDecoder<Double> {
      * @param offset the offset at which decoding should start
      * @param endianness the endianness to be used for encoding
      * @return the decoded value of given type
+     * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
+     * is out of the {@code bytes} bounds
      */
     @Override
     public Double decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
