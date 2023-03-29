@@ -23,8 +23,9 @@ The Moonshine is a java library that that contains usefull utilities and tools f
 
 ## Features
 
-- The tupples collection that allows to create new tuples and iterates it.
-- The stopwatch utilities that allows to get elapsed time measurements.
+- The tupples collection that allow to create new tuples and iterates it.
+- The stopwatch utilities that allow to get elapsed time measurements.
+- The bit convetring utilities that allow to code/encode Java primitives to/from byte array.
 
 ## Maven Installing
 

@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.5.0] - 2023-03-29
+
+### Added
+
+- New utility class for encoding byte values to byte array.
+- New utility class for decoding byte array to byte value.
+- New utility class for encoding short values to byte array.
+- New utility class for decoding byte array to short value.
+- New utility class for encoding char values to byte array.
+- New utility class for decoding byte array to char value.
+- New utility class for encoding int values to byte array.
+- New utility class for decoding byte array to int value.
+- New utility class for encoding long values to byte array.
+- New utility class for decoding byte array to long value.
+- New utility class for encoding float values to byte array.
+- New utility class for decoding byte array to float value.
+- New utility class for encoding double values to byte array.
+- New utility class for decoding byte array to double value.
+
 ## [0.4.0] - 2023-02-03
 
 ### Added
