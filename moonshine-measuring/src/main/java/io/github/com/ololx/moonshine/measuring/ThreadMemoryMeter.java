@@ -45,10 +45,10 @@ public class ThreadMemoryMeter {
 
     public void to() {
         long endAllocatedBytes = threadBean.getThreadAllocatedBytes(threadId);
-        result = (endAllocatedBytes - startAllocatedBytes) / 1024;
+        result = (endAllocatedBytes - startAllocatedBytes);
     }
 
-    public long getResult() {
-        return result;
+    public Memory getResult() {
+        return Memory.ofBytes(result);
     }
 }

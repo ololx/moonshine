@@ -34,10 +34,11 @@ public class main {
         for (int i = 0; i < 100000000; i++) {
             stringBuilder.append(i).append("bla");
         }
+        String s = stringBuilder.toString();
         ramUsageMeasurer.to();
-        System.out.println(stringBuilder.toString().getBytes(StandardCharsets.UTF_8).length / 1024);
+        System.out.println(s.getBytes(StandardCharsets.UTF_8).length);
 
-        System.out.println("RAM usage: " + ramUsageMeasurer.getResult() + " MB");
+        System.out.println("RAM usage: " + ramUsageMeasurer.getResult());
     }
 
 }
