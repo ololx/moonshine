@@ -28,23 +28,21 @@ import java.lang.management.ManagementFactory;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadMemoryMeter {
+public class ThreadMemoryUsageMeter {
     private final ThreadMXBean threadBean;
     private long startAllocatedBytes;
-    private long threadId;
     private long result;
 
-    public ThreadMemoryMeter() {
+    public ThreadMemoryUsageMeter() {
         threadBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
     }
 
-    public void from() {
-        threadId = Thread.currentThread().getId();
+    public void start() {
         startAllocatedBytes = threadBean.getThreadAllocatedBytes(Thread.currentThread().getId());
     }
 
-    public void to() {
-        long endAllocatedBytes = threadBean.getThreadAllocatedBytes(threadId);
+    public void stop() {
+        long endAllocatedBytes = threadBean.getThreadAllocatedBytes(Thread.currentThread().getId());
         result = (endAllocatedBytes - startAllocatedBytes);
     }
 
