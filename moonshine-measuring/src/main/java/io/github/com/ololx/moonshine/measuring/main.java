@@ -17,6 +17,7 @@
 package io.github.com.ololx.moonshine.measuring;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @project moonshine
@@ -27,18 +28,25 @@ import java.nio.charset.StandardCharsets;
 public class main {
 
     public static void main(String[] args) {
-        ThreadMemoryMeter ramUsageMeasurer = new ThreadMemoryMeter();
-        ramUsageMeasurer.from();
+        ThreadMemoryUsageMeter threadMemoryUsage = new ThreadMemoryUsageMeter();
+        MemoryUsageMeter fullMemoryUsage = new MemoryUsageMeter();
 
+        threadMemoryUsage.start();
+        fullMemoryUsage.start();
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 100000000; i++) {
-            stringBuilder.append(i).append("bla");
-        }
-        String s = stringBuilder.toString();
-        ramUsageMeasurer.to();
-        System.out.println(s.getBytes(StandardCharsets.UTF_8).length);
+        CompletableFuture.runAsync(() -> {
 
-        System.out.println("RAM usage: " + ramUsageMeasurer.getResult());
+            for (int i = 0; i < 10000000; i++) {
+                stringBuilder.append(i).append("bla");
+            }
+
+        }).join();
+        threadMemoryUsage.stop();
+        fullMemoryUsage.stop();
+        System.out.println(stringBuilder.toString().getBytes(StandardCharsets.UTF_8).length);
+
+        System.out.println("RAM usage by tread: " + threadMemoryUsage.getResult());
+        System.out.println("RAM usage heap + non head: " + fullMemoryUsage.getMemoryUsage());
     }
 
 }
