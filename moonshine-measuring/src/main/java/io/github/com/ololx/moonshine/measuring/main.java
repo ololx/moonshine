@@ -16,37 +16,66 @@
  */
 package io.github.com.ololx.moonshine.measuring;
 
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @project moonshine
- * @created 01.04.2023 18:46
- * <p>
+ * project moonshine
+ * created 01.04.2023 18:46
+ *
  * @author Alexander A. Kropotin
  */
 public class main {
 
     public static void main(String[] args) {
-        ThreadMemoryUsageMeter threadMemoryUsage = new ThreadMemoryUsageMeter();
-        MemoryUsageMeter fullMemoryUsage = new MemoryUsageMeter();
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(() -> {
+                    ThreadMemoryUsageMeter threadMemoryUsage = new ThreadMemoryUsageMeter();
+                    threadMemoryUsage.start();
 
-        threadMemoryUsage.start();
-        fullMemoryUsage.start();
-        StringBuilder stringBuilder = new StringBuilder();
-        CompletableFuture.runAsync(() -> {
+                    int[] ints = new int[100000000];
+                    for (int i = 0; i < ints.length; i++) {
+                        ints[i] = i;
+                    }
 
-            for (int i = 0; i < 10000000; i++) {
-                stringBuilder.append(i).append("bla");
-            }
+                    threadMemoryUsage.stop();
+                    System.out.println("1 - RAM usage by tread: " + threadMemoryUsage.result());
+                }),
+                CompletableFuture.runAsync(() -> {
+                    MemoryUsageMeter fullMemoryUsage = new MemoryUsageMeter();
+                    fullMemoryUsage.start();
 
-        }).join();
-        threadMemoryUsage.stop();
-        fullMemoryUsage.stop();
-        System.out.println(stringBuilder.toString().getBytes(StandardCharsets.UTF_8).length);
+                    int[] ints = new int[100000000];
+                    for (int i = 0; i < ints.length; i++) {
+                        ints[i] = i;
+                    }
 
-        System.out.println("RAM usage by tread: " + threadMemoryUsage.getResult());
-        System.out.println("RAM usage heap + non head: " + fullMemoryUsage.getMemoryUsage());
+                    fullMemoryUsage.stop();
+                    System.out.println("2 - RAM usage heap + non head: " + fullMemoryUsage.result());
+                }),
+                CompletableFuture.runAsync(() -> {
+                    MemoryUsageMeter fullMemoryUsage = new MemoryUsageMeter();
+                    fullMemoryUsage.start();
+
+                    int[] ints = new int[100000000];
+                    for (int i = 0; i < ints.length; i++) {
+                        ints[i] = i;
+                    }
+
+                    fullMemoryUsage.stop();
+                    System.out.println("3 - RAM usage heap + non head: " + fullMemoryUsage.result());
+                }),
+                CompletableFuture.runAsync(() -> {
+                    ThreadMemoryUsageMeter threadMemoryUsage = new ThreadMemoryUsageMeter();
+                    threadMemoryUsage.start();
+
+                    int[] ints = new int[100000000];
+                    for (int i = 0; i < ints.length; i++) {
+                        ints[i] = i;
+                    }
+
+                    threadMemoryUsage.stop();
+                    System.out.println("4 - RAM usage by tread: " + threadMemoryUsage.result());
+                })
+        ).join();
     }
-
 }

@@ -28,25 +28,35 @@ import java.lang.management.ManagementFactory;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadMemoryUsageMeter {
+public class ThreadMemoryUsageMeter implements Measurer<Memory> {
+
     private final ThreadMXBean threadBean;
+
     private long startAllocatedBytes;
+
     private long result;
 
     public ThreadMemoryUsageMeter() {
         threadBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
     }
 
-    public void start() {
+    @Override
+    public ThreadMemoryUsageMeter start() {
         startAllocatedBytes = threadBean.getThreadAllocatedBytes(Thread.currentThread().getId());
+
+        return this;
     }
 
-    public void stop() {
+    @Override
+    public ThreadMemoryUsageMeter stop() {
         long endAllocatedBytes = threadBean.getThreadAllocatedBytes(Thread.currentThread().getId());
         result = (endAllocatedBytes - startAllocatedBytes);
+
+        return this;
     }
 
-    public Memory getResult() {
+    @Override
+    public Memory result() {
         return Memory.ofBytes(result);
     }
 }

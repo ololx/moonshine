@@ -27,7 +27,7 @@ import java.lang.management.MemoryUsage;
  *
  * @author Alexander A. Kropotin
  */
-public class MemoryUsageMeter {
+public class MemoryUsageMeter implements Measurer<Memory> {
 
     private MemoryMXBean memoryMXBean;
 
@@ -39,22 +39,29 @@ public class MemoryUsageMeter {
 
     private MemoryUsage endMemoryUsage;
 
-    public void start() {
+    @Override
+    public MemoryUsageMeter start() {
         memoryMXBean = ManagementFactory.getMemoryMXBean();
         startHeapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
         startMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+
+        return this;
     }
 
-    public void stop() {
+    @Override
+    public MemoryUsageMeter stop() {
         endHeapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
         endMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
         memoryMXBean = null;
+
+        return this;
     }
 
-    public Memory getMemoryUsage() {
-        long usedMemory = endHeapMemoryUsage.getUsed() - startHeapMemoryUsage.getUsed();
-        long usedMemory2 = endMemoryUsage.getUsed() - startMemoryUsage.getUsed();
+    @Override
+    public Memory result() {
+        long usedHeapMemory = endHeapMemoryUsage.getUsed() - startHeapMemoryUsage.getUsed();
+        long usedMemory = endMemoryUsage.getUsed() - startMemoryUsage.getUsed();
 
-        return Memory.ofBytes(usedMemory + usedMemory2);
+        return Memory.ofBytes(usedHeapMemory).plus(Memory.ofBytes(usedMemory));
     }
 }
