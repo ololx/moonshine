@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring;
+package io.github.com.ololx.moonshine.measuring.memory;
 
 /**
  * project moonshine

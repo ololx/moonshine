@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring;
-
+package io.github.com.ololx.moonshine.measuring.memory;
 
 import com.sun.management.ThreadMXBean;
+import io.github.com.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
+import java.util.Objects;
 
 /**
  * project moonshine
@@ -28,35 +29,41 @@ import java.lang.management.ManagementFactory;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadMemoryUsageMeter implements Measurer<Memory> {
+public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
 
-    private final ThreadMXBean threadBean;
+    private final ThreadMXBean threadMXBean;
 
-    private long startAllocatedBytes;
+    private long startUsedMemory;
 
-    private long result;
+    private long endUsedMemory;
 
-    public ThreadMemoryUsageMeter() {
-        threadBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
+    public ThreadMemoryAllocationMeter() {
+        this.threadMXBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
+    }
+
+    ThreadMemoryAllocationMeter(ThreadMXBean threadMXBean) {
+        this.threadMXBean = Objects.requireNonNull(
+                threadMXBean,
+                "The thread MX bean must be not null"
+        );
     }
 
     @Override
-    public ThreadMemoryUsageMeter start() {
-        startAllocatedBytes = threadBean.getThreadAllocatedBytes(Thread.currentThread().getId());
+    public ThreadMemoryAllocationMeter start() {
+        startUsedMemory = threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
 
         return this;
     }
 
     @Override
-    public ThreadMemoryUsageMeter stop() {
-        long endAllocatedBytes = threadBean.getThreadAllocatedBytes(Thread.currentThread().getId());
-        result = (endAllocatedBytes - startAllocatedBytes);
+    public ThreadMemoryAllocationMeter stop() {
+        endUsedMemory = threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
 
         return this;
     }
 
     @Override
     public Memory result() {
-        return Memory.ofBytes(result);
+        return Memory.ofBytes(endUsedMemory - startUsedMemory);
     }
 }
