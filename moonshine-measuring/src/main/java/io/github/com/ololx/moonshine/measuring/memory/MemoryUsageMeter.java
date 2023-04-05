@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring;
+package io.github.com.ololx.moonshine.measuring.memory;
+
+import io.github.com.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
+import java.util.Objects;
 
 /**
  * project moonshine
@@ -29,7 +32,7 @@ import java.lang.management.MemoryUsage;
  */
 public class MemoryUsageMeter implements Measurer<Memory> {
 
-    private MemoryMXBean memoryMXBean;
+    private final MemoryMXBean memoryMXBean;
 
     private MemoryUsage startHeapMemoryUsage;
 
@@ -39,9 +42,19 @@ public class MemoryUsageMeter implements Measurer<Memory> {
 
     private MemoryUsage endMemoryUsage;
 
+    public MemoryUsageMeter() {
+        memoryMXBean = ManagementFactory.getMemoryMXBean();
+    }
+
+    MemoryUsageMeter(MemoryMXBean memoryMXBean) {
+        this.memoryMXBean = Objects.requireNonNull(
+                memoryMXBean,
+                "The memory MX bean must be not null"
+        );
+    }
+
     @Override
     public MemoryUsageMeter start() {
-        memoryMXBean = ManagementFactory.getMemoryMXBean();
         startHeapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
         startMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
 
@@ -52,7 +65,6 @@ public class MemoryUsageMeter implements Measurer<Memory> {
     public MemoryUsageMeter stop() {
         endHeapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
         endMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
-        memoryMXBean = null;
 
         return this;
     }

@@ -23,11 +23,11 @@ package io.github.com.ololx.moonshine.measuring;
  *
  * @author Alexander A. Kropotin
  */
-public interface Measurer<T> {
+public interface Measurer<R> {
 
-    Measurer start();
+    Measurer<R> start();
 
-    Measurer stop();
+    Measurer<R> stop();
 
-    T result();
+    R result();
 }
