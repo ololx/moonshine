@@ -17,8 +17,8 @@
 
 package io.github.com.ololx.moonshine.examples;
 
-import io.github.com.ololx.moonshine.measuring.memory.MemoryUsageMeter;
 import io.github.com.ololx.moonshine.measuring.memory.ThreadMemoryAllocationMeter;
+import io.github.com.ololx.moonshine.measuring.memory.WholeMemoryAllocationMeter;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -31,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
 public class MeasureRamUsageInMultiThreads {
 
     public static void main(String[] args) {
-        MemoryUsageMeter totalMemUsaMet = new MemoryUsageMeter().start();
+        WholeMemoryAllocationMeter totalMemUsaMet = new WholeMemoryAllocationMeter().start();
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(() -> {
                     ThreadMemoryAllocationMeter threadMemoryUsage = new ThreadMemoryAllocationMeter();
@@ -49,7 +49,7 @@ public class MeasureRamUsageInMultiThreads {
                     ThreadMemoryAllocationMeter threadMemoryUsage = new ThreadMemoryAllocationMeter();
                     threadMemoryUsage.start();
 
-                    int[] ints = new int[200000000];
+                    int[] ints = new int[100000000];
                     for (int i = 0; i < ints.length; i++) {
                         ints[i] = i;
                     }
@@ -61,7 +61,7 @@ public class MeasureRamUsageInMultiThreads {
                     ThreadMemoryAllocationMeter threadMemoryUsage = new ThreadMemoryAllocationMeter();
                     threadMemoryUsage.start();
 
-                    int[] ints = new int[300000000];
+                    int[] ints = new int[100000000];
                     for (int i = 0; i < ints.length; i++) {
                         ints[i] = i;
                     }
@@ -74,9 +74,6 @@ public class MeasureRamUsageInMultiThreads {
                     threadMemoryUsage.start();
 
                     int[] ints = new int[400000000];
-                    for (int i = 0; i < ints.length; i++) {
-                        ints[i] = i;
-                    }
 
                     threadMemoryUsage.stop();
                     System.out.println("4 - RAM usage by tread: " + threadMemoryUsage.result());
