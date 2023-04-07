@@ -17,7 +17,9 @@
  - limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--<parent-->
@@ -30,16 +32,14 @@
     <!--parent>-->
 
     <!--<artifact-->
-    <artifactId>moonshine-bytes</artifactId>
+    <artifactId>moonshine-measuring</artifactId>
     <packaging>jar</packaging>
     <!--artifact>-->
 
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Bytes module contains classes - utilities for java types to bytes
-        encoding/decoding. These classes can be used when it is required to encode/decode some
-        java types to bytes and e.t.c.
+        The Moonshine Measuring module contains classes - utilities for measuring app performance.
     </description>
     <url>https://ololx.github.io/moonshine</url>
     <inceptionYear>2023</inceptionYear>
