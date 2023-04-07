@@ -39,13 +39,13 @@ public class WholeMemoryAllocationMeterTest {
         //When
         // start measurer
         meter.start();
-        // create new array with 1000 int
-        int[] digits = new int[1_000];
+        // create new array with 1_000_000 int
+        int[] digits = new int[1_000_000];
         // stop measurer
         meter.stop();
 
         //Then
         // allocated memory was more than 0
-        assertTrue(meter.result().toBytes() >= 0);
+        assertTrue(meter.result().toBytes() > 0);
     }
 }
