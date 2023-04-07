@@ -39,7 +39,8 @@
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Measuring module contains classes - utilities for measuring app performance.
+        The Moonshine Measuring module contains classes - utilities for measuring application
+        performance: time measurement, cpu load measurement, memory allocation measurement, e.t.c.
     </description>
     <url>https://ololx.github.io/moonshine</url>
     <inceptionYear>2023</inceptionYear>
