@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring.memory;
+package io.github.ololx.moonshine.measuring.memory;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * project moonshine
@@ -37,32 +36,57 @@ public class MemoryTest {
     }
 
     @Test(dataProvider = "providesMemorySize")
-    public void testOfBytes(long memorySize) {
+    public void ofBytes_whenCreateNew_thenCreatedMemoryContainsSpecifiedBytesSize(long memorySize) {
+        //When
+        // create new memory instance
         Memory memory = Memory.ofBytes(memorySize);
+
+        //Then
+        // created memory instance size equals expected
         assertEquals(memory.toBytes(), memorySize);
     }
 
     @Test(dataProvider = "providesMemorySize")
-    public void testOfKilobytes(long memorySize) {
+    public void ofKilobytes_whenCreateNew_thenCreatedMemoryContainsSpecifiedBytesSize(long memorySize) {
+        //When
+        // create new memory instance
         Memory memory = Memory.ofKilobytes(memorySize);
+
+        //Then
+        // created memory instance size equals expected
         assertEquals(memory.toBytes(), memorySize * 1024);
     }
 
     @Test(dataProvider = "providesMemorySize")
-    public void testOfMegabytes(long memorySize) {
+    public void ofMegabytes_whenCreateNew_thenCreatedMemoryContainsSpecifiedBytesSize(long memorySize) {
+        //When
+        // create new memory instance
         Memory memory = Memory.ofMegabytes(memorySize);
+
+        //Then
+        // created memory instance size equals expected
         assertEquals(memory.toBytes(), memorySize * 1_048_576);
     }
 
     @Test(dataProvider = "providesMemorySize")
-    public void testOfGigabytes(long memorySize) {
+    public void ofGigabytes_whenCreateNew_thenCreatedMemoryContainsSpecifiedBytesSize(long memorySize) {
+        //When
+        // create new memory instance
         Memory memory = Memory.ofGigabytes(memorySize);
+
+        //Then
+        // created memory instance size equals expected
         assertEquals(memory.toBytes(), memorySize * 1_073_741_824);
     }
 
     @Test(dataProvider = "providesMemorySize")
-    public void testOfTerabytes(long memorySize) {
+    public void ofTerabytes_whenCreateNew_thenCreatedMemoryContainsSpecifiedBytesSize(long memorySize) {
+        //When
+        // create new memory instance
         Memory memory = Memory.ofTerabytes(memorySize);
+
+        //Then
+        // created memory instance size equals expected
         assertEquals(memory.toBytes(), memorySize * 1_099_511_627_776L);
     }
 
@@ -78,7 +102,10 @@ public class MemoryTest {
     }
 
     @Test(dataProvider = "providesMemorySizeFirstAndSecondAndSum")
-    public void testPlus(long firstMemorySize, long secondMemorySize, long expectedMemorySize) {
+    public void plus_whenPlusFirstMemoryWithSecond_thenResultMemoryEqualsSumOfTheirBytes(
+            long firstMemorySize,
+            long secondMemorySize,
+            long expectedMemorySize) {
         Memory actual = Memory.ofBytes(firstMemorySize).plus(Memory.ofBytes(secondMemorySize));
         assertEquals(actual.toBytes(), expectedMemorySize);
     }
@@ -95,17 +122,37 @@ public class MemoryTest {
     }
 
     @Test(dataProvider = "providesMemorySizeFirstAndSecondAndDifference")
-    public void testMinus(long firstMemorySize, long secondMemorySize, long expectedMemorySize) {
+    public void minus_whenPlusFirstMemoryWithSecond_thenResultMemoryEqualsDifferenceOfTheirBytes(
+            long firstMemorySize,
+            long secondMemorySize,
+            long expectedMemorySize) {
         Memory actual = Memory.ofBytes(firstMemorySize).minus(Memory.ofBytes(secondMemorySize));
         assertEquals(actual.toBytes(), expectedMemorySize);
     }
 
-    @Test
-    public void testComparable() {
-        Memory memory1 = Memory.ofBytes(100L);
-        Memory memory2 = Memory.ofKilobytes(200L);
-        assertTrue(memory1.compareTo(memory2) < 0);
-        assertTrue(memory2.compareTo(memory1) > 0);
-        assertEquals(memory1.compareTo(memory1), 0);
+    @DataProvider
+    static Object[][] providesMemorySizeFirstAndSecondAndComparingResult() {
+        return new Object[][] {
+                {0L, 0L, 0},
+                {0L, 1L, -1},
+                {1L, 0L, 1},
+                {1L, 1L, 0},
+                {200L, 200L, 0},
+                {200L, 100L, 1},
+                {100L, 200L, -1},
+                {512L, 1024L, -1},
+                {512L, 512L, 0},
+                {1024L, 512L, 1},
+        };
+    }
+
+    @Test(dataProvider = "providesMemorySizeFirstAndSecondAndComparingResult")
+    public void comparable_whenMemryInstancesEquals_thenReturnZero(long firstMemorySize,
+                                                                   long secondMemorySize,
+                                                                   long expectedComparingResult) {
+        Memory first = Memory.ofBytes(firstMemorySize);
+        Memory second = Memory.ofBytes(secondMemorySize);
+
+        assertEquals(first.compareTo(second), expectedComparingResult);
     }
 }

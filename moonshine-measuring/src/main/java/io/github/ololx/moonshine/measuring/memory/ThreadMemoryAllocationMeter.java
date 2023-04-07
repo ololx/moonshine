@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring.memory;
+package io.github.ololx.moonshine.measuring.memory;
 
 import com.sun.management.ThreadMXBean;
-import io.github.com.ololx.moonshine.measuring.Measurer;
+import io.github.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
 import java.util.Objects;
