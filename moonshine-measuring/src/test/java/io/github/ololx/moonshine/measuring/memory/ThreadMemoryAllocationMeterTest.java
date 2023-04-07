@@ -45,7 +45,6 @@ public class ThreadMemoryAllocationMeterTest {
 
         //Then
         // allocated memory was more than digits size 4_000 bytes (1_000 * 4)
-        System.out.println(meter.result());
         assertEquals(meter.result().compareTo(Memory.ofBytes(4_000)), 1);
     }
 }
