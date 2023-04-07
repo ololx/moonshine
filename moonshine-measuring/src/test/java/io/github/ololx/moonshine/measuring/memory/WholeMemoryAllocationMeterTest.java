@@ -19,7 +19,6 @@ package io.github.ololx.moonshine.measuring.memory;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
