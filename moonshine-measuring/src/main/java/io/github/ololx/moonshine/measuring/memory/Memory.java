@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring.memory;
+package io.github.ololx.moonshine.measuring.memory;
 
 /**
  * Represents a memory size in bytes, and provides utility methods for

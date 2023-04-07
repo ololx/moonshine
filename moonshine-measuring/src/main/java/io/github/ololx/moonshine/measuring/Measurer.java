@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.com.ololx.moonshine.measuring;
+package io.github.ololx.moonshine.measuring;
 
 /**
  * An interface for measuring some aspect of the application performance, such
