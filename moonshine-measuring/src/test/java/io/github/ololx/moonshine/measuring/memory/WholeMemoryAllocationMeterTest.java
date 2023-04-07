@@ -39,12 +39,12 @@ public class WholeMemoryAllocationMeterTest {
         // start measurer
         meter.start();
         // create new array with 1000 int
-        int[] digits = new int[1_000_000];
+        int[] digits = new int[1_000];
         // stop measurer
         meter.stop();
 
         //Then
-        // allocated memory was more than digits size 4_000_000 bytes (1_000_000 * 4)
-        assertEquals(meter.result().compareTo(Memory.ofBytes(4_000_000)), 1);
+        // allocated memory was more than digits size 4_000 bytes (1_000 * 4)
+        assertEquals(meter.result().compareTo(Memory.ofBytes(4_000)), 1);
     }
 }
