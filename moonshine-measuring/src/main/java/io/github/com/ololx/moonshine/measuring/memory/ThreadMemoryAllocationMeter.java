@@ -78,7 +78,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      * Creates a new instance of the ThreadMemoryAllocationMeter class.
      *
      * <p>This constructor uses the default ThreadMXBean instance obtained from
-     * the {@link ManagementFactory#getThreadMXBean()} method.
+     * the {@link ManagementFactory#getThreadMXBean()} method.</p>
      */
     public ThreadMemoryAllocationMeter() {
         this.threadMXBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
@@ -86,8 +86,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
 
     /**
      * Creates a new instance of the ThreadMemoryAllocationMeter class using
-     * the specified
-     * ThreadMXBean instance.
+     * the specified ThreadMXBean instance.
      *
      * @param threadMXBean the ThreadMXBean instance to use
      * @throws NullPointerException if threadMXBean is null
@@ -103,7 +102,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      * Marks the beginning of the measurement period.
      *
      * <p>This method should be called before the code whose memory allocation
-     * is to be measured.
+     * is to be measured.</p>
      *
      * @return this ThreadMemoryAllocationMeter instance
      */
@@ -118,7 +117,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      * Marks the end of the measurement period.
      *
      * <p>This method should be called after the code whose memory allocation
-     * is to be measured.
+     * is to be measured.</p>
      *
      * @return this ThreadMemoryAllocationMeter instance
      */
