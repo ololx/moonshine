@@ -17,7 +17,6 @@
 
 package io.github.com.ololx.moonshine.measuring.memory;
 
-import com.sun.management.ThreadMXBean;
 import io.github.com.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
