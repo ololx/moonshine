@@ -105,18 +105,50 @@ public final class Memory implements Comparable<Memory> {
         return new Memory(bytes);
     }
 
+    /**
+     * Returns a new instance of {@code Memory} with the specified number of
+     * kilobytes.
+     *
+     * @param kilobytes the number of kilobytes
+     * @return a new instance of {@code Memory} with the specified number of
+     * kilobytes
+     */
     public static Memory ofKilobytes(long kilobytes) {
         return new Memory(kilobytes * KILOBYTE);
     }
 
+    /**
+     * Returns a new instance of {@code Memory} with the specified number of
+     * megabytes.
+     *
+     * @param megabytes the number of megabytes
+     * @return a new instance of {@code Memory} with the specified number of
+     * megabytes
+     */
     public static Memory ofMegabytes(long megabytes) {
         return new Memory(megabytes * MEGABYTE);
     }
 
+    /**
+     * Returns a new instance of {@code Memory} with the specified number of
+     * gigabytes.
+     *
+     * @param gigabytes the number of megabytes
+     * @return a new instance of {@code Memory} with the specified number of
+     * gigabytes
+     */
     public static Memory ofGigabytes(long gigabytes) {
         return new Memory(gigabytes * GIGABYTE);
     }
 
+    /**
+     * Returns a new instance of {@code Memory} with the specified number of
+     * terabytes.
+     *
+     * @param terabytes the number of megabytes
+     * @return a new instance of {@code Memory} with the specified number of
+     * terabytes
+     */
     public static Memory ofTerabytes(long terabytes) {
         return new Memory(terabytes * TERABYTE);
     }
@@ -139,14 +171,29 @@ public final class Memory implements Comparable<Memory> {
         return bytes / KILOBYTE;
     }
 
+    /**
+     * Returns the number of megabytes in this memory size.
+     *
+     * @return the number of megabytes in this memory size
+     */
     public long toMegabytes() {
         return bytes / MEGABYTE;
     }
 
+    /**
+     * Returns the number of gigabytes in this memory size.
+     *
+     * @return the number of gigabytes in this memory size
+     */
     public long toGigabytes() {
         return bytes / GIGABYTE;
     }
 
+    /**
+     * Returns the number of terabytes in this memory size.
+     *
+     * @return the number of terabytes in this memory size
+     */
     public long toTerabytes() {
         return bytes / TERABYTE;
     }
@@ -199,10 +246,30 @@ public final class Memory implements Comparable<Memory> {
         return new Memory(this.bytes / divisor);
     }
 
+    /**
+     * Compares this Memory object with the specified Memory objects for order
+     * based on the number of bytes of memory they represent.
+     *
+     * @param other the Memory object to be compared
+     * @return a negative integer, zero, or a positive integer as this Memory
+     * object is less than, equal to, or greater than the specified Memory
+     * object.
+     * @throws NullPointerException if the specified object is null
+     * @throws ClassCastException if the specified object's type prevents it
+     * from being compared to this Memory object.
+     */
+    @Override
     public int compareTo(Memory other) {
         return Long.compare(this.bytes, other.bytes);
     }
 
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise.
+     */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Memory) {
             Memory other = (Memory) obj;
@@ -211,6 +278,12 @@ public final class Memory implements Comparable<Memory> {
         return false;
     }
 
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this Memory object
+     */
+    @Override
     public int hashCode() {
         return Long.hashCode(bytes);
     }
@@ -249,12 +322,13 @@ public final class Memory implements Comparable<Memory> {
      * <p><strong>Example usage:</strong></p>
      * <pre>{@code
      * Memory kilobyte = Memory.ofBytes(1024);
-     * System.out.println("1 KB = kilobyte.toString());
+     * System.out.println("1 KB = " + kilobyte.toString());
      * }</pre>
      *
      * @return a string representation of this memory size, formatted in the
      * appropriate unit.
      */
+    @Override
     public String toString() {
         if (bytes < KILOBYTE) {
             return bytes + " bytes";
