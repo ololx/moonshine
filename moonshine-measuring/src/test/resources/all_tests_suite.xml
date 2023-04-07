@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="All tests suite" parallel="methods" thread-count="10">
+    <test name="All tests">
+        <packages>
+            <package name="io.github.ololx.moonshine.measuring.*"/>
+        </packages>
+    </test>
+</suite>
