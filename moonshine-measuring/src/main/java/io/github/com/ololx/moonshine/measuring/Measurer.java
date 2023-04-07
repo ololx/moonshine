@@ -18,6 +18,21 @@
 package io.github.com.ololx.moonshine.measuring;
 
 /**
+ * An interface for measuring some aspect of the application performance, such
+ * as elapsed time, CPU load, or memory allocation.
+ *
+ * @apiNote
+ * The {@code Measurer} interface is designed to provide a common abstraction
+ * for measuring performance metrics in different contexts. Implementations of
+ * this interface can be used to measure elapsed time, CPU load, memory
+ * allocation, and other metrics. The result of a measurement is represented by
+ * a type parameter {@code R}. Possible types for {@code R} include {@link
+ * java.time.Duration} for elapsed time measurements and e.t.c. All
+ * measurements are performed between the {@link #start()} and {@link #stop()}
+ * methods of the {@code Measurer} instance.
+ *
+ * @param <R> the type of result returned by the measurement
+ *
  * project moonshine
  * created 04.04.2023 22:28
  *
@@ -25,9 +40,24 @@ package io.github.com.ololx.moonshine.measuring;
  */
 public interface Measurer<R> {
 
+    /**
+     * Starts the measurement process.
+     *
+     * @return this {@code Measurer} instance
+     */
     Measurer<R> start();
 
+    /**
+     * Stops the measurement process.
+     *
+     * @return this {@code Measurer} instance
+     */
     Measurer<R> stop();
 
+    /**
+     * Returns the result of the measurement.
+     *
+     * @return the result of the measurement
+     */
     R result();
 }

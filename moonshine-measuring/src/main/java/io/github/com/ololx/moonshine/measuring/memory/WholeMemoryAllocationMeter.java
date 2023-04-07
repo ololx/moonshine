@@ -17,6 +17,7 @@
 
 package io.github.com.ololx.moonshine.measuring.memory;
 
+import com.sun.management.ThreadMXBean;
 import io.github.com.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
@@ -25,6 +26,31 @@ import java.lang.management.MemoryUsage;
 import java.util.Objects;
 
 /**
+ * A Measurer implementation that measures the amount of memory allocated by
+ * the whole application during the execution of some code. This implementation
+ * uses the MemoryMXBean to measure the amount of allocated bytes before and
+ * after the code execution.
+ *
+ * @implNote
+ * This implementation tracks the heap and non-heap memory usage of the JVM
+ * before  and after the measurement period, then calculates the difference to
+ * determine the total memory allocation.
+ *
+ * @apiNote
+ * The returned {@link Memory} object represents the total memory allocation
+ * during the measurement period.
+ *
+ * * <p><strong>Example usage:</strong></p>
+ * <pre>{@code
+ * WholeMemoryAllocationMeter meter = new WholeMemoryAllocationMeter();
+ *
+ * meter.start();
+ * // execute some code here
+ * meter.stop();
+ *
+ * Memory allocatedMemory = meter.result();
+ * }</pre>
+ *
  * project moonshine
  * created 01.04.2023 18:42
  *
@@ -42,10 +68,22 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
 
     private MemoryUsage endMemoryUsage;
 
+    /**
+     * Creates a new instance of {@link WholeMemoryAllocationMeter} that uses
+     * the default {@link MemoryMXBean}.
+     */
     public WholeMemoryAllocationMeter() {
         memoryMXBean = ManagementFactory.getMemoryMXBean();
     }
 
+    /**
+     * Creates a new instance of {@link WholeMemoryAllocationMeter} that uses
+     * the specified {@link MemoryMXBean}.
+     *
+     * @param memoryMXBean the {@link MemoryMXBean} to use for memory usage
+     * information
+     * @throws NullPointerException if {@code memoryMXBean} is {@code null}
+     */
     WholeMemoryAllocationMeter(MemoryMXBean memoryMXBean) {
         this.memoryMXBean = Objects.requireNonNull(
                 memoryMXBean,
@@ -53,6 +91,15 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
         );
     }
 
+    /**
+     * Starts the memory allocation measurement period by capturing the heap
+     * and non-heap memory usage of the JVM.
+     *
+     * <p>This method should be called before the code whose memory allocation
+     * is to be measured.</p>
+     *
+     * @return this {@link WholeMemoryAllocationMeter} instance
+     */
     @Override
     public WholeMemoryAllocationMeter start() {
         startHeapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
@@ -61,6 +108,15 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
         return this;
     }
 
+    /**
+     * Stops the memory allocation measurement period by capturing the heap and
+     * non-heap memory usage of the JVM.
+     *
+     * <p>This method should be called after the code whose memory allocation
+     * is to be measured.</p>
+     *
+     * @return this {@link WholeMemoryAllocationMeter} instance
+     */
     @Override
     public WholeMemoryAllocationMeter stop() {
         endHeapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
@@ -69,6 +125,13 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
         return this;
     }
 
+    /**
+     * Calculates and returns the total memory allocation during the
+     * measurement period.
+     *
+     * @return a {@link Memory} object representing the total memory allocation
+     * during the measurement period
+     */
     @Override
     public Memory result() {
         long usedHeapMemory = endHeapMemoryUsage.getUsed() - startHeapMemoryUsage.getUsed();
