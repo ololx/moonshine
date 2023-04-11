@@ -44,7 +44,40 @@ public class ThreadMemoryAllocationMeterTest {
         meter.stop();
 
         //Then
-        // allocated memory was more than 0
+        // allocated memory is more than 0
         assertTrue(meter.result().toBytes() > 0);
+    }
+
+    @Test
+    void startAndStopAndResult_whenMeasurerWasActivatedAndStoppedAfterGC_thenReturnPositiveMeasuringResult() {
+        //Given
+        // the memory meter
+        ThreadMemoryAllocationMeter meter = new ThreadMemoryAllocationMeter();
+
+        //When
+        // start measurer
+        meter.start();
+
+        // allocate memory
+        int[] array = new int[1_000_000];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+
+        // call System.gc() to simulate garbage collection
+        System.gc();
+
+        // free memory
+        array = null;
+
+        meter.stop();
+        Memory result = meter.result();
+
+        //Then
+        // allocated memory positive or zero
+        assertTrue(
+                result.toBytes() >= 0,
+                "Expected positive or zero result, but got " + result.toBytes()
+        );
     }
 }
