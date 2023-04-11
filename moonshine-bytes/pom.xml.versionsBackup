@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- - Copyright 2022 the project moonshine authors
+ - Copyright 2023 the project moonshine authors
  - and the original author or authors annotated by {@author}
 - <br/>
  - Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,25 +24,25 @@
     <parent>
         <artifactId>moonshine</artifactId>
         <groupId>io.github.ololx.moonshine</groupId>
-        <version>0.6.1-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!--parent>-->
 
     <!--<artifact-->
-    <artifactId>moonshine-stopwatch</artifactId>
+    <artifactId>moonshine-bytes</artifactId>
     <packaging>jar</packaging>
     <!--artifact>-->
 
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Stopwatch module also contains utilities for measuring
-        elapsed time. These utilities can be useful if you need to measure
-        the execution time of a block of code.
+        The Moonshine Bytes module contains classes - utilities for java types to bytes
+        encoding/decoding. These classes can be used when it is required to encode/decode some
+        java types to bytes and e.t.c.
     </description>
     <url>https://ololx.github.io/moonshine</url>
-    <inceptionYear>2022</inceptionYear>
+    <inceptionYear>2023</inceptionYear>
     <!--info>-->
 
     <!--<developers and contributors-->
@@ -65,11 +65,26 @@
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>nl.jqno.equalsverifier</groupId>
-            <artifactId>equalsverifier</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--<compiling source-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-J--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <!--compiling source>-->
+        </plugins>
+    </build>
 
 </project>

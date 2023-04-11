@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.6.1] - 2023-04-08
+
+### Fixed
+
+- The `WholeMemoryAllocatedMeter` negative result when GC activated during measuring.
+
+## [0.6.0] - 2023-04-08
+
+### Added
+
+- New utility classes for allocated memory measuring.
+- New class for memory representation and converting.
+
 ## [0.5.0] - 2023-03-29
 
 ### Added

@@ -24,22 +24,23 @@
     <parent>
         <artifactId>moonshine</artifactId>
         <groupId>io.github.ololx.moonshine</groupId>
-        <version>0.6.1-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!--parent>-->
 
     <!--<artifact-->
-    <artifactId>moonshine-stopwatch</artifactId>
+    <artifactId>moonshine-tuple</artifactId>
     <packaging>jar</packaging>
     <!--artifact>-->
 
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Stopwatch module also contains utilities for measuring
-        elapsed time. These utilities can be useful if you need to measure
-        the execution time of a block of code.
+        The Moonshine Tuple module also contains classes - implementations
+        of such a data structure as tuples. These classes can be used when
+        it is required to operate on ordered finite sets of objects
+        of various types. Such as: couples, triples, quadruples and e.t.c.
     </description>
     <url>https://ololx.github.io/moonshine</url>
     <inceptionYear>2022</inceptionYear>

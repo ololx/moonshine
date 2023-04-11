@@ -19,6 +19,8 @@ package io.github.ololx.moonshine.measuring.memory;
 
 import org.testng.annotations.Test;
 
+import java.util.concurrent.CompletableFuture;
+
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -36,15 +38,50 @@ public class WholeMemoryAllocationMeterTest {
         WholeMemoryAllocationMeter meter = new WholeMemoryAllocationMeter();
 
         //When
-        // start measurer
-        meter.start();
-        // create new array with 1_000_000 int
-        int[] digits = new int[1_000_000];
-        // stop measurer
-        meter.stop();
+        CompletableFuture.runAsync(() -> {
+            // start measurer in new thread
+            meter.start();
+            // create new array with 1_000_000 int
+            int[] digits = new int[1_000_000];
+            // stop measurer
+            meter.stop();
+        }).join();
 
         //Then
         // allocated memory was more than 0
         assertTrue(meter.result().toBytes() > 0);
+    }
+
+    @Test
+    void startAndStopAndResult_whenMeasurerWasActivatedAndStoppedAfterGC_thenReturnPositiveMeasuringResult() {
+        //Given
+        // the memory meter
+        WholeMemoryAllocationMeter meter = new WholeMemoryAllocationMeter();
+
+        //When
+        // start measurer
+        meter.start();
+
+        // allocate memory
+        int[] array = new int[1_000_000];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+
+        // call System.gc() to simulate garbage collection
+        System.gc();
+
+        // free memory
+        array = null;
+
+        meter.stop();
+        Memory result = meter.result();
+
+        //Then
+        // allocated memory positive or zero
+        assertTrue(
+                result.toBytes() >= 0,
+                "Expected positive or zero result, but got " + result.toBytes()
+        );
     }
 }

@@ -108,7 +108,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      */
     @Override
     public ThreadMemoryAllocationMeter start() {
-        startUsedMemory = threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
+        this.startUsedMemory = this.threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
 
         return this;
     }
@@ -123,7 +123,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      */
     @Override
     public ThreadMemoryAllocationMeter stop() {
-        endUsedMemory = threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
+        this.endUsedMemory = this.threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
 
         return this;
     }
@@ -132,11 +132,13 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      * Returns the amount of memory allocated by the thread during the
      * measurement period.
      *
+     * <p>This method should be called after {@link #stop()} method.</p>
+     *
      * @return a Memory object representing the amount of memory allocated
      * by the thread during the measurement period
      */
     @Override
     public Memory result() {
-        return Memory.ofBytes(endUsedMemory - startUsedMemory);
+        return Memory.ofBytes(this.endUsedMemory - this.startUsedMemory);
     }
 }
