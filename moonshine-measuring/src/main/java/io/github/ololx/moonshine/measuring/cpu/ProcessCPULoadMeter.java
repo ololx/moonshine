@@ -21,7 +21,6 @@ import com.sun.management.OperatingSystemMXBean;
 import io.github.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
-import java.time.Duration;
 import java.util.Objects;
 
 /**
@@ -30,7 +29,7 @@ import java.util.Objects;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadCPULoadMeter implements Measurer<Double> {
+public class ProcessCPULoadMeter implements Measurer<Double> {
 
     /**
      * The OperatingSystemMXBean instance used to obtain CPU load information.
@@ -41,13 +40,11 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      * The CPU load at the start of the measurement period.
      */
     private double startCpuLoad;
-    private long startCpuLoadT;
 
     /**
      * The CPU load at the end of the measurement period.
      */
     private double endCpuLoad;
-    private long endCpuLoadT;
 
     /**
      * Creates a new instance of the ThreadCPULoadMeter class.
@@ -55,7 +52,7 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      * <p>This constructor uses the default OperatingSystemMXBean instance obtained from
      * the {@link ManagementFactory#getOperatingSystemMXBean()} method.</p>
      */
-    public ThreadCPULoadMeter() {
+    public ProcessCPULoadMeter() {
         this.osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     }
 
@@ -66,7 +63,7 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      * @param osBean the OperatingSystemMXBean instance to use
      * @throws NullPointerException if osBean is null
      */
-    ThreadCPULoadMeter(OperatingSystemMXBean osBean) {
+    ProcessCPULoadMeter(OperatingSystemMXBean osBean) {
         this.osBean = Objects.requireNonNull(
                 osBean,
                 "The OS MX bean must be not null"
@@ -82,10 +79,8 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ThreadCPULoadMeter start() {
+    public ProcessCPULoadMeter start() {
         this.startCpuLoad = this.osBean.getProcessCpuLoad();
-        this.startCpuLoadT = System.nanoTime();
-
 
         return this;
     }
@@ -99,9 +94,8 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ThreadCPULoadMeter stop() {
+    public ProcessCPULoadMeter stop() {
         this.endCpuLoad = this.osBean.getProcessCpuLoad();
-        this.endCpuLoadT = System.nanoTime();
 
         return this;
     }
@@ -115,7 +109,6 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      */
     @Override
     public Double result() {
-        Duration tb = Duration.ofNanos(this.endCpuLoadT).minusNanos(this.startCpuLoadT);
-        return tb.getNano() > 0 ? (this.endCpuLoad - this.startCpuLoad) * 100 * Runtime.getRuntime().availableProcessors(): 0D;
+        return Math.max(((endCpuLoad - startCpuLoad) * 100L) * osBean.getAvailableProcessors(), 0);
     }
 }
