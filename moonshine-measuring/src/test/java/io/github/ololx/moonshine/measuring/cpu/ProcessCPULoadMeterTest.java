@@ -15,16 +15,12 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.measuring.memory;
+package io.github.ololx.moonshine.measuring.cpu;
 
-import io.github.ololx.moonshine.measuring.cpu.CPULoadMeasurer;
-import io.github.ololx.moonshine.measuring.cpu.ThreadCPULoadMeter;
+import io.github.ololx.moonshine.measuring.cpu.ProcessCPULoadMeter;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.CompletableFuture;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * project moonshine
@@ -32,7 +28,7 @@ import static org.testng.Assert.assertTrue;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadGroupMemoryAllocationMeterTest {
+public class ProcessCPULoadMeterTest {
 
     @Test
     public void startAndStopAndResult_whenMeasurerWasActivated_thenReturnMeasuringResult() {
@@ -41,7 +37,24 @@ public class ThreadGroupMemoryAllocationMeterTest {
 
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(() -> {
-                    CPULoadMeasurer meter = new CPULoadMeasurer(Thread.currentThread().getId());
+                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+
+                    meter.start();
+                    //When
+                    // start measurer
+
+                    // create new array with 1_000_000 int
+                    int[] array = new int[999999999];
+                    for (int i = 0; i < array.length; i++) {
+                        array[i] = i;
+                    }
+                    // stop measurer
+                    meter.stop();
+
+                    System.out.println(meter.result());
+                }),
+                CompletableFuture.runAsync(() -> {
+                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
                     meter.start();
                     //When
@@ -58,24 +71,7 @@ public class ThreadGroupMemoryAllocationMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    CPULoadMeasurer meter = new CPULoadMeasurer(Thread.currentThread().getId());
-
-                    meter.start();
-                    //When
-                    // start measurer
-
-                    // create new array with 1_000_000 int
-                    int[] array = new int[9_000_000];
-                    for (int i = 0; i < array.length; i++) {
-                        array[i] = i;
-                    }
-                    // stop measurer
-                    meter.stop();
-
-                    System.out.println(meter.result());
-                }),
-                CompletableFuture.runAsync(() -> {
-                    CPULoadMeasurer meter = new CPULoadMeasurer(Thread.currentThread().getId());
+                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
                     meter.start();
                     //When
@@ -93,7 +89,7 @@ public class ThreadGroupMemoryAllocationMeterTest {
                 })
         ).join();
         CompletableFuture.runAsync(() -> {
-            CPULoadMeasurer meter = new CPULoadMeasurer(Thread.currentThread().getId());
+            ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
             meter.start();
             //When
@@ -119,28 +115,22 @@ public class ThreadGroupMemoryAllocationMeterTest {
     public void start2AndStopAndResult_whenMeasurerWasActivated_thenReturnMeasuringResult() {
         //Given
         // the memory meter
-        CPULoadMeasurer meter = new CPULoadMeasurer(Thread.currentThread().getId());
-
-
-        ThreadCPULoadMeter meters = new ThreadCPULoadMeter();
+        ProcessCPULoadMeter meters = new ProcessCPULoadMeter();
         meters.start();
-        meter.start();
         //When
         // start measurer
 
         // create new array with 1_000_000 int
         int numCore = Runtime.getRuntime().availableProcessors();
-        int numThreadsPerCore = 2;
+        int numThreadsPerCore = 100;
         double load = 1;
-        final long duration = 999999999;
+        final long duration = 9999;
         for (int thread = 0; thread < numCore * numThreadsPerCore; thread++) {
             new BusyThread("Thread" + thread, load, duration).start();
         }
         // stop measurer
         meters.stop();
-        meter.stop();
-        System.out.println(meter.result());
-        System.out.println(" | " + meters.result());
+        System.out.println(meters.result() + " | " + meters.result() * Runtime.getRuntime().availableProcessors());
     }
 
     private static class BusyThread extends Thread {
