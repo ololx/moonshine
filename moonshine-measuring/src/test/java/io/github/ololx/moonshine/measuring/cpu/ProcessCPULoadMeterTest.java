@@ -31,13 +31,94 @@ import java.util.concurrent.CompletableFuture;
 public class ProcessCPULoadMeterTest {
 
     @Test
+    public void startwAndStopAndResult_whenMeasurerWasActivated_thenReturnMeasuringResult() {
+        //Given
+        // the memory meter
+
+        ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+
+        meter.start();
+        //When
+        // start measurer
+
+        // create new array with 1_000_000 int
+        int[] array = new int[9999999];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        // stop measurer
+        meter.stop();
+
+        System.out.println(meter.result());
+
+        ProcessCPULoadMeter meters = new ProcessCPULoadMeter();
+
+        meters.start();
+        //When
+        // start measurer
+
+        // create new array with 1_000_000 int
+        array = new int[9999999];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        // stop measurer
+        meters.stop();
+
+        System.out.println(meter.result());
+
+        ProcessCPULoadMeter metedrs = new ProcessCPULoadMeter();
+
+        metedrs.start();
+        //When
+        // start measurer
+
+        // create new array with 1_000_000 int
+        array = new int[9999999];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        // stop measurer
+        metedrs.stop();
+
+        System.out.println(meter.result());
+    }
+
+    @Test
     public void startAndStopAndResult_whenMeasurerWasActivated_thenReturnMeasuringResult() {
         //Given
         // the memory meter
 
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+                    ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
 
                     meter.start();
                     //When
@@ -54,7 +135,7 @@ public class ProcessCPULoadMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+                    ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
 
                     meter.start();
                     //When
@@ -71,7 +152,7 @@ public class ProcessCPULoadMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+                    ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
 
                     meter.start();
                     //When
@@ -89,7 +170,7 @@ public class ProcessCPULoadMeterTest {
                 })
         ).join();
         CompletableFuture.runAsync(() -> {
-            ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+            ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
 
             meter.start();
             //When
@@ -116,7 +197,9 @@ public class ProcessCPULoadMeterTest {
         //Given
         // the memory meter
         ProcessCPULoadMeter meters = new ProcessCPULoadMeter();
+        ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
         meters.start();
+        meter.start();
         //When
         // start measurer
 
@@ -129,8 +212,9 @@ public class ProcessCPULoadMeterTest {
             new BusyThread("Thread" + thread, load, duration).start();
         }
         // stop measurer
+        meter.stop();
         meters.stop();
-        System.out.println(meters.result() + " | " + meters.result() * Runtime.getRuntime().availableProcessors());
+        System.out.println(meter.result() + " | " + meters.result());
     }
 
     private static class BusyThread extends Thread {
