@@ -18,6 +18,7 @@
 package io.github.ololx.moonshine.measuring.cpu;
 
 import com.sun.management.OperatingSystemMXBean;
+import com.sun.management.ThreadMXBean;
 import io.github.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
@@ -29,22 +30,24 @@ import java.util.Objects;
  *
  * @author Alexander A. Kropotin
  */
-public class ProcessCPULoadMeter implements Measurer<Double> {
+public class ThreadCPUTimeMeter implements Measurer<Double> {
 
     /**
-     * The OperatingSystemMXBean instance used to obtain CPU load information.
+     * The ThreadMXBean instance used to obtain CPU load information.
      */
-    private final OperatingSystemMXBean osBean;
+    private final ThreadMXBean mxTBean;
 
     /**
      * The CPU load at the start of the measurement period.
      */
     private double startCpuLoad;
+    private long startCpuLoadT;
 
     /**
      * The CPU load at the end of the measurement period.
      */
     private double endCpuLoad;
+    private long endCpuLoadT;
 
     /**
      * Creates a new instance of the ThreadCPULoadMeter class.
@@ -52,8 +55,8 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      * <p>This constructor uses the default OperatingSystemMXBean instance obtained from
      * the {@link ManagementFactory#getOperatingSystemMXBean()} method.</p>
      */
-    public ProcessCPULoadMeter() {
-        this.osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    public ThreadCPUTimeMeter() {
+        this.mxTBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
     }
 
     /**
@@ -63,8 +66,8 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      * @param osBean the OperatingSystemMXBean instance to use
      * @throws NullPointerException if osBean is null
      */
-    ProcessCPULoadMeter(OperatingSystemMXBean osBean) {
-        this.osBean = Objects.requireNonNull(
+    ThreadCPUTimeMeter(ThreadMXBean osBean) {
+        this.mxTBean = Objects.requireNonNull(
                 osBean,
                 "The OS MX bean must be not null"
         );
@@ -79,8 +82,9 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ProcessCPULoadMeter start() {
-        this.startCpuLoad = this.osBean.getProcessCpuLoad();
+    public ThreadCPUTimeMeter start() {
+        this.startCpuLoad = this.mxTBean.getThreadCpuTime(Thread.currentThread().getId());
+        this.startCpuLoadT = System.nanoTime();
 
         return this;
     }
@@ -94,8 +98,9 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ProcessCPULoadMeter stop() {
-        this.endCpuLoad = this.osBean.getProcessCpuLoad();
+    public ThreadCPUTimeMeter stop() {
+        this.endCpuLoad = this.mxTBean.getThreadCpuTime(Thread.currentThread().getId());
+        this.endCpuLoadT = System.nanoTime();
 
         return this;
     }
@@ -109,6 +114,6 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      */
     @Override
     public Double result() {
-        return Math.max(((endCpuLoad - startCpuLoad) * 100L), 0);
+        return endCpuLoadT > startCpuLoadT ? ((endCpuLoad - startCpuLoad) * 100L) / (endCpuLoadT - startCpuLoadT) / Runtime.getRuntime().availableProcessors(): 0;
     }
 }
