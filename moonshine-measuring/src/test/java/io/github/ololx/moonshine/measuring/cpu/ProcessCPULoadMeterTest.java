@@ -17,7 +17,6 @@
 
 package io.github.ololx.moonshine.measuring.cpu;
 
-import io.github.ololx.moonshine.measuring.cpu.ProcessCPULoadMeter;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +34,7 @@ public class ProcessCPULoadMeterTest {
         //Given
         // the memory meter
 
-        ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+        ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
         meter.start();
         //When
@@ -118,7 +117,7 @@ public class ProcessCPULoadMeterTest {
 
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
                     meter.start();
                     //When
@@ -135,7 +134,7 @@ public class ProcessCPULoadMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
                     meter.start();
                     //When
@@ -152,7 +151,7 @@ public class ProcessCPULoadMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
                     meter.start();
                     //When
@@ -170,7 +169,7 @@ public class ProcessCPULoadMeterTest {
                 })
         ).join();
         CompletableFuture.runAsync(() -> {
-            ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+            ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
 
             meter.start();
             //When
@@ -197,7 +196,7 @@ public class ProcessCPULoadMeterTest {
         //Given
         // the memory meter
         ProcessCPULoadMeter meters = new ProcessCPULoadMeter();
-        ProcessCPUTimeMeter meter = new ProcessCPUTimeMeter();
+        ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
         meters.start();
         meter.start();
         //When
