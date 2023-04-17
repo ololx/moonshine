@@ -40,11 +40,13 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      * The CPU load at the start of the measurement period.
      */
     private double startCpuLoad;
+    private long startCpuLoadT;
 
     /**
      * The CPU load at the end of the measurement period.
      */
     private double endCpuLoad;
+    private long endCpuLoadT;
 
     /**
      * Creates a new instance of the ThreadCPULoadMeter class.
@@ -80,7 +82,8 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      */
     @Override
     public ProcessCPULoadMeter start() {
-        this.startCpuLoad = this.osBean.getProcessCpuLoad();
+        this.startCpuLoad = this.osBean.getProcessCpuTime();
+        this.startCpuLoadT = System.nanoTime();
 
         return this;
     }
@@ -95,7 +98,8 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      */
     @Override
     public ProcessCPULoadMeter stop() {
-        this.endCpuLoad = this.osBean.getProcessCpuLoad();
+        this.endCpuLoad = this.osBean.getProcessCpuTime();
+        this.endCpuLoadT = System.nanoTime();
 
         return this;
     }
@@ -109,6 +113,8 @@ public class ProcessCPULoadMeter implements Measurer<Double> {
      */
     @Override
     public Double result() {
-        return Math.max(((endCpuLoad - startCpuLoad) * 100L), 0);
+        return endCpuLoadT > startCpuLoadT
+                ? ((endCpuLoad - startCpuLoad) * 100L) / (endCpuLoadT - startCpuLoadT) / Runtime.getRuntime().availableProcessors()
+                : 0;
     }
 }
