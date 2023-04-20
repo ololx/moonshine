@@ -149,10 +149,6 @@ public class ThreadGroupMemoryAllocationMeter implements Measurer<Memory> {
 
     private static Thread[] getAllThreads() {
         ThreadGroup group = Thread.currentThread().getThreadGroup();
-        /*while (group.getParent() != null) {
-            group = group.getParent();
-        }*/
-
         int estimatedSize = group.activeCount();
         Thread[] threads = new Thread[estimatedSize];
         int actualSize = group.enumerate(threads);
