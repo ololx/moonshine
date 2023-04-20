@@ -29,7 +29,7 @@ import java.util.Objects;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadCPULoadMeter implements Measurer<Double> {
+public class ThreadCPULoadMeter implements Measurer<CPULoad> {
 
     /**
      * The ThreadMXBean instance used to obtain CPU load information.
@@ -39,13 +39,13 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
     /**
      * The CPU load at the start of the measurement period.
      */
-    private double startCpuLoad;
+    private long startCpuLoad;
     private long startCpuLoadT;
 
     /**
      * The CPU load at the end of the measurement period.
      */
-    private double endCpuLoad;
+    private long endCpuLoad;
     private long endCpuLoadT;
 
     /**
@@ -112,9 +112,7 @@ public class ThreadCPULoadMeter implements Measurer<Double> {
      * @return a Double object representing the CPU load during the measurement period, as a percentage
      */
     @Override
-    public Double result() {
-        return endCpuLoadT > startCpuLoadT
-                ? ((endCpuLoad - startCpuLoad) * 100L) / (endCpuLoadT - startCpuLoadT) / Runtime.getRuntime().availableProcessors()
-                : 0;
+    public CPULoad result() {
+        return CPULoad.ofProcessorNano(endCpuLoad - startCpuLoad, endCpuLoadT - startCpuLoadT);
     }
 }
