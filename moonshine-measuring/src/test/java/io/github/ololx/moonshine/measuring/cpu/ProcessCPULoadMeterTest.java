@@ -34,9 +34,9 @@ public class ProcessCPULoadMeterTest {
         //Given
         // the memory meter
 
-        ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+        ThreadCPULoadMeter meters = new ThreadCPULoadMeter();
 
-        meter.start();
+        meters.start();
         //When
         // start measurer
 
@@ -45,35 +45,26 @@ public class ProcessCPULoadMeterTest {
         for (int i = 0; i < array.length; i++) {
             array[i] = (int) Math.cos(i);
         }
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (int) Math.cos(i);
-        }
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (int) Math.cos(i);
-        }
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (int) Math.cos(i);
+        // stop measurer
+        meters.stop();
+
+        System.out.println("T = " + meters.result());
+
+        ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+
+        meter.start();
+        //When
+        // start measurer
+
+        // create new array with 1_000_000 int
+        int[] arrays = new int[99999999];
+        for (int i = 0; i < arrays.length; i++) {
+            arrays[i] = (int) Math.cos(i);
         }
         // stop measurer
         meter.stop();
 
         System.out.println("P = " + meter.result());
-
-        ProcessCPULoadMeter meters = new ProcessCPULoadMeter();
-
-        meters.start();
-        //When
-        // start measurer
-
-        // create new array with 1_000_000 int
-        array = new int[999999];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = i;
-        }
-        // stop measurer
-        meters.stop();
-
-        System.out.println("T = " + meters.result());
     }
 
     @Test

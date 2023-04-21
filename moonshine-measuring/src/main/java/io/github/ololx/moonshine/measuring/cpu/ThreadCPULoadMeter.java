@@ -21,6 +21,7 @@ import com.sun.management.ThreadMXBean;
 import io.github.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
+import java.time.Duration;
 import java.util.Objects;
 
 /**
@@ -113,6 +114,6 @@ public class ThreadCPULoadMeter implements Measurer<CPULoad> {
      */
     @Override
     public CPULoad result() {
-        return CPULoad.ofProcessorNano(endCpuLoad - startCpuLoad, endCpuLoadT - startCpuLoadT);
+        return CPULoad.ofCPUTime(endCpuLoad - startCpuLoad, Duration.ofNanos(endCpuLoadT - startCpuLoadT));
     }
 }

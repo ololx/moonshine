@@ -29,7 +29,7 @@ import java.util.Objects;
  *
  * @author Alexander A. Kropotin
  */
-public class ProcessCPULoadMeter implements Measurer<CPULoad> {
+public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
 
     /**
      * The OperatingSystemMXBean instance used to obtain CPU load information.
@@ -112,7 +112,7 @@ public class ProcessCPULoadMeter implements Measurer<CPULoad> {
      * @return a Double object representing the CPU load during the measurement period, as a percentage
      */
     @Override
-    public CPULoad result() {
-        return CPULoad.ofProcessorNano(endCpuLoad - startCpuLoad, endCpuLoadT - startCpuLoadT);
+    public CPULoadOld result() {
+        return CPULoadOld.ofProcessorNano(endCpuLoad - startCpuLoad, endCpuLoadT - startCpuLoadT);
     }
 }
