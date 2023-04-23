@@ -21,6 +21,7 @@ import com.sun.management.OperatingSystemMXBean;
 import io.github.ololx.moonshine.measuring.Measurer;
 
 import java.lang.management.ManagementFactory;
+import java.time.Duration;
 import java.util.Objects;
 
 /**
@@ -29,7 +30,7 @@ import java.util.Objects;
  *
  * @author Alexander A. Kropotin
  */
-public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
+public class ProcessCPUsageMeter implements Measurer<CPUsage> {
 
     /**
      * The OperatingSystemMXBean instance used to obtain CPU load information.
@@ -54,7 +55,7 @@ public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
      * <p>This constructor uses the default OperatingSystemMXBean instance obtained from
      * the {@link ManagementFactory#getOperatingSystemMXBean()} method.</p>
      */
-    public ProcessCPULoadMeter() {
+    public ProcessCPUsageMeter() {
         this.osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     }
 
@@ -65,7 +66,7 @@ public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
      * @param osBean the OperatingSystemMXBean instance to use
      * @throws NullPointerException if osBean is null
      */
-    ProcessCPULoadMeter(OperatingSystemMXBean osBean) {
+    ProcessCPUsageMeter(OperatingSystemMXBean osBean) {
         this.osBean = Objects.requireNonNull(
                 osBean,
                 "The OS MX bean must be not null"
@@ -81,7 +82,7 @@ public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ProcessCPULoadMeter start() {
+    public ProcessCPUsageMeter start() {
         this.startCpuLoad = this.osBean.getProcessCpuTime();
         this.startCpuLoadT = System.nanoTime();
 
@@ -97,7 +98,7 @@ public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ProcessCPULoadMeter stop() {
+    public ProcessCPUsageMeter stop() {
         this.endCpuLoad = this.osBean.getProcessCpuTime();
         this.endCpuLoadT = System.nanoTime();
 
@@ -112,7 +113,7 @@ public class ProcessCPULoadMeter implements Measurer<CPULoadOld> {
      * @return a Double object representing the CPU load during the measurement period, as a percentage
      */
     @Override
-    public CPULoadOld result() {
-        return CPULoadOld.ofProcessorNano(endCpuLoad - startCpuLoad, endCpuLoadT - startCpuLoadT);
+    public CPUsage result() {
+        return CPUsage.ofUsageTime(Duration.ofNanos(endCpuLoad - startCpuLoad), Duration.ofNanos(endCpuLoadT - startCpuLoadT));
     }
 }
