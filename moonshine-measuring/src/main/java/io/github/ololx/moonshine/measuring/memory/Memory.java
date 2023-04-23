@@ -24,6 +24,11 @@ package io.github.ololx.moonshine.measuring.memory;
  * <p>Instances of this class are immutable and are guaranteed to be
  * thread-safe.</p>
  *
+ * @apiNote
+ * The factory method {@link #ofBytes(long)} should be used to create instances
+ * of this class. This method ensures that negative values are not accepted and
+ * returns a cached instance for zero bytes.
+ *
  * @implSpec
  * This class provides a total ordering based on the number of bytes, which is
  * consistent with {@link #equals(Object)}.
@@ -37,11 +42,6 @@ package io.github.ololx.moonshine.measuring.memory;
  *     <li>a negative integer if this size is less than the other size</li>
  *     <li>a positive integer if this size is greater than the other size</li>
  * </ul>
- *
- * @apiNote
- * The factory method {@link #ofBytes(long)} should be used to create instances
- * of this class. This method ensures that negative values are not accepted and
- * returns a cached instance for zero bytes.
  *
  * @implNote
  * This class uses the SI units for measuring memory size (i.e. 1 KB = 1000
