@@ -30,7 +30,7 @@ import java.util.Objects;
  *
  * @author Alexander A. Kropotin
  */
-public class ThreadCPULoadMeter implements Measurer<CPULoad> {
+public class ThreadCPUsageMeter implements Measurer<CPUsage> {
 
     /**
      * The ThreadMXBean instance used to obtain CPU load information.
@@ -55,7 +55,7 @@ public class ThreadCPULoadMeter implements Measurer<CPULoad> {
      * <p>This constructor uses the default OperatingSystemMXBean instance obtained from
      * the {@link ManagementFactory#getOperatingSystemMXBean()} method.</p>
      */
-    public ThreadCPULoadMeter() {
+    public ThreadCPUsageMeter() {
         this.mxTBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
     }
 
@@ -66,7 +66,7 @@ public class ThreadCPULoadMeter implements Measurer<CPULoad> {
      * @param osBean the OperatingSystemMXBean instance to use
      * @throws NullPointerException if osBean is null
      */
-    ThreadCPULoadMeter(ThreadMXBean osBean) {
+    ThreadCPUsageMeter(ThreadMXBean osBean) {
         this.mxTBean = Objects.requireNonNull(
                 osBean,
                 "The OS MX bean must be not null"
@@ -82,7 +82,7 @@ public class ThreadCPULoadMeter implements Measurer<CPULoad> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ThreadCPULoadMeter start() {
+    public ThreadCPUsageMeter start() {
         this.startCpuLoad = this.mxTBean.getThreadCpuTime(Thread.currentThread().getId());
         this.startCpuLoadT = System.nanoTime();
 
@@ -98,7 +98,7 @@ public class ThreadCPULoadMeter implements Measurer<CPULoad> {
      * @return this ThreadCPULoadMeter instance
      */
     @Override
-    public ThreadCPULoadMeter stop() {
+    public ThreadCPUsageMeter stop() {
         this.endCpuLoad = this.mxTBean.getThreadCpuTime(Thread.currentThread().getId());
         this.endCpuLoadT = System.nanoTime();
 
@@ -113,7 +113,7 @@ public class ThreadCPULoadMeter implements Measurer<CPULoad> {
      * @return a Double object representing the CPU load during the measurement period, as a percentage
      */
     @Override
-    public CPULoad result() {
-        return CPULoad.ofCPUTime(endCpuLoad - startCpuLoad, Duration.ofNanos(endCpuLoadT - startCpuLoadT));
+    public CPUsage result() {
+        return CPUsage.ofUsageTime(Duration.ofNanos(endCpuLoad - startCpuLoad), Duration.ofNanos(endCpuLoadT - startCpuLoadT));
     }
 }

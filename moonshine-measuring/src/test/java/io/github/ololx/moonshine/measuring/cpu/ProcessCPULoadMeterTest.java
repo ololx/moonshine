@@ -19,6 +19,7 @@ package io.github.ololx.moonshine.measuring.cpu;
 
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -34,7 +35,7 @@ public class ProcessCPULoadMeterTest {
         //Given
         // the memory meter
 
-        ThreadCPULoadMeter meters = new ThreadCPULoadMeter();
+        ThreadCPUsageMeter meters = new ThreadCPUsageMeter();
 
         meters.start();
         //When
@@ -50,7 +51,7 @@ public class ProcessCPULoadMeterTest {
 
         System.out.println("T = " + meters.result());
 
-        ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+        ProcessCPUsageMeter meter = new ProcessCPUsageMeter();
 
         meter.start();
         //When
@@ -74,7 +75,7 @@ public class ProcessCPULoadMeterTest {
 
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+                    ProcessCPUsageMeter meter = new ProcessCPUsageMeter();
 
                     meter.start();
                     //When
@@ -91,7 +92,7 @@ public class ProcessCPULoadMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+                    ProcessCPUsageMeter meter = new ProcessCPUsageMeter();
 
                     meter.start();
                     //When
@@ -108,7 +109,7 @@ public class ProcessCPULoadMeterTest {
                     System.out.println(meter.result());
                 }),
                 CompletableFuture.runAsync(() -> {
-                    ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+                    ProcessCPUsageMeter meter = new ProcessCPUsageMeter();
 
                     meter.start();
                     //When
@@ -126,7 +127,7 @@ public class ProcessCPULoadMeterTest {
                 })
         ).join();
         CompletableFuture.runAsync(() -> {
-            ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+            ProcessCPUsageMeter meter = new ProcessCPUsageMeter();
 
             meter.start();
             //When
@@ -152,14 +153,14 @@ public class ProcessCPULoadMeterTest {
     public void start2AndStopAndResult_whenMeasurerWasActivated_thenReturnMeasuringResult() {
         //Given
         // the memory meter
-        ProcessCPULoadMeter meter = new ProcessCPULoadMeter();
+        ProcessCPUsageMeter meter = new ProcessCPUsageMeter();
         meter.start();
         //When
         // start measurer
 
         // create new array with 1_000_000 int
         int numCore = Runtime.getRuntime().availableProcessors();
-        int numThreadsPerCore = 1;
+        int numThreadsPerCore = 30;
         double load = 1;
         final long duration = 99999999;
         for (int thread = 0; thread < numCore * numThreadsPerCore; thread++) {
