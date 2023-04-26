@@ -43,7 +43,12 @@ import java.time.Duration;
  *
  * @author Alexander A. Kropotin
  */
-public final class CPUsage {
+public final class CpuUsage {
+
+    /**
+     * Constant for a CPU usage of zero.
+     */
+    public static final CpuUsage ZERO = new CpuUsage(0D);
 
     /**
      * The number of available cores in the system.
@@ -65,7 +70,7 @@ public final class CPUsage {
      *
      * @param value the CPU usage value.
      */
-    private CPUsage(double value) {
+    private CpuUsage(double value) {
         this.value = value;
     }
 
@@ -78,13 +83,13 @@ public final class CPUsage {
      * @param interval the duration of the interval.
      * @return a new {@code CPUsage} object representing the CPU usage during
      *         the specified interval.
-     * @throws IllegalArgumentException if cpuTime or interval is negative or zero.
+     * @throws IllegalArgumentException if cpuTime or interval is negative or null.
      */
-    public static CPUsage ofUsageTime(Duration cpuTime, Duration interval) {
-        checkDuration(cpuTime, "The cpuTime must be non-null and positive and non-zero.");
-        checkDuration(interval, "The interval must be non-null and positive and non-zero.");
+    public static CpuUsage ofUsageTime(Duration cpuTime, Duration interval) {
+        checkDuration(cpuTime, "The cpuTime must be non-null and positive.");
+        checkDuration(interval, "The interval must be non-null and positive.");
 
-        return new CPUsage(cpuTime.toNanos() / ((double) interval.toNanos() * AVAILABLE_CORES));
+        return new CpuUsage(cpuTime.toNanos() / ((double) interval.toNanos() * AVAILABLE_CORES));
     }
 
     /**
@@ -110,10 +115,10 @@ public final class CPUsage {
      *
      * @param interval the duration of the interval.
      * @return the CPU usage time for the specified interval.
-     * @throws IllegalArgumentException if interval is negative or zero.
+     * @throws IllegalArgumentException if interval is negative or null.
      */
     public Duration toUsageTime(Duration interval) {
-        checkDuration(interval, "The interval must be non-null and positive and non-zero.");
+        checkDuration(interval, "The interval must be non-null and positive.");
 
         return Duration.ofNanos((long) (value * AVAILABLE_CORES * interval.toNanos()));
     }
@@ -132,11 +137,11 @@ public final class CPUsage {
      * Checks that the specified duration is not null or negative.
      *
      * @param duration the duration to check.
-     * @throws IllegalArgumentException if the duration is null or negative, or zero.
+     * @throws IllegalArgumentException if the duration is null.
      */
-    private static void checkDuration(Duration duration, String exceptionMessage) {
-        if (duration == null || duration.isNegative() || duration.isZero()) {
-            throw new IllegalArgumentException(exceptionMessage);
+    private static void checkDuration(Duration duration, String message) {
+        if (duration == null || duration.isNegative()) {
+            throw new IllegalArgumentException(message);
         }
     }
 }

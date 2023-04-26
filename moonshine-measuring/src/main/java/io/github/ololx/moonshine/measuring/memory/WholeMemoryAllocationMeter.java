@@ -38,7 +38,7 @@ import java.util.Objects;
  * The returned {@link Memory} object represents the total memory allocation
  * during the measurement period.
  *
- * * <p><strong>Example usage:</strong></p>
+ * <p><strong>Example usage:</strong></p>
  * <pre>{@code
  * WholeMemoryAllocationMeter meter = new WholeMemoryAllocationMeter();
  *
