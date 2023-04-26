@@ -39,7 +39,7 @@ import java.util.Objects;
  * current thread. To measure the memory allocation of multiple threads, use
  * a different implementation of the {@link Measurer} interface.
  *
- * * <p><strong>Example usage:</strong></p>
+ * <p><strong>Example usage:</strong></p>
  * <pre>{@code
  * ThreadMemoryAllocationMeter meter = new ThreadMemoryAllocationMeter();
  *
