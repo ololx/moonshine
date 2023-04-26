@@ -30,11 +30,14 @@ import static org.testng.Assert.*;
  */
 public class CPUsageTest {
 
-    static final int cores = Runtime.getRuntime().availableProcessors();
-
     @DataProvider
     static Object[][] providesCpuUsageTimesAndIntervalsAndCpuUsageFractions() {
+        final int cores = Runtime.getRuntime().availableProcessors();
+
         return new Object[][] {
+                {0, 0, Double.NaN},
+                {0, 1, 0D},
+                {1, 0, Double.POSITIVE_INFINITY},
                 {100, 100, 1D / cores},
                 {200, 200, 1D / cores},
                 {1, 1, 1D / cores},
@@ -51,7 +54,7 @@ public class CPUsageTest {
                                                                          double expectedFraction) {
         //When
         // create CP usage instance
-        CPUsage usage = CPUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
+        CpuUsage usage = CpuUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
 
         //Then
         // fraction equals expected
@@ -64,7 +67,7 @@ public class CPUsageTest {
                                                                        double expectedFraction) {
         //When
         // create CP usage instance
-        CPUsage usage = CPUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
+        CpuUsage usage = CpuUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
 
         //Then
         // percents equals expected
@@ -87,7 +90,7 @@ public class CPUsageTest {
     public void toUsageTime_whenCreated_thenReturnRightUsageFraction(long cpuTime, long interval) {
         //When
         // create CP usage instance
-        CPUsage usage = CPUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
+        CpuUsage usage = CpuUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
 
         //Then
         // time equals expected
@@ -100,7 +103,6 @@ public class CPUsageTest {
                 {Duration.ofNanos(100), Duration.ofNanos(-100)},
                 {Duration.ofNanos(-100), Duration.ofNanos(100)},
                 {Duration.ofNanos(-100), Duration.ofNanos(-100)},
-                {Duration.ofNanos(0), Duration.ofNanos(0)},
                 {null, null}
         };
     }
@@ -115,6 +117,6 @@ public class CPUsageTest {
         // create CP usage instance with bad  params
         //Then
         // throws exception
-        CPUsage.ofUsageTime(cpuTime, interval);
+        CpuUsage.ofUsageTime(cpuTime, interval);
     }
 }
