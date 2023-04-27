@@ -19,7 +19,7 @@ This is a java utils and extensions library
 
 # Moonshine
 
-The Moonshine is a java library that that contains usefull utilities and tools for coding.
+The Moonshine is a java library that that contains usefully utilities and tools for coding.
 
 ## Features
 
@@ -27,6 +27,7 @@ The Moonshine is a java library that that contains usefull utilities and tools f
 - The stopwatch utilities that allow to get elapsed time measurements.
 - The bit converting utilities that allow to code/encode Java primitives to/from byte array.
 - The allocated memory meter of the selected code part in the application.
+- The CPU usage meter of the selected code part in the application.
 
 ## Maven Installing
 
@@ -44,7 +45,7 @@ _Example of dependency for installing `moonshine-tuple` module with version `0.2
 
 ```xml
 <dependency>
-    <groupId>io.github.ololx.monshine</groupId>
+    <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine-tuple</artifactId>
     <version>0.2.3</version>
 </dependency>
