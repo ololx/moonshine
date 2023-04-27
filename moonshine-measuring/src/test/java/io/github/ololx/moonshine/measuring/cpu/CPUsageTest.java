@@ -77,24 +77,29 @@ public class CPUsageTest {
     @DataProvider
     static Object[][] providesCpuUsageTimesAndIntervals() {
         return new Object[][] {
-                {100, 100},
-                {200, 200},
-                {1, 1},
-                {100, 50},
-                {100, 10},
-                {50, 100},
+                {0, 0, 0, 0},
+                {1, 1, 1, 1},
+                {100, 100, 100, 100},
+                {100, 200, 200, 100},
+                {100, 200, 100, 50},
+                {100, 400, 300, 75},
+                {100, 400, 200, 50},
+                {100, 400, 100, 25},
         };
     }
 
     @Test(dataProvider = "providesCpuUsageTimesAndIntervals")
-    public void toUsageTime_whenCreated_thenReturnRightUsageFraction(long cpuTime, long interval) {
+    public void toUsageTime_whenCreated_thenReturnRightUsageTime(long cpuTime,
+                                                                 long interval,
+                                                                 long newInterval,
+                                                                 long expectedCpuTime) {
         //When
         // create CP usage instance
         CpuUsage usage = CpuUsage.ofUsageTime(Duration.ofNanos(cpuTime), Duration.ofNanos(interval));
 
         //Then
         // time equals expected
-        assertEquals(usage.toUsageTime(Duration.ofNanos(interval)), Duration.ofNanos(cpuTime));
+        assertEquals(usage.toUsageTime(Duration.ofNanos(newInterval)), Duration.ofNanos(expectedCpuTime));
     }
 
     @DataProvider
