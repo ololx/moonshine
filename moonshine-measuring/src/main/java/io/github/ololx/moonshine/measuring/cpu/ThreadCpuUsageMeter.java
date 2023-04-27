@@ -61,11 +61,6 @@ import java.util.Objects;
 public class ThreadCpuUsageMeter implements Measurer<CpuUsage> {
 
     /**
-     * The const of state "is not running"
-     */
-    private static final long STOPPED = -1;
-
-    /**
      The ThreadMXBean instance used to obtain CPU load information.
      */
     private final ThreadMXBean threadMXBean;
@@ -112,7 +107,6 @@ public class ThreadCpuUsageMeter implements Measurer<CpuUsage> {
                 threadMXBean,
                 "The threadMXBean must not be null"
         );
-        this.startCpuTime = STOPPED;
     }
 
     /**
