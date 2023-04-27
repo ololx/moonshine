@@ -120,7 +120,7 @@ public final class CpuUsage {
     public Duration toUsageTime(Duration interval) {
         checkDuration(interval, "The interval must be non-null and positive.");
 
-        return Duration.ofNanos((long) (value * AVAILABLE_CORES * interval.toNanos()));
+        return Duration.ofNanos((long) (value * (interval.toNanos() * AVAILABLE_CORES)));
     }
 
     /**
