@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.7.0] - 2023-04-27
+
+### Added
+
+- New utility classes for CPU usage measuring.
+- New class for CPU usage representation and converting.
+
 ## [0.6.1] - 2023-04-11
 
 ### Fixed
