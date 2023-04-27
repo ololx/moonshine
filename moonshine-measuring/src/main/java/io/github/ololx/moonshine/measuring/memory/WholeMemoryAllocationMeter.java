@@ -29,13 +29,11 @@ import java.util.Objects;
  * uses the MemoryMXBean to measure the amount of allocated bytes before and
  * after the code execution.
  *
- * @implNote
- * This implementation tracks the heap and non-heap memory usage of the JVM
- * before  and after the measurement period, then calculates the difference to
- * determine the total memory allocation.
- *
- * @apiNote
- * The returned {@link Memory} object represents the total memory allocation
+ * @author Alexander A. Kropotin
+ * @implNote This implementation tracks the total memory usage of the JVM before and
+ * after the measurement period, then calculates the difference to determine
+ * the total memory allocation.
+ * @apiNote The returned {@link Memory} object represents the total memory allocation
  * during the measurement period.
  *
  * <p><strong>Example usage:</strong></p>
@@ -48,11 +46,9 @@ import java.util.Objects;
  *
  * Memory allocatedMemory = meter.result();
  * }</pre>
- *
+ * <p>
  * project moonshine
  * created 01.04.2023 18:42
- *
- * @author Alexander A. Kropotin
  */
 public class WholeMemoryAllocationMeter implements Measurer<Memory> {
 
@@ -62,14 +58,14 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
     private final ThreadMXBean threadMXBean;
 
     /**
-     * The amount of memory used by the thread at the start of the measurement
-     * period.
+     * The amount of memory used by the all threads at the start of the
+     * measurement period.
      */
     private long startUsedMemory;
 
     /**
-     * The amount of memory used by the thread at the end of the measurement
-     * period.
+     * The amount of memory used by the all threads at the end of the
+     * measurement period.
      */
     private long endUsedMemory;
 
@@ -86,7 +82,7 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
      * the specified {@link ThreadMXBean}.
      *
      * @param threadMXBean the {@link ThreadMXBean} to use for memory usage
-     * information
+     *                     information
      * @throws NullPointerException if {@code threadMXBean} is {@code null}
      */
     WholeMemoryAllocationMeter(ThreadMXBean threadMXBean) {
