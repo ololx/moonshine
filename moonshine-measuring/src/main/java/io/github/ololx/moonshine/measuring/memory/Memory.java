@@ -159,7 +159,7 @@ public final class Memory implements Comparable<Memory> {
      * @return the number of bytes in this memory size
      */
     public long toBytes() {
-        return bytes;
+        return this.bytes;
     }
 
     /**
@@ -168,7 +168,7 @@ public final class Memory implements Comparable<Memory> {
      * @return the number of kilobytes in this memory size
      */
     public long toKilobytes() {
-        return bytes / KILOBYTE;
+        return this.bytes / KILOBYTE;
     }
 
     /**
@@ -177,7 +177,7 @@ public final class Memory implements Comparable<Memory> {
      * @return the number of megabytes in this memory size
      */
     public long toMegabytes() {
-        return bytes / MEGABYTE;
+        return this.bytes / MEGABYTE;
     }
 
     /**
@@ -186,7 +186,7 @@ public final class Memory implements Comparable<Memory> {
      * @return the number of gigabytes in this memory size
      */
     public long toGigabytes() {
-        return bytes / GIGABYTE;
+        return this.bytes / GIGABYTE;
     }
 
     /**
@@ -195,7 +195,7 @@ public final class Memory implements Comparable<Memory> {
      * @return the number of terabytes in this memory size
      */
     public long toTerabytes() {
-        return bytes / TERABYTE;
+        return this.bytes / TERABYTE;
     }
 
     /**
@@ -285,7 +285,7 @@ public final class Memory implements Comparable<Memory> {
      */
     @Override
     public int hashCode() {
-        return Long.hashCode(bytes);
+        return Long.hashCode(this.bytes);
     }
 
     /**
@@ -330,16 +330,16 @@ public final class Memory implements Comparable<Memory> {
      */
     @Override
     public String toString() {
-        if (bytes < KILOBYTE) {
-            return bytes + " bytes";
-        } else if (bytes < MEGABYTE) {
-            return String.format("%.1f KB", bytes / (double) KILOBYTE);
-        } else if (bytes < GIGABYTE) {
-            return String.format("%.1f MB", bytes / (double) MEGABYTE);
-        } else if (bytes < TERABYTE) {
-            return String.format("%.1f GB", bytes / (double) GIGABYTE);
+        if (this.bytes < KILOBYTE) {
+            return this.bytes + " bytes";
+        } else if (this.bytes < MEGABYTE) {
+            return String.format("%.1f KB", this.bytes / (double) KILOBYTE);
+        } else if (this.bytes < GIGABYTE) {
+            return String.format("%.1f MB", this.bytes / (double) MEGABYTE);
+        } else if (this.bytes < TERABYTE) {
+            return String.format("%.1f GB", this.bytes / (double) GIGABYTE);
         } else {
-            return String.format("%.1f TB", bytes / (double) TERABYTE);
+            return String.format("%.1f TB", this.bytes / (double) TERABYTE);
         }
     }
 }
