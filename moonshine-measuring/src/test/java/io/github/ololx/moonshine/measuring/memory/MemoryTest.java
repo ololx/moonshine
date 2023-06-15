@@ -20,6 +20,7 @@ package io.github.ololx.moonshine.measuring.memory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static io.github.ololx.moonshine.measuring.memory.Memory.*;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -54,7 +55,7 @@ public class MemoryTest {
 
         //Then
         // created memory instance size equals expected
-        assertEquals(memory.toBytes(), memorySize * 1024);
+        assertEquals(memory.toBytes(), memorySize * KILOBYTE);
     }
 
     @Test(dataProvider = "providesMemorySize")
@@ -65,7 +66,7 @@ public class MemoryTest {
 
         //Then
         // created memory instance size equals expected
-        assertEquals(memory.toBytes(), memorySize * 1_048_576);
+        assertEquals(memory.toBytes(), memorySize * MEGABYTE);
     }
 
     @Test(dataProvider = "providesMemorySize")
@@ -76,7 +77,7 @@ public class MemoryTest {
 
         //Then
         // created memory instance size equals expected
-        assertEquals(memory.toBytes(), memorySize * 1_073_741_824);
+        assertEquals(memory.toBytes(), memorySize * GIGABYTE);
     }
 
     @Test(dataProvider = "providesMemorySize")
@@ -87,7 +88,7 @@ public class MemoryTest {
 
         //Then
         // created memory instance size equals expected
-        assertEquals(memory.toBytes(), memorySize * 1_099_511_627_776L);
+        assertEquals(memory.toBytes(), memorySize * TERABYTE);
     }
 
     @DataProvider
