@@ -19,6 +19,8 @@ package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
+import java.util.Objects;
+
 /**
  * The encoder that converts given value to a byte array using the specified
  * endianness.
@@ -41,7 +43,7 @@ public interface ValueBytesEncoder<T> {
      * @param endianness the endianness to be used for encoding
      * @return the byte array that contains the encoded value
      */
-    byte[] encode(T value, int offset, ByteIndexOperator endianness);
+    byte[] encode(final T value, final int offset, final ByteIndexOperator endianness);
 
     /**
      * Encodes a given value to a byte array using the specified endianness
@@ -55,7 +57,7 @@ public interface ValueBytesEncoder<T> {
      * @param endianness the endianness to be used for encoding
      * @return the byte array that contains the encoded value
      */
-    default byte[] encode(T value, ByteIndexOperator endianness) {
+    default byte[] encode(final T value, final ByteIndexOperator endianness) {
         return this.encode(value, 0, endianness);
     }
 
@@ -152,5 +154,27 @@ public interface ValueBytesEncoder<T> {
 
             return encoded;
         };
+    }
+
+    static byte[] mergeEncoded(final byte[]... encodedValues) {
+        if (encodedValues == null || encodedValues.length == 0) {
+            return new byte[0];
+        }
+
+        int totalLength = 0;
+        for (byte[] encoded : encodedValues) {
+            totalLength += encoded.length;
+        }
+
+        byte[] mergedEncoded = new byte[totalLength];
+
+        int destPos = 0;
+        for (byte[] encoded : encodedValues) {
+            int arrayLength = encoded.length;
+            System.arraycopy(encoded, 0, mergedEncoded, destPos, arrayLength);
+            destPos += arrayLength;
+        }
+
+        return mergedEncoded;
     }
 }
