@@ -43,13 +43,13 @@ public class LocalDateTimeEncoder implements ValueBytesEncoder<LocalDateTime> {
      */
     @Override
     public byte[] encode(LocalDateTime value, int offset, ByteIndexOperator endianness) {
-        return ValueBytesEncoder.mergeEncoded(
+        return ValueBytesEncoder.concat(
                 ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getMonthValue(), offset, endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getDayOfMonth(), offset, endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getHour(), offset, endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getMinute(), offset, endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getSecond(), offset, endianness)
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), offset, endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), offset, endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), offset, endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), offset, endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), offset, endianness)
         );
     }
 }

@@ -20,7 +20,6 @@ package io.github.ololx.moonshine.bytes.coding.encoders;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.Test;
 
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static io.github.ololx.moonshine.bytes.coding.encoders.ValueBytesEncoder.*;
@@ -83,7 +82,7 @@ public class ValueBytesEncoderTest {
     public void value64BitEncoder_whenGetNewInstanceOfEncoder_thenInstanceIsNotNull2() {
         //When
         // get instance
-        byte[] result = ValueBytesEncoder.mergeEncoded(
+        byte[] result = ValueBytesEncoder.concat(
                 Stream.of((byte) 1, (byte) 2, (byte) 3, (byte) 4)
                         .map(v -> ValueBytesEncoder.value8BitEncoder().encode(v, ByteIndexOperator.identity()))
                         .toArray(byte[][]::new)

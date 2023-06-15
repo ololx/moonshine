@@ -19,8 +19,6 @@ package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
-import java.util.Objects;
-
 /**
  * The encoder that converts given value to a byte array using the specified
  * endianness.
@@ -156,7 +154,7 @@ public interface ValueBytesEncoder<T> {
         };
     }
 
-    static byte[] mergeEncoded(final byte[]... encodedValues) {
+    static byte[] concat(final byte[]... encodedValues) {
         if (encodedValues == null || encodedValues.length == 0) {
             return new byte[0];
         }
