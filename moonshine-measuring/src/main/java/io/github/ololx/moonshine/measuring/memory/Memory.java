@@ -61,22 +61,22 @@ public final class Memory implements Comparable<Memory> {
     /**
      * The number of bytes in 1 kilobyte.
      */
-    private static final long KILOBYTE = 1024L;
+    public static final long KILOBYTE = 1024L;
 
     /**
      * The number of bytes in 1 megabyte.
      */
-    private static final long MEGABYTE = 1024L * KILOBYTE;
+    public static final long MEGABYTE = 1_048_576L;
 
     /**
      * The number of bytes in 1 gigabyte.
      */
-    private static final long GIGABYTE = 1024L * MEGABYTE;
+    public static final long GIGABYTE = 1_073_741_824L;
 
     /**
      * The number of bytes in 1 terabyte.
      */
-    private static final long TERABYTE = 1024L * GIGABYTE;
+    public static final long TERABYTE = 1_099_511_627_776L;
 
     /**
      * The number of bytes in this memory size.
