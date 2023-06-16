@@ -19,7 +19,6 @@ package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**

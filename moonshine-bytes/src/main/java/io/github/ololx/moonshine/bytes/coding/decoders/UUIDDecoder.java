@@ -19,7 +19,7 @@ package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
-import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * The decoder that converts byte arrays to a {@code Byte} value.
@@ -29,10 +29,10 @@ import java.time.LocalDate;
  *
  * @author Alexander A. Kropotin
  */
-public class LocalDateDecoder implements ValueBytesDecoder<LocalDate> {
+public class UUIDDecoder implements ValueBytesDecoder<UUID> {
 
     /**
-     * Decodes a byte array to a {@code LocalDate} value starting at a given offset
+     * Decodes a byte array to a {@code UUID} value starting at a given offset
      * with specified endianness.
      *
      * @param bytes the byte array to decode
@@ -43,11 +43,10 @@ public class LocalDateDecoder implements ValueBytesDecoder<LocalDate> {
      * is out of the {@code bytes} bounds
      */
     @Override
-    public LocalDate decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
-        return LocalDate.of(
-                ValueBytesDecoder.value32BitDecoder().decode(bytes, offset, endianness),
-                ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 4, endianness),
-                ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 5, endianness)
+    public UUID decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
+        return new UUID(
+                ValueBytesDecoder.value64BitDecoder().decode(bytes, offset, endianness),
+                ValueBytesDecoder.value64BitDecoder().decode(bytes, offset + 8, endianness)
         );
     }
 }
