@@ -49,7 +49,8 @@ public class LocalDateTimeEncoder implements ValueBytesEncoder<LocalDateTime> {
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), endianness),
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), endianness),
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), endianness)
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), endianness),
+                ValueBytesEncoder.value32BitEncoder().encode(value.getNano(), endianness)
         );
     }
 }

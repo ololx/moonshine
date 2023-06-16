@@ -41,9 +41,10 @@ public class LocalDateTimeEncoderTest {
         LocalDateTimeEncoder encoder = new LocalDateTimeEncoder();
         LocalDateTimeDecoder decoder = new LocalDateTimeDecoder();
 
+        LocalDateTime localDateTime = LocalDateTime.now();
         //When
         // encode value
-        byte[] encodedValue = encoder.encode(LocalDateTime.of(2023, 06, 16, 12, 22, 22), ByteIndexOperator.identity());
+        byte[] encodedValue = encoder.encode(localDateTime, ByteIndexOperator.identity());
         LocalDateTime decodedValue = decoder.decode(encodedValue, ByteIndexOperator.identity());
 
         System.out.println(Arrays.toString(encodedValue));
@@ -51,6 +52,6 @@ public class LocalDateTimeEncoderTest {
 
         //Then
         // encoded value equals expected bytes
-        assertEquals(LocalDateTime.of(2023, 06, 16, 12, 22, 22), decodedValue);
+        assertEquals(localDateTime, decodedValue);
     }
 }
