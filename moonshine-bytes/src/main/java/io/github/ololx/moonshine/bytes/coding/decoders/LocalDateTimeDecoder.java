@@ -50,7 +50,8 @@ public class LocalDateTimeDecoder implements ValueBytesDecoder<LocalDateTime> {
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 5, endianness),
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 6, endianness),
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 7, endianness),
-                ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 8, endianness)
+                ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 8, endianness),
+                ValueBytesDecoder.value32BitDecoder().decode(bytes, offset + 9, endianness)
         );
     }
 }
