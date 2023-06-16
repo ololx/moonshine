@@ -45,11 +45,11 @@ public class LocalDateTimeEncoder implements ValueBytesEncoder<LocalDateTime> {
     public byte[] encode(LocalDateTime value, int offset, ByteIndexOperator endianness) {
         return ValueBytesEncoder.concat(
                 ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), offset, endianness)
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), endianness)
         );
     }
 }

@@ -45,8 +45,8 @@ public class LocalDateEncoder implements ValueBytesEncoder<LocalDate> {
     public byte[] encode(LocalDate value, int offset, ByteIndexOperator endianness) {
         return ValueBytesEncoder.concat(
                 ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), offset, endianness)
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), endianness),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), endianness)
         );
     }
 }
