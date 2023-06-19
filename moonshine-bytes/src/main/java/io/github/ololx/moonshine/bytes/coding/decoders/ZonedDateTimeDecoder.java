@@ -54,14 +54,7 @@ public class ZonedDateTimeDecoder implements ValueBytesDecoder<ZonedDateTime> {
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 7, endianness),
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 8, endianness),
                 ValueBytesDecoder.value32BitDecoder().decode(bytes, offset + 9, endianness),
-                ZoneId.of(
-                        new String(
-                                bytes,
-                                offset + 18,
-                                ValueBytesDecoder.value8BitDecoder()
-                                        .decode(bytes, offset + 17, endianness)
-                        )
-                )
+                ZoneId.of(new String(bytes, offset + 13, bytes.length - (offset + 13)))
         );
     }
 }

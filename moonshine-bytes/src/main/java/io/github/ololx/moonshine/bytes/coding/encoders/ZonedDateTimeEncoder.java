@@ -52,8 +52,6 @@ public class ZonedDateTimeEncoder implements ValueBytesEncoder<ZonedDateTime> {
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), endianness),
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), endianness),
                 ValueBytesEncoder.value32BitEncoder().encode(value.getNano(), endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getOffset().getTotalSeconds(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getZone().getId().length(), endianness),
                 value.getZone().getId().getBytes()
         );
     }
