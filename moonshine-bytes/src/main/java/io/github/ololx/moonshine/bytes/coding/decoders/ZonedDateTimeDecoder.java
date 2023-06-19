@@ -19,7 +19,6 @@ package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -32,6 +31,8 @@ import java.time.ZonedDateTime;
  * @author Alexander A. Kropotin
  */
 public class ZonedDateTimeDecoder implements ValueBytesDecoder<ZonedDateTime> {
+
+    private static final StringDecoder stringDecoder = new StringDecoder();
 
     /**
      * Decodes a byte array to a {@code ZonedDateTime} value starting at a given offset
@@ -54,7 +55,7 @@ public class ZonedDateTimeDecoder implements ValueBytesDecoder<ZonedDateTime> {
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 7, endianness),
                 ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 8, endianness),
                 ValueBytesDecoder.value32BitDecoder().decode(bytes, offset + 9, endianness),
-                ZoneId.of(new String(bytes, offset + 13, bytes.length - (offset + 13)))
+                ZoneId.of(stringDecoder.decode(bytes, offset + 13, endianness))
         );
     }
 }

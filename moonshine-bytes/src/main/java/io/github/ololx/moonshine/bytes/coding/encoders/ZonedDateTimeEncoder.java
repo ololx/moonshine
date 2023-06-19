@@ -19,7 +19,6 @@ package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 /**
@@ -32,6 +31,8 @@ import java.time.ZonedDateTime;
  * @author Alexander A. Kropotin
  */
 public class ZonedDateTimeEncoder implements ValueBytesEncoder<ZonedDateTime> {
+
+    private static final StringEncoder stringEncoder = new StringEncoder();
 
     /**
      * Encodes a given value to a byte array using the specified endianness
@@ -52,7 +53,7 @@ public class ZonedDateTimeEncoder implements ValueBytesEncoder<ZonedDateTime> {
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), endianness),
                 ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), endianness),
                 ValueBytesEncoder.value32BitEncoder().encode(value.getNano(), endianness),
-                value.getZone().getId().getBytes()
+                stringEncoder.encode(value.getZone().getId(), endianness)
         );
     }
 }

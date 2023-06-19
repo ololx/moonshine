@@ -19,8 +19,6 @@ package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
-import java.util.UUID;
-
 /**
  * The decoder that converts byte arrays to a {@code Byte} value.
  *
