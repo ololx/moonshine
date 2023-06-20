@@ -17,41 +17,73 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.decoders.LocalDateTimeDecoder;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 25.03.2023 18:28
+ * created 20.06.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
 public class LocalDateTimeEncoderTest {
 
-    @Test
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes() {
-        //Given
-        // byte encoder and origin value
-        LocalDateTimeEncoder encoder = new LocalDateTimeEncoder();
-        LocalDateTimeDecoder decoder = new LocalDateTimeDecoder();
+    @DataProvider
+    static Object[][] providesValueAndEndianness() {
+        return new Object[][]{
+                {
+                        LocalDateTime.MIN,
+                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        LocalDateTime.MIN,
+                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{1, 54, 101, -60, 1, 1, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        LocalDateTime.MIN,
+                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        LocalDateTime.MAX,
+                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{-1, -1, -1, -1, 12, 31, 23, 59, 59, -1, -1, -1, -1}
+                },
+                {
+                        LocalDateTime.MAX,
+                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{-1, -55, -102, 59, 12, 31, 23, 59, 59, -1, -55, -102, 59}
+                },
+                {
+                        LocalDateTime.MAX,
+                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{-1, -1, -1, -1, 12, 31, 23, 59, 59, -1, -1, -1, -1}
+                },
+        };
+    }
 
-        LocalDateTime localDateTime = LocalDateTime.now();
+    @Test(dataProvider = "providesValueAndEndianness")
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(LocalDateTime value,
+                                                                           ByteIndexOperator byteOrder,
+                                                                           byte[] expected) {
+        //Given
+        // value bytes encoder and origin value
+        ValueBytesEncoder<LocalDateTime> encoder = new LocalDateTimeEncoder();
+
         //When
         // encode value
-        byte[] encodedValue = encoder.encode(localDateTime, ByteIndexOperator.identity());
-        LocalDateTime decodedValue = decoder.decode(encodedValue, ByteIndexOperator.identity());
-
-        System.out.println(Arrays.toString(encodedValue));
-        System.out.println(decodedValue);
+        byte[] encodedValue = encoder.encode(value, byteOrder);
 
         //Then
         // encoded value equals expected bytes
-        assertEquals(localDateTime, decodedValue);
+        assertEquals(encodedValue, expected);
     }
 }

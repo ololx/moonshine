@@ -26,7 +26,7 @@ import java.time.ZonedDateTime;
  * The decoder that converts byte arrays to a {@code Byte} value.
  *
  * project moonshine
- * created 23.03.2023 07:50
+ * created 20.06.2023 07:50
  *
  * @author Alexander A. Kropotin
  */
