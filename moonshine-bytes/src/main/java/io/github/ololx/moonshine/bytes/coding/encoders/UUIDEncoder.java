@@ -26,7 +26,7 @@ import java.util.UUID;
  * endianness.
  *
  * project moonshine
- * created 15.03.2023 21:50
+ * created 20.06.2023 21:50
  *
  * @author Alexander A. Kropotin
  */

@@ -17,44 +17,59 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.decoders.DateDecoder;
-import io.github.ololx.moonshine.bytes.coding.decoders.LocalDateDecoder;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Date;
 
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 25.03.2023 18:28
+ * created 20.06.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
 public class DateEncoderTest {
 
-    @Test
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes() {
+    @DataProvider
+    static Object[][] providesValueAndEndianness() {
+        return new Object[][]{
+                {
+                        Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
+                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
+                },
+                {
+                        Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
+                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{0, 68, 71, -123, -108, 0, 0, 0}
+                },
+                {
+                        Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
+                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
+                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
+                },
+        };
+    }
+
+    @Test(dataProvider = "providesValueAndEndianness")
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(Date value,
+                                                                           ByteIndexOperator byteOrder,
+                                                                           byte[] expected) {
         //Given
-        // byte encoder and origin value
-        DateEncoder encoder = new DateEncoder();
-        DateDecoder decoder = new DateDecoder();
+        // value bytes encoder and origin value
+        ValueBytesEncoder<Date> encoder = new DateEncoder();
 
         //When
         // encode value
-        Date nowDate = Date.from(Instant.now());
-        byte[] encodedValue = encoder.encode(nowDate, ByteIndexOperator.identity());
-        Date decodedValue = decoder.decode(encodedValue, ByteIndexOperator.identity());
-
-        System.out.println(Arrays.toString(encodedValue));
-        System.out.println(decodedValue);
+        byte[] encodedValue = encoder.encode(value, byteOrder);
 
         //Then
         // encoded value equals expected bytes
-        assertEquals(nowDate, decodedValue);
+        assertEquals(encodedValue, expected);
     }
 }
