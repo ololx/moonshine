@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.coding;
+package io.github.ololx.moonshine.bytes;
 
 import io.github.ololx.moonshine.bytes.Bytes;
+import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 import static org.testng.Assert.assertEquals;
 
@@ -140,6 +143,47 @@ public class BytesTest {
         // reorder byte array from origin order to new
         byte[] reorderedByteArray = Bytes.reorder(originArray, originOrder, newOrder);
 
+        //Then
+        // reordered array equals expected
+        assertEquals(reorderedByteArray, expected);
+    }
+
+    @DataProvider
+    static Object[][] providesByteOrderOperatorAndIndexRangeAndOffsets() {
+        return new Object[][] {
+                {
+                        new ByteIndexOperator() {
+
+                            @Override
+                            public int apply(int index) {
+                                return index;
+                            }
+                        },
+                        new ByteIndexOperator() {
+
+                            @Override
+                            public int apply(int index) {
+                                return 4 - index;
+                            }
+                        },
+                        3,
+                        new byte[] {0, 0, 0, 0, 1, 2, 3, 4},
+                        new byte[] {0, 0, 0, 4, 3, 2, 1, 0}
+                },
+        };
+    }
+
+    @Test(dataProvider = "providesByteOrderOperatorAndIndexRangeAndOffsets")
+    public void reorder_whenReorderByteArrayWithOffset_thenReturnArrayInNewOrder(ByteIndexOperator originOrder,
+                                                                                 ByteIndexOperator newOrder,
+                                                                                 int offset,
+                                                                                 byte[] originArray,
+                                                                                 byte[] expected) {
+        //When
+        // reorder byte array from origin order to new
+        byte[] reorderedByteArray = Bytes.reorder(originArray, offset, originOrder, newOrder);
+
+        System.out.println(Arrays.toString(reorderedByteArray) + "|" + Arrays.toString(expected));
         //Then
         // reordered array equals expected
         assertEquals(reorderedByteArray, expected);
