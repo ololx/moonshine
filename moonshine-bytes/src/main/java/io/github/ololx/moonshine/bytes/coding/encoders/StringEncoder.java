@@ -17,8 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.Bytes;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.Bytes;
 
 import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
@@ -56,6 +56,7 @@ public class StringEncoder implements ValueBytesEncoder<String> {
         for (int charIndex = 1; charIndex < value.length(); charIndex++) {
             encoded[charIndex] = charEncoder.encode(value.charAt(charIndex), identity());
         }
+
 
         return Bytes.reorder(Bytes.concat(encoded), offset, identity(), endianness);
     }
