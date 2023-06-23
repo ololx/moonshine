@@ -17,8 +17,8 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.Bytes;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.Bytes;
 import org.testng.annotations.Test;
 
 import java.util.stream.Stream;

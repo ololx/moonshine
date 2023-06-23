@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.8.2] - 2023-06-23
+
+### Fixed
+
+- Fixed the behavior of the byteOrder method in the ByteOrder class. Previously, an incorrect ByteIndexOperator
+was returned, which was constructed for the size of bytes minus one instead of the actual size of bytes.
+- Fixed the behavior of ByteIndexOperator for pdp-endian in the Endianness class. Previously, if a ByteIndexOperator was constructed
+for an odd number of bytes, it could return an index out of range in the extreme positions of the array.
+
+### Added
+
+- New `String` coder/decoder realization.
+- New `UUID` coder/decoder realization.
+- New `Date` coder/decoder realization.
+- New `LocalDate` coder/decoder realization.
+- New `LocalDateTime` coder/decoder realization.
+- New `ZonedDateTime` coder/decoder realization.
+- New utility class for byte array operations, such as: `concat`, `reorder`, e.t.c.
+
 ## [0.7.0] - 2023-04-27
 
 ### Added
