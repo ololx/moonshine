@@ -104,7 +104,7 @@ public final class Bytes {
                                  final int offset,
                                  final ByteIndexOperator from,
                                  final ByteIndexOperator to) {
-        return reorder(bytes, offset, bytes.length, from, to);
+        return reorder(bytes, offset, bytes.length - offset, from, to);
     }
 
     /**
@@ -133,8 +133,8 @@ public final class Bytes {
         }
 
         final byte[] reordered = new byte[bytes.length];
-        for (int byteIndex = offset; byteIndex < reordered.length; byteIndex++) {
-            reordered[from.apply(byteIndex)] = bytes[to.apply(byteIndex)];
+        for (int byteIndex = offset; byteIndex < offset + length; byteIndex++) {
+            reordered[offset + from.apply(byteIndex - offset)] = bytes[offset + to.apply(byteIndex - offset)];
         }
 
         return reordered;
