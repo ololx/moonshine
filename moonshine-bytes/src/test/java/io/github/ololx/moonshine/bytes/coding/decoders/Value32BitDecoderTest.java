@@ -38,62 +38,62 @@ public class Value32BitDecoderTest {
         return new Object[][]{
                 {
                         Integer.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{-128, 0, 0, 0}
                 },
                 {
                         Integer.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, -128}
                 },
                 {
                         Integer.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{0, -128, 0, 0}
                 },
                 {
                         0,
-                        Endianness.BIG_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, 0}
                 },
                 {
                         0,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, 0}
                 },
                 {
                         0,
-                        Endianness.PDP_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0 , 0}
                 },
                 {
                         -65536,
-                        Endianness.BIG_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{-1, -1, 0, 0}
                 },
                 {
                         -65536,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, -1, -1}
                 },
                 {
                         -65536,
-                        Endianness.PDP_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{-1, -1, 0, 0}
                 },
                 {
                         65536,
-                        Endianness.BIG_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{0, 1, 0, 0}
                 },
                 {
                         65536,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 1, 0}
                 },
                 {
                         65536,
-                        Endianness.PDP_ENDIAN.byteOrder(Integer.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{1, 0, 0, 0}
                 },
         };

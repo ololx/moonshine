@@ -37,62 +37,62 @@ public class CharEncoderTest {
         return new Object[][]{
                 {
                         Character.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         Character.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         Character.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (char) 0,
-                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (char) 0,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (char) 0,
-                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (char) -258,
-                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{-2, -2}
                 },
                 {
                         (char) -258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{-2, -2}
                 },
                 {
                         (char) -258,
-                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{-2, -2}
                 },
                 {
                         (char) 258,
-                        Endianness.BIG_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{1, 2}
                 },
                 {
                         (char) 258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{2, 1}
                 },
                 {
                         (char) 258,
-                        Endianness.PDP_ENDIAN.byteOrder(Character.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{2, 1}
                 },
         };

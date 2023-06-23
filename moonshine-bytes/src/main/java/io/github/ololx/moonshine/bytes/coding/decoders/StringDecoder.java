@@ -18,6 +18,9 @@
 package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.Bytes;
+
+import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
 /**
  * The decoder that converts byte arrays to a {@code Byte} value.
@@ -44,10 +47,11 @@ public class StringDecoder implements ValueBytesDecoder<String> {
      */
     @Override
     public String decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
+        byte[] reordered = Bytes.reorder(bytes, offset, endianness, identity());
         StringBuilder decoded = new StringBuilder();
 
-        for (int charOffset = offset; charOffset < bytes.length; charOffset+= 2) {
-            decoded.append(charDecoder.decode(bytes, charOffset, endianness));
+        for (int charOffset = offset; charOffset < reordered.length; charOffset += 2) {
+            decoded.append(charDecoder.decode(reordered, charOffset, identity()));
         }
 
         return decoded.toString();

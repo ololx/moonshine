@@ -18,8 +18,11 @@
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.Bytes;
 
 import java.util.UUID;
+
+import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
 /**
  * The encoder that converts given value to a byte array using the specified
@@ -43,9 +46,13 @@ public class UUIDEncoder implements ValueBytesEncoder<UUID> {
      */
     @Override
     public byte[] encode(UUID value, int offset, ByteIndexOperator endianness) {
-        return ValueBytesEncoder.concat(
-                ValueBytesEncoder.value64BitEncoder().encode(value.getMostSignificantBits(), offset, endianness),
-                ValueBytesEncoder.value64BitEncoder().encode(value.getLeastSignificantBits(), offset, endianness)
+        byte[] encoded = Bytes.concat(
+                ValueBytesEncoder.value64BitEncoder()
+                        .encode(value.getMostSignificantBits(), offset, identity()),
+                ValueBytesEncoder.value64BitEncoder()
+                        .encode(value.getLeastSignificantBits(), identity())
         );
+
+        return Bytes.reorder(encoded, offset, identity(), endianness);
     }
 }

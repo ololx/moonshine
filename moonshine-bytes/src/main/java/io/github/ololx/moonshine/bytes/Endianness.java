@@ -72,8 +72,8 @@ public final class Endianness {
                 }
 
                 return index % 2 == 0
-                        ? size - 1 - (index + 1)
-                        : size - 1 - (index - 1);
+                        ? Math.max(0, size - 1 - (index + 1))
+                        : Math.min(size - 1, size - 1 - (index - 1));
             }
     );
 

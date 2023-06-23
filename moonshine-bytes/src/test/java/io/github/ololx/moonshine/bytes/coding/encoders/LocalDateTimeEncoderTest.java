@@ -39,33 +39,33 @@ public class LocalDateTimeEncoderTest {
         return new Object[][]{
                 {
                         LocalDateTime.MIN,
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}
+                        Endianness.BIG_ENDIAN.byteOrder(12),
+                        new byte[]{0, 0, 0, 0, 0, 0, 0, 1, 1, -60, 101, 54, 1}
                 },
                 {
                         LocalDateTime.MIN,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(12),
                         new byte[]{1, 54, 101, -60, 1, 1, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         LocalDateTime.MIN,
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}
+                        Endianness.PDP_ENDIAN.byteOrder(12),
+                        new byte[]{0, 0, 0, 0, 0, 0, 1, 0, -60, 1, 54, 101, 1}
                 },
                 {
                         LocalDateTime.MAX,
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{-1, -1, -1, -1, 12, 31, 23, 59, 59, -1, -1, -1, -1}
+                        Endianness.BIG_ENDIAN.byteOrder(12),
+                        new byte[]{59, -102, -55, -1, 59, 59, 23, 31, 12, 59, -102, -55, -1}
                 },
                 {
                         LocalDateTime.MAX,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(12),
                         new byte[]{-1, -55, -102, 59, 12, 31, 23, 59, 59, -1, -55, -102, 59}
                 },
                 {
                         LocalDateTime.MAX,
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{-1, -1, -1, -1, 12, 31, 23, 59, 59, -1, -1, -1, -1}
+                        Endianness.PDP_ENDIAN.byteOrder(12),
+                        new byte[]{-102, 59, -1, -55, 59, 59, 31, 23, 59, 12, -55, -102, -1}
                 },
         };
     }

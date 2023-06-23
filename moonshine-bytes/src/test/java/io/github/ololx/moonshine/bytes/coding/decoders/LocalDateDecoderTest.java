@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.bytes.coding.encoders;
+package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
@@ -32,7 +32,7 @@ import static org.testng.Assert.assertEquals;
  *
  * @author Alexander A. Kropotin
  */
-public class LocalDateEncoderTest {
+public class LocalDateDecoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
@@ -86,19 +86,19 @@ public class LocalDateEncoderTest {
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(LocalDate value,
+    public void decode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(LocalDate expected,
                                                                            ByteIndexOperator byteOrder,
-                                                                           byte[] expected) {
+                                                                           byte[] value) {
         //Given
-        // value bytes encoder and origin value
-        ValueBytesEncoder<LocalDate> encoder = new LocalDateEncoder();
+        // byte decoder and origin value
+        ValueBytesDecoder<LocalDate> decoder = new LocalDateDecoder();
 
         //When
-        // encode value
-        byte[] encodedValue = encoder.encode(value, byteOrder);
+        // decode value
+        LocalDate decodedValue = decoder.decode(value, byteOrder);
 
         //Then
-        // encoded value equals expected bytes
-        assertEquals(encodedValue, expected);
+        // decoded value equals expected bytes
+        assertEquals(decodedValue, expected);
     }
 }

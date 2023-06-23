@@ -38,32 +38,32 @@ public class Value64BitEncoderTest {
         return new Object[][] {
                 {
                         Long.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Long.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(7),
                         new byte[]{-128, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         Long.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Long.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 0, -128}
                 },
                 {
                         Long.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Long.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(7),
                         new byte[]{0, -128, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         0L,
-                        Endianness.BIG_ENDIAN.byteOrder(Long.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         0L,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Long.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         0L,
-                        Endianness.PDP_ENDIAN.byteOrder(Long.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
                 },
         };

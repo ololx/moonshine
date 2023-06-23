@@ -37,48 +37,48 @@ public class Value8BitDecoderTest {
     static Object[][] providesValueAndEndianness() {
         return new Object[][]{
                 {
-                    Byte.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
+                        Byte.MIN_VALUE,
+                        Endianness.BIG_ENDIAN.byteOrder(0),
                         new byte[]{-128}
                 },
                 {
-                    Byte.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Byte.MIN_VALUE,
+                        Endianness.LITTLE_ENDIAN.byteOrder(0),
                         new byte[]{-128}
                 },
                 {
-                    Byte.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
+                        Byte.MIN_VALUE,
+                        Endianness.PDP_ENDIAN.byteOrder(0),
                         new byte[]{-128}
                 },
                 {
                         (byte) 0,
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(0),
                         new byte[]{0}
                 },
                 {
                         (byte) 0,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(0),
                         new byte[]{0}
                 },
                 {
                         (byte) 0,
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(0),
                         new byte[]{0}
                 },
                 {
                         Byte.MAX_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(0),
                         new byte[]{127}
                 },
                 {
                         Byte.MAX_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(0),
                         new byte[]{127}
                 },
                 {
                         Byte.MAX_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(0),
                         new byte[]{127}
                 },
         };

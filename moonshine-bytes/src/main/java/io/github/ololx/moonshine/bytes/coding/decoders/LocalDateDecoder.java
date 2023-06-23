@@ -18,8 +18,11 @@
 package io.github.ololx.moonshine.bytes.coding.decoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.Bytes;
 
 import java.time.LocalDate;
+
+import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
 /**
  * The decoder that converts byte arrays to a {@code Byte} value.
@@ -44,10 +47,12 @@ public class LocalDateDecoder implements ValueBytesDecoder<LocalDate> {
      */
     @Override
     public LocalDate decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
+        byte[] reordered = Bytes.reorder(bytes, offset, endianness, identity());
+
         return LocalDate.of(
-                ValueBytesDecoder.value32BitDecoder().decode(bytes, offset, endianness),
-                ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 4, endianness),
-                ValueBytesDecoder.value8BitDecoder().decode(bytes, offset + 5, endianness)
+                ValueBytesDecoder.value32BitDecoder().decode(reordered, offset, identity()),
+                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 4, identity()),
+                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 5, identity())
         );
     }
 }

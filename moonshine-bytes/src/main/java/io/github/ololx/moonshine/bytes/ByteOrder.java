@@ -134,7 +134,7 @@ public class ByteOrder {
      * @return the byte order array.
      */
     public final ByteIndexOperator byteOrder(int mostSignificantByte) {
-        return this.byteOrderProvider.provide(mostSignificantByte);
+        return this.byteOrderProvider.provide(mostSignificantByte + 1);
     }
 
     /**

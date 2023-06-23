@@ -42,10 +42,10 @@ public class EndiannessTest {
         assertEquals(Endianness.BIG_ENDIAN.getId(), 0x1);
 
         // byte order operator is same expected
-        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(0), 3);
-        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(1), 2);
-        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(2), 1);
-        assertEquals(Endianness.BIG_ENDIAN.byteOrder(4).apply(3), 0);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(3).apply(0), 3);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(3).apply(1), 2);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(3).apply(2), 1);
+        assertEquals(Endianness.BIG_ENDIAN.byteOrder(3).apply(3), 0);
     }
 
     @Test(invocationCount = 10)
@@ -61,10 +61,10 @@ public class EndiannessTest {
         assertEquals(Endianness.LITTLE_ENDIAN.getId(), 0x2);
 
         // byte order operator is same expected
-        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(0), 0);
-        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(1), 1);
-        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(2), 2);
-        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(4).apply(3), 3);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(3).apply(0), 0);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(3).apply(1), 1);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(3).apply(2), 2);
+        assertEquals(Endianness.LITTLE_ENDIAN.byteOrder(3).apply(3), 3);
     }
 
     @Test(invocationCount = 10)
@@ -80,10 +80,10 @@ public class EndiannessTest {
         assertEquals(Endianness.PDP_ENDIAN.getId(), 0x3);
 
         // byte order operator is same expected
-        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(0), 2);
-        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(1), 3);
-        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(2), 0);
-        assertEquals(Endianness.PDP_ENDIAN.byteOrder(4).apply(3), 1);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(3).apply(0), 2);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(3).apply(1), 3);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(3).apply(2), 0);
+        assertEquals(Endianness.PDP_ENDIAN.byteOrder(3).apply(3), 1);
     }
 
     @Test(invocationCount = 10)

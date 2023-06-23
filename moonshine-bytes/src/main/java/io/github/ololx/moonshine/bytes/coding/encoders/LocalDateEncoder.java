@@ -18,8 +18,11 @@
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.Bytes;
 
 import java.time.LocalDate;
+
+import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
 /**
  * The encoder that converts given value to a byte array using the specified
@@ -43,10 +46,15 @@ public class LocalDateEncoder implements ValueBytesEncoder<LocalDate> {
      */
     @Override
     public byte[] encode(LocalDate value, int offset, ByteIndexOperator endianness) {
-        return ValueBytesEncoder.concat(
-                ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), endianness)
+        byte[] encoded = Bytes.concat(
+                ValueBytesEncoder.value32BitEncoder()
+                        .encode(value.getYear(), offset, identity()),
+                ValueBytesEncoder.value8BitEncoder()
+                        .encode((byte) value.getMonthValue(), identity()),
+                ValueBytesEncoder.value8BitEncoder()
+                        .encode((byte) value.getDayOfMonth(), identity())
         );
+
+        return Bytes.reorder(encoded, offset, identity(), endianness);
     }
 }

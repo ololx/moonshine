@@ -38,62 +38,62 @@ public class Value16BitDecoderTest {
         return new Object[][]{
                 {
                         Short.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{-128, 0}
                 },
                 {
                         Short.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{0, -128}
                 },
                 {
                         Short.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{0, -128}
                 },
                 {
                         (short) 0,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (short) 0,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (short) 0,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{0, 0}
                 },
                 {
                         (short) -258,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{-2, -2}
                 },
                 {
                         (short) -258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{-2, -2}
                 },
                 {
                         (short) -258,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{-2, -2}
                 },
                 {
                         (short) 258,
-                        Endianness.BIG_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(1),
                         new byte[]{1, 2}
                 },
                 {
                         (short) 258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(1),
                         new byte[]{2, 1}
                 },
                 {
                         (short) 258,
-                        Endianness.PDP_ENDIAN.byteOrder(Short.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(1),
                         new byte[]{2, 1}
                 },
         };

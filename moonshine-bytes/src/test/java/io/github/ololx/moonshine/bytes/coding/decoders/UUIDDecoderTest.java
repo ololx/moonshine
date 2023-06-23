@@ -22,64 +22,50 @@ import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder.value64BitDecoder;
+import java.util.UUID;
+
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 13.03.2023 18:28
+ * created 20.06.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
-public class Value64BitDecoderTest {
+public class UUIDDecoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
-        return new Object[][] {
+        return new Object[][]{
                 {
-                        Long.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{-128, 0, 0, 0, 0, 0, 0, 0}
+                        UUID.fromString("5cbb7015-7b74-452f-afb3-ce82e8637bc9"),
+                        Endianness.BIG_ENDIAN.byteOrder(15),
+                        new byte[]{-81, -77, -50, -126, -24, 99, 123, -55, 92, -69, 112, 21, 123, 116, 69, 47}
                 },
                 {
-                        Long.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, -128}
+                        UUID.fromString("5cbb7015-7b74-452f-afb3-ce82e8637bc9"),
+                        Endianness.LITTLE_ENDIAN.byteOrder(15),
+                        new byte[]{47, 69, 116, 123, 21, 112, -69, 92, -55, 123, 99, -24, -126, -50, -77, -81}
                 },
                 {
-                        Long.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, -128, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
+                        UUID.fromString("5cbb7015-7b74-452f-afb3-ce82e8637bc9"),
+                        Endianness.PDP_ENDIAN.byteOrder(15),
+                        new byte[]{-77, -81, -126, -50, 99, -24, -55, 123, -69, 92, 21, 112, 116, 123, 47, 69}
                 },
         };
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void decode_whenDecodeBytes_thenDecodedValueEqualsExpectedValue(long expected,
+    public void decode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(UUID expected,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] value) {
         //Given
-        // value bytes decoder and origin value
-        ValueBytesDecoder<Long> decoder = value64BitDecoder();
+        // byte decoder and origin value
+        ValueBytesDecoder<UUID> decoder = new UUIDDecoder();
 
         //When
         // decode value
-        long decodedValue = decoder.decode(value, byteOrder);
+        UUID decodedValue = decoder.decode(value, byteOrder);
 
         //Then
         // decoded value equals expected bytes
