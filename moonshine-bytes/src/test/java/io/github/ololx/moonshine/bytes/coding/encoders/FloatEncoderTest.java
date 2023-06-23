@@ -37,62 +37,62 @@ public class FloatEncoderTest {
         return new Object[][]{
                 {
                         Float.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, 1}
                 },
                 {
                         Float.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{1, 0, 0, 0}
                 },
                 {
                         Float.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 1, 0}
                 },
                 {
                         (float) 0,
-                        Endianness.BIG_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, 0}
                 },
                 {
                         (float) 0,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, 0}
                 },
                 {
                         (float) 0,
-                        Endianness.PDP_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, 0, 0}
                 },
                 {
                         (float) -258,
-                        Endianness.BIG_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{-61, -127, 0, 0}
                 },
                 {
                         (float) -258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, -127, -61}
                 },
                 {
                         (float) -258,
-                        Endianness.PDP_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{-127, -61, 0, 0}
                 },
                 {
                         (float) 258,
-                        Endianness.BIG_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(3),
                         new byte[]{67, -127, 0, 0}
                 },
                 {
                         (float) 258,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(3),
                         new byte[]{0, 0, -127, 67}
                 },
                 {
                         (float) 258,
-                        Endianness.PDP_ENDIAN.byteOrder(Float.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(3),
                         new byte[]{-127, 67, 0, 0}
                 },
         };

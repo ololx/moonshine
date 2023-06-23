@@ -22,64 +22,51 @@ import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder.value64BitDecoder;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 13.03.2023 18:28
+ * created 20.06.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
-public class Value64BitDecoderTest {
+public class ZonedDateTimeDecoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
-        return new Object[][] {
+        return new Object[][]{
                 {
-                        Long.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{-128, 0, 0, 0, 0, 0, 0, 0}
+                        ZonedDateTime.of(1990, 03, 20, 0, 0, 0, 0, ZoneId.of("UTC")),
+                        Endianness.BIG_ENDIAN.byteOrder(18),
+                        new byte[]{0, 67, 0, 84, 0, 85, 0, 0, 0, 0, 0, 0, 0, 20, 3, 0, 0, 7, -58}
                 },
                 {
-                        Long.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, -128}
+                        ZonedDateTime.of(1990, 03, 20, 0, 0, 0, 0, ZoneId.of("UTC")),
+                        Endianness.LITTLE_ENDIAN.byteOrder(18),
+                        new byte[]{-58, 7, 0, 0, 3, 20, 0, 0, 0, 0, 0, 0, 0, 85, 0, 84, 0, 67, 0}
                 },
                 {
-                        Long.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, -128, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
+                        ZonedDateTime.of(1990, 03, 20, 0, 0, 0, 0, ZoneId.of("UTC")),
+                        Endianness.PDP_ENDIAN.byteOrder(18),
+                        new byte[]{67, 0, 84, 0, 85, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 3, 7, 0, -58}
                 },
         };
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void decode_whenDecodeBytes_thenDecodedValueEqualsExpectedValue(long expected,
+    public void decode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(ZonedDateTime expected,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] value) {
         //Given
-        // value bytes decoder and origin value
-        ValueBytesDecoder<Long> decoder = value64BitDecoder();
+        // byte decoder and origin value
+        ValueBytesDecoder<ZonedDateTime> decoder = new ZonedDateTimeDecoder();
 
         //When
         // decode value
-        long decodedValue = decoder.decode(value, byteOrder);
+        ZonedDateTime decodedValue = decoder.decode(value, byteOrder);
 
         //Then
         // decoded value equals expected bytes

@@ -22,7 +22,6 @@ import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import static org.testng.Assert.assertEquals;
@@ -40,18 +39,18 @@ public class UUIDEncoderTest {
         return new Object[][]{
                 {
                         UUID.fromString("5cbb7015-7b74-452f-afb3-ce82e8637bc9"),
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{47, 47, 47, 47, 47, 47, 47, 47, -55, -55, -55, -55, -55, -55, -55, -55}
+                        Endianness.BIG_ENDIAN.byteOrder(15),
+                        new byte[]{-81, -77, -50, -126, -24, 99, 123, -55, 92, -69, 112, 21, 123, 116, 69, 47}
                 },
                 {
                         UUID.fromString("5cbb7015-7b74-452f-afb3-ce82e8637bc9"),
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(15),
                         new byte[]{47, 69, 116, 123, 21, 112, -69, 92, -55, 123, 99, -24, -126, -50, -77, -81}
                 },
                 {
                         UUID.fromString("5cbb7015-7b74-452f-afb3-ce82e8637bc9"),
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{47, 47, 47, 47, 47, 47, 47, 47, -55, -55, -55, -55, -55, -55, -55, -55}
+                        Endianness.PDP_ENDIAN.byteOrder(15),
+                        new byte[]{-77, -81, -126, -50, 99, -24, -55, 123, -69, 92, 21, 112, 116, 123, 47, 69}
                 },
         };
     }
@@ -68,7 +67,6 @@ public class UUIDEncoderTest {
         // encode value
         byte[] encodedValue = encoder.encode(value, byteOrder);
 
-        System.out.println(value + "|" + Arrays.toString(encodedValue));
         //Then
         // encoded value equals expected bytes
         assertEquals(encodedValue, expected);

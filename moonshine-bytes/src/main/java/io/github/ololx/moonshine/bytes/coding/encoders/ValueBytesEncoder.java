@@ -153,26 +153,4 @@ public interface ValueBytesEncoder<T> {
             return encoded;
         };
     }
-
-    static byte[] concat(final byte[]... encodedValues) {
-        if (encodedValues == null || encodedValues.length == 0) {
-            return new byte[0];
-        }
-
-        int totalLength = 0;
-        for (byte[] encoded : encodedValues) {
-            totalLength += encoded.length;
-        }
-
-        byte[] mergedEncoded = new byte[totalLength];
-
-        int destPos = 0;
-        for (byte[] encoded : encodedValues) {
-            int arrayLength = encoded.length;
-            System.arraycopy(encoded, 0, mergedEncoded, destPos, arrayLength);
-            destPos += arrayLength;
-        }
-
-        return mergedEncoded;
-    }
 }

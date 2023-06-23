@@ -40,18 +40,18 @@ public class DateEncoderTest {
         return new Object[][]{
                 {
                         Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
+                        Endianness.BIG_ENDIAN.byteOrder(7),
+                        new byte[]{0, 0, 0, -108, -123, 71, 68, 0}
                 },
                 {
                         Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
                         new byte[]{0, 68, 71, -123, -108, 0, 0, 0}
                 },
                 {
                         Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
+                        Endianness.PDP_ENDIAN.byteOrder(7),
+                        new byte[]{0, 0, -108, 0, 71, -123, 0, 68}
                 },
         };
     }

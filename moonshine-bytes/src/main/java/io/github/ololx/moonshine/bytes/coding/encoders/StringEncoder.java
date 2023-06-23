@@ -18,6 +18,9 @@
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.Bytes;
+
+import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
 /**
  * The encoder that converts given value to a byte array using the specified
@@ -48,12 +51,12 @@ public class StringEncoder implements ValueBytesEncoder<String> {
         }
 
         byte[][] encoded = new byte[value.length()][];
-        encoded[0] = ValueBytesEncoder.value16BitEncoder().encode((short) value.charAt(0), offset, endianness);
+        encoded[0] = ValueBytesEncoder.value16BitEncoder().encode((short) value.charAt(0), offset, identity());
 
         for (int charIndex = 1; charIndex < value.length(); charIndex++) {
-            encoded[charIndex] = charEncoder.encode(value.charAt(charIndex), endianness);
+            encoded[charIndex] = charEncoder.encode(value.charAt(charIndex), identity());
         }
 
-        return ValueBytesEncoder.concat(encoded);
+        return Bytes.reorder(Bytes.concat(encoded), offset, identity(), endianness);
     }
 }

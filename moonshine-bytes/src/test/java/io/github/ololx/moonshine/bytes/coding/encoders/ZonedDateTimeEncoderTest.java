@@ -40,18 +40,18 @@ public class ZonedDateTimeEncoderTest {
         return new Object[][]{
                 {
                         ZonedDateTime.of(1990, 03, 20, 0, 0, 0, 0, ZoneId.of("UTC")),
-                        Endianness.BIG_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{-58, -58, -58, -58, 3, 20, 0, 0, 0, 0, 0, 0, 0, 85, 85, 84, 84, 67, 67}
+                        Endianness.BIG_ENDIAN.byteOrder(18),
+                        new byte[]{0, 67, 0, 84, 0, 85, 0, 0, 0, 0, 0, 0, 0, 20, 3, 0, 0, 7, -58}
                 },
                 {
                         ZonedDateTime.of(1990, 03, 20, 0, 0, 0, 0, ZoneId.of("UTC")),
-                        Endianness.LITTLE_ENDIAN.byteOrder(Byte.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(18),
                         new byte[]{-58, 7, 0, 0, 3, 20, 0, 0, 0, 0, 0, 0, 0, 85, 0, 84, 0, 67, 0}
                 },
                 {
                         ZonedDateTime.of(1990, 03, 20, 0, 0, 0, 0, ZoneId.of("UTC")),
-                        Endianness.PDP_ENDIAN.byteOrder(Byte.BYTES),
-                        new byte[]{-58, -58, -58, -58, 3, 20, 0, 0, 0, 0, 0, 0, 0, 85, 85, 84, 84, 67, 67}
+                        Endianness.PDP_ENDIAN.byteOrder(18),
+                        new byte[]{67, 0, 84, 0, 85, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 3, 7, 0, -58}
                 },
         };
     }

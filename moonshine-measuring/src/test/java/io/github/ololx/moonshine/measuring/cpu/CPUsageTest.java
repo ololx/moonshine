@@ -19,8 +19,10 @@ package io.github.ololx.moonshine.measuring.cpu;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import java.time.Duration;
-import static org.testng.Assert.*;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine

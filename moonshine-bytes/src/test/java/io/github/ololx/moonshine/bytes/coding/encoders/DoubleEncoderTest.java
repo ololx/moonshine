@@ -37,32 +37,32 @@ public class DoubleEncoderTest {
         return new Object[][] {
                 {
                         Double.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(Double.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 0, 1}
                 },
                 {
                         Double.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Double.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
                         new byte[]{1, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         Double.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(Double.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 1, 0}
                 },
                 {
                         0D,
-                        Endianness.BIG_ENDIAN.byteOrder(Double.BYTES),
+                        Endianness.BIG_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         0D,
-                        Endianness.LITTLE_ENDIAN.byteOrder(Double.BYTES),
+                        Endianness.LITTLE_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
                 },
                 {
                         0D,
-                        Endianness.PDP_ENDIAN.byteOrder(Double.BYTES),
+                        Endianness.PDP_ENDIAN.byteOrder(7),
                         new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
                 },
         };

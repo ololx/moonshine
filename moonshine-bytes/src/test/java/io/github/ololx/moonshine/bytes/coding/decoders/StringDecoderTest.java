@@ -22,64 +22,48 @@ import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder.value64BitDecoder;
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 13.03.2023 18:28
+ * created 25.03.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
-public class Value64BitDecoderTest {
+public class StringDecoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
-        return new Object[][] {
+        return new Object[][]{
                 {
-                        Long.MIN_VALUE,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{-128, 0, 0, 0, 0, 0, 0, 0}
+                        "foo",
+                        Endianness.BIG_ENDIAN.byteOrder(5),
+                        new byte[]{0, 111, 0, 111, 0, 102}
                 },
                 {
-                        Long.MIN_VALUE,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, -128}
+                        "foo",
+                        Endianness.LITTLE_ENDIAN.byteOrder(5),
+                        new byte[]{102, 0, 111, 0, 111, 0}
                 },
                 {
-                        Long.MIN_VALUE,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, -128, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
+                        "foo",
+                        Endianness.PDP_ENDIAN.byteOrder(5),
+                        new byte[]{111, 0, 111, 0, 102, 0}
                 },
         };
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void decode_whenDecodeBytes_thenDecodedValueEqualsExpectedValue(long expected,
+    public void decode_whenDecodeValue_thenDecodedBytesEqualsExpectedBytes(String expected,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] value) {
         //Given
-        // value bytes decoder and origin value
-        ValueBytesDecoder<Long> decoder = value64BitDecoder();
+        // short decoder and origin value
+        ValueBytesDecoder<String> decoder = new StringDecoder();
 
         //When
         // decode value
-        long decodedValue = decoder.decode(value, byteOrder);
+        String decodedValue = decoder.decode(value, byteOrder);
 
         //Then
         // decoded value equals expected bytes

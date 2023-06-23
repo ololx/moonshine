@@ -17,8 +17,9 @@
 
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
+import io.github.ololx.moonshine.bytes.Endianness;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
-import io.github.ololx.moonshine.bytes.coding.decoders.StringDecoder;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -27,30 +28,48 @@ import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 19.06.2023 11:10
+ * created 20.06.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
 public class StringEncoderTest {
 
-    @Test
-    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes() {
-        //Given
-        // byte encoder and origin value
-        StringEncoder encoder = new StringEncoder();
-        StringDecoder decoder = new StringDecoder();
+    @DataProvider
+    static Object[][] providesValueAndEndianness() {
+        return new Object[][]{
+                {
+                        "foo",
+                        Endianness.BIG_ENDIAN.byteOrder(5),
+                        new byte[]{0, 111, 0, 111, 0, 102}
+                },
+                {
+                        "foo",
+                        Endianness.LITTLE_ENDIAN.byteOrder(5),
+                        new byte[]{102, 0, 111, 0, 111, 0}
+                },
+                {
+                        "foo",
+                        Endianness.PDP_ENDIAN.byteOrder(5),
+                        new byte[]{111, 0, 111, 0, 102, 0}
+                },
+        };
+    }
 
-        String str = "foo-bar";
+    @Test(dataProvider = "providesValueAndEndianness")
+    public void encode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(String value,
+                                                                           ByteIndexOperator byteOrder,
+                                                                           byte[] expected) {
+        //Given
+        // value bytes encoder and origin value
+        ValueBytesEncoder<String> encoder = new StringEncoder();
+
         //When
         // encode value
-        byte[] encodedValue = encoder.encode(str, ByteIndexOperator.identity());
-        String decodedValue = decoder.decode(encodedValue, ByteIndexOperator.identity());
+        byte[] encodedValue = encoder.encode(value, byteOrder);
 
-        System.out.println(Arrays.toString(encodedValue));
-        System.out.println(decodedValue);
-
+        System.out.println(Arrays.toString(encodedValue) + "|" + Arrays.toString(expected));
         //Then
         // encoded value equals expected bytes
-        assertEquals(str, decodedValue);
+        assertEquals(encodedValue, expected);
     }
 }

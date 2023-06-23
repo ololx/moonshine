@@ -22,64 +22,51 @@ import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.ololx.moonshine.bytes.coding.decoders.ValueBytesDecoder.value64BitDecoder;
+import java.time.Instant;
+import java.util.Date;
+
 import static org.testng.Assert.assertEquals;
 
 /**
  * project moonshine
- * created 13.03.2023 18:28
+ * created 20.06.2023 18:28
  *
  * @author Alexander A. Kropotin
  */
-public class Value64BitDecoderTest {
+public class DateDecoderTest {
 
     @DataProvider
     static Object[][] providesValueAndEndianness() {
-        return new Object[][] {
+        return new Object[][]{
                 {
-                        Long.MIN_VALUE,
+                        Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
                         Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{-128, 0, 0, 0, 0, 0, 0, 0}
+                        new byte[]{0, 0, 0, -108, -123, 71, 68, 0}
                 },
                 {
-                        Long.MIN_VALUE,
+                        Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
                         Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, -128}
+                        new byte[]{0, 68, 71, -123, -108, 0, 0, 0}
                 },
                 {
-                        Long.MIN_VALUE,
+                        Date.from(Instant.parse("1990-03-20T00:00:00.00Z")),
                         Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, -128, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.BIG_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.LITTLE_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0, 0, 0, 0, 0, 0}
-                },
-                {
-                        0L,
-                        Endianness.PDP_ENDIAN.byteOrder(7),
-                        new byte[]{0, 0, 0 , 0, 0, 0, 0, 0}
+                        new byte[]{0, 0, -108, 0, 71, -123, 0, 68}
                 },
         };
     }
 
     @Test(dataProvider = "providesValueAndEndianness")
-    public void decode_whenDecodeBytes_thenDecodedValueEqualsExpectedValue(long expected,
+    public void decode_whenEncodeValue_thenEncodedBytesEqualsExpectedBytes(Date expected,
                                                                            ByteIndexOperator byteOrder,
                                                                            byte[] value) {
         //Given
-        // value bytes decoder and origin value
-        ValueBytesDecoder<Long> decoder = value64BitDecoder();
+        // byte decoder and origin value
+        ValueBytesDecoder<Date> decoder = new DateDecoder();
 
         //When
         // decode value
-        long decodedValue = decoder.decode(value, byteOrder);
+        Date decodedValue = decoder.decode(value, byteOrder);
 
         //Then
         // decoded value equals expected bytes

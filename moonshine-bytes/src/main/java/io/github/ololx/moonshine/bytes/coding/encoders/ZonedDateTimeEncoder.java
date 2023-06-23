@@ -18,8 +18,11 @@
 package io.github.ololx.moonshine.bytes.coding.encoders;
 
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
+import io.github.ololx.moonshine.bytes.coding.Bytes;
 
 import java.time.ZonedDateTime;
+
+import static io.github.ololx.moonshine.bytes.coding.ByteIndexOperator.identity;
 
 /**
  * The encoder that converts given value to a byte array using the specified
@@ -45,15 +48,17 @@ public class ZonedDateTimeEncoder implements ValueBytesEncoder<ZonedDateTime> {
      */
     @Override
     public byte[] encode(ZonedDateTime value, int offset, ByteIndexOperator endianness) {
-        return ValueBytesEncoder.concat(
-                ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), endianness),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), endianness),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getNano(), endianness),
-                stringEncoder.encode(value.getZone().getId(), endianness)
+        byte[] encoded = Bytes.concat(
+                ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, identity()),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), identity()),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), identity()),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), identity()),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), identity()),
+                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), identity()),
+                ValueBytesEncoder.value32BitEncoder().encode(value.getNano(), identity()),
+                stringEncoder.encode(value.getZone().getId(), identity())
         );
+
+        return Bytes.reorder(encoded, offset, identity(), endianness);
     }
 }
