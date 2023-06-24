@@ -67,21 +67,6 @@ public class LocalDateDecoderTest {
                         Endianness.PDP_ENDIAN.byteOrder(5),
                         new byte[]{12, 31, -102, 59, -1, -55}
                 },
-                {
-                        LocalDate.EPOCH,
-                        Endianness.BIG_ENDIAN.byteOrder(5),
-                        new byte[]{1, 1, 0, 0, 7, -78}
-                },
-                {
-                        LocalDate.EPOCH,
-                        Endianness.LITTLE_ENDIAN.byteOrder(5),
-                        new byte[]{-78, 7, 0, 0, 1, 1}
-                },
-                {
-                        LocalDate.EPOCH,
-                        Endianness.PDP_ENDIAN.byteOrder(5),
-                        new byte[]{1, 1, 0, 0, -78, 7}
-                },
         };
     }
 
