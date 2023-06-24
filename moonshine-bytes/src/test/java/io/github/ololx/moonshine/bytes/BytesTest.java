@@ -183,7 +183,6 @@ public class BytesTest {
         // reorder byte array from origin order to new
         byte[] reorderedByteArray = Bytes.reorder(originArray, offset, originOrder, newOrder);
 
-        System.out.println(Arrays.toString(reorderedByteArray) + "|" + Arrays.toString(expected));
         //Then
         // reordered array equals expected
         assertEquals(reorderedByteArray, expected);

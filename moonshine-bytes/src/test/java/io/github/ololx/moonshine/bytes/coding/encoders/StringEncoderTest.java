@@ -67,7 +67,6 @@ public class StringEncoderTest {
         // encode value
         byte[] encodedValue = encoder.encode(value, byteOrder);
 
-        System.out.println(Arrays.toString(encodedValue) + "|" + Arrays.toString(expected));
         //Then
         // encoded value equals expected bytes
         assertEquals(encodedValue, expected);
