@@ -23,7 +23,7 @@
     <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine</artifactId>
-    <version>0.8.2-SNAPSHOT</version>
+    <version>0.8.2</version>
     <packaging>pom</packaging>
     <!--artifact>-->
 

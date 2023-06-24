@@ -24,7 +24,7 @@
     <parent>
         <artifactId>moonshine</artifactId>
         <groupId>io.github.ololx.moonshine</groupId>
-        <version>0.8.2-SNAPSHOT</version>
+        <version>0.8.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!--parent>-->
