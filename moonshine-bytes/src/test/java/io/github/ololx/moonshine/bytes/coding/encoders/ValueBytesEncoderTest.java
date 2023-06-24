@@ -78,22 +78,4 @@ public class ValueBytesEncoderTest {
         // instance is not null
         assertNotNull(encoder);
     }
-
-    //FIXME:: Move in new test class for new class of utils
-    @Test
-    public void value64BitEncoder_whenGetNewInstanceOfEncoder_thenInstanceIsNotNull2() {
-        //When
-        // get instance
-        byte[] result = Bytes.concat(
-                Stream.of((byte) 1, (byte) 2, (byte) 3, (byte) 4)
-                        .map(v -> ValueBytesEncoder.value8BitEncoder().encode(v, ByteIndexOperator.identity()))
-                        .toArray(byte[][]::new)
-        );
-
-        //Then
-        // instance is not null
-        assertNotNull(result);
-        assertEquals(result.length, 4);
-        System.out.printf("%s, %s, %s, %s%n", result[0], result[1], result[2], result[3]);
-    }
 }
