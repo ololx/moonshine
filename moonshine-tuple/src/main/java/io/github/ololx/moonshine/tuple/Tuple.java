@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.util.Spliterator.*;
 
@@ -291,8 +292,7 @@ public interface Tuple extends Iterable<Object> {
      * this tuple in proper sequence
      */
     default Stream<Object> stream() {
-        return IntStream.range(0, this.size())
-            .mapToObj(this::get);
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     /**
