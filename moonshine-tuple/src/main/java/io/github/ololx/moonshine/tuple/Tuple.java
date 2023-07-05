@@ -290,7 +290,6 @@ public interface Tuple extends Iterable<Object> {
      * @return a {@code Stream<Object>} stream containing all the elements in
      * this tuple in proper sequence
      */
-    @Deprecated
     default Stream<Object> stream() {
         return IntStream.range(0, this.size())
             .mapToObj(this::get);
