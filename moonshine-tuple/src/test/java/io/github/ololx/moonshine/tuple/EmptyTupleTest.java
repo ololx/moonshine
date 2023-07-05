@@ -182,14 +182,14 @@ public class EmptyTupleTest {
     }
 
     @Test
-    void toStream_whenBuildStream_thenStreamContainsAllElements() {
+    void stream_whenBuildStream_thenStreamContainsAllElements() {
         //Given
         // The tuple with args
         EmptyTuple tuple = new EmptyTuple();
 
         //When
         // build stream from this tuple
-        Stream<Object> tupleInStream = tuple.toStream();
+        Stream<Object> tupleInStream = tuple.stream();
 
         //Then
         // stream is empty
