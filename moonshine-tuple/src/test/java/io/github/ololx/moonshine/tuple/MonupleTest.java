@@ -324,14 +324,14 @@ public class MonupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0) {
+    <A> void stream_whenBuildStream_thenStreamContainsAllElements(A t0) {
         //Given
         // The tuple with args
         Monuple<A> tuple = new Monuple<>(t0);
 
         //When
         // build list from this tuple
-        Stream<Object> tupleInStream = tuple.toStream();
+        Stream<Object> tupleInStream = tuple.stream();
 
         //Then
         // list contains all tuple values

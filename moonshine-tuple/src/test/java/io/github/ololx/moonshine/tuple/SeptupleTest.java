@@ -509,7 +509,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0,
+    <A, B, C, D, E, F, G> void stream_whenBuildStream_thenStreamContainsAllElements(A t0,
                                                                                       B t1,
                                                                                       C t2,
                                                                                       D t3,
@@ -522,7 +522,7 @@ public class SeptupleTest {
 
         //When
         // build list from this tuple
-        Stream<Object> tupleInStream = tuple.toStream();
+        Stream<Object> tupleInStream = tuple.stream();
 
         //Then
         // list contains all tuple values
