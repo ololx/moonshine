@@ -309,14 +309,14 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1, C t2) {
+    <A, B, C> void stream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
         Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // build list from this tuple
-        Stream<Object> tupleInStream = tuple.toStream();
+        Stream<Object> tupleInStream = tuple.stream();
 
         //Then
         // list contains all tuple values

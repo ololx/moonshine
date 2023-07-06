@@ -286,14 +286,14 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B> void toStream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1) {
+    <A, B> void stream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1) {
         //Given
         // The tuple with args
         Couple<A, B> tuple = new Couple<>(t0, t1);
 
         //When
         // build list from this tuple
-        Stream<Object> tupleInStream = tuple.toStream();
+        Stream<Object> tupleInStream = tuple.stream();
 
         //Then
         // list contains all tuple values
