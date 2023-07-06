@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.util.Spliterator.*;
 
@@ -248,6 +249,9 @@ public interface Tuple extends Iterable<Object> {
     }
 
     /**
+     * This method is deprecated and will be removed in a future releases;
+     * use {@code stream()} instead.
+     *
      * Returns a {@code Stream<Object>} stream containing all the elements in
      * this tuple in proper sequence (from first to last element).
      *
@@ -264,9 +268,31 @@ public interface Tuple extends Iterable<Object> {
      * @return a {@code Stream<Object>} stream containing all the elements in
      * this tuple in proper sequence
      */
+    @Deprecated
     default Stream<Object> toStream() {
         return IntStream.range(0, this.size())
                 .mapToObj(this::get);
+    }
+
+    /**
+     * Returns a {@code Stream<Object>} stream containing all the elements in
+     * this tuple in proper sequence (from first to last element).
+     *
+     * @implSpec
+     * The returned {@code Stream<Object>} stream will be "safe" in that no
+     * references to it are maintained by this tuple.  (In other words, this
+     * method must allocate a new {@code Stream<Object>} stream). The caller
+     * is thus free to modify the returned {@code Stream<Object>} stream.
+     *
+     * <br/>
+     * This method acts as bridge between array-based, collection-based
+     * and tuple-based APIs.
+     *
+     * @return a {@code Stream<Object>} stream containing all the elements in
+     * this tuple in proper sequence
+     */
+    default Stream<Object> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     /**
