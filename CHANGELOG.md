@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.9.0-SNAPSHOT] - 2023-07-06
+
 ### Added
 
 - New method stream() has been added to the Tuple collection, which allows creating a new stream
