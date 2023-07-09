@@ -13,6 +13,52 @@ import static org.testng.Assert.*;
  */
 public class IndexBoundsTest {
 
+    @DataProvider
+    static Object[][] providesIndexesWithinUpperBounds() {
+        return new Object[][]{
+            {0, 1},
+            {1, 2},
+            {0, 101},
+            {1, 101},
+            {100, 101}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesIndexesOutOfUpperBounds() {
+        return new Object[][]{
+            {0, 0},
+            {1, 0},
+            {1, 1},
+            {100, 1},
+            {100, 100},
+            {101, 100}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesIndexesWithinBoothBounds() {
+        return new Object[][]{
+            {0, 0, 1},
+            {1, 0, 2},
+            {1, 0, 100},
+            {100, 0, 101},
+            {100, 100, 101}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesIndexesOutOfBoothBounds() {
+        return new Object[][]{
+            {1, 0, 0},
+            {1, 0, 1},
+            {1, 1, 1},
+            {100, 100, 100},
+            {100, 101, 101},
+            {100, 101, 100}
+        };
+    }
+
     @Test(dataProvider = "providesIndexesWithinUpperBounds")
     public void checkIndex_whenIndexWithinUpperBounds_thenReturnTrue(int index, int upperBound) {
         // Given
@@ -89,9 +135,9 @@ public class IndexBoundsTest {
     }
 
     @Test(
-            dataProvider = "providesIndexesOutOfUpperBounds",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[0, \\d+\\)"
+        dataProvider = "providesIndexesOutOfUpperBounds",
+        expectedExceptions = IndexOutOfBoundsException.class,
+        expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[0, \\d+\\)"
     )
     public void requireIndexWithinBounds_whenIndexOutOfUpperBounds_thenThrowException(int index,
                                                                                       int upperBound) {
@@ -123,9 +169,9 @@ public class IndexBoundsTest {
     }
 
     @Test(
-            dataProvider = "providesIndexesOutOfBoothBounds",
-            expectedExceptions = IndexOutOfBoundsException.class,
-            expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[\\d+, \\d+\\)"
+        dataProvider = "providesIndexesOutOfBoothBounds",
+        expectedExceptions = IndexOutOfBoundsException.class,
+        expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[\\d+, \\d+\\)"
     )
     public void requireIndexWithinBounds_whenIndexOutOfBoothBounds_thenThrowException(int index,
                                                                                       int lowerBound,
@@ -139,51 +185,5 @@ public class IndexBoundsTest {
         //Then
         // throw exception
         int requiredIndex = IndexBounds.requireIndexWithinBounds(index, lowerBound, upperBound);
-    }
-
-    @DataProvider
-    static Object[][] providesIndexesWithinUpperBounds() {
-        return new Object[][]{
-                {0, 1},
-                {1, 2},
-                {0, 101},
-                {1, 101},
-                {100, 101}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesIndexesOutOfUpperBounds() {
-        return new Object[][]{
-                {0, 0},
-                {1, 0},
-                {1, 1},
-                {100, 1},
-                {100, 100},
-                {101, 100}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesIndexesWithinBoothBounds() {
-        return new Object[][]{
-                {0, 0, 1},
-                {1, 0, 2},
-                {1, 0, 100},
-                {100, 0, 101},
-                {100, 100, 101}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesIndexesOutOfBoothBounds() {
-        return new Object[][]{
-                {1, 0, 0},
-                {1, 0, 1},
-                {1, 1, 1},
-                {100, 100, 100},
-                {100, 101, 101},
-                {100, 101, 100}
-        };
     }
 }

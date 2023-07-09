@@ -7,11 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.10.0-SNAPSHOT] - 2023-07-09
+
+### Added
+
+- New method `convert()`` has been added to the Tuple collection, which allows convert
+Tuple instance into other Objects.
+
 ## [0.9.0-SNAPSHOT] - 2023-07-06
 
 ### Added
 
-- New method stream() has been added to the Tuple collection, which allows creating a new stream
+- New method `stream()`` has been added to the Tuple collection, which allows creating a new stream
 from a Tuple object. The similar method toStream() has been deprecated and will be removed in upcoming releases.
 
 ## [0.8.2] - 2023-06-23

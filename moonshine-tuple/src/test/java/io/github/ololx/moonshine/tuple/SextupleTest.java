@@ -40,16 +40,98 @@ import static org.testng.Assert.*;
  */
 public class SextupleTest {
 
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+            {1, 2, 3, 1, 2, 3, 1, 0},
+            {1, 2, 3, 1, 2, 3, 2, 1},
+            {1, 2, 3, 1, 2, 3, 3, 2},
+            {1, 2, 3, 1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+            {1, 2, 3, 1, 2, 3, 1, 3},
+            {1, 2, 3, 1, 2, 3, 2, 4},
+            {1, 2, 3, 1, 2, 3, 3, 5},
+            {1, 2, 3, 1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgs() {
+        return new Object[][]{
+            {
+                Byte.MIN_VALUE,
+                Character.MAX_VALUE,
+                Short.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Long.MAX_VALUE,
+                Integer.MIN_VALUE
+            },
+            {
+                Character.MIN_VALUE,
+                Short.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Character.MAX_VALUE,
+                Character.MAX_VALUE,
+                Integer.MIN_VALUE
+            },
+            {
+                Short.MIN_VALUE,
+                Integer.MAX_VALUE,
+                Float.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE
+            },
+            {
+                Integer.MIN_VALUE,
+                Float.MAX_VALUE,
+                Double.MAX_VALUE,
+                Double.MAX_VALUE,
+                Double.MAX_VALUE,
+                Integer.MIN_VALUE
+            },
+            {
+                Float.MIN_VALUE,
+                Double.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE
+            },
+            {
+                Double.MIN_VALUE,
+                Byte.MAX_VALUE,
+                Character.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Integer.MIN_VALUE
+            },
+            {
+                String.valueOf(Integer.MAX_VALUE),
+                Byte.MAX_VALUE,
+                Float.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Integer.MIN_VALUE
+            }
+        };
+    }
+
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0, 
-                                                                                         B t1, 
-                                                                                         C t2, 
-                                                                                         D t3, 
+    <A, B, C, D, E, F> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0,
+                                                                                         B t1,
+                                                                                         C t2,
+                                                                                         D t3,
                                                                                          E t4,
                                                                                          F t5) {
         //When
         // create new tuple with specified args
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //Then
         // tuple contains arg value
@@ -70,7 +152,7 @@ public class SextupleTest {
                                                                      F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index 0
@@ -90,7 +172,7 @@ public class SextupleTest {
                                                                      F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index 1
@@ -110,7 +192,7 @@ public class SextupleTest {
                                                                      F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index 2
@@ -130,7 +212,7 @@ public class SextupleTest {
                                                                      F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index 3
@@ -150,7 +232,7 @@ public class SextupleTest {
                                                                      F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index 4
@@ -170,7 +252,7 @@ public class SextupleTest {
                                                                      F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index 5
@@ -190,7 +272,7 @@ public class SextupleTest {
                                                                        F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by indexes 0, 1, 2, 3, 4, 5
@@ -212,18 +294,18 @@ public class SextupleTest {
     }
 
     @Test(
-            dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class
+        dataProvider = "providesConstructorArgs",
+        expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F> void get_whenIndexLessThanZero_thenThrowException(A t0,
                                                                          B t1,
-                                                                          C t2,
-                                                                          D t3,
-                                                                          E t4,
+                                                                         C t2,
+                                                                         D t3,
+                                                                         E t4,
                                                                          F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index < 0
@@ -233,8 +315,8 @@ public class SextupleTest {
     }
 
     @Test(
-            dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class
+        dataProvider = "providesConstructorArgs",
+        expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
                                                                                  B t1,
@@ -244,7 +326,7 @@ public class SextupleTest {
                                                                                  F t5) {
         //Given
         // The tuple with size = 6
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // get values by index == tuple size
@@ -291,8 +373,8 @@ public class SextupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4, t5)
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -314,8 +396,8 @@ public class SextupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -365,7 +447,7 @@ public class SextupleTest {
         // actual index equals expected index
         assertEquals(actualIndex, expectedIndex);
     }
-    
+
     @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E, F> void size_whenCreateTuple_thenTupleHasSize(A t0,
                                                                   B t1,
@@ -396,7 +478,7 @@ public class SextupleTest {
                                                                                 F t5) {
         //Given
         // The tuple with args
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // build array from this tuple
@@ -421,7 +503,7 @@ public class SextupleTest {
                                                                              F t5) {
         //Given
         // The tuple with args
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // build list from this tuple
@@ -446,7 +528,7 @@ public class SextupleTest {
                                                                           F t5) {
         //Given
         // The tuple with args
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // build list from this tuple
@@ -464,14 +546,14 @@ public class SextupleTest {
 
     @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E, F> void stream_whenBuildStream_thenStreamContainsAllElements(A t0,
-                                                                                   B t1,
-                                                                                   C t2,
-                                                                                   D t3,
-                                                                                   E t4,
-                                                                                   F t5) {
+                                                                                 B t1,
+                                                                                 C t2,
+                                                                                 D t3,
+                                                                                 E t4,
+                                                                                 F t5) {
         //Given
         // The tuple with args
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // build list from this tuple
@@ -479,13 +561,13 @@ public class SextupleTest {
 
         //Then
         // list contains all tuple values
-        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+        assertTrue(tupleInStream.allMatch(tupleElement -> {
             return tupleElement.equals(t0)
-                    || tupleElement.equals(t1)
-                    || tupleElement.equals(t2)
-                    || tupleElement.equals(t3)
-                    || tupleElement.equals(t4)
-                    || tupleElement.equals(t5);
+                || tupleElement.equals(t1)
+                || tupleElement.equals(t2)
+                || tupleElement.equals(t3)
+                || tupleElement.equals(t4)
+                || tupleElement.equals(t5);
         }));
     }
 
@@ -498,7 +580,7 @@ public class SextupleTest {
                                                                                         F t5) {
         //Given
         // The tuple with size = 7
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // create spliterator
@@ -540,7 +622,7 @@ public class SextupleTest {
                                                                                    F t5) {
         //Given
         // The tuple with args
-        Sextuple<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
 
         //When
         // build string representation for this tuple
@@ -556,92 +638,30 @@ public class SextupleTest {
         assertTrue(tupleInString.contains(String.valueOf(t5)));
     }
 
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void convert_whenConvertingTupleToString_thenStringEqualsFirstElementOrDefault(A t0,
+                                                                                                      B t1,
+                                                                                                      C t2,
+                                                                                                      D t3,
+                                                                                                      E t4,
+                                                                                                      F t5) {
+        //Given
+        // The tuple with args
+        Tuple6<A, B, C, D, E, F> tuple = new Sextuple<>(t0, t1, t2, t3, t4, t5);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.convert(t -> String.valueOf(t.getOrDefault(0, "NA")));
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.equals(String.valueOf(t0)) || tupleInString.equals("NA"));
+    }
+
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Sextuple.class)
-                .suppress(Warning.STRICT_INHERITANCE)
-                .verify();
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgsAndIndexes() {
-        return new Object[][]{
-                {1, 2, 3, 1, 2, 3, 1, 0},
-                {1, 2, 3, 1, 2, 3, 2, 1},
-                {1, 2, 3, 1, 2, 3, 3, 2},
-                {1, 2, 3, 1, 2, 3, 0, -1}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgsAndLastIndexes() {
-        return new Object[][]{
-                {1, 2, 3, 1, 2, 3, 1, 3},
-                {1, 2, 3, 1, 2, 3, 2, 4},
-                {1, 2, 3, 1, 2, 3, 3, 5},
-                {1, 2, 3, 1, 2, 3, 0, -1}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgs() {
-        return new Object[][] {
-                {
-                        Byte.MIN_VALUE,
-                        Character.MAX_VALUE,
-                        Short.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Long.MAX_VALUE,
-                        Integer.MIN_VALUE
-                },
-                {
-                        Character.MIN_VALUE,
-                        Short.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Character.MAX_VALUE,
-                        Character.MAX_VALUE,
-                        Integer.MIN_VALUE
-                },
-                {
-                        Short.MIN_VALUE,
-                        Integer.MAX_VALUE,
-                        Float.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Integer.MIN_VALUE
-                },
-                {
-                        Integer.MIN_VALUE,
-                        Float.MAX_VALUE,
-                        Double.MAX_VALUE,
-                        Double.MAX_VALUE,
-                        Double.MAX_VALUE,
-                        Integer.MIN_VALUE
-                },
-                {
-                        Float.MIN_VALUE,
-                        Double.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Integer.MIN_VALUE
-                },
-                {
-                        Double.MIN_VALUE,
-                        Byte.MAX_VALUE,
-                        Character.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Integer.MIN_VALUE
-                },
-                {
-                        String.valueOf(Integer.MAX_VALUE),
-                        Byte.MAX_VALUE,
-                        Float.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Integer.MIN_VALUE
-                }
-        };
+            .suppress(Warning.STRICT_INHERITANCE)
+            .verify();
     }
 }

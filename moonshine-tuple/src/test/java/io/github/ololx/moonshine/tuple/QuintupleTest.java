@@ -40,15 +40,90 @@ import static org.testng.Assert.*;
  */
 public class QuintupleTest {
 
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+            {1, 2, 3, 1, 2, 1, 0},
+            {1, 2, 3, 1, 2, 2, 1},
+            {1, 2, 3, 1, 2, 3, 2},
+            {1, 2, 3, 1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+            {1, 2, 3, 1, 2, 1, 3},
+            {1, 2, 3, 1, 2, 2, 4},
+            {1, 2, 3, 1, 2, 3, 2},
+            {1, 2, 3, 1, 2, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgs() {
+        return new Object[][]{
+            {
+                Byte.MIN_VALUE,
+                Character.MAX_VALUE,
+                Short.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Long.MAX_VALUE
+            },
+            {
+                Character.MIN_VALUE,
+                Short.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Character.MAX_VALUE,
+                Character.MAX_VALUE
+            },
+            {
+                Short.MIN_VALUE,
+                Integer.MAX_VALUE,
+                Float.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Integer.MAX_VALUE
+            },
+            {
+                Integer.MIN_VALUE,
+                Float.MAX_VALUE,
+                Double.MAX_VALUE,
+                Double.MAX_VALUE,
+                Double.MAX_VALUE
+            },
+            {
+                Float.MIN_VALUE,
+                Double.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Integer.MAX_VALUE,
+                Integer.MAX_VALUE
+            },
+            {
+                Double.MIN_VALUE,
+                Byte.MAX_VALUE,
+                Character.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Byte.MAX_VALUE
+            },
+            {
+                String.valueOf(Integer.MAX_VALUE),
+                Byte.MAX_VALUE,
+                Float.MAX_VALUE,
+                Byte.MAX_VALUE,
+                Byte.MAX_VALUE
+            }
+        };
+    }
+
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0, 
-                                                                                      B t1, 
-                                                                                      C t2, 
+    <A, B, C, D, E> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0,
+                                                                                      B t1,
+                                                                                      C t2,
                                                                                       D t3,
                                                                                       E t4) {
         //When
         // create new tuple with specified args
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //Then
         // tuple contains arg value
@@ -63,7 +138,7 @@ public class QuintupleTest {
     <A, B, C, D, E> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 0
@@ -78,7 +153,7 @@ public class QuintupleTest {
     <A, B, C, D, E> void getT1_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 1
@@ -93,7 +168,7 @@ public class QuintupleTest {
     <A, B, C, D, E> void getT2_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 2
@@ -108,7 +183,7 @@ public class QuintupleTest {
     <A, B, C, D, E> void getT3_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 3
@@ -123,7 +198,7 @@ public class QuintupleTest {
     <A, B, C, D, E> void getT4_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index 4
@@ -138,7 +213,7 @@ public class QuintupleTest {
     <A, B, C, D, E> void get_whenIndexExists_thenReturnValueByIndex(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by indexes 0, 1, 2, 3, 4
@@ -158,8 +233,8 @@ public class QuintupleTest {
     }
 
     @Test(
-            dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class
+        dataProvider = "providesConstructorArgs",
+        expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E> void get_whenIndexLessThanZero_thenThrowException(A t0,
                                                                       B t1,
@@ -168,7 +243,7 @@ public class QuintupleTest {
                                                                       E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index < 0
@@ -178,8 +253,8 @@ public class QuintupleTest {
     }
 
     @Test(
-            dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class
+        dataProvider = "providesConstructorArgs",
+        expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
                                                                               B t1,
@@ -188,7 +263,7 @@ public class QuintupleTest {
                                                                               E t4) {
         //Given
         // The tuple with size = 5
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // get values by index == tuple size
@@ -233,8 +308,8 @@ public class QuintupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4)
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -255,8 +330,8 @@ public class QuintupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -329,7 +404,7 @@ public class QuintupleTest {
                                                                              E t4) {
         //Given
         // The tuple with args
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // build array from this tuple
@@ -352,7 +427,7 @@ public class QuintupleTest {
                                                                           E t4) {
         //Given
         // The tuple with args
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // build list from this tuple
@@ -375,7 +450,7 @@ public class QuintupleTest {
                                                                        E t4) {
         //Given
         // The tuple with args
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // build list from this tuple
@@ -392,13 +467,13 @@ public class QuintupleTest {
 
     @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E> void stream_whenBuildStream_thenStreamContainsAllElements(A t0,
-                                                                                B t1,
-                                                                                C t2,
-                                                                                D t3,
-                                                                                E t4) {
+                                                                              B t1,
+                                                                              C t2,
+                                                                              D t3,
+                                                                              E t4) {
         //Given
         // The tuple with args
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // build list from this tuple
@@ -406,12 +481,12 @@ public class QuintupleTest {
 
         //Then
         // list contains all tuple values
-        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+        assertTrue(tupleInStream.allMatch(tupleElement -> {
             return tupleElement.equals(t0)
-                    || tupleElement.equals(t1)
-                    || tupleElement.equals(t2)
-                    || tupleElement.equals(t3)
-                    || tupleElement.equals(t4);
+                || tupleElement.equals(t1)
+                || tupleElement.equals(t2)
+                || tupleElement.equals(t3)
+                || tupleElement.equals(t4);
         }));
     }
 
@@ -423,7 +498,7 @@ public class QuintupleTest {
                                                                                      E t4) {
         //Given
         // The tuple with size = 7
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // create spliterator
@@ -463,7 +538,7 @@ public class QuintupleTest {
                                                                                 E t4) {
         //Given
         // The tuple with args
-        Quintuple<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
 
         //When
         // build string representation for this tuple
@@ -478,85 +553,29 @@ public class QuintupleTest {
         assertTrue(tupleInString.contains(String.valueOf(t4)));
     }
 
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void convert_whenConvertingTupleToString_thenStringEqualsFirstElementOrDefault(A t0,
+                                                                                                   B t1,
+                                                                                                   C t2,
+                                                                                                   D t3,
+                                                                                                   E t4) {
+        //Given
+        // The tuple with args
+        Tuple5<A, B, C, D, E> tuple = new Quintuple<>(t0, t1, t2, t3, t4);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.convert(t -> String.valueOf(t.getOrDefault(0, "NA")));
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.equals(String.valueOf(t0)) || tupleInString.equals("NA"));
+    }
+
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Quintuple.class)
-                .suppress(Warning.STRICT_INHERITANCE)
-                .verify();
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgsAndIndexes() {
-        return new Object[][]{
-                {1, 2, 3, 1, 2, 1, 0},
-                {1, 2, 3, 1, 2, 2, 1},
-                {1, 2, 3, 1, 2, 3, 2},
-                {1, 2, 3, 1, 2, 0, -1}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgsAndLastIndexes() {
-        return new Object[][]{
-                {1, 2, 3, 1, 2, 1, 3},
-                {1, 2, 3, 1, 2, 2, 4},
-                {1, 2, 3, 1, 2, 3, 2},
-                {1, 2, 3, 1, 2, 0, -1}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgs() {
-        return new Object[][] {
-                {
-                        Byte.MIN_VALUE,
-                        Character.MAX_VALUE,
-                        Short.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Long.MAX_VALUE
-                },
-                {
-                        Character.MIN_VALUE,
-                        Short.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Character.MAX_VALUE,
-                        Character.MAX_VALUE
-                },
-                {
-                        Short.MIN_VALUE,
-                        Integer.MAX_VALUE,
-                        Float.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Integer.MAX_VALUE
-                },
-                {
-                        Integer.MIN_VALUE,
-                        Float.MAX_VALUE,
-                        Double.MAX_VALUE,
-                        Double.MAX_VALUE,
-                        Double.MAX_VALUE
-                },
-                {
-                        Float.MIN_VALUE,
-                        Double.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Integer.MAX_VALUE,
-                        Integer.MAX_VALUE
-                },
-                {
-                        Double.MIN_VALUE,
-                        Byte.MAX_VALUE,
-                        Character.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Byte.MAX_VALUE
-                },
-                {
-                        String.valueOf(Integer.MAX_VALUE),
-                        Byte.MAX_VALUE,
-                        Float.MAX_VALUE,
-                        Byte.MAX_VALUE,
-                        Byte.MAX_VALUE
-                }
-        };
+            .suppress(Warning.STRICT_INHERITANCE)
+            .verify();
     }
 }

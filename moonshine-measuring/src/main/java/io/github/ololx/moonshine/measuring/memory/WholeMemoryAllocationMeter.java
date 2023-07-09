@@ -29,7 +29,6 @@ import java.util.Objects;
  * uses the MemoryMXBean to measure the amount of allocated bytes before and
  * after the code execution.
  *
- * @author Alexander A. Kropotin
  * @implNote This implementation tracks the total memory usage of the JVM before and
  * after the measurement period, then calculates the difference to determine
  * the total memory allocation.
@@ -46,9 +45,11 @@ import java.util.Objects;
  *
  * Memory allocatedMemory = meter.result();
  * }</pre>
- * <p>
+ *
  * project moonshine
  * created 01.04.2023 18:42
+ *
+ * @author Alexander A. Kropotin
  */
 public class WholeMemoryAllocationMeter implements Measurer<Memory> {
 
