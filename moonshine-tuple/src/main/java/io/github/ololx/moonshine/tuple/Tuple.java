@@ -1,13 +1,13 @@
 /**
  * Copyright 2022 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * 
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@
 package io.github.ololx.moonshine.tuple;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -134,8 +135,8 @@ public interface Tuple extends Iterable<Object> {
      */
     default <V> boolean contains(final V value) {
         return IntStream.range(0, this.size())
-                .mapToObj(this::get)
-                .anyMatch(tupleValue -> Objects.equals(tupleValue, value));
+            .mapToObj(this::get)
+            .anyMatch(tupleValue -> Objects.equals(tupleValue, value));
     }
 
     /**
@@ -153,9 +154,9 @@ public interface Tuple extends Iterable<Object> {
      */
     default <V> int indexOf(final V value) {
         return IntStream.range(0, this.size())
-                .filter(index -> Objects.equals(this.get(index), value))
-                .findFirst()
-                .orElse(-1);
+            .filter(index -> Objects.equals(this.get(index), value))
+            .findFirst()
+            .orElse(-1);
     }
 
     /**
@@ -173,10 +174,37 @@ public interface Tuple extends Iterable<Object> {
      */
     default <V> int lastIndexOf(final V value) {
         return IntStream.iterate(this.size() - 1, index -> index - 1)
-                .limit(this.size())
-                .filter(index -> Objects.equals(this.get(index), value))
-                .findFirst()
-                .orElse(-1);
+            .limit(this.size())
+            .filter(index -> Objects.equals(this.get(index), value))
+            .findFirst()
+            .orElse(-1);
+    }
+
+    /**
+     * Provides a mutable operation to convert an instance of {@code Tuple} to
+     * any other object by applying a conversion function to the {@code Tuple} instance.
+     *
+     * <p><strong>Example usage:</strong></p>
+     * <pre>{@code
+     * Tuple tuple = new Couple("Stan", "Smith");
+     * UUID uuid = tuple.<Tuple2, UUID>convert(t -> UUID.fromString(t.getT0() + t.getT1()));
+     * }</pre>
+     *
+     * @implSpec
+     * This method takes a conversion function {@code Function<Tuple, O> converter}
+     * as an argument. It applies this function to the {@code Tuple} instance on which
+     * the method is called and returns a new object that is the result of applying the
+     * conversion function {@code Function<Tuple, O> converter}.
+     *
+     * @param <O> the type of the resulting object
+     * @param converter the conversion function to be applied to the {@code Tuple}
+     * @return the result of the conversion
+     * @throws NullPointerException if the converter function is null
+     */
+    @SuppressWarnings("unchecked")
+    default <T extends Tuple, O> O convert(Function<T, O> converter) {
+        Objects.requireNonNull(converter, "The tuple converter must be defined");
+        return converter.apply((T) this);
     }
 
     /**
@@ -197,9 +225,7 @@ public interface Tuple extends Iterable<Object> {
      * tuple in proper sequence
      */
     default Object[] toArray() {
-        return IntStream.range(0, this.size())
-                .mapToObj(this::get)
-                .toArray();
+        return this.stream().toArray();
     }
 
     /**
@@ -220,9 +246,7 @@ public interface Tuple extends Iterable<Object> {
      * this tuple in proper sequence
      */
     default List<Object> toList() {
-        return IntStream.range(0, this.size())
-                .mapToObj(this::get)
-                .collect(Collectors.toList());
+        return this.stream().collect(Collectors.toList());
     }
 
     /**
@@ -243,9 +267,7 @@ public interface Tuple extends Iterable<Object> {
      * this tuple in proper sequence
      */
     default Set<Object> toSet() {
-        return IntStream.range(0, this.size())
-                .mapToObj(this::get)
-                .collect(Collectors.toSet());
+        return this.stream().collect(Collectors.toSet());
     }
 
     /**
@@ -271,7 +293,7 @@ public interface Tuple extends Iterable<Object> {
     @Deprecated
     default Stream<Object> toStream() {
         return IntStream.range(0, this.size())
-                .mapToObj(this::get);
+            .mapToObj(this::get);
     }
 
     /**
@@ -332,9 +354,9 @@ public interface Tuple extends Iterable<Object> {
     @Override
     default Spliterator<Object> spliterator() {
         return Spliterators.spliterator(
-                iterator(),
-                this.size(),
-                SIZED | IMMUTABLE | ORDERED
+            iterator(),
+            this.size(),
+            SIZED | IMMUTABLE | ORDERED
         );
     }
 

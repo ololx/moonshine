@@ -40,11 +40,42 @@ import static org.testng.Assert.*;
  */
 public class TripleTest {
 
+    @DataProvider
+    static Object[][] providesConstructorArgsAndIndexes() {
+        return new Object[][]{
+            {1, 2, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgsAndLastIndexes() {
+        return new Object[][]{
+            {1, 2, 1, 1, 2},
+            {1, 2, 2, 2, 2},
+            {1, 2, 3, 0, -1}
+        };
+    }
+
+    @DataProvider
+    static Object[][] providesConstructorArgs() {
+        return new Object[][]{
+            {Byte.MIN_VALUE, Character.MAX_VALUE, Short.MAX_VALUE},
+            {Character.MIN_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE},
+            {Short.MIN_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE},
+            {Integer.MIN_VALUE, Float.MAX_VALUE, Double.MAX_VALUE},
+            {Float.MIN_VALUE, Double.MAX_VALUE, Byte.MAX_VALUE},
+            {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE), Character.MAX_VALUE},
+            {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE, Integer.MAX_VALUE}
+        };
+    }
+
     @Test(dataProvider = "providesConstructorArgs")
     <A, B, C> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0, B t1, C t2) {
         //When
         // create new tuple with specified args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //Then
         // tuple contains arg value
@@ -57,7 +88,7 @@ public class TripleTest {
     <A, B, C> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get values by index 0
@@ -72,7 +103,7 @@ public class TripleTest {
     <A, B, C> void getT1_whenGet_thenReturnThisElementValue(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get values by index 1
@@ -87,7 +118,7 @@ public class TripleTest {
     <A, B, C> void getT2_whenGet_thenReturnThisElementValue(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get values by index 1
@@ -102,7 +133,7 @@ public class TripleTest {
     <A, B, C> void get_whenIndexExists_thenReturnValueByIndex(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get values by indexes 0, 1, 2
@@ -118,13 +149,13 @@ public class TripleTest {
     }
 
     @Test(
-            dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class
+        dataProvider = "providesConstructorArgs",
+        expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get values by index < 0
@@ -134,13 +165,13 @@ public class TripleTest {
     }
 
     @Test(
-            dataProvider = "providesConstructorArgs",
-            expectedExceptions = IndexOutOfBoundsException.class
+        dataProvider = "providesConstructorArgs",
+        expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get values by index == tuple size
@@ -154,7 +185,7 @@ public class TripleTest {
         //Given
         // The tuple with size = 3
         // and some default value
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
         String defaultValue = "default";
 
         //When
@@ -177,8 +208,8 @@ public class TripleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2)
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -195,8 +226,8 @@ public class TripleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -245,7 +276,7 @@ public class TripleTest {
     <A, B, C> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // get tuple size
@@ -261,7 +292,7 @@ public class TripleTest {
     <A, B, C> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // build array from this tuple
@@ -278,7 +309,7 @@ public class TripleTest {
     <A, B, C> void toList_whenBuildList_thenListContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // build list from this tuple
@@ -295,7 +326,7 @@ public class TripleTest {
     <A, B, C> void toSet_whenBuildSet_thenSetContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // build list from this tuple
@@ -312,7 +343,7 @@ public class TripleTest {
     <A, B, C> void stream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // build list from this tuple
@@ -320,10 +351,10 @@ public class TripleTest {
 
         //Then
         // list contains all tuple values
-        assertTrue(tupleInStream.anyMatch(tupleElement -> {
+        assertTrue(tupleInStream.allMatch(tupleElement -> {
             return tupleElement.equals(t0)
-                    || tupleElement.equals(t1)
-                    || tupleElement.equals(t2);
+                || tupleElement.equals(t1)
+                || tupleElement.equals(t2);
         }));
     }
 
@@ -331,7 +362,7 @@ public class TripleTest {
     <A, B, C> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // create iterator
@@ -346,7 +377,7 @@ public class TripleTest {
     <A, B, C> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // create spliterator
@@ -363,7 +394,7 @@ public class TripleTest {
     <A, B, C> void toString_whenBuildString_thenStringContainsAllElements(A t0, B t1, C t2) {
         //Given
         // The tuple with args
-        Triple<A, B, C> tuple = new Triple<>(t0, t1, t2);
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
 
         //When
         // build string representation for this tuple
@@ -376,41 +407,27 @@ public class TripleTest {
         assertTrue(tupleInString.contains(String.valueOf(t2)));
     }
 
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void convert_whenConvertingTupleToString_thenStringEqualsFirstElementOrDefault(A t0,
+                                                                                             B t1,
+                                                                                             C t2) {
+        //Given
+        // The tuple with args
+        Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.convert(t -> String.valueOf(t.getOrDefault(0, "NA")));
+
+        //Then
+        // string representation contains all tuple values
+        assertTrue(tupleInString.equals(String.valueOf(t0)) || tupleInString.equals("NA"));
+    }
+
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Triple.class)
-                .suppress(Warning.STRICT_INHERITANCE)
-                .verify();
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgsAndIndexes() {
-        return new Object[][]{
-                {1, 2, 1, 1, 0},
-                {1, 2, 2, 2, 1},
-                {1, 2, 3, 0, -1}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgsAndLastIndexes() {
-        return new Object[][]{
-                {1, 2, 1, 1, 2},
-                {1, 2, 2, 2, 2},
-                {1, 2, 3, 0, -1}
-        };
-    }
-
-    @DataProvider
-    static Object[][] providesConstructorArgs() {
-        return new Object[][] {
-                {Byte.MIN_VALUE, Character.MAX_VALUE, Short.MAX_VALUE},
-                {Character.MIN_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE},
-                {Short.MIN_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE},
-                {Integer.MIN_VALUE, Float.MAX_VALUE, Double.MAX_VALUE},
-                {Float.MIN_VALUE, Double.MAX_VALUE, Byte.MAX_VALUE},
-                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE), Character.MAX_VALUE},
-                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE, Integer.MAX_VALUE}
-        };
+            .suppress(Warning.STRICT_INHERITANCE)
+            .verify();
     }
 }
