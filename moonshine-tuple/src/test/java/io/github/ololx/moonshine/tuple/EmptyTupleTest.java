@@ -255,7 +255,7 @@ public class EmptyTupleTest {
 
         //Then
         // string representation contains all tuple values
-        assertEquals("NA", tupleInString);
+        assertEquals(tupleInString, "NA");
     }
 
     @Test
