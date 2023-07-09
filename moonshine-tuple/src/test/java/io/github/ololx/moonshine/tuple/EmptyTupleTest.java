@@ -43,7 +43,7 @@ public class EmptyTupleTest {
     void get_whenInvokeWithAnyIndex_thenAlwaysThrowException() {
         //Given
         // The tuple with size = 0
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // get values by index = size - 1
@@ -57,7 +57,7 @@ public class EmptyTupleTest {
         //Given
         // The tuple with size = 0
         // and some default value
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
         String defaultValue = "default";
 
         //When
@@ -75,7 +75,7 @@ public class EmptyTupleTest {
     void size_whenCreateTuple_thenTupleHasSize() {
         //Given
         // The tuple with size = 0
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // get tuple size
@@ -128,8 +128,8 @@ public class EmptyTupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("some value")
-                .map(tuple::contains)
-                .collect(Collectors.toSet());
+            .map(tuple::contains)
+            .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -140,7 +140,7 @@ public class EmptyTupleTest {
     void toArray_whenBuildArray_thenArrayContainsAllElements() {
         //Given
         // The tuple with args
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // build array from this tuple
@@ -155,7 +155,7 @@ public class EmptyTupleTest {
     void toList_whenBuildList_thenListContainsAllElements() {
         //Given
         // The tuple with args
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // build list from this tuple
@@ -170,7 +170,7 @@ public class EmptyTupleTest {
     void toSet_whenBuildSet_thenSetContainsAllElements() {
         //Given
         // The tuple with args
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // build set from this tuple
@@ -185,7 +185,7 @@ public class EmptyTupleTest {
     void stream_whenBuildStream_thenStreamContainsAllElements() {
         //Given
         // The tuple with args
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // build stream from this tuple
@@ -200,7 +200,7 @@ public class EmptyTupleTest {
     void iterator_whenCreateIterator_thenReturnNonNullIterator() {
         //Given
         // The tuple with size = 0
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // create iterator
@@ -215,7 +215,7 @@ public class EmptyTupleTest {
     void spliterator_whenCreateSpliterator_thenReturnNonNullIterator() {
         //Given
         // The tuple with size = 0
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // create spliterator
@@ -232,7 +232,7 @@ public class EmptyTupleTest {
     void toString_whenBuildString_thenStringContainsAllElements() {
         //Given
         // The tuple without args
-        EmptyTuple tuple = new EmptyTuple();
+        Tuple0 tuple = new EmptyTuple();
 
         //When
         // build string representation for this tuple
@@ -244,9 +244,24 @@ public class EmptyTupleTest {
     }
 
     @Test
+    void convert_whenConvertingTupleToString_thenStringEqualsDefault() {
+        //Given
+        // The tuple with args
+        Tuple0 tuple = new EmptyTuple();
+
+        //When
+        // build string representation for this tuple
+        String tupleInString = tuple.convert(t -> String.valueOf(t.getOrDefault(0, "NA")));
+
+        //Then
+        // string representation contains all tuple values
+        assertEquals(tupleInString, "NA");
+    }
+
+    @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(EmptyTuple.class)
-                .suppress(Warning.STRICT_INHERITANCE)
-                .verify();
+            .suppress(Warning.STRICT_INHERITANCE)
+            .verify();
     }
 }
