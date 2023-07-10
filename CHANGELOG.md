@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
-## [0.10.0-SNAPSHOT] - 2023-07-09
+## [0.10.0] - 2023-07-09
 
 ### Added
 
 - New method `convert()`` has been added to the Tuple collection, which allows convert
 Tuple instance into other Objects.
 
-## [0.9.0-SNAPSHOT] - 2023-07-06
+## [0.9.0] - 2023-07-06
 
 ### Added
 
