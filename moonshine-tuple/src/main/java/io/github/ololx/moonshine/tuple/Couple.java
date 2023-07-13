@@ -1,13 +1,13 @@
 /**
  * Copyright 2022 the project moonshine authors
  * and the original author or authors annotated by {@author}
- * 
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,8 +32,8 @@ package io.github.ololx.moonshine.tuple;
  * @author Alexander A. Kropotin
  */
 public class Couple<A, B>
-        extends AbstractTuple
-        implements Tuple2<A, B> {
+    extends AbstractTuple
+    implements Tuple2<A, B> {
 
     /**
      * The power of this tuple.
@@ -59,6 +59,18 @@ public class Couple<A, B>
     public Couple(A t0, B t1) {
         this.t0 = t0;
         this.t1 = t1;
+    }
+
+    /**
+     * Create new tuple with specified elements values
+     *
+     * @param t0 the first element of this tuple
+     * @param t1 the second element of this tuple
+     *
+     * @return new tuple with specified elements values
+     */
+    public static <A, B> Couple<A, B> of(A t0, B t1) {
+        return new Couple<A, B>(t0, t1);
     }
 
     /**
@@ -102,7 +114,7 @@ public class Couple<A, B>
     /**
      * Returns the first element in this tuple.
      *
-     * @return  the first element in this tuple.
+     * @return the first element in this tuple.
      */
     @Override
     public A getT0() {
@@ -157,9 +169,9 @@ public class Couple<A, B>
         Tuple2<?, ?> other = (Tuple2<?, ?>) obj;
 
         final boolean isT0Equals = (this.t0 == null && other.getT0() == null)
-                || (this.t0 != null && this.t0.equals(other.getT0()));
+            || (this.t0 != null && this.t0.equals(other.getT0()));
         final boolean isT1Equals = (this.t1 == null && other.getT1() == null)
-                || (this.t1 != null && this.t1.equals(other.getT1()));
+            || (this.t1 != null && this.t1.equals(other.getT1()));
 
         return isT0Equals && isT1Equals;
     }
@@ -171,7 +183,7 @@ public class Couple<A, B>
      * This implementation generates a hash code given the order of
      * the elements and their hash code.
      *
-     * @return  a hash code value for this tuple.
+     * @return a hash code value for this tuple.
      */
     @Override
     public int hashCode() {

@@ -110,6 +110,24 @@ public class Octuple<A, B, C, D, E, F, G, H>
     }
 
     /**
+     * Create new tuple with specified elements values
+     *
+     * @param t0 the first element of this tuple
+     * @param t1 the second element of this tuple
+     * @param t2 the third element of this tuple
+     * @param t3 the fourth element of this tuple
+     * @param t4 the fifth element of this tuple
+     * @param t5 the sixth element of this tuple
+     * @param t6 the seventh element of this tuple
+     * @param t7 the eighth element of this tuple
+     *
+     * @return new tuple with specified elements values
+     */
+    public static <A, B, C, D, E, F, G, H> Octuple<A, B, C, D, E, F, G, H> of(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+        return new Octuple<A, B, C, D, E, F, G, H>(t0, t1, t2, t3, t4, t5, t6, t7);
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
