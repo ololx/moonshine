@@ -43,77 +43,88 @@ public class QuadrupleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 2, 1, 2, 1, 0},
-            {1, 2, 1, 2, 2, 1},
-            {1, 2, 1, 2, 0, -1}
+                {1, 2, 1, 2, 1, 0},
+                {1, 2, 1, 2, 2, 1},
+                {1, 2, 1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 2, 1, 2, 1, 2},
-            {1, 2, 1, 2, 2, 3},
-            {1, 2, 1, 2, 0, -1}
+                {1, 2, 1, 2, 1, 2},
+                {1, 2, 1, 2, 2, 3},
+                {1, 2, 1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {
-                Byte.MIN_VALUE,
-                Character.MAX_VALUE,
-                Short.MAX_VALUE,
-                Integer.MAX_VALUE
-            },
-            {
-                Character.MIN_VALUE,
-                Short.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Character.MAX_VALUE
-            },
-            {
-                Short.MIN_VALUE,
-                Integer.MAX_VALUE,
-                Float.MAX_VALUE,
-                Integer.MAX_VALUE
-            },
-            {
-                Integer.MIN_VALUE,
-                Float.MAX_VALUE,
-                Double.MAX_VALUE,
-                Double.MAX_VALUE
-            },
-            {
-                Float.MIN_VALUE,
-                Double.MAX_VALUE,
-                Byte.MAX_VALUE,
-                Integer.MAX_VALUE
-            },
-            {
-                Double.MIN_VALUE,
-                Byte.MAX_VALUE,
-                Character.MAX_VALUE,
-                Byte.MAX_VALUE
-            },
-            {
-                String.valueOf(Integer.MAX_VALUE),
-                Byte.MAX_VALUE,
-                Float.MAX_VALUE,
-                Byte.MAX_VALUE
-            }
+                {
+                        Byte.MIN_VALUE,
+                        Character.MAX_VALUE,
+                        Short.MAX_VALUE,
+                        Integer.MAX_VALUE
+                },
+                {
+                        Character.MIN_VALUE,
+                        Short.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Character.MAX_VALUE
+                },
+                {
+                        Short.MIN_VALUE,
+                        Integer.MAX_VALUE,
+                        Float.MAX_VALUE,
+                        Integer.MAX_VALUE
+                },
+                {
+                        Integer.MIN_VALUE,
+                        Float.MAX_VALUE,
+                        Double.MAX_VALUE,
+                        Double.MAX_VALUE
+                },
+                {
+                        Float.MIN_VALUE,
+                        Double.MAX_VALUE,
+                        Byte.MAX_VALUE,
+                        Integer.MAX_VALUE
+                },
+                {
+                        Double.MIN_VALUE,
+                        Byte.MAX_VALUE,
+                        Character.MAX_VALUE,
+                        Byte.MAX_VALUE
+                },
+                {
+                        String.valueOf(Integer.MAX_VALUE),
+                        Byte.MAX_VALUE,
+                        Float.MAX_VALUE,
+                        Byte.MAX_VALUE
+                }
         };
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0,
-                                                                                   B t1,
-                                                                                   C t2,
-                                                                                   D t3) {
+    <A, B, C, D> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0, B t1, C t2, D t3) {
         //When
         // create new tuple with specified args
         Tuple4<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT3(), t3);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2, D t3) {
+        //When
+        // create new tuple with specified args
+        Tuple4<A, B, C, D> tuple = Quadruple.of(t0, t1, t2, t3);
 
         //Then
         // tuple contains arg value
@@ -205,8 +216,8 @@ public class QuadrupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2, D t3) {
         //Given
@@ -221,8 +232,8 @@ public class QuadrupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1, C t2, D t3) {
         //Given
@@ -237,10 +248,7 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0,
-                                                                             B t1,
-                                                                             C t2,
-                                                                             D t3) {
+    <A, B, C, D> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0, B t1, C t2, D t3) {
         //Given
         // The tuple with size = 4
         // and some default value
@@ -267,8 +275,8 @@ public class QuadrupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3)
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -285,8 +293,8 @@ public class QuadrupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -404,10 +412,7 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void stream_whenBuildStream_thenStreamContainsAllElements(A t0,
-                                                                           B t1,
-                                                                           C t2,
-                                                                           D t3) {
+    <A, B, C, D> void stream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1, C t2, D t3) {
         //Given
         // The tuple with args
         Tuple4<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
@@ -419,18 +424,15 @@ public class QuadrupleTest {
         //Then
         // list contains all tuple values
         assertTrue(tupleInStream.allMatch(tupleElement -> {
-            return tupleElement.equals(t0)
-                || tupleElement.equals(t1)
-                || tupleElement.equals(t2)
-                || tupleElement.equals(t3);
+            return tupleElement.equals(t0) ||
+                    tupleElement.equals(t1) ||
+                    tupleElement.equals(t2) ||
+                    tupleElement.equals(t3);
         }));
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0,
-                                                                                  B t1,
-                                                                                  C t2,
-                                                                                  D t3) {
+    <A, B, C, D> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0, B t1, C t2, D t3) {
         //Given
         // The tuple with size = 7
         Tuple4<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
@@ -447,10 +449,7 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0,
-                                                                            B t1,
-                                                                            C t2,
-                                                                            D t3) {
+    <A, B, C, D> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0, B t1, C t2, D t3) {
         //Given
         // The tuple with size = 4
         final Quadruple<A, B, C, D> tuple = new Quadruple<>(t0, t1, t2, t3);
@@ -503,7 +502,7 @@ public class QuadrupleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Quadruple.class)
-            .suppress(Warning.STRICT_INHERITANCE)
-            .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

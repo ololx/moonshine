@@ -43,30 +43,30 @@ public class CoupleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 2, 1, 0},
-            {1, 2, 2, 1},
-            {1, 2, 0, -1}
+                {1, 2, 1, 0},
+                {1, 2, 2, 1},
+                {1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 1, 1, 1},
-            {1, 2, 0, -1}
+                {1, 1, 1, 1},
+                {1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {Byte.MIN_VALUE, Character.MAX_VALUE},
-            {Character.MIN_VALUE, Short.MAX_VALUE},
-            {Short.MIN_VALUE, Integer.MAX_VALUE},
-            {Integer.MIN_VALUE, Float.MAX_VALUE},
-            {Float.MIN_VALUE, Double.MAX_VALUE},
-            {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE)},
-            {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE}
+                {Byte.MIN_VALUE, Character.MAX_VALUE},
+                {Character.MIN_VALUE, Short.MAX_VALUE},
+                {Short.MIN_VALUE, Integer.MAX_VALUE},
+                {Integer.MIN_VALUE, Float.MAX_VALUE},
+                {Float.MIN_VALUE, Double.MAX_VALUE},
+                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE)},
+                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE}
         };
     }
 
@@ -75,6 +75,18 @@ public class CoupleTest {
         //When
         // create new tuple with specified args
         Tuple2<A, B> tuple = new Couple<>(t0, t1);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1) {
+        //When
+        // create new tuple with specified args
+        Tuple2<A, B> tuple = Couple.of(t0, t1);
 
         //Then
         // tuple contains arg value
@@ -130,8 +142,8 @@ public class CoupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1) {
         //Given
@@ -146,8 +158,8 @@ public class CoupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1) {
         //Given
@@ -189,8 +201,8 @@ public class CoupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1)
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -207,8 +219,8 @@ public class CoupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -216,10 +228,7 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgsAndIndexes")
-    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
-                                                                 A t1,
-                                                                 A someValue,
-                                                                 int expectedIndex) {
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0, A t1, A someValue, int expectedIndex) {
         //Given
         // The tuple with values
         final Couple<A, A> tuple = new Couple<>(t0, t1);
@@ -234,10 +243,7 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
-    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
-                                                                     A t1,
-                                                                     A someValue,
-                                                                     int expectedIndex) {
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0, A t1, A someValue, int expectedIndex) {
         //Given
         // The tuple with values
         final Couple<A, A> tuple = new Couple<>(t0, t1);
@@ -398,7 +404,7 @@ public class CoupleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Couple.class)
-            .suppress(Warning.STRICT_INHERITANCE)
-            .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

@@ -16,15 +16,15 @@ public class TupleStringTest {
     @DataProvider
     static Object[][] providesTuples() {
         return new Object[][]{
-            {new EmptyTuple(), "()"},
-            {new Monuple<>(1), "(1)"},
-            {new Couple<>(1, 2), "(1, 2)"},
-            {new Triple<>(1, 2, 3), "(1, 2, 3)"},
-            {new Quadruple<>(1, 2, 3, 4), "(1, 2, 3, 4)"},
-            {new Quintuple<>(1, 2, 3, 4, 5), "(1, 2, 3, 4, 5)"},
-            {new Sextuple<>(1, 2, 3, 4, 5, 6), "(1, 2, 3, 4, 5, 6)"},
-            {new Septuple<>(1, 2, 3, 4, 5, 6, 7), "(1, 2, 3, 4, 5, 6, 7)"},
-            {new Octuple<>(1, 2, 3, 4, 5, 6, 7, 8), "(1, 2, 3, 4, 5, 6, 7, 8)"},
+                {new EmptyTuple(), "()"},
+                {Monuple.of(1), "(1)"},
+                {Couple.of(1, 2), "(1, 2)"},
+                {Triple.of(1, 2, 3), "(1, 2, 3)"},
+                {Quadruple.of(1, 2, 3, 4), "(1, 2, 3, 4)"},
+                {Quintuple.of(1, 2, 3, 4, 5), "(1, 2, 3, 4, 5)"},
+                {Sextuple.of(1, 2, 3, 4, 5, 6), "(1, 2, 3, 4, 5, 6)"},
+                {Septuple.of(1, 2, 3, 4, 5, 6, 7), "(1, 2, 3, 4, 5, 6, 7)"},
+                {Octuple.of(1, 2, 3, 4, 5, 6, 7, 8), "(1, 2, 3, 4, 5, 6, 7, 8)"},
         };
     }
 

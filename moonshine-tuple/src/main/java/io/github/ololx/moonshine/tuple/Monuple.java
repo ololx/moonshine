@@ -54,6 +54,17 @@ public class Monuple<A>
     }
 
     /**
+     * Create new tuple with specified elements values
+     *
+     * @param t0 the first element of this tuple
+     *
+     * @return new tuple with specified elements values
+     */
+    public static <A> Monuple<A> of(A t0) {
+        return new Monuple<>(t0);
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *

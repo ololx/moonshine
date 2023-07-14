@@ -78,6 +78,20 @@ public class Quadruple<A, B, C, D>
     }
 
     /**
+     * Create new tuple with specified elements values
+     *
+     * @param t0 the first element of this tuple
+     * @param t1 the second element of this tuple
+     * @param t2 the third element of this tuple
+     * @param t3 the fourth element of this tuple
+     *
+     * @return new tuple with specified elements values
+     */
+    public static <A, B, C, D> Quadruple<A, B, C, D> of(A t0, B t1, C t2, D t3) {
+        return new Quadruple<>(t0, t1, t2, t3);
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *

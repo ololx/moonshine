@@ -43,89 +43,89 @@ public class SeptupleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 2, 3, 1, 2, 3, 1, 1, 0},
-            {1, 2, 3, 1, 2, 3, 1, 2, 1},
-            {1, 2, 3, 1, 2, 3, 1, 3, 2},
-            {1, 2, 3, 1, 2, 3, 1, 0, -1}
+                {1, 2, 3, 1, 2, 3, 1, 1, 0},
+                {1, 2, 3, 1, 2, 3, 1, 2, 1},
+                {1, 2, 3, 1, 2, 3, 1, 3, 2},
+                {1, 2, 3, 1, 2, 3, 1, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 2, 3, 1, 2, 3, 1, 1, 6},
-            {1, 2, 3, 1, 2, 3, 1, 2, 4},
-            {1, 2, 3, 1, 2, 3, 1, 3, 5},
-            {1, 2, 3, 1, 2, 3, 1, 0, -1}
+                {1, 2, 3, 1, 2, 3, 1, 1, 6},
+                {1, 2, 3, 1, 2, 3, 1, 2, 4},
+                {1, 2, 3, 1, 2, 3, 1, 3, 5},
+                {1, 2, 3, 1, 2, 3, 1, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {
-                Byte.MIN_VALUE,
-                Character.MAX_VALUE,
-                Short.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Long.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            },
-            {
-                Character.MIN_VALUE,
-                Short.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Character.MAX_VALUE,
-                Character.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            },
-            {
-                Short.MIN_VALUE,
-                Integer.MAX_VALUE,
-                Float.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            },
-            {
-                Integer.MIN_VALUE,
-                Float.MAX_VALUE,
-                Double.MAX_VALUE,
-                Double.MAX_VALUE,
-                Double.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            },
-            {
-                Float.MIN_VALUE,
-                Double.MAX_VALUE,
-                Byte.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            },
-            {
-                Double.MIN_VALUE,
-                Byte.MAX_VALUE,
-                Character.MAX_VALUE,
-                Byte.MAX_VALUE,
-                Byte.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            },
-            {
-                String.valueOf(Integer.MAX_VALUE),
-                Byte.MAX_VALUE,
-                Float.MAX_VALUE,
-                Byte.MAX_VALUE,
-                Byte.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE
-            }
+                {
+                        Byte.MIN_VALUE,
+                        Character.MAX_VALUE,
+                        Short.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Long.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                },
+                {
+                        Character.MIN_VALUE,
+                        Short.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Character.MAX_VALUE,
+                        Character.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                },
+                {
+                        Short.MIN_VALUE,
+                        Integer.MAX_VALUE,
+                        Float.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                },
+                {
+                        Integer.MIN_VALUE,
+                        Float.MAX_VALUE,
+                        Double.MAX_VALUE,
+                        Double.MAX_VALUE,
+                        Double.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                },
+                {
+                        Float.MIN_VALUE,
+                        Double.MAX_VALUE,
+                        Byte.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                },
+                {
+                        Double.MIN_VALUE,
+                        Byte.MAX_VALUE,
+                        Character.MAX_VALUE,
+                        Byte.MAX_VALUE,
+                        Byte.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                },
+                {
+                        String.valueOf(Integer.MAX_VALUE),
+                        Byte.MAX_VALUE,
+                        Float.MAX_VALUE,
+                        Byte.MAX_VALUE,
+                        Byte.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE
+                }
         };
     }
 
@@ -153,13 +153,30 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT0_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0,
+                                                                                B t1,
+                                                                                C t2,
+                                                                                D t3,
+                                                                                E t4,
+                                                                                F t5,
+                                                                                G t6) {
+        //When
+        // create new tuple with specified args
+        Tuple7<A, B, C, D, E, F, G> tuple = Septuple.of(t0, t1, t2, t3, t4, t5, t6);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT3(), t3);
+        assertEquals(tuple.getT4(), t4);
+        assertEquals(tuple.getT5(), t5);
+        assertEquals(tuple.getT6(), t6);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F, G> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -174,13 +191,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT1_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void getT1_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -195,13 +206,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT2_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void getT2_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -216,13 +221,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT3_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void getT3_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -237,13 +236,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT4_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void getT4_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -258,13 +251,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT5_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void getT5_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -279,13 +266,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void getT6_whenGet_thenReturnThisElementValue(A t0,
-                                                                        B t1,
-                                                                        C t2,
-                                                                        D t3,
-                                                                        E t4,
-                                                                        F t5,
-                                                                        G t6) {
+    <A, B, C, D, E, F, G> void getT6_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -300,13 +281,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void get_whenIndexExists_thenReturnValueByIndex(A t0,
-                                                                          B t1,
-                                                                          C t2,
-                                                                          D t3,
-                                                                          E t4,
-                                                                          F t5,
-                                                                          G t6) {
+    <A, B, C, D, E, F, G> void get_whenIndexExists_thenReturnValueByIndex(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -333,16 +308,10 @@ public class SeptupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
-    <A, B, C, D, E, F, G> void get_whenIndexLessThanZero_thenThrowException(A t0,
-                                                                            B t1,
-                                                                            C t2,
-                                                                            D t3,
-                                                                            E t4,
-                                                                            F t5,
-                                                                            G t6) {
+    <A, B, C, D, E, F, G> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -355,8 +324,8 @@ public class SeptupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F, G> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
                                                                                     B t1,
@@ -416,8 +385,8 @@ public class SeptupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4, t5, t6)
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -440,8 +409,8 @@ public class SeptupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -495,13 +464,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void size_whenCreateTuple_thenTupleHasSize(A t0,
-                                                                     B t1,
-                                                                     C t2,
-                                                                     D t3,
-                                                                     E t4,
-                                                                     F t5,
-                                                                     G t6) {
+    <A, B, C, D, E, F, G> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with size = 7
         final Septuple<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -571,13 +534,7 @@ public class SeptupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G> void toSet_whenBuildSet_thenSetContainsAllElements(A t0,
-                                                                             B t1,
-                                                                             C t2,
-                                                                             D t3,
-                                                                             E t4,
-                                                                             F t5,
-                                                                             G t6) {
+    <A, B, C, D, E, F, G> void toSet_whenBuildSet_thenSetContainsAllElements(A t0, B t1, C t2, D t3, E t4, F t5, G t6) {
         //Given
         // The tuple with args
         Tuple7<A, B, C, D, E, F, G> tuple = new Septuple<>(t0, t1, t2, t3, t4, t5, t6);
@@ -616,13 +573,14 @@ public class SeptupleTest {
         //Then
         // list contains all tuple values
         assertTrue(tupleInStream.allMatch(tupleElement -> {
-            return tupleElement.equals(t0)
-                || tupleElement.equals(t1)
-                || tupleElement.equals(t2)
-                || tupleElement.equals(t3)
-                || tupleElement.equals(t4)
-                || tupleElement.equals(t5)
-                || tupleElement.equals(t6);
+            return tupleElement.equals(t0) ||
+                    tupleElement.equals(t1) ||
+                    tupleElement.equals(t2) ||
+                    tupleElement.equals(t3) ||
+                    tupleElement.equals(t4) ||
+                    tupleElement.equals(
+                            t5) ||
+                    tupleElement.equals(t6);
         }));
     }
 
@@ -721,7 +679,7 @@ public class SeptupleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Septuple.class)
-            .suppress(Warning.STRICT_INHERITANCE)
-            .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
+## [0.11.0] - 2023-07-14
+
+### Added
+
+- New method `of()`` has been added to the Tuple collection, which allows create
+new Tuple instance of given values.
+
 ## [0.10.0] - 2023-07-09
 
 ### Added
