@@ -78,7 +78,7 @@ public class Triple<A, B, C>
      *
      * @return new tuple with specified elements values
      */
-    public static <A, B, C, D> Triple<A, B, C> of(A t0, B t1, C t2) {
+    public static <A, B, C> Triple<A, B, C> of(A t0, B t1, C t2) {
         return new Triple<>(t0, t1, t2);
     }
     
