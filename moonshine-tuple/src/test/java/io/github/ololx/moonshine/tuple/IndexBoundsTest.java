@@ -16,46 +16,28 @@ public class IndexBoundsTest {
     @DataProvider
     static Object[][] providesIndexesWithinUpperBounds() {
         return new Object[][]{
-            {0, 1},
-            {1, 2},
-            {0, 101},
-            {1, 101},
-            {100, 101}
+                {0, 1}, {1, 2}, {0, 101}, {1, 101}, {100, 101}
         };
     }
 
     @DataProvider
     static Object[][] providesIndexesOutOfUpperBounds() {
         return new Object[][]{
-            {0, 0},
-            {1, 0},
-            {1, 1},
-            {100, 1},
-            {100, 100},
-            {101, 100}
+                {0, 0}, {1, 0}, {1, 1}, {100, 1}, {100, 100}, {101, 100}
         };
     }
 
     @DataProvider
     static Object[][] providesIndexesWithinBoothBounds() {
         return new Object[][]{
-            {0, 0, 1},
-            {1, 0, 2},
-            {1, 0, 100},
-            {100, 0, 101},
-            {100, 100, 101}
+                {0, 0, 1}, {1, 0, 2}, {1, 0, 100}, {100, 0, 101}, {100, 100, 101}
         };
     }
 
     @DataProvider
     static Object[][] providesIndexesOutOfBoothBounds() {
         return new Object[][]{
-            {1, 0, 0},
-            {1, 0, 1},
-            {1, 1, 1},
-            {100, 100, 100},
-            {100, 101, 101},
-            {100, 101, 100}
+                {1, 0, 0}, {1, 0, 1}, {1, 1, 1}, {100, 100, 100}, {100, 101, 101}, {100, 101, 100}
         };
     }
 
@@ -88,9 +70,7 @@ public class IndexBoundsTest {
     }
 
     @Test(dataProvider = "providesIndexesWithinBoothBounds")
-    public void checkIndex_whenIndexWithinBoothBounds_thenReturnTrue(int index,
-                                                                     int lowerBound,
-                                                                     int upperBound) {
+    public void checkIndex_whenIndexWithinBoothBounds_thenReturnTrue(int index, int lowerBound, int upperBound) {
         // Given
         // index and booth bounds, index within bounds
 
@@ -104,9 +84,7 @@ public class IndexBoundsTest {
     }
 
     @Test(dataProvider = "providesIndexesOutOfBoothBounds")
-    public void checkIndex_whenIndexOutOfBoothBounds_thenReturnFalse(int index,
-                                                                     int lowerBound,
-                                                                     int upperBound) {
+    public void checkIndex_whenIndexOutOfBoothBounds_thenReturnFalse(int index, int lowerBound, int upperBound) {
         // Given
         // index and booth bounds, index out of a bounds
 
@@ -120,8 +98,7 @@ public class IndexBoundsTest {
     }
 
     @Test(dataProvider = "providesIndexesWithinUpperBounds")
-    public void requireIndexWithinBounds_whenIndexWithinUpperBounds_thenReturnTrue(int index,
-                                                                                   int upperBound) {
+    public void requireIndexWithinBounds_whenIndexWithinUpperBounds_thenReturnTrue(int index, int upperBound) {
         // Given
         // index and upper-bound, index within upper-bound
 
@@ -135,12 +112,11 @@ public class IndexBoundsTest {
     }
 
     @Test(
-        dataProvider = "providesIndexesOutOfUpperBounds",
-        expectedExceptions = IndexOutOfBoundsException.class,
-        expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[0, \\d+\\)"
+            dataProvider = "providesIndexesOutOfUpperBounds",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[0, \\d+\\)"
     )
-    public void requireIndexWithinBounds_whenIndexOutOfUpperBounds_thenThrowException(int index,
-                                                                                      int upperBound) {
+    public void requireIndexWithinBounds_whenIndexOutOfUpperBounds_thenThrowException(int index, int upperBound) {
         // Given
         // index and upper-bound, index out of the upper-bound
 
@@ -169,9 +145,9 @@ public class IndexBoundsTest {
     }
 
     @Test(
-        dataProvider = "providesIndexesOutOfBoothBounds",
-        expectedExceptions = IndexOutOfBoundsException.class,
-        expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[\\d+, \\d+\\)"
+            dataProvider = "providesIndexesOutOfBoothBounds",
+            expectedExceptions = IndexOutOfBoundsException.class,
+            expectedExceptionsMessageRegExp = "The index \\d+ out of a bounds \\[\\d+, \\d+\\)"
     )
     public void requireIndexWithinBounds_whenIndexOutOfBoothBounds_thenThrowException(int index,
                                                                                       int lowerBound,

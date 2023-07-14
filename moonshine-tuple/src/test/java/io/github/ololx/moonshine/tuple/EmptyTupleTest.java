@@ -128,8 +128,8 @@ public class EmptyTupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("some value")
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -261,7 +261,7 @@ public class EmptyTupleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(EmptyTuple.class)
-            .suppress(Warning.STRICT_INHERITANCE)
-            .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }
