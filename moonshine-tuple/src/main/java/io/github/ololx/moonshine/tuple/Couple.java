@@ -70,7 +70,7 @@ public class Couple<A, B>
      * @return new tuple with specified elements values
      */
     public static <A, B> Couple<A, B> of(A t0, B t1) {
-        return new Couple<A, B>(t0, t1);
+        return new Couple<>(t0, t1);
     }
 
     /**

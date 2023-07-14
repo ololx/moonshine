@@ -106,7 +106,7 @@ public class Sextuple<A, B, C, D, E, F>
      * @return new tuple with specified elements values
      */
     public static <A, B, C, D, E, F> Sextuple<A, B, C, D, E, F> of(A t0, B t1, C t2, D t3, E t4, F t5) {
-        return new Sextuple<A, B, C, D, E, F>(t0, t1, t2, t3, t4, t5);
+        return new Sextuple<>(t0, t1, t2, t3, t4, t5);
     }
 
     /**
