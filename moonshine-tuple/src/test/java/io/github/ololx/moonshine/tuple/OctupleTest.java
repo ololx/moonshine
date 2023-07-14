@@ -43,36 +43,36 @@ public class OctupleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 2, 3, 1, 2, 3, 1, 2, 1, 0},
-            {1, 2, 3, 1, 2, 3, 1, 2, 2, 1},
-            {1, 2, 3, 1, 2, 3, 1, 2, 3, 2},
-            {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
+                {1, 2, 3, 1, 2, 3, 1, 2, 1, 0},
+                {1, 2, 3, 1, 2, 3, 1, 2, 2, 1},
+                {1, 2, 3, 1, 2, 3, 1, 2, 3, 2},
+                {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 2, 3, 1, 2, 3, 1, 2, 1, 6},
-            {1, 2, 3, 1, 2, 3, 1, 2, 2, 7},
-            {1, 2, 3, 1, 2, 3, 1, 2, 3, 5},
-            {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
+                {1, 2, 3, 1, 2, 3, 1, 2, 1, 6},
+                {1, 2, 3, 1, 2, 3, 1, 2, 2, 7},
+                {1, 2, 3, 1, 2, 3, 1, 2, 3, 5},
+                {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {
-                Byte.MIN_VALUE,
-                Character.MAX_VALUE,
-                Short.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Long.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE,
-                Short.MIN_VALUE
-            }, {
+                {
+                        Byte.MIN_VALUE,
+                        Character.MAX_VALUE,
+                        Short.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Long.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE,
+                        Short.MIN_VALUE
+                }, {
                 Character.MIN_VALUE,
                 Short.MAX_VALUE,
                 Integer.MAX_VALUE,
@@ -81,7 +81,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }, {
+        }, {
                 Short.MIN_VALUE,
                 Integer.MAX_VALUE,
                 Float.MAX_VALUE,
@@ -90,7 +90,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }, {
+        }, {
                 Integer.MIN_VALUE,
                 Float.MAX_VALUE,
                 Double.MAX_VALUE,
@@ -99,7 +99,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }, {
+        }, {
                 Float.MIN_VALUE,
                 Double.MAX_VALUE,
                 Byte.MAX_VALUE,
@@ -108,7 +108,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }, {
+        }, {
                 Double.MIN_VALUE,
                 Byte.MAX_VALUE,
                 Character.MAX_VALUE,
@@ -117,7 +117,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }, {
+        }, {
                 String.valueOf(Integer.MAX_VALUE),
                 Byte.MAX_VALUE,
                 Float.MAX_VALUE,
@@ -126,12 +126,19 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }
+        }
         };
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void new_whenCreateTuple_thenTupleContainsValuesOfConstructorArgs(A t0,
+                                                                                               B t1,
+                                                                                               C t2,
+                                                                                               D t3,
+                                                                                               E t4,
+                                                                                               F t5,
+                                                                                               G t6,
+                                                                                               H t7) {
         //When
         // create new tuple with specified args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -149,7 +156,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0,
+                                                                                   B t1,
+                                                                                   C t2,
+                                                                                   D t3,
+                                                                                   E t4,
+                                                                                   F t5,
+                                                                                   G t6,
+                                                                                   H t7) {
         //When
         // create new tuple with specified args
         Tuple8<A, B, C, D, E, F, G, H> tuple = Octuple.of(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -167,7 +181,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT0_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -182,7 +203,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT1_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT1_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -197,7 +225,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT2_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT2_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -212,7 +247,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT3_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT3_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -227,7 +269,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT4_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT4_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -242,7 +291,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT5_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT5_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -257,7 +313,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT6_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT6_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -272,7 +335,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getT7_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getT7_whenGet_thenReturnThisElementValue(A t0,
+                                                                           B t1,
+                                                                           C t2,
+                                                                           D t3,
+                                                                           E t4,
+                                                                           F t5,
+                                                                           G t6,
+                                                                           H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -287,7 +357,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void get_whenIndexExists_thenReturnValueByIndex(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void get_whenIndexExists_thenReturnValueByIndex(A t0,
+                                                                             B t1,
+                                                                             C t2,
+                                                                             D t3,
+                                                                             E t4,
+                                                                             F t5,
+                                                                             G t6,
+                                                                             H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -315,8 +392,18 @@ public class OctupleTest {
         assertEquals(actualT7, t7);
     }
 
-    @Test(dataProvider = "providesConstructorArgs", expectedExceptions = IndexOutOfBoundsException.class)
-    <A, B, C, D, E, F, G, H> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
+    )
+    <A, B, C, D, E, F, G, H> void get_whenIndexLessThanZero_thenThrowException(A t0,
+                                                                               B t1,
+                                                                               C t2,
+                                                                               D t3,
+                                                                               E t4,
+                                                                               F t5,
+                                                                               G t6,
+                                                                               H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -328,8 +415,18 @@ public class OctupleTest {
         tuple.get(-1);
     }
 
-    @Test(dataProvider = "providesConstructorArgs", expectedExceptions = IndexOutOfBoundsException.class)
-    <A, B, C, D, E, F, G, H> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    @Test(
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
+    )
+    <A, B, C, D, E, F, G, H> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
+                                                                                       B t1,
+                                                                                       C t2,
+                                                                                       D t3,
+                                                                                       E t4,
+                                                                                       F t5,
+                                                                                       G t6,
+                                                                                       H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -342,7 +439,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void getOrDefault_whenIndexNotExists_thenReturnDefaultValue(A t0,
+                                                                                         B t1,
+                                                                                         C t2,
+                                                                                         D t3,
+                                                                                         E t4,
+                                                                                         F t5,
+                                                                                         G t6,
+                                                                                         H t7) {
         //Given
         // The tuple with size = 8
         // and some default value
@@ -361,14 +465,23 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void contains_whenTupleContainsValue_thenReturnTrue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void contains_whenTupleContainsValue_thenReturnTrue(A t0,
+                                                                                 B t1,
+                                                                                 C t2,
+                                                                                 D t3,
+                                                                                 E t4,
+                                                                                 F t5,
+                                                                                 G t6,
+                                                                                 H t7) {
         //Given
         // The tuple with values
         final Octuple<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
 
         //When
         // check that tuple contains construct args
-        final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4, t5, t6, t7).map(tuple::contains).collect(Collectors.toSet());
+        final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4, t5, t6, t7)
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -376,7 +489,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void contains_whenTupleDoNotContainsValue_thenReturnTrue(A t0,
+                                                                                      B t1,
+                                                                                      C t2,
+                                                                                      D t3,
+                                                                                      E t4,
+                                                                                      F t5,
+                                                                                      G t6,
+                                                                                      H t7) {
         //Given
         // The tuple with values
         final Octuple<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -384,7 +504,9 @@ public class OctupleTest {
         //When
         // check that tuple contains some value,
         // not from this tuple
-        final Set<Boolean> allContainsResults = Stream.of("wrong value").map(tuple::contains).collect(Collectors.toSet());
+        final Set<Boolean> allContainsResults = Stream.of("wrong value")
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -392,7 +514,16 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgsAndIndexes")
-    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0, A t1, A t2, A t3, A t4, A t5, A t6, A t7, A someValue, int expectedIndex) {
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                 A t1,
+                                                                 A t2,
+                                                                 A t3,
+                                                                 A t4,
+                                                                 A t5,
+                                                                 A t6,
+                                                                 A t7,
+                                                                 A someValue,
+                                                                 int expectedIndex) {
         //Given
         // The tuple with values
         final Octuple<A, A, A, A, A, A, A, A> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -407,7 +538,16 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
-    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0, A t1, A t2, A t3, A t4, A t5, A t6, A t7, A someValue, int expectedIndex) {
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
+                                                                     A t1,
+                                                                     A t2,
+                                                                     A t3,
+                                                                     A t4,
+                                                                     A t5,
+                                                                     A t6,
+                                                                     A t7,
+                                                                     A someValue,
+                                                                     int expectedIndex) {
         //Given
         // The tuple with values
         final Octuple<A, A, A, A, A, A, A, A> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -422,7 +562,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void size_whenCreateTuple_thenTupleHasSize(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void size_whenCreateTuple_thenTupleHasSize(A t0,
+                                                                        B t1,
+                                                                        C t2,
+                                                                        D t3,
+                                                                        E t4,
+                                                                        F t5,
+                                                                        G t6,
+                                                                        H t7) {
         //Given
         // The tuple with size = 8
         final Octuple<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -438,7 +585,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void toArray_whenBuildArray_thenArrayContainsAllElements(A t0,
+                                                                                      B t1,
+                                                                                      C t2,
+                                                                                      D t3,
+                                                                                      E t4,
+                                                                                      F t5,
+                                                                                      G t6,
+                                                                                      H t7) {
         //Given
         // The tuple with args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -460,7 +614,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void toList_whenBuildList_thenListContainsAllElements(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void toList_whenBuildList_thenListContainsAllElements(A t0,
+                                                                                   B t1,
+                                                                                   C t2,
+                                                                                   D t3,
+                                                                                   E t4,
+                                                                                   F t5,
+                                                                                   G t6,
+                                                                                   H t7) {
         //Given
         // The tuple with args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -482,7 +643,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void toSet_whenBuildSet_thenSetContainsAllElements(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void toSet_whenBuildSet_thenSetContainsAllElements(A t0,
+                                                                                B t1,
+                                                                                C t2,
+                                                                                D t3,
+                                                                                E t4,
+                                                                                F t5,
+                                                                                G t6,
+                                                                                H t7) {
         //Given
         // The tuple with args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -504,7 +672,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void stream_whenBuildStream_thenStreamContainsAllElements(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void stream_whenBuildStream_thenStreamContainsAllElements(A t0,
+                                                                                       B t1,
+                                                                                       C t2,
+                                                                                       D t3,
+                                                                                       E t4,
+                                                                                       F t5,
+                                                                                       G t6,
+                                                                                       H t7) {
         //Given
         // The tuple with args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -516,13 +691,26 @@ public class OctupleTest {
         //Then
         // list contains all tuple values
         assertTrue(tupleInStream.allMatch(tupleElement -> {
-            return tupleElement.equals(t0) || tupleElement.equals(t1) || tupleElement.equals(t2) || tupleElement.equals(t3) || tupleElement.equals(t4) || tupleElement.equals(
-                t5) || tupleElement.equals(t6) || tupleElement.equals(t7);
+            return tupleElement.equals(t0)
+                    || tupleElement.equals(t1)
+                    || tupleElement.equals(t2)
+                    || tupleElement.equals(t3)
+                    || tupleElement.equals(t4)
+                    || tupleElement.equals(t5)
+                    || tupleElement.equals(t6)
+                    || tupleElement.equals(t7);
         }));
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void spliterator_whenCreateSpliterator_thenReturnNonNullIterator(A t0,
+                                                                                              B t1,
+                                                                                              C t2,
+                                                                                              D t3,
+                                                                                              E t4,
+                                                                                              F t5,
+                                                                                              G t6,
+                                                                                              H t7) {
         //Given
         // The tuple with size = 8
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -539,7 +727,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void iterator_whenCreateIterator_thenReturnNonNullIterator(A t0,
+                                                                                        B t1,
+                                                                                        C t2,
+                                                                                        D t3,
+                                                                                        E t4,
+                                                                                        F t5,
+                                                                                        G t6,
+                                                                                        H t7) {
         //Given
         // The tuple with size = 8
         final Octuple<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -554,7 +749,14 @@ public class OctupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C, D, E, F, G, H> void toString_whenBuildString_thenStringContainsAllElements(A t0, B t1, C t2, D t3, E t4, F t5, G t6, H t7) {
+    <A, B, C, D, E, F, G, H> void toString_whenBuildString_thenStringContainsAllElements(A t0,
+                                                                                         B t1,
+                                                                                         C t2,
+                                                                                         D t3,
+                                                                                         E t4,
+                                                                                         F t5,
+                                                                                         G t6,
+                                                                                         H t7) {
         //Given
         // The tuple with args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
@@ -599,6 +801,8 @@ public class OctupleTest {
 
     @Test
     public void equalsHashCode_verifyContracts() {
-        EqualsVerifier.forClass(Octuple.class).suppress(Warning.STRICT_INHERITANCE).verify();
+        EqualsVerifier.forClass(Octuple.class)
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

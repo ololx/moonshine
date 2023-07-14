@@ -43,29 +43,29 @@ public class MonupleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 1, 0},
-            {1, 0, -1}
+                {1, 1, 0},
+                {1, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 1, 0},
-            {1, 0, -1}
+                {1, 1, 0},
+                {1, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {Byte.MIN_VALUE},
-            {Character.MIN_VALUE},
-            {Short.MIN_VALUE},
-            {Integer.MIN_VALUE},
-            {Float.MIN_VALUE},
-            {Double.MIN_VALUE},
-            {String.valueOf(Integer.MAX_VALUE)}
+                {Byte.MIN_VALUE},
+                {Character.MIN_VALUE},
+                {Short.MIN_VALUE},
+                {Integer.MIN_VALUE},
+                {Float.MIN_VALUE},
+                {Double.MIN_VALUE},
+                {String.valueOf(Integer.MAX_VALUE)}
         };
     }
 
@@ -122,8 +122,8 @@ public class MonupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A> void get_whenIndexLessThanZero_thenThrowException(A t0) {
         //Given
@@ -138,8 +138,8 @@ public class MonupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0) {
         //Given
@@ -181,8 +181,8 @@ public class MonupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0)
-                                                      .map(tuple::contains)
-                                                      .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -214,8 +214,8 @@ public class MonupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-                                                      .map(tuple::contains)
-                                                      .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -441,7 +441,7 @@ public class MonupleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Monuple.class)
-                      .suppress(Warning.STRICT_INHERITANCE)
-                      .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }
