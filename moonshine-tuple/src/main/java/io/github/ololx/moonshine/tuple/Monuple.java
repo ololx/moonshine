@@ -61,7 +61,7 @@ public class Monuple<A>
      * @return new tuple with specified elements values
      */
     public static <A> Monuple<A> of(A t0) {
-        return new Monuple<A>(t0);
+        return new Monuple<>(t0);
     }
 
     /**

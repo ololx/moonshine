@@ -88,7 +88,7 @@ public class Quadruple<A, B, C, D>
      * @return new tuple with specified elements values
      */
     public static <A, B, C, D> Quadruple<A, B, C, D> of(A t0, B t1, C t2, D t3) {
-        return new Quadruple<A, B, C, D>(t0, t1, t2, t3);
+        return new Quadruple<>(t0, t1, t2, t3);
     }
 
     /**
