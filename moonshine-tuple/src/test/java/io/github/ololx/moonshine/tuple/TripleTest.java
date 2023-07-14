@@ -43,31 +43,31 @@ public class TripleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 2, 1, 1, 0},
-            {1, 2, 2, 2, 1},
-            {1, 2, 3, 0, -1}
+                {1, 2, 1, 1, 0},
+                {1, 2, 2, 2, 1},
+                {1, 2, 3, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 2, 1, 1, 2},
-            {1, 2, 2, 2, 2},
-            {1, 2, 3, 0, -1}
+                {1, 2, 1, 1, 2},
+                {1, 2, 2, 2, 2},
+                {1, 2, 3, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {Byte.MIN_VALUE, Character.MAX_VALUE, Short.MAX_VALUE},
-            {Character.MIN_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE},
-            {Short.MIN_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE},
-            {Integer.MIN_VALUE, Float.MAX_VALUE, Double.MAX_VALUE},
-            {Float.MIN_VALUE, Double.MAX_VALUE, Byte.MAX_VALUE},
-            {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE), Character.MAX_VALUE},
-            {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE, Integer.MAX_VALUE}
+                {Byte.MIN_VALUE, Character.MAX_VALUE, Short.MAX_VALUE},
+                {Character.MIN_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE},
+                {Short.MIN_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE},
+                {Integer.MIN_VALUE, Float.MAX_VALUE, Double.MAX_VALUE},
+                {Float.MIN_VALUE, Double.MAX_VALUE, Byte.MAX_VALUE},
+                {Double.MIN_VALUE, String.valueOf(Byte.MAX_VALUE), Character.MAX_VALUE},
+                {String.valueOf(Integer.MAX_VALUE), Byte.MAX_VALUE, Integer.MAX_VALUE}
         };
     }
 
@@ -76,6 +76,19 @@ public class TripleTest {
         //When
         // create new tuple with specified args
         Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2) {
+        //When
+        // create new tuple with specified args
+        Tuple3<A, B, C> tuple = Triple.of(t0, t1, t2);
 
         //Then
         // tuple contains arg value
@@ -149,8 +162,8 @@ public class TripleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C> void get_whenIndexLessThanZero_thenThrowException(A t0, B t1, C t2) {
         //Given
@@ -165,8 +178,8 @@ public class TripleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0, B t1, C t2) {
         //Given
@@ -208,8 +221,8 @@ public class TripleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2)
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -226,8 +239,8 @@ public class TripleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -235,11 +248,7 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgsAndIndexes")
-    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
-                                                                 A t1,
-                                                                 A t2,
-                                                                 A someValue,
-                                                                 int expectedIndex) {
+    <A> void indexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0, A t1, A t2, A someValue, int expectedIndex) {
         //Given
         // The tuple with values
         final Triple<A, A, A> tuple = new Triple<>(t0, t1, t2);
@@ -254,11 +263,7 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgsAndLastIndexes")
-    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0,
-                                                                     A t1,
-                                                                     A t2,
-                                                                     A someValue,
-                                                                     int expectedIndex) {
+    <A> void lastIndexOf_whenTupleContainsValue_thenReturnTheirIndex(A t0, A t1, A t2, A someValue, int expectedIndex) {
         //Given
         // The tuple with values
         final Triple<A, A, A> tuple = new Triple<>(t0, t1, t2);
@@ -352,9 +357,7 @@ public class TripleTest {
         //Then
         // list contains all tuple values
         assertTrue(tupleInStream.allMatch(tupleElement -> {
-            return tupleElement.equals(t0)
-                || tupleElement.equals(t1)
-                || tupleElement.equals(t2);
+            return tupleElement.equals(t0) || tupleElement.equals(t1) || tupleElement.equals(t2);
         }));
     }
 
@@ -408,9 +411,7 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
-    <A, B, C> void convert_whenConvertingTupleToString_thenStringEqualsFirstElementOrDefault(A t0,
-                                                                                             B t1,
-                                                                                             C t2) {
+    <A, B, C> void convert_whenConvertingTupleToString_thenStringEqualsFirstElementOrDefault(A t0, B t1, C t2) {
         //Given
         // The tuple with args
         Tuple3<A, B, C> tuple = new Triple<>(t0, t1, t2);
@@ -427,7 +428,7 @@ public class TripleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Triple.class)
-            .suppress(Warning.STRICT_INHERITANCE)
-            .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

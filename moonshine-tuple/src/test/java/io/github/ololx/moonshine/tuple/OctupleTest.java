@@ -43,37 +43,36 @@ public class OctupleTest {
     @DataProvider
     static Object[][] providesConstructorArgsAndIndexes() {
         return new Object[][]{
-            {1, 2, 3, 1, 2, 3, 1, 2, 1, 0},
-            {1, 2, 3, 1, 2, 3, 1, 2, 2, 1},
-            {1, 2, 3, 1, 2, 3, 1, 2, 3, 2},
-            {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
+                {1, 2, 3, 1, 2, 3, 1, 2, 1, 0},
+                {1, 2, 3, 1, 2, 3, 1, 2, 2, 1},
+                {1, 2, 3, 1, 2, 3, 1, 2, 3, 2},
+                {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgsAndLastIndexes() {
         return new Object[][]{
-            {1, 2, 3, 1, 2, 3, 1, 2, 1, 6},
-            {1, 2, 3, 1, 2, 3, 1, 2, 2, 7},
-            {1, 2, 3, 1, 2, 3, 1, 2, 3, 5},
-            {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
+                {1, 2, 3, 1, 2, 3, 1, 2, 1, 6},
+                {1, 2, 3, 1, 2, 3, 1, 2, 2, 7},
+                {1, 2, 3, 1, 2, 3, 1, 2, 3, 5},
+                {1, 2, 3, 1, 2, 3, 1, 2, 0, -1}
         };
     }
 
     @DataProvider
     static Object[][] providesConstructorArgs() {
         return new Object[][]{
-            {
-                Byte.MIN_VALUE,
-                Character.MAX_VALUE,
-                Short.MAX_VALUE,
-                Integer.MAX_VALUE,
-                Long.MAX_VALUE,
-                Integer.MIN_VALUE,
-                Long.MIN_VALUE,
-                Short.MIN_VALUE
-            },
-            {
+                {
+                        Byte.MIN_VALUE,
+                        Character.MAX_VALUE,
+                        Short.MAX_VALUE,
+                        Integer.MAX_VALUE,
+                        Long.MAX_VALUE,
+                        Integer.MIN_VALUE,
+                        Long.MIN_VALUE,
+                        Short.MIN_VALUE
+                }, {
                 Character.MIN_VALUE,
                 Short.MAX_VALUE,
                 Integer.MAX_VALUE,
@@ -82,8 +81,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            },
-            {
+        }, {
                 Short.MIN_VALUE,
                 Integer.MAX_VALUE,
                 Float.MAX_VALUE,
@@ -92,8 +90,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            },
-            {
+        }, {
                 Integer.MIN_VALUE,
                 Float.MAX_VALUE,
                 Double.MAX_VALUE,
@@ -102,8 +99,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            },
-            {
+        }, {
                 Float.MIN_VALUE,
                 Double.MAX_VALUE,
                 Byte.MAX_VALUE,
@@ -112,8 +108,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            },
-            {
+        }, {
                 Double.MIN_VALUE,
                 Byte.MAX_VALUE,
                 Character.MAX_VALUE,
@@ -122,8 +117,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            },
-            {
+        }, {
                 String.valueOf(Integer.MAX_VALUE),
                 Byte.MAX_VALUE,
                 Float.MAX_VALUE,
@@ -132,7 +126,7 @@ public class OctupleTest {
                 Integer.MIN_VALUE,
                 Long.MIN_VALUE,
                 Short.MIN_VALUE
-            }
+        }
         };
     }
 
@@ -148,6 +142,31 @@ public class OctupleTest {
         //When
         // create new tuple with specified args
         Tuple8<A, B, C, D, E, F, G, H> tuple = new Octuple<>(t0, t1, t2, t3, t4, t5, t6, t7);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT3(), t3);
+        assertEquals(tuple.getT4(), t4);
+        assertEquals(tuple.getT5(), t5);
+        assertEquals(tuple.getT6(), t6);
+        assertEquals(tuple.getT7(), t7);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F, G, H> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0,
+                                                                                   B t1,
+                                                                                   C t2,
+                                                                                   D t3,
+                                                                                   E t4,
+                                                                                   F t5,
+                                                                                   G t6,
+                                                                                   H t7) {
+        //When
+        // create new tuple with specified args
+        Tuple8<A, B, C, D, E, F, G, H> tuple = Octuple.of(t0, t1, t2, t3, t4, t5, t6, t7);
 
         //Then
         // tuple contains arg value
@@ -374,8 +393,8 @@ public class OctupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F, G, H> void get_whenIndexLessThanZero_thenThrowException(A t0,
                                                                                B t1,
@@ -397,8 +416,8 @@ public class OctupleTest {
     }
 
     @Test(
-        dataProvider = "providesConstructorArgs",
-        expectedExceptions = IndexOutOfBoundsException.class
+            dataProvider = "providesConstructorArgs",
+            expectedExceptions = IndexOutOfBoundsException.class
     )
     <A, B, C, D, E, F, G, H> void get_whenIndexMoreOrEqualTupleSize_thenThrowException(A t0,
                                                                                        B t1,
@@ -461,8 +480,8 @@ public class OctupleTest {
         //When
         // check that tuple contains construct args
         final Set<Boolean> allContainsResults = Stream.of(t0, t1, t2, t3, t4, t5, t6, t7)
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return false
@@ -486,8 +505,8 @@ public class OctupleTest {
         // check that tuple contains some value,
         // not from this tuple
         final Set<Boolean> allContainsResults = Stream.of("wrong value")
-            .map(tuple::contains)
-            .collect(Collectors.toSet());
+                .map(tuple::contains)
+                .collect(Collectors.toSet());
 
         //Then
         // no one check return true
@@ -673,13 +692,13 @@ public class OctupleTest {
         // list contains all tuple values
         assertTrue(tupleInStream.allMatch(tupleElement -> {
             return tupleElement.equals(t0)
-                || tupleElement.equals(t1)
-                || tupleElement.equals(t2)
-                || tupleElement.equals(t3)
-                || tupleElement.equals(t4)
-                || tupleElement.equals(t5)
-                || tupleElement.equals(t6)
-                || tupleElement.equals(t7);
+                    || tupleElement.equals(t1)
+                    || tupleElement.equals(t2)
+                    || tupleElement.equals(t3)
+                    || tupleElement.equals(t4)
+                    || tupleElement.equals(t5)
+                    || tupleElement.equals(t6)
+                    || tupleElement.equals(t7);
         }));
     }
 
@@ -783,7 +802,7 @@ public class OctupleTest {
     @Test
     public void equalsHashCode_verifyContracts() {
         EqualsVerifier.forClass(Octuple.class)
-            .suppress(Warning.STRICT_INHERITANCE)
-            .verify();
+                .suppress(Warning.STRICT_INHERITANCE)
+                .verify();
     }
 }

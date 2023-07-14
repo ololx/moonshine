@@ -86,6 +86,21 @@ public class Quintuple<A, B, C, D, E>
     }
 
     /**
+     * Create new tuple with specified elements values
+     *
+     * @param t0 the first element of this tuple
+     * @param t1 the second element of this tuple
+     * @param t2 the third element of this tuple
+     * @param t3 the fourth element of this tuple
+     * @param t4 the fifth element of this tuple
+     *
+     * @return new tuple with specified elements values
+     */
+    public static <A, B, C, D, E> Quintuple<A, B, C, D, E> of(A t0, B t1, C t2, D t3, E t4) {
+        return new Quintuple<>(t0, t1, t2, t3, t4);
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *

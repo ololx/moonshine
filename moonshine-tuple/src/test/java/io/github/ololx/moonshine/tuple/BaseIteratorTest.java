@@ -39,9 +39,9 @@ public class BaseIteratorTest {
     @DataProvider
     static Object[][] providesTuples() {
         return new Object[][]{
-            {new EmptyTuple()},
-            {new Monuple<>(Byte.MIN_VALUE)},
-            {new Couple<>(Byte.MIN_VALUE, Short.MIN_VALUE)}
+                {new EmptyTuple()},
+                {new Monuple<>(Byte.MIN_VALUE)},
+                {new Couple<>(Byte.MIN_VALUE, Short.MIN_VALUE)}
         };
     }
 
@@ -100,9 +100,9 @@ public class BaseIteratorTest {
     }
 
     @Test(
-        dataProvider = "providesTuples",
-        expectedExceptions = NoSuchElementException.class,
-        expectedExceptionsMessageRegExp = "The iteration has no more elements"
+            dataProvider = "providesTuples",
+            expectedExceptions = NoSuchElementException.class,
+            expectedExceptionsMessageRegExp = "The iteration has no more elements"
     )
     void next_whenIterationDoesNotHasMoreValues_thenThrowException(Tuple tuple) {
         //Given
@@ -123,9 +123,9 @@ public class BaseIteratorTest {
     }
 
     @Test(
-        dataProvider = "providesTuples",
-        expectedExceptions = UnsupportedOperationException.class,
-        expectedExceptionsMessageRegExp = "remove"
+            dataProvider = "providesTuples",
+            expectedExceptions = UnsupportedOperationException.class,
+            expectedExceptionsMessageRegExp = "remove"
     )
     void remove_whenTryToRemoveLastElementFromTuple_thenThrowException(Tuple tuple) {
         //Given

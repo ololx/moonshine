@@ -70,6 +70,19 @@ public class Triple<A, B, C>
     }
 
     /**
+     * Create new tuple with specified elements values
+     *
+     * @param t0 the first element of this tuple
+     * @param t1 the second element of this tuple
+     * @param t2 the third element of this tuple
+     *
+     * @return new tuple with specified elements values
+     */
+    public static <A, B, C> Triple<A, B, C> of(A t0, B t1, C t2) {
+        return new Triple<>(t0, t1, t2);
+    }
+    
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
