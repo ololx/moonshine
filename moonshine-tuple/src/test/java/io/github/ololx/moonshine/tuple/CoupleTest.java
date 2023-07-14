@@ -83,6 +83,18 @@ public class CoupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1) {
+        //When
+        // create new tuple with specified args
+        Tuple2<A, B> tuple = Couple.of(t0, t1);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1) {
         //Given
         // The tuple with size = 2

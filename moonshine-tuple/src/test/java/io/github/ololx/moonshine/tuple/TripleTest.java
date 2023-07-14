@@ -85,6 +85,19 @@ public class TripleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2) {
+        //When
+        // create new tuple with specified args
+        Tuple3<A, B, C> tuple = Triple.of(t0, t1, t2);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B, C> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2) {
         //Given
         // The tuple with size = 3

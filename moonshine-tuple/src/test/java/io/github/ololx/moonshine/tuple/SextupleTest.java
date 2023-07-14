@@ -144,6 +144,22 @@ public class SextupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E, F> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2, D t3, E t4, F t5) {
+        //When
+        // create new tuple with specified args
+        Tuple6<A, B, C, D, E, F> tuple = Sextuple.of(t0, t1, t2, t3, t4, t5);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT3(), t3);
+        assertEquals(tuple.getT4(), t4);
+        assertEquals(tuple.getT5(), t5);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E, F> void getT0_whenGet_thenReturnThisElementValue(A t0,
                                                                      B t1,
                                                                      C t2,

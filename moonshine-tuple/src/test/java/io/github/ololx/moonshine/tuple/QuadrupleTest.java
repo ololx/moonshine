@@ -124,6 +124,20 @@ public class QuadrupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2, D t3) {
+        //When
+        // create new tuple with specified args
+        Tuple4<A, B, C, D> tuple = Quadruple.of(t0, t1, t2, t3);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT3(), t3);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3) {
         //Given
         // The tuple with size = 4
