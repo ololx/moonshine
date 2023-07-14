@@ -135,6 +135,21 @@ public class QuintupleTest {
     }
 
     @Test(dataProvider = "providesConstructorArgs")
+    <A, B, C, D, E> void of_whenCreateTuple_thenTupleContainsValuesOfArgs(A t0, B t1, C t2, D t3, E t4) {
+        //When
+        // create new tuple with specified args
+        Tuple5<A, B, C, D, E> tuple = Quintuple.of(t0, t1, t2, t3, t4);
+
+        //Then
+        // tuple contains arg value
+        assertEquals(tuple.getT0(), t0);
+        assertEquals(tuple.getT1(), t1);
+        assertEquals(tuple.getT2(), t2);
+        assertEquals(tuple.getT3(), t3);
+        assertEquals(tuple.getT4(), t4);
+    }
+
+    @Test(dataProvider = "providesConstructorArgs")
     <A, B, C, D, E> void getT0_whenGet_thenReturnThisElementValue(A t0, B t1, C t2, D t3, E t4) {
         //Given
         // The tuple with size = 5
