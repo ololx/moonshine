@@ -68,6 +68,7 @@
         <module>moonshine-stopwatch</module>
         <module>moonshine-bytes</module>
         <module>moonshine-measuring</module>
+        <module>moonshine-util</module>
     </modules>
     <!--project modules>-->
 
