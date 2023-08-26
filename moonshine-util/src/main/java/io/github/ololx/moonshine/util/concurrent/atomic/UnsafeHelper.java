@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util;
+package io.github.ololx.moonshine.util.concurrent.atomic;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -47,7 +47,7 @@ import java.lang.reflect.Field;
  * }</pre>
  *
  * project moonshine
- * created 25.08.2023 17:47
+ * created 23.02.2023 11:06
  *
  * @author Alexander A. Kropotin
  */
@@ -69,6 +69,28 @@ final class UnsafeHelper {
     private static final Object UNSAFE_INSTANCE = getUnsafeInstance();
 
     /**
+     * A method handle for the sun.misc.Unsafe.allocateMemory(long) method.
+     */
+    private static final MethodHandle ALLOCATE_MEMORY_HANDLE = allocateMemoryHandle();
+
+    /**
+     * A method handle for the sun.misc.Unsafe.putShort(long, short) method.
+     */
+    private static final MethodHandle PUT_SHORT_HANDLE = putShortHandle();
+
+    /**
+     * A method handle for the sun.misc.Unsafe.freeMemory(long) method.
+     */
+    private static final MethodHandle FREE_MEMORY_HANDLE = freeMemoryHandle();
+
+    /**
+     * A method handle for the sun.misc.Unsafe.getByte(long) method.
+     */
+    private static final MethodHandle GET_BYTE_HANDLE = getByteHandle();
+
+    public static final boolean IS_BIG_ENDIAN = isBigEndian();
+
+    /**
      * Override constructor by defaults (implicit public constructor).
      * Because utility class are not meant to be instantiated.
      */
@@ -84,6 +106,38 @@ final class UnsafeHelper {
     }
 
     /**
+     * Determines whether the underlying platform is <b>big-endian</b> or
+     * <b>little-endian</b>.
+     *
+     * @implSpec
+     * This method uses a byte-order probe to determine whether the underlying
+     * platform is big-endian or little-endian. It allocates a 2-byte buffer
+     * using the {@code allocateMemory} method, writes the value
+     * {@code 0x10000001} to the buffer using the {@code putShort} method,
+     * reads the first byte of the buffer using the {@code getByte} method, and
+     * then deallocates the buffer using the {@code freeMemory} method.
+     * If the first byte of the buffer is {@code 0x01}, the platform is
+     * little-endian; if it is {@code 0x10}, the platform is big-endian.
+     *
+     * @return {@code true} if the platform is big-endian, {@code false} if it
+     * is little-endian.
+     *
+     * @throws RuntimeException if an error occurs during executing.
+     */
+    public static boolean isBigEndian() {
+        try (MemoryBlock block = new MemoryBlock(2)) {
+            long a = block.getAddress();
+
+            PUT_SHORT_HANDLE.invoke(UNSAFE_INSTANCE, a, (short) 0x10000001);
+            byte b = (byte) GET_BYTE_HANDLE.invoke(UNSAFE_INSTANCE, a);
+
+            return b == 0x10;
+        } catch (Throwable e) {
+            throw new UnsafeHelperException(e);
+        }
+    }
+
+    /**
      * Returns an instance of the Unsafe class, which can be used to perform
      * low-level operations that are not otherwise possible in Java.
      *
@@ -93,6 +147,53 @@ final class UnsafeHelper {
         return fieldInstance("theUnsafe");
     }
 
+    /**
+     * Returns a MethodHandle for the getByte method of the Unsafe class.
+     *
+     * @return a MethodHandle for the getByte method of the Unsafe class
+     */
+    private static MethodHandle getByteHandle() {
+        return methodHandle(
+                "getByte",
+                MethodType.methodType(byte.class, long.class)
+        );
+    }
+
+    /**
+     * Returns a MethodHandle for the allocateMemory method of the Unsafe class.
+     *
+     * @return a MethodHandle for the allocateMemory method of the Unsafe class
+     */
+    private static MethodHandle allocateMemoryHandle() {
+        return methodHandle(
+                "allocateMemory",
+                MethodType.methodType(long.class, long.class)
+        );
+    }
+
+    /**
+     * Returns a MethodHandle for the putShort method of the Unsafe class.
+     *
+     * @return a MethodHandle for the putShort method of the Unsafe class
+     */
+    private static MethodHandle putShortHandle() {
+        return methodHandle(
+                "putShort",
+                MethodType.methodType(void.class, long.class, short.class)
+        );
+    }
+
+    /**
+     * Returns a MethodHandle for the freeMemory method of the Unsafe class.
+     *
+     * @return a MethodHandle for the freeMemory method of the Unsafe class
+     */
+    private static MethodHandle freeMemoryHandle() {
+        return methodHandle(
+                "freeMemory",
+                MethodType.methodType(void.class, long.class)
+        );
+    }
 
     /**
      * Returns the Unsafe class.
@@ -109,6 +210,24 @@ final class UnsafeHelper {
             } catch (ClassNotFoundException e1) {
                 throw new UnsafeHelperException(e1);
             }
+        }
+    }
+
+    /**
+     * Returns a MethodHandle for the specified method of the Unsafe class.
+     *
+     * @param methodName the name of the method
+     * @param methodType the type of the method
+     * @return a MethodHandle for the specified method of the Unsafe class
+     * @throws UnsafeHelperException if the specified method cannot be found or
+     * accessed
+     */
+    private static MethodHandle methodHandle(String methodName, MethodType methodType)
+            throws UnsafeHelperException {
+        try {
+            return MethodHandles.publicLookup().findVirtual(UNSAFE_CLASS, methodName, methodType);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new UnsafeHelperException(e);
         }
     }
 
@@ -133,81 +252,93 @@ final class UnsafeHelper {
         }
     }
 
-    public int arrayBaseOffset(Class<?> clazz) {
-        try {
-            MethodHandle methodHandle = methodHandle("arrayBaseOffset", MethodType.methodType(int.class, Class.class));
-            return (int) methodHandle.invoke(UNSAFE_INSTANCE, clazz);
-        } catch (Throwable e) {
-            throw new UnsafeHelperException(e);
-        }
-    }
-
-    public int arrayIndexScale(Class<?> clazz) {
-        try {
-            MethodHandle methodHandle = methodHandle("arrayIndexScale", MethodType.methodType(int.class, Class.class));
-            return (int) methodHandle.invoke(UNSAFE_INSTANCE, clazz);
-        } catch (Throwable e) {
-            throw new UnsafeHelperException(e);
-        }
-    }
-
     /**
-     * Returns a MethodHandle for the getByte method of the Unsafe class.
+     * The {@code MemoryBlock} class represents a block of memory allocated
+     * using the {@link UnsafeHelper} class.
+     * <p>Instances of this class are obtained by calling the
+     * {@link #allocate(long)} method, and can be freed by calling the
+     * {@link #free()} method or by closing the instance using a
+     * try-with-resources statement. The memory address of the block can be
+     * obtained by calling the {@link #getAddress()} method.</p>
      *
-     * @return a MethodHandle for the getByte method of the Unsafe class
-     */
-    public byte getByteVolatile(Object obj, long l) {
-        try {
-            MethodHandle methodHandle = methodHandle(
-                    "getByteVolatile",
-                    MethodType.methodType(byte.class, Object.class, long.class)
-            );
-            return (byte) methodHandle.invoke(UNSAFE_INSTANCE, obj, l);
-        } catch (Throwable e) {
-            throw new UnsafeHelperException(e);
-        }
-    }
-
-    public void putByteVolatile(Object obj, long offset, byte b) {
-        try {
-            MethodHandle methodHandle = methodHandle(
-                    "putByteVolatile",
-                    MethodType.methodType(void.class, Object.class, long.class, byte.class)
-            );
-
-            methodHandle.invoke(UNSAFE_INSTANCE, obj, offset, b);
-        } catch (Throwable e) {
-            throw new UnsafeHelperException(e);
-        }
-    }
-
-    public boolean compareAndSwapByte(Object obj, long offset, byte expect, byte update) {
-        try {
-            MethodHandle methodHandle = methodHandle(
-                    "compareAndSwapInt",
-                    MethodType.methodType(boolean.class, Object.class, long.class, int.class, int.class)
-            );
-
-            return (boolean) methodHandle.invoke(UNSAFE_INSTANCE, obj, offset, expect, update);
-        } catch (Throwable e) {
-            throw new UnsafeHelperException(e);
-        }
-    }
-
-    /**
-     * Returns a MethodHandle for the specified method of the Unsafe class.
+     * @implNote
+     * <p>This class is not thread-safe and should be used with caution. In particular,
+     * the behavior of the methods provided by this class is undefined
+     * if called concurrently from multiple threads.</p>
+     * <p>The memory allocated by this class is not managed by the Java garbage
+     * collector and must be freed explicitly using the {@link #free()} method
+     * or by using the block in a try-with-resources statement.</p>
      *
-     * @param methodName the name of the method
-     * @param methodType the type of the method
-     * @return a MethodHandle for the specified method of the Unsafe class
-     * @throws UnsafeHelperException if the specified method cannot be found or
-     * accessed
+     * @implSpec
+     * This class uses the {@code UnsafeHelper} class to allocate and free
+     * memory blocks. It allocates memory by invoking the {@code allocateMemory}
+     * method, and frees memory by invoking the {@code freeMemory} method.
+     * The address of the allocated memory block is stored as an instance variable.
      */
-    private static MethodHandle methodHandle(String methodName, MethodType methodType) throws UnsafeHelperException {
-        try {
-            return MethodHandles.lookup().findVirtual(UNSAFE_CLASS, methodName, methodType);
-        } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new UnsafeHelperException(e);
+    static final class MemoryBlock implements AutoCloseable {
+
+        /**
+         * The address of the allocated memory block.
+         */
+        private final long address;
+
+        /**
+         * Allocates a new memory block of the specified size using the
+         * {@link UnsafeHelper} class.
+         *
+         * @param size the size of the memory block to allocate.
+         * @throws RuntimeException if an error occurs during executing.
+         */
+        private MemoryBlock(long size) {
+            try {
+                this.address = (long) ALLOCATE_MEMORY_HANDLE.invoke(UNSAFE_INSTANCE, size);
+            } catch (Throwable e) {
+                throw new UnsafeHelperException(e);
+            }
+        }
+
+        /**
+         * Allocates a new memory block of the specified size using the
+         * {@link UnsafeHelper} class.
+         *
+         * @param size the size of the memory block to allocate.
+         * @return a new memory block of the specified size.
+         * @throws RuntimeException if an error occurs during executing.
+         */
+        public static MemoryBlock allocate(long size) {
+            return new MemoryBlock(size);
+        }
+
+        /**
+         * Deallocates the memory block using the {@link UnsafeHelper} class.
+         *
+         * @throws RuntimeException if an error occurs during executing.
+         */
+        public void free() {
+            try {
+                FREE_MEMORY_HANDLE.invoke(UNSAFE_INSTANCE, this.address);
+            } catch (Throwable e) {
+                throw new UnsafeHelperException(e);
+            }
+        }
+
+        /**
+         * Returns the address of the allocated memory block.
+         *
+         * @return the address of the allocated memory block.
+         */
+        public long getAddress() {
+            return address;
+        }
+
+        /**
+         * Deallocates the memory block using the {@link #free()} method.
+         *
+         * @throws RuntimeException if an error occurs during executing.
+         */
+        @Override
+        public void close() {
+            this.free();
         }
     }
 
