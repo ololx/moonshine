@@ -17,41 +17,39 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
 
-import com.sun.istack.internal.NotNull;
-
-import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
  * A wrapper class that implements the {@link AtomicArray} interface using
- * {@link AtomicIntegerArray} as the underlying data structure.
+ * {@link java.util.concurrent.atomic.AtomicLongArray} as the underlying data structure.
  *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 27.08.2023 16:08
  */
-public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
+public class AtomicLongArrayWrapper implements AtomicArray<Long> {
 
-    private final AtomicIntegerArray array;
+    private final AtomicLongArray array;
 
     /**
-     * Constructs a new {@code AtomicIntegerArrayWrapper} instance with the specified length.
+     * Constructs a new {@code AtomicLongArrayWrapper} instance with the specified length.
      *
      * @param length The length of the array.
      */
-    public AtomicIntegerArrayWrapper(int length) {
-        array = new AtomicIntegerArray(length);
+    public AtomicLongArrayWrapper(int length) {
+        array = new AtomicLongArray(length);
     }
 
     /**
-     * Constructs a new {@code AtomicIntegerArrayWrapper} instance with the same length as, and all elements copied
+     * Constructs a new {@code AtomicLongArrayWrapper} instance with the same length as, and all elements copied
      * from, the given array.
      *
      * @param array the array to copy elements from
      *
      * @throws NullPointerException if array is null
      */
-    public AtomicIntegerArrayWrapper(int[] array) {
-        this.array = new AtomicIntegerArray(array);
+    public AtomicLongArrayWrapper(long[] array) {
+        this.array = new AtomicLongArray(array);
     }
 
     /**
@@ -72,7 +70,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The element at the specified index.
      */
     @Override
-    public Integer get(int i) {
+    public Long get(int i) {
         return array.get(i);
     }
 
@@ -83,7 +81,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @param newValue The new value to set.
      */
     @Override
-    public void set(int i, Integer newValue) {
+    public void set(int i, Long newValue) {
         array.set(i, newValue);
     }
 
@@ -96,7 +94,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Integer getAndSet(int i, Integer newValue) {
+    public Long getAndSet(int i, Long newValue) {
         return array.getAndSet(i, newValue);
     }
 
@@ -111,7 +109,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return {@code true} if successful; {@code false} otherwise.
      */
     @Override
-    public boolean compareAndSet(int i, Integer expect, Integer update) {
+    public boolean compareAndSet(int i, Long expect, Long update) {
         return array.compareAndSet(i, expect, update);
     }
 
@@ -126,7 +124,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return {@code true} if successful; {@code false} otherwise.
      */
     @Override
-    public boolean weakCompareAndSet(int i, Integer expect, Integer update) {
+    public boolean weakCompareAndSet(int i, Long expect, Long update) {
         return array.weakCompareAndSet(i, expect, update);
     }
 
@@ -138,7 +136,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Integer getAndIncrement(int i) {
+    public Long getAndIncrement(int i) {
         return array.getAndIncrement(i);
     }
 
@@ -150,7 +148,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Integer getAndDecrement(int i) {
+    public Long getAndDecrement(int i) {
         return array.getAndDecrement(i);
     }
 
@@ -163,7 +161,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Integer getAndAdd(int i, Integer delta) {
+    public Long getAndAdd(int i, Long delta) {
         return array.getAndAdd(i, delta);
     }
 
@@ -175,7 +173,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The updated value at the specified index.
      */
     @Override
-    public Integer incrementAndGet(int i) {
+    public Long incrementAndGet(int i) {
         return array.incrementAndGet(i);
     }
 
@@ -187,7 +185,7 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The updated value at the specified index.
      */
     @Override
-    public Integer decrementAndGet(int i) {
+    public Long decrementAndGet(int i) {
         return array.decrementAndGet(i);
     }
 
@@ -200,12 +198,12 @@ public class AtomicIntegerArrayWrapper implements AtomicArray<Integer> {
      * @return The updated value at the specified index.
      */
     @Override
-    public Integer addAndGet(int i, Integer delta) {
+    public Long addAndGet(int i, Long delta) {
         return array.addAndGet(i, delta);
     }
 
     /**
-     * Returns the string representation of the underlying {@link AtomicIntegerArray}.
+     * Returns the string representation of the underlying {@link java.util.concurrent.atomic.AtomicLongArray}.
      *
      * @return The string representation of the array.
      */

@@ -1,6 +1,6 @@
 package io.github.ololx.moonshine.util;
 
-import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
+import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArrayBefore;
 import io.github.ololx.moonshine.util.concurrent.atomic.wrapping.AtomicIntegerArrayWrapper;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
@@ -71,7 +71,7 @@ public class AtomicBenchmark {
         switch (typeOfBitSetRealization) {
             case BYTE:
                 atomicArray = new AtomicArray() {
-                    private AtomicByteArray arr = new AtomicByteArray(sizeOfBitSet);
+                    private AtomicByteArrayBefore arr = new AtomicByteArrayBefore(sizeOfBitSet);
                     @Override
                     public int get(int index) {
                         return arr.get(index);

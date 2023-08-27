@@ -27,7 +27,7 @@ import java.util.function.Function;
  *
  * @author Alexander A. Kropotin
  */
-public class AtomicByteArray {
+public class AtomicByteArrayBefore {
 
     private static final Class<?> ARRAY_CLASS = byte[].class;
 
@@ -64,7 +64,7 @@ public class AtomicByteArray {
      *
      * @param length the length of the array
      */
-    public AtomicByteArray(final int length) {
+    public AtomicByteArrayBefore(final int length) {
         array = new byte[length];
     }
 
