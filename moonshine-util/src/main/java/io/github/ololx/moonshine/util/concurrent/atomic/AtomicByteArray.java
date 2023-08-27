@@ -20,7 +20,11 @@ package io.github.ololx.moonshine.util.concurrent.atomic;
 import io.github.ololx.moonshine.util.concurrent.atomic.wrapping.AtomicArray;
 import sun.misc.Unsafe;
 
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntUnaryOperator;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Alexander A. Kropotin
@@ -110,9 +114,64 @@ public class AtomicByteArray {
         return compareAndSet(i, expect, update);
     }
 
+    public final int getAndUpdate(int i, UnaryOperator<Byte> updateFunction) {
+        long offset = checkedByteOffset(i);
+
+        byte prev;
+        byte next;
+
+        do {
+            prev = getRaw(offset);
+            next = updateFunction.apply(prev);
+        } while (!compareAndSetRaw(offset, prev, next));
+
+        return prev;
+    }
+
+    public final int updateAndGet(int i, UnaryOperator<Byte> updateFunction) {
+        long offset = checkedByteOffset(i);
+
+        byte prev;
+        byte next;
+
+        do {
+            prev = getRaw(offset);
+            next = updateFunction.apply(prev);
+        } while (!compareAndSetRaw(offset, prev, next));
+
+        return next;
+    }
+
+    public final int getAndAccumulate(int i, byte update, BinaryOperator<Byte> accumulatorFunction) {
+        long offset = checkedByteOffset(i);
+
+        byte prev;
+        byte next;
+
+        do {
+            prev = getRaw(offset);
+            next = accumulatorFunction.apply(prev, update);
+        } while (!compareAndSetRaw(offset, prev, next));
+
+        return prev;
+    }
+
+    public final int accumulateAndGet(int i, byte update, BinaryOperator<Byte> accumulatorFunction) {
+        long offset = checkedByteOffset(i);
+
+        byte prev;
+        byte next;
+
+        do {
+            prev = getRaw(offset);
+            next = accumulatorFunction.apply(prev, update);
+        } while (!compareAndSetRaw(offset, prev, next));
+
+        return next;
+    }
+
     private int checkedByteOffset(int i) {
-        if (i < 0 || i >= array.length)
-            throw new IndexOutOfBoundsException("index " + i);
+        if (i < 0 || i >= array.length) {throw new IndexOutOfBoundsException("index " + i);}
 
         return byteOffset(i);
     }
