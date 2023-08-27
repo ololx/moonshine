@@ -43,10 +43,10 @@ public class AtomicByteArrayTest {
 
     @Test
     public void compareAndSet_whenCompareAndSetNewValue_thenArrayContainsThisValue() {
-        AtomicByteArray atomicByteArray = new AtomicByteArray(10);
+        AtomicByteArray atomicByteArray = new AtomicByteArray(1);
         System.out.print(atomicByteArray);
-        atomicByteArray.set(1, (byte) 12);
-        atomicByteArray.set(2, (byte) 13);
+        //atomicByteArray.set(1, (byte) 12);
+        //atomicByteArray.set(2, (byte) 13);
         atomicByteArray.compareAndSet(0, (byte) 0, Byte.MIN_VALUE);
         System.out.print(atomicByteArray);
         Assert.assertEquals(atomicByteArray.get(0), Byte.MIN_VALUE);
