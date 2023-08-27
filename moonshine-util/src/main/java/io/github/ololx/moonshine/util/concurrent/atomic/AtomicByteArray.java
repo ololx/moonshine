@@ -77,7 +77,7 @@ public class AtomicByteArray {
     }
 
     private static int byteOffset(int i) {
-       return ARRAY_BASE_OFFSET + (i << SHIFT);
+        return ARRAY_BASE_OFFSET + (i << SHIFT);
     }
 
     /**
@@ -93,6 +93,7 @@ public class AtomicByteArray {
      * Gets the current value at position {@code i}.
      *
      * @param i the index
+     *
      * @return the current value
      */
     public final byte get(int i) {
@@ -106,7 +107,7 @@ public class AtomicByteArray {
     /**
      * Sets the element at position {@code i} to the given value.
      *
-     * @param i the index
+     * @param i        the index
      * @param newValue the new value
      */
     public final void set(int i, byte newValue) {
@@ -117,11 +118,12 @@ public class AtomicByteArray {
      * Atomically sets the element at position {@code i} to the given
      * updated value if the current value {@code ==} the expected value.
      *
-     * @param i the index
+     * @param i      the index
      * @param expect the expected value
      * @param update the new value
+     *
      * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
+     *     the actual value was not equal to the expected value.
      */
     public final boolean compareAndSet(int i, byte expect, byte update) {
         return compareAndSetRaw(checkedByteOffset(i), expect, update);
@@ -135,9 +137,7 @@ public class AtomicByteArray {
         return compareAndExchangeByte(this.array, offset, expect, update) == expect;
     }
 
-    public final byte compareAndExchangeByte(Object o, long offset,
-                                             byte expected,
-                                             byte x) {
+    public final byte compareAndExchangeByte(Object o, long offset, byte expected, byte x) {
         long wordOffset = offset & ~3;
         int shift = (int) (offset & 3) << 3;
         if (UnsafeHelper.IS_BIG_ENDIAN) {
@@ -186,6 +186,7 @@ public class AtomicByteArray {
 
     /**
      * Returns the String representation of the current values of array.
+     *
      * @return the String representation of the current values of array
      */
     public String toString() {
@@ -199,12 +200,12 @@ public class AtomicByteArray {
         int lastElementIndex = this.array.length - 1;
         for (int elementIndex = 0; elementIndex < lastElementIndex; elementIndex++) {
             arrayStringBuilder.append(getRaw(byteOffset(elementIndex)))
-                    .append(',')
-                    .append(' ');
+                .append(',')
+                .append(' ');
         }
 
         return arrayStringBuilder.append(getRaw(byteOffset(lastElementIndex)))
-                .append(']')
-                .toString();
+            .append(']')
+            .toString();
     }
 }

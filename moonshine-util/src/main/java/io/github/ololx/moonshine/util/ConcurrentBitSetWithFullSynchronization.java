@@ -6,19 +6,18 @@ import java.util.BitSet;
  * Provides a concurrent implementation of a bit set using full synchronization.
  * This class extends {@link AbstractBitSetConcurrentWrapper}.
  *
- * @apiNote This class is suitable for scenarios where thread safety is required, but the performance
- * impact of full synchronization may be a concern.
- * @implNote This implementation ensures that all operations on the bit set are synchronized
- * using a monitor lock on the underlying {@link BitSet} instance, providing thread safety.
- * @implSpec All methods are synchronized using the underlying {@link BitSet} instance.
- * While providing thread safety, this approach may result in lower concurrency compared
- * to other implementations that use more fine-grained locking mechanisms.
- * @see AbstractBitSetConcurrentWrapper
- * <p>
- * project concurrent-bitset
- * created 14.08.2023 14:52
- *
  * @author Alexander A. Kropotin
+ *
+ *         project concurrent-bitset
+ *         created 14.08.2023 14:52
+ * @apiNote This class is suitable for scenarios where thread safety is required, but the performance
+ *         impact of full synchronization may be a concern.
+ * @implNote This implementation ensures that all operations on the bit set are synchronized
+ *         using a monitor lock on the underlying {@link BitSet} instance, providing thread safety.
+ * @implSpec All methods are synchronized using the underlying {@link BitSet} instance.
+ *         While providing thread safety, this approach may result in lower concurrency compared
+ *         to other implementations that use more fine-grained locking mechanisms.
+ * @see AbstractBitSetConcurrentWrapper
  */
 public class ConcurrentBitSetWithFullSynchronization extends AbstractBitSetConcurrentWrapper {
 
@@ -26,7 +25,7 @@ public class ConcurrentBitSetWithFullSynchronization extends AbstractBitSetConcu
      * General monitor for the whole bit set.
      */
     private final Object monitor;
-    
+
     /**
      * Constructs a concurrent bit set with the specified size.
      *
