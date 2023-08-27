@@ -61,12 +61,12 @@ final class UnsafeHelper {
     /**
      * The class object for sun.misc.Unsafe.
      */
-    private static final Class<?> UNSAFE_CLASS = unsafeClass();
+    public static final Class<?> UNSAFE_CLASS = unsafeClass();
 
     /**
      * The singleton instance of sun.misc.Unsafe.
      */
-    private static final Object UNSAFE_INSTANCE = getUnsafeInstance();
+    public static final Object UNSAFE_INSTANCE = getUnsafeInstance();
 
     /**
      * A method handle for the sun.misc.Unsafe.allocateMemory(long) method.
