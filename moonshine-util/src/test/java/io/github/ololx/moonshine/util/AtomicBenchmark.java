@@ -1,6 +1,7 @@
 package io.github.ololx.moonshine.util;
 
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
+import io.github.ololx.moonshine.util.concurrent.atomic.wrapping.AtomicIntegerArrayWrapper;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
@@ -34,14 +35,15 @@ public class AtomicBenchmark {
 
     private static final String INT = "int";
 
-    private static final String LONG = "long";
+    private static final String INTEGER = "integer";
 
     private AtomicArray atomicArray;
 
     @Param(
             {
                     INT,
-                    BYTE
+                    BYTE,
+                    INTEGER
             }
     )
     private String typeOfBitSetRealization;
@@ -49,10 +51,10 @@ public class AtomicBenchmark {
     @Param({"100000"})
     private int sizeOfBitSet;
 
-    @Param({"100"})
+    @Param({"1000"})
     private int countOfSetters;
 
-    @Param({"100"})
+    @Param({"1000"})
     private int countOfGetters;
 
     public AtomicBenchmark() {}
@@ -84,6 +86,20 @@ public class AtomicBenchmark {
             case INT:
                 atomicArray = new AtomicArray() {
                     private AtomicIntegerArray arr = new AtomicIntegerArray(sizeOfBitSet);
+                    @Override
+                    public int get(int index) {
+                        return arr.get(index);
+                    }
+
+                    @Override
+                    public void set(int index, int value) {
+                        arr.set(index, value);
+                    }
+                };
+                break;
+            case INTEGER:
+                atomicArray = new AtomicArray() {
+                    private AtomicIntegerArrayWrapper arr = new AtomicIntegerArrayWrapper(sizeOfBitSet);
                     @Override
                     public int get(int index) {
                         return arr.get(index);
