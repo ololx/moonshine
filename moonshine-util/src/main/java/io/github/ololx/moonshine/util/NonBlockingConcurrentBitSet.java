@@ -1,5 +1,6 @@
 package io.github.ololx.moonshine.util;
 
+import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArrayBefore;
 
 import java.util.function.Function;
@@ -96,7 +97,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      */
     private static class AtomicWordArray {
 
-        private final AtomicByteArrayBefore words;
+        private final AtomicByteArray words;
 
         /**
          * Creates a new AtomicWordArray with the specified size.
@@ -104,7 +105,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
          * @param size The size of the array in bytes.
          */
         private AtomicWordArray(int size) {
-            this.words = new AtomicByteArrayBefore(size);
+            this.words = new AtomicByteArray(size);
         }
 
         /**

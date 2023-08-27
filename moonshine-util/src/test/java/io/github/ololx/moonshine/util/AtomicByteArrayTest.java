@@ -1,7 +1,7 @@
 package io.github.ololx.moonshine.util;
 
 import io.github.ololx.moonshine.measuring.memory.WholeMemoryAllocationMeter;
-import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArrayBefore;
+import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -12,14 +12,14 @@ public class AtomicByteArrayTest {
 
     @Test
     public void length_whenArrayIsCreated_thenReturnLength() {
-        AtomicByteArrayBefore atomicByteArray = new AtomicByteArrayBefore(12);
+        AtomicByteArray atomicByteArray = new AtomicByteArray(12);
         Assert.assertEquals(atomicByteArray.length(), 12);
     }
 
     @Test
     public void length2_whenArrayIsCreated_thenReturnLength() {
         WholeMemoryAllocationMeter memoryAllocationMeter = new WholeMemoryAllocationMeter().start();
-        AtomicByteArrayBefore atomicByteArray = new AtomicByteArrayBefore(1_000);
+        AtomicByteArray atomicByteArray = new AtomicByteArray(1_000);
         memoryAllocationMeter.stop();
         System.out.print("B = " + memoryAllocationMeter.result());
 
@@ -36,14 +36,14 @@ public class AtomicByteArrayTest {
 
     @Test
     public void set_whenSetNewValueInArray_thenArrayContainsThisValue() {
-        AtomicByteArrayBefore atomicByteArray = new AtomicByteArrayBefore(1);
+        AtomicByteArray atomicByteArray = new AtomicByteArray(1);
         atomicByteArray.set(0, (byte) 12);
         Assert.assertEquals(atomicByteArray.get(0), 12);
     }
 
     @Test
     public void compareAndSet_whenCompareAndSetNewValue_thenArrayContainsThisValue() {
-        AtomicByteArrayBefore atomicByteArray = new AtomicByteArrayBefore(10);
+        AtomicByteArray atomicByteArray = new AtomicByteArray(10);
         System.out.print(atomicByteArray);
         atomicByteArray.set(1, (byte) 12);
         atomicByteArray.set(2, (byte) 13);
