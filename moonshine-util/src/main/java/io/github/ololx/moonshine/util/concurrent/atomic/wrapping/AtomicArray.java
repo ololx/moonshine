@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent.atomic;
+package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
 
 /**
  * A generic interface for working with atomic arrays.
