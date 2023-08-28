@@ -74,6 +74,20 @@ public class AtomicByteArray {
         unsafe.putByteVolatile(array, checkedByteOffset(i), newValue);
     }
 
+    public byte getAndSet(final int i, byte newValue) {
+        return getAndSetRaw(checkedByteOffset(i), newValue);
+    }
+
+    private byte getAndSetRaw(long offset, byte newValue) {
+        byte expected;
+
+        do {
+            expected = getRaw(offset);
+        } while (!compareAndSetRaw(offset, expected, newValue));
+
+        return expected;
+    }
+
     public boolean compareAndSet(final int i, final byte expect, final byte update) {
         return compareAndSetRaw(checkedByteOffset(i), expect, update);
     }
@@ -112,6 +126,49 @@ public class AtomicByteArray {
 
     public boolean weakCompareAndSet(final int i, final byte expect, final byte update) {
         return compareAndSet(i, expect, update);
+    }
+
+    public final byte getAndIncrement(int i) {
+        return getAndAdd(i, (byte) 1);
+    }
+
+    /**
+     * Atomically decrements by one the element at index {@code i}.
+     *
+     * @param i the index
+     *
+     * @return the previous value
+     */
+    public final byte getAndDecrement(int i) {
+        return getAndAdd(i, (byte) -1);
+    }
+
+    public final byte getAndAdd(int i, byte delta) {
+        return getAndAddRaw(checkedByteOffset(i), delta);
+    }
+
+    public byte getAndAddRaw(final long offset, final byte delta) {
+        byte expected;
+        byte update;
+
+        do {
+            expected = getRaw(offset);
+            update = (byte) ((expected + delta) & 0xFF);
+        } while (!compareAndSetRaw(offset, expected, update));
+
+        return expected;
+    }
+
+    public final byte incrementAndGet(int i) {
+        return (byte) (getAndAdd(i, (byte) 1) + 1);
+    }
+
+    public final byte decrementAndGet(int i) {
+        return (byte) (getAndAdd(i, (byte) -1) - 1);
+    }
+
+    public byte addAndGet(int i, byte delta) {
+        return (byte) (getAndAdd(i, delta) + delta);
     }
 
     public final int getAndUpdate(int i, UnaryOperator<Byte> updateFunction) {
