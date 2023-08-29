@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
