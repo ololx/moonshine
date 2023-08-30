@@ -94,7 +94,7 @@ public class AtomicByteArray {
         long intWordOffset = offset & ~3;
 
         int byteWordShift = (int) (offset & 3) << 3;
-        if (unsafe.isIsBigEndian()) {
+        if (unsafe.endianness().isBigEndian()) {
             byteWordShift = 24 - byteWordShift;
         }
 
