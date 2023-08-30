@@ -17,13 +17,7 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic;
 
-import io.github.ololx.moonshine.util.concurrent.atomic.wrapping.AtomicArray;
-import sun.misc.Unsafe;
-
 import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.IntBinaryOperator;
-import java.util.function.IntUnaryOperator;
 import java.util.function.UnaryOperator;
 
 /**
@@ -33,7 +27,7 @@ import java.util.function.UnaryOperator;
  */
 public class AtomicByteArray {
 
-    private static final Unsafe unsafe = (Unsafe) UnsafeHelper.UNSAFE_INSTANCE;
+    private static final MemoryAccess unsafe = new MemoryAccess();
 
     private static final int ARRAY_BASE_OFFSET = unsafe.arrayBaseOffset(long[].class);
 
@@ -100,7 +94,7 @@ public class AtomicByteArray {
         long intWordOffset = offset & ~3;
 
         int byteWordShift = (int) (offset & 3) << 3;
-        if (UnsafeHelper.IS_BIG_ENDIAN) {
+        if (unsafe.isIsBigEndian()) {
             byteWordShift = 24 - byteWordShift;
         }
 

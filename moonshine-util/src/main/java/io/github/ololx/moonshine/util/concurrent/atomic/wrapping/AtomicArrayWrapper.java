@@ -33,12 +33,11 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
  *
  * @param <T> the type of elements stored in the array
  *
- *            project moonshine
- *            created 25.08.2023 16:07
- *
  * @author Alexander A. Kropotin
+ *     project moonshine
+ *     created 25.08.2023 16:07
  */
-public interface AtomicArray<T> {
+public interface AtomicArrayWrapper<T> {
 
     /**
      * Returns the length of the array.
@@ -101,7 +100,7 @@ public interface AtomicArray<T> {
      * @return {@code true} if the value was updated, {@code false} otherwise
      *
      * @implNote This method is provided as a convenience to satisfy the implementation
-     *     of the {@link AtomicArray} interface. Depending on the underlying
+     *     of the {@link AtomicArrayWrapper} interface. Depending on the underlying
      *     implementation of {@link #compareAndSet(int, Object, Object)}, the
      *     behavior of this method may vary.
      */

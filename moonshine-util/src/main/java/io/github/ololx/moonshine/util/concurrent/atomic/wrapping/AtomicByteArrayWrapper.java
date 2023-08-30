@@ -20,14 +20,14 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
 
 /**
- * A wrapper class that implements the {@link AtomicArray} interface using
+ * A wrapper class that implements the {@link AtomicArrayWrapper} interface using
  * {@link io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray} as the underlying data structure.
  *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 27.08.2023 16:08
  */
-public class AtomicByteArrayWrapper implements AtomicArray<Byte> {
+public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
 
     private final AtomicByteArray array;
 
