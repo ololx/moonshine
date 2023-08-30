@@ -22,36 +22,104 @@ import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 
 /**
- * A utility class that wraps the sun.misc.Unsafe class to provide access to memory operations.
- * This class implements the MemoryAccess interface.
+ * Provides low-level memory access and manipulation using the Unsafe class.
+ * This class offers methods to perform various memory operations, such as reading
+ * and writing primitive values, atomically updating fields, and working with native memory.
+ *
+ * @implSpec This class uses the sun.misc.Unsafe class to access memory directly. It provides methods
+ *     for performing various memory operations on different data types.
+ *     The methods provided by this class are similar to those found in the sun.misc.Unsafe class,
+ *     which is an internal and unsupported API in the Java platform. Direct use of sun.misc.Unsafe
+ *     is discouraged, and developers are advised to use standard Java APIs whenever possible.
+ *
+ *     Example usages:
+ *     <pre>{@code
+ *     MemoryAccess memoryAccess = new MemoryAccess();
+ *
+ *     // Allocate memory and perform operations
+ *     long address = memoryAccess.allocateMemory(4);
+ *     memoryAccess.putInt(address, 42);
+ *     int value = memoryAccess.getInt(address);
+ *     memoryAccess.freeMemory(address);
+ *
+ *     // Atomic operations
+ *     Object obj = new Object();
+ *     long offset = memoryAccess.objectFieldOffset(obj.getClass().getDeclaredField("fieldName"));
+ *     memoryAccess.compareAndSwapInt(obj, offset, expectedValue, newValue);
+ *     }</pre>
  *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 30.08.2023 13:26
  */
 @SuppressWarnings("sunapi")
-final class MemoryAccess {
+public final class MemoryAccess {
 
+    /**
+     * Enumeration representing different byte orders (endianness).
+     */
     public enum Endianness {
-        MIDDLE_ENDIAN, LITTLE_ENDIAN, BIG_ENDIAN;
+        ME, LE, BE;
+
+        /**
+         * Checks if the byte order is big-endian.
+         *
+         * @return true if big-endian, false otherwise.
+         */
+        public boolean isBigEndian() {
+            return this.equals(BE);
+        }
+
+        /**
+         * Checks if the byte order is middle-endian.
+         *
+         * @return true if middle-endian, false otherwise.
+         */
+        public boolean isMiddleEndian() {
+            return this.equals(ME);
+        }
+
+        /**
+         * Checks if the byte order is little-endian.
+         *
+         * @return true if little-endian, false otherwise.
+         */
+        public boolean isLittleEndian() {
+            return this.equals(LE);
+        }
     }
 
+    /**
+     * Constant representing the endianness of the system.
+     */
     public static final Endianness ENDIANNESS;
 
+    /**
+     * The instance of the Unsafe class obtained through reflection.
+     */
     private static final Unsafe unsafe;
 
     static {
+        // Retrieve the Unsafe class using reflection
         Class<?> unsafeClass = getUnsafeClass();
+        // Obtain an instance of Unsafe using reflection
         unsafe = getUnsafeInstanceForClass(unsafeClass);
+        // Determine the endianness of the underlying platform
         ENDIANNESS = getEndianness();
     }
 
     /**
      * Retrieves the Unsafe class using reflection.
      *
+     * @implSpec This method uses Java reflection to obtain the `sun.misc.Unsafe` class instance.
+     *     Reflection can have performance overhead and might not work in all environments.
+     *     Additionally, access to the `sun.misc.Unsafe` class might be restricted in certain Java
+     *     environments, which can lead to exceptions or errors when using this method.
+     *
      * @return The Unsafe class.
      *
      * @throws RuntimeException if the Unsafe class cannot be found.
+     * @throws RuntimeException if the Unsafe class cannot be found using reflection.
      */
     private static Class<?> getUnsafeClass() throws RuntimeException {
         try {
@@ -63,6 +131,10 @@ final class MemoryAccess {
 
     /**
      * Retrieves an instance of Unsafe using reflection.
+     *
+     * @implSpec This method uses reflection to access the private field 'theUnsafe'
+     *     within the Unsafe class. It sets the field as accessible, retrieves the
+     *     field value, and then resets the field accessibility to its original state.
      *
      * @param unsafeClass The Unsafe class.
      *
@@ -84,40 +156,75 @@ final class MemoryAccess {
     }
 
     /**
-     * Determines whether the underlying platform is <b>big-endian</b> or
-     * <b>little-endian</b>.
+     * Determines whether the underlying platform uses <b>big-endian</b> or
+     * <b>little-endian</b> byte order.
      *
      * @implSpec This method uses a byte-order probe to determine whether the underlying
-     *     platform is big-endian or little-endian. It allocates a 2-byte buffer
+     *     platform uses big-endian or little-endian byte order. It allocates a 4-byte buffer
      *     using the {@code allocateMemory} method, writes the value
-     *     {@code 0x10000001} to the buffer using the {@code putShort} method,
+     *     {@code 0x04030201} to the buffer using the {@code putInt} method,
      *     reads the first byte of the buffer using the {@code getByte} method, and
      *     then deallocates the buffer using the {@code freeMemory} method.
-     *     If the first byte of the buffer is {@code 0x01}, the platform is
-     *     little-endian; if it is {@code 0x10}, the platform is big-endian.
+     *     If the first byte of the buffer is {@code 0x01}, the platform uses
+     *     little-endian byte order; if it is {@code 0x02}, the platform uses
+     *     middle-endian (PDP-11) byte order; if it is {@code 0x04}, the platform uses
+     *     big-endian byte order.
      *
-     * @return {@code true} if the platform is big-endian, {@code false} if it
-     *     is little-endian.
+     * @return {@link Endianness#LE} if the platform uses little-endian byte order,
+     *     {@link Endianness#ME} if the platform uses big-endian byte order,
+     *     {@link Endianness#BE} if the platform uses big-endian byte order.
+     *
+     * @throws RuntimeException if the byte order cannot be determined.
      */
     private static Endianness getEndianness() {
-        long intValueOffset = unsafe.allocateMemory(4);
-        unsafe.putInt(intValueOffset, 0x04030201);
-        byte lowByteValue = (byte) unsafe.getByte(intValueOffset);
-        unsafe.freeMemory(intValueOffset);
+        long offset = unsafe.allocateMemory(4);
+        unsafe.putInt(offset, 0x04030201);
+        byte lsb = (byte) unsafe.getByte(offset);
+        unsafe.freeMemory(offset);
 
-        switch (lowByteValue) {
+        switch (lsb) {
             case 0x01:
-            default:
-                return Endianness.LITTLE_ENDIAN;
+                return Endianness.LE;
             case 0x02:
-                return Endianness.MIDDLE_ENDIAN;
+                return Endianness.ME;
+            case 0x03:
+            default:
+                throw new RuntimeException("Failed to determine byte order");
             case 0x04:
-                return Endianness.BIG_ENDIAN;
+                return Endianness.BE;
         }
     }
 
-    public boolean isIsBigEndian() {
-        return Endianness.BIG_ENDIAN.equals(ENDIANNESS);
+    /**
+     * Retrieves the endianness of the system.
+     *
+     * @implSpec  This method returns a predefined constant representing the endianness of the system,
+     *     which is determined during the initialization of the application.
+     *     The actual endianness of the system hardware is unlikely to change while the application is running.
+     *     Endianness refers to the byte order in which multi-byte data types are stored in memory.
+     *     It can be either {@link Endianness#BE} (most significant byte first) or
+     *     {@link Endianness#LE} (least significant byte first).
+     *     This information can be crucial when working with binary data formats that are shared
+     *     between systems with different endianness.
+     *
+     * @see Endianness
+     * @see <a href="https://en.wikipedia.org/wiki/Endianness">Endianness</a>
+     *
+     *     Example usages:
+     *     <pre>{@code
+     *     // Getting the system endianness
+     *     Endianness systemEndianness = endianness();
+     *     if (systemEndianness == Endianness.BIG_ENDIAN) {
+     *         System.out.println("System uses big-endian.");
+     *     } else {
+     *         System.out.println("System uses little-endian.");
+     *     }
+     *     }</pre>
+     *
+     * @return The endianness of the system, indicating how multi-byte data is stored.
+     */
+    public Endianness endianness() {
+        return ENDIANNESS;
     }
 
     /**
@@ -435,118 +542,360 @@ final class MemoryAccess {
         unsafe.putObject(obj, offset, value);
     }
 
+    /**
+     * Atomically compares the int field at the specified memory offset of the provided object
+     * with the expected value, and if they are equal, updates the field to the new value.
+     *
+     * @param obj      the object containing the int field
+     * @param offset   the memory offset of the int field
+     * @param expected the expected value of the int field
+     * @param newValue the new value to set the int field to
+     *
+     * @return {@code true} if the comparison and update were successful, {@code false} otherwise
+     */
     public boolean compareAndSwapInt(Object obj, long offset, int expected, int newValue) {
         return unsafe.compareAndSwapInt(obj, offset, expected, newValue);
     }
 
+    /**
+     * Atomically compares the long field at the specified memory offset of the provided object
+     * with the expected value, and if they are equal, updates the field to the new value.
+     *
+     * @param obj      the object containing the long field
+     * @param offset   the memory offset of the long field
+     * @param expected the expected value of the long field
+     * @param newValue the new value to set the long field to
+     *
+     * @return {@code true} if the comparison and update were successful, {@code false} otherwise
+     */
     public boolean compareAndSwapLong(Object obj, long offset, long expected, long newValue) {
         return unsafe.compareAndSwapLong(obj, offset, expected, newValue);
     }
 
+    /**
+     * Atomically compares the reference field at the specified memory offset of the provided object
+     * with the expected value, and if they are equal, updates the field to the new value.
+     *
+     * @param obj      the object containing the reference field
+     * @param offset   the memory offset of the reference field
+     * @param expected the expected value of the reference field
+     * @param newValue the new value to set the reference field to
+     *
+     * @return {@code true} if the comparison and update were successful, {@code false} otherwise
+     */
     public boolean compareAndSwapObject(Object obj, long offset, Object expected, Object newValue) {
         return unsafe.compareAndSwapObject(obj, offset, expected, newValue);
     }
 
+    /**
+     * Returns the value of the volatile reference field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile reference
+     * @param offset the memory offset at which to read the volatile reference
+     *
+     * @return the volatile reference value read from the specified memory offset
+     */
     public Object getObjectVolatile(Object obj, long offset) {
         return unsafe.getObjectVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile reference value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile reference
+     * @param offset the memory offset at which to write the volatile reference
+     * @param value  the volatile reference value to write
+     */
     public void putObjectVolatile(Object obj, long offset, Object value) {
         unsafe.putObjectVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile int field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile int
+     * @param offset the memory offset at which to read the volatile int
+     *
+     * @return the volatile int value read from the specified memory offset
+     */
     public int getIntVolatile(Object obj, long offset) {
         return unsafe.getIntVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile int value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile int
+     * @param offset the memory offset at which to write the volatile int
+     * @param value  the volatile int value to write
+     */
     public void putIntVolatile(Object obj, long offset, int value) {
         unsafe.putIntVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile boolean field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile boolean
+     * @param offset the memory offset at which to read the volatile boolean
+     *
+     * @return the volatile boolean value read from the specified memory offset
+     */
     public boolean getBooleanVolatile(Object obj, long offset) {
         return unsafe.getBooleanVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile boolean value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile boolean
+     * @param offset the memory offset at which to write the volatile boolean
+     * @param value  the volatile boolean value to write
+     */
     public void putBooleanVolatile(Object obj, long offset, boolean value) {
         unsafe.putBooleanVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile byte field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile byte
+     * @param offset the memory offset at which to read the volatile byte
+     *
+     * @return the volatile byte value read from the specified memory offset
+     */
     public byte getByteVolatile(Object obj, long offset) {
         return unsafe.getByteVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile byte value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile byte
+     * @param offset the memory offset at which to write the volatile byte
+     * @param value  the volatile byte value to write
+     */
     public void putByteVolatile(Object obj, long offset, byte value) {
         unsafe.putByteVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile short field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile short
+     * @param offset the memory offset at which to read the volatile short
+     *
+     * @return the volatile short value read from the specified memory offset
+     */
     public short getShortVolatile(Object obj, long offset) {
         return unsafe.getShortVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile short value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile short
+     * @param offset the memory offset at which to write the volatile short
+     * @param value  the volatile short value to write
+     */
     public void putShortVolatile(Object obj, long offset, short value) {
         unsafe.putShortVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile char field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile char
+     * @param offset the memory offset at which to read the volatile char
+     *
+     * @return the volatile char value read from the specified memory offset
+     */
     public char getCharVolatile(Object obj, long offset) {
         return unsafe.getCharVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile char value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile char
+     * @param offset the memory offset at which to write the volatile char
+     * @param value  the volatile char value to write
+     */
     public void putCharVolatile(Object obj, long offset, char value) {
         unsafe.putCharVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile long field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile long
+     * @param offset the memory offset at which to read the volatile long
+     *
+     * @return the volatile long value read from the specified memory offset
+     */
     public long getLongVolatile(Object obj, long offset) {
         return unsafe.getLongVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile long value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile long
+     * @param offset the memory offset at which to write the volatile long
+     * @param value  the volatile long value to write
+     */
     public void putLongVolatile(Object obj, long offset, long value) {
         unsafe.putLongVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile float field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile float
+     * @param offset the memory offset at which to read the volatile float
+     *
+     * @return the volatile float value read from the specified memory offset
+     */
     public float getFloatVolatile(Object obj, long offset) {
         return unsafe.getFloatVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile float value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile float
+     * @param offset the memory offset at which to write the volatile float
+     * @param value  the volatile float value to write
+     */
     public void putFloatVolatile(Object obj, long offset, float value) {
         unsafe.putFloatVolatile(obj, offset, value);
     }
 
+    /**
+     * Returns the value of the volatile double field at the specified memory offset of the provided object.
+     *
+     * @param obj    the object from which to read the volatile double
+     * @param offset the memory offset at which to read the volatile double
+     *
+     * @return the volatile double value read from the specified memory offset
+     */
     public double getDoubleVolatile(Object obj, long offset) {
         return unsafe.getDoubleVolatile(obj, offset);
     }
 
+    /**
+     * Writes a volatile double value to the specified memory offset of the given object.
+     *
+     * @param obj    the object to which to write the volatile double
+     * @param offset the memory offset at which to write the volatile double
+     * @param value  the volatile double value to write
+     */
     public void putDoubleVolatile(Object obj, long offset, double value) {
         unsafe.putDoubleVolatile(obj, offset, value);
     }
 
+    /**
+     * Writes an ordered object value to the specified memory offset of the given object.
+     * This method provides similar memory semantics as a volatile write.
+     *
+     * @param obj    the object to which to write the ordered object
+     * @param offset the memory offset at which to write the ordered object
+     * @param value  the ordered object value to write
+     */
     public void putOrderedObject(Object obj, long offset, Object value) {
         unsafe.putOrderedObject(obj, offset, value);
     }
 
+    /**
+     * Writes an ordered int value to the specified memory offset of the given object.
+     * This method provides similar memory semantics as a volatile write.
+     *
+     * @param obj    the object to which to write the ordered int
+     * @param offset the memory offset at which to write the ordered int
+     * @param value  the ordered int value to write
+     */
     public void putOrderedInt(Object obj, long offset, int value) {
         unsafe.putOrderedInt(obj, offset, value);
     }
 
+    /**
+     * Writes an ordered long value to the specified memory offset of the given object.
+     * This method provides similar memory semantics as a volatile write.
+     *
+     * @param obj    the object to which to write the ordered long
+     * @param offset the memory offset at which to write the ordered long
+     * @param value  the ordered long value to write
+     */
     public void putOrderedLong(Object obj, long offset, long value) {
         unsafe.putOrderedLong(obj, offset, value);
     }
 
+    /**
+     * Atomically adds the given value to the int field at the specified memory offset
+     * of the provided object.
+     *
+     * @param obj    the object containing the int field
+     * @param offset the memory offset of the int field
+     * @param delta  the value to add to the int field
+     *
+     * @return the previous value of the int field before the addition
+     */
     public int getAndAddInt(Object obj, long offset, int delta) {
         return unsafe.getAndAddInt(obj, offset, delta);
     }
 
+    /**
+     * Atomically adds the given value to the long field at the specified memory offset
+     * of the provided object.
+     *
+     * @param obj    the object containing the long field
+     * @param offset the memory offset of the long field
+     * @param delta  the value to add to the long field
+     *
+     * @return the previous value of the long field before the addition
+     */
     public long getAndAddLong(Object obj, long offset, long delta) {
         return unsafe.getAndAddLong(obj, offset, delta);
     }
 
+    /**
+     * Atomically sets the int field at the specified memory offset of the provided
+     * object to the given new value.
+     *
+     * @param obj      the object containing the int field
+     * @param offset   the memory offset of the int field
+     * @param newValue the new value to set the int field to
+     *
+     * @return the previous value of the int field before the update
+     */
     public int getAndSetInt(Object obj, long offset, int newValue) {
         return unsafe.getAndSetInt(obj, offset, newValue);
     }
 
+    /**
+     * Atomically sets the long field at the specified memory offset of the provided
+     * object to the given new value.
+     *
+     * @param obj      the object containing the long field
+     * @param offset   the memory offset of the long field
+     * @param newValue the new value to set the long field to
+     *
+     * @return the previous value of the long field before the update
+     */
     public long getAndSetLong(Object obj, long offset, long newValue) {
         return unsafe.getAndSetLong(obj, offset, newValue);
     }
 
+    /**
+     * Atomically sets the reference field at the specified memory offset of the provided
+     * object to the given new value.
+     *
+     * @param obj      the object containing the reference field
+     * @param offset   the memory offset of the reference field
+     * @param newValue the new value to set the reference field to
+     *
+     * @return the previous value of the reference field before the update
+     */
     public Object getAndSetObject(Object obj, long offset, Object newValue) {
         return unsafe.getAndSetObject(obj, offset, newValue);
     }
