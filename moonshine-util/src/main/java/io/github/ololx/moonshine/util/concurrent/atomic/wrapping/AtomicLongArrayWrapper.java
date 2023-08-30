@@ -20,14 +20,14 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
- * A wrapper class that implements the {@link AtomicArray} interface using
+ * A wrapper class that implements the {@link AtomicArrayWrapper} interface using
  * {@link java.util.concurrent.atomic.AtomicLongArray} as the underlying data structure.
  *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 27.08.2023 16:08
  */
-public class AtomicLongArrayWrapper implements AtomicArray<Long> {
+public class AtomicLongArrayWrapper implements AtomicArrayWrapper<Long> {
 
     private final AtomicLongArray array;
 

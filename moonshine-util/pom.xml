@@ -91,6 +91,15 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.openjdk.jcstress/jcstress-core -->
+        <dependency>
+            <groupId>org.openjdk.jcstress</groupId>
+            <artifactId>jcstress-core</artifactId>
+            <version>0.16</version>
+            <scope>test</scope>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/com.googlecode.multithreadedtc/multithreadedtc -->
         <dependency>
             <groupId>com.googlecode.multithreadedtc</groupId>
