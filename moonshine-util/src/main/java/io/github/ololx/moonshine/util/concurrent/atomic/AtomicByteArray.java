@@ -27,16 +27,16 @@ import java.util.function.UnaryOperator;
  */
 public class AtomicByteArray {
 
-    private static final MemoryAccess unsafe = new MemoryAccess();
+    private static final MemoryAccess memoryAccess = new MemoryAccess();
 
-    private static final int ARRAY_BASE_OFFSET = unsafe.arrayBaseOffset(long[].class);
+    private static final int ARRAY_BASE_OFFSET = memoryAccess.arrayBaseOffset(long[].class);
 
     private static final int ARRAY_INDEX_OFFSET_SHIFT;
 
     private final byte[] array;
 
     static {
-        int indexScale = unsafe.arrayIndexScale(byte[].class);
+        int indexScale = memoryAccess.arrayIndexScale(byte[].class);
         if ((indexScale & (indexScale - 1)) != 0) {
             throw new Error("The byte[] index scale is not a power of two");
         }
@@ -61,11 +61,11 @@ public class AtomicByteArray {
     }
 
     private byte getRaw(long offset) {
-        return unsafe.getByteVolatile(array, offset);
+        return memoryAccess.getByteVolatile(array, offset);
     }
 
     public void set(final int i, final byte newValue) {
-        unsafe.putByteVolatile(array, checkedByteOffset(i), newValue);
+        memoryAccess.putByteVolatile(array, checkedByteOffset(i), newValue);
     }
 
     public byte getAndSet(final int i, byte newValue) {
@@ -73,13 +73,7 @@ public class AtomicByteArray {
     }
 
     private byte getAndSetRaw(long offset, byte newValue) {
-        byte expected;
-
-        do {
-            expected = getRaw(offset);
-        } while (!compareAndSetRaw(offset, expected, newValue));
-
-        return expected;
+       return memoryAccess.getAndSetByte(array, offset, newValue);
     }
 
     public boolean compareAndSet(final int i, final byte expect, final byte update) {
@@ -87,35 +81,7 @@ public class AtomicByteArray {
     }
 
     public boolean compareAndSetRaw(final long offset, final byte expect, final byte update) {
-        return compareAndSwapByte(array, offset, expect, update) == update;
-    }
-
-    private byte compareAndSwapByte(Object o, long offset, byte expected, byte update) {
-        long intWordOffset = offset & ~3;
-
-        int byteWordShift = (int) (offset & 3) << 3;
-        if (unsafe.endianness().isBigEndian()) {
-            byteWordShift = 24 - byteWordShift;
-        }
-
-        int byteWordMask = 0xFF << byteWordShift;
-        int maskedUpdate = (update & 0xFF) << byteWordShift;
-
-        int oldIntWordValue;
-        int newIntWordValue;
-
-        do {
-            oldIntWordValue = unsafe.getIntVolatile(o, intWordOffset);
-
-            byte oldByteValue;
-            if ((oldByteValue = (byte) ((oldIntWordValue >> byteWordShift) & 0xFF)) != expected) {
-                return oldByteValue;
-            }
-
-            newIntWordValue = (oldIntWordValue & ~byteWordMask) | maskedUpdate;
-        } while (!unsafe.compareAndSwapInt(o, intWordOffset, oldIntWordValue, newIntWordValue));
-
-        return update;
+        return memoryAccess.compareAndSwapByte(array, offset, expect, update);
     }
 
     public boolean weakCompareAndSet(final int i, final byte expect, final byte update) {
@@ -142,15 +108,7 @@ public class AtomicByteArray {
     }
 
     public byte getAndAddRaw(final long offset, final byte delta) {
-        byte expected;
-        byte update;
-
-        do {
-            expected = getRaw(offset);
-            update = (byte) ((expected + delta) & 0xFF);
-        } while (!compareAndSetRaw(offset, expected, update));
-
-        return expected;
+        return memoryAccess.getAndAddByte(array, offset, delta);
     }
 
     public final byte incrementAndGet(int i) {

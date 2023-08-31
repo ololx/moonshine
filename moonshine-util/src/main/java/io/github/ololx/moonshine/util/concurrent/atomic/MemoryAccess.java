@@ -271,199 +271,6 @@ public final class MemoryAccess {
     }
 
     /**
-     * Returns the memory page size of the system.
-     *
-     * @implSpec The memory page size is the smallest unit of memory that an operating system's memory management
-     *     uses. It can affect various aspects of memory allocation and performance. Understanding the
-     *     memory page size can be important when optimizing memory usage and managing memory-mapped files.
-     * @see <a href="https://en.wikipedia.org/wiki/Page_(computer_memory)">Memory Page</a>
-     * @see <a href="https://en.wikipedia.org/wiki/Memory-mapped_file">Memory-Mapped File</a>
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Getting the system memory page size
-     *     int systemPageSize = pageSize();
-     *     System.out.println("System memory page size: " + systemPageSize + " bytes");
-     *     }</pre>
-     *
-     * @return The memory page size in bytes.
-     */
-    public int pageSize() {
-        return unsafe.pageSize();
-    }
-
-    /**
-     * Returns the size of native pointers in bytes.
-     *
-     * @implSpec The size of native pointers determines the largest addressable unit of memory in the system.
-     *     This information is important when dealing with memory manipulation and direct memory access.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Getting the system's native pointer size
-     *     int pointerSize = addressSize();
-     *     System.out.println("System native pointer size: " + pointerSize + " bytes");
-     *     }</pre>
-     *
-     * @return The size of native pointers in bytes.
-     */
-    public int addressSize() {
-        return unsafe.addressSize();
-    }
-
-    /**
-     * Retrieves the memory address at the specified offset.
-     *
-     * @implSpec This method reads the memory address at the specified offset using the Unsafe class.
-     *     The behavior is undefined if the offset is not within the bounds of allocated memory.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Allocate memory and get the address at a specific offset
-     *     long memoryAddress = allocateMemory(16); // Allocates 16 bytes of memory
-     *     long offset = 8; // Offset within the allocated memory
-     *     long address = getAddress(memoryAddress + offset);
-     *     System.out.println("Memory address at offset " + offset + ": " + address);
-     *     }</pre>
-     *
-     * @param offset The memory offset.
-     *
-     * @return The memory address at the offset.
-     */
-    public long getAddress(long offset) {
-        return unsafe.getAddress(offset);
-    }
-
-    /**
-     * Allocates a block of native memory of the given size.
-     *
-     * @implSpec This method allocates a block of native memory using the Unsafe class.
-     *     The allocated memory should be freed after use by calling `unsafe.freeMemory(address)`.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Allocate memory and use the allocated memory address
-     *     long memorySize = 1024; // 1 KB of memory
-     *     long memoryAddress = allocateMemory(memorySize);
-     *     System.out.println("Allocated memory address: " + memoryAddress);
-     *
-     *     // Don't forget to free the allocated memory after use
-     *     // unsafe.freeMemory(memoryAddress);
-     *     }</pre>
-     *
-     * @param bytes The size of memory to allocate in bytes.
-     *
-     * @return The starting address of the allocated memory block.
-     */
-    public long allocateMemory(long bytes) {
-        return unsafe.allocateMemory(bytes);
-    }
-
-    /**
-     * Resizes a previously allocated block of native memory.
-     *
-     * @implSpec This method resizes a previously allocated block of native memory using the Unsafe class.
-     *     The content of the original block is copied to the new block if necessary.
-     *     The behavior is undefined if the provided address is not a valid allocated memory block.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Allocate initial memory
-     *     long initialSize = 64;
-     *     long initialAddress = allocateMemory(initialSize);
-     *
-     *     // Reallocate memory to a larger size
-     *     long newSize = 128;
-     *     long newAddress = reallocateMemory(initialAddress, newSize);
-     *     System.out.println("New memory address after reallocation: " + newAddress);
-     *     }</pre>
-     *
-     * @param address The starting address of the memory block.
-     * @param bytes   The new size of the memory block in bytes.
-     *
-     * @return The new starting address of the memory block.
-     */
-    public long reallocateMemory(long address, long bytes) {
-        return unsafe.reallocateMemory(address, bytes);
-    }
-
-    /**
-     * Frees a previously allocated block of native memory.
-     *
-     * @implSpec This method frees a previously allocated block of native memory using the Unsafe class.
-     *     After calling this method, the memory block will no longer be accessible,
-     *     and the address will be invalid for further use.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Allocate memory and use it
-     *     long memorySize = 256;
-     *     long memoryAddress = allocateMemory(memorySize);
-     *
-     *     // Free the allocated memory when done using it
-     *     freeMemory(memoryAddress);
-     *     System.out.println("Memory has been freed.");
-     *     }</pre>
-     *
-     * @param address The starting address of the memory block to free.
-     */
-    public void freeMemory(long address) {
-        unsafe.freeMemory(address);
-    }
-
-    /**
-     * Fills a range of memory with a specified value.
-     *
-     * @implSpec This method fills range of memory within the given object starting from the specified offset.
-     *     The specified number of bytes will be set to the provided value.
-     *     The behavior is undefined if the provided object is not of the appropriate type to hold the memory,
-     *     or if the offset and size exceed the bounds of the object's memory.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Create a byte array and fill part of it with a value
-     *     byte[] byteArray = new byte[10];
-     *     setMemory(byteArray, 2, 4, (byte) 42);
-     *     System.out.println(Arrays.toString(byteArray)); // [0, 0, 42, 42, 42, 42, 0, 0, 0, 0]
-     *     }</pre>
-     *
-     * @param obj    The object whose memory is being filled.
-     * @param offset The starting offset of the memory region.
-     * @param bytes  The number of bytes to fill.
-     * @param value  The value to fill the memory with.
-     */
-    public void setMemory(Object obj, long offset, long bytes, byte value) {
-        unsafe.setMemory(obj, offset, bytes, value);
-    }
-
-    /**
-     * Copies a range of memory from one object to another.
-     *
-     * @implSpec This method copies a range of memory from the source object to the destination object.
-     *     The specified number of bytes will be copied from the source offset to the destination offset.
-     *     The behavior is undefined if the provided objects are not of the appropriate type to hold the memory,
-     *     or if the offset and size exceed the bounds of the objects' memory.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Create two byte arrays and copy a portion of one array to the other
-     *     byte[] srcArray = {1, 2, 3, 4, 5};
-     *     byte[] destArray = new byte[3];
-     *     copyMemory(srcArray, 1, destArray, 0, 3);
-     *     System.out.println(Arrays.toString(destArray)); // [2, 3, 4]
-     *     }</pre>
-     *
-     * @param srcObj     The source object.
-     * @param srcOffset  The starting offset of the source memory region.
-     * @param destObj    The destination object.
-     * @param destOffset The starting offset of the destination memory region.
-     * @param bytes      The number of bytes to copy.
-     */
-    public void copyMemory(Object srcObj, long srcOffset, Object destObj, long destOffset, long bytes) {
-        unsafe.copyMemory(srcObj, srcOffset, destObj, destOffset, bytes);
-    }
-
-    /**
      * Returns the base offset of the provided array class.
      *
      * @implSpec This method returns the base offset that should be added to the index of an element in the array
@@ -510,6 +317,18 @@ public final class MemoryAccess {
     /**
      * Returns the value of a byte at the specified memory offset of the given object.
      *
+     * @implSpec This method reads a byte value from the memory location specified by the object and offset.
+     *     It is the caller's responsibility to ensure that the memory at the specified offset is accessible and
+     *     contains a valid byte value.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Reading a byte from a memory location
+     *     Object obj = ...; // The object containing the memory location
+     *     long offset = ...; // The memory offset
+     *     byte value = getByte(obj, offset);
+     *     }</pre>
+     *
      * @param obj    the object from which to read the byte
      * @param offset the memory offset at which to read the byte
      *
@@ -522,6 +341,18 @@ public final class MemoryAccess {
     /**
      * Writes a byte value to the specified memory offset of the given object.
      *
+     * @implSpec This method writes a byte value to the memory location specified by the object and offset.
+     *     It is the caller's responsibility to ensure that the memory at the specified offset is writable.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Writing a byte to a memory location
+     *     Object obj = ...; // The object containing the memory location
+     *     long offset = ...; // The memory offset
+     *     byte value = ...; // The byte value to write
+     *     putByte(obj, offset, value);
+     *     }</pre>
+     *
      * @param obj    the object to which to write the byte
      * @param offset the memory offset at which to write the byte
      * @param value  the byte value to write
@@ -531,53 +362,19 @@ public final class MemoryAccess {
     }
 
     /**
-     * Returns the value of a short at the specified memory offset of the given object.
-     *
-     * @param obj    the object from which to read the short
-     * @param offset the memory offset at which to read the short
-     *
-     * @return the short value read from the specified memory offset
-     */
-    public short getShort(Object obj, long offset) {
-        return unsafe.getShort(obj, offset);
-    }
-
-    /**
-     * Writes a short value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the short
-     * @param offset the memory offset at which to write the short
-     * @param value  the short value to write
-     */
-    public void putShort(Object obj, long offset, short value) {
-        unsafe.putShort(obj, offset, value);
-    }
-
-    /**
-     * Returns the value of a char at the specified memory offset of the given object.
-     *
-     * @param obj    the object from which to read the char
-     * @param offset the memory offset at which to read the char
-     *
-     * @return the char value read from the specified memory offset
-     */
-    public char getChar(Object obj, long offset) {
-        return unsafe.getChar(obj, offset);
-    }
-
-    /**
-     * Writes a char value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the char
-     * @param offset the memory offset at which to write the char
-     * @param value  the char value to write
-     */
-    public void putChar(Object obj, long offset, char value) {
-        unsafe.putChar(obj, offset, value);
-    }
-
-    /**
      * Returns the value of an int at the specified memory offset of the given object.
+     *
+     * @implSpec This method reads an int value from the memory location specified by the object and offset.
+     *     It is the caller's responsibility to ensure that the memory at the specified offset is accessible and
+     *     contains a valid int value.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Reading an int from a memory location
+     *     Object obj = ...; // The object containing the memory location
+     *     long offset = ...; // The memory offset
+     *     int value = getInt(obj, offset);
+     *     }</pre>
      *
      * @param obj    the object from which to read the int
      * @param offset the memory offset at which to read the int
@@ -591,6 +388,18 @@ public final class MemoryAccess {
     /**
      * Writes an int value to the specified memory offset of the given object.
      *
+     * @implSpec This method writes an int value to the memory location specified by the object and offset.
+     *     It is the caller's responsibility to ensure that the memory at the specified offset is writable.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Writing an int to a memory location
+     *     Object obj = ...; // The object containing the memory location
+     *     long offset = ...; // The memory offset
+     *     int value = ...; // The int value to write
+     *     putInt(obj, offset, value);
+     *     }</pre>
+     *
      * @param obj    the object to which to write the int
      * @param offset the memory offset at which to write the int
      * @param value  the int value to write
@@ -600,123 +409,73 @@ public final class MemoryAccess {
     }
 
     /**
-     * Returns the value of a boolean at the specified memory offset of the given object.
+     * Atomically compares the byte field at the specified memory offset of the provided object
+     * with the expected value, and if they are equal, updates the field to the new value.
      *
-     * @param obj    the object from which to read the boolean
-     * @param offset the memory offset at which to read the boolean
+     * @implSpec This method atomically compares the byte field at the specified offset to the expected value.
+     *     If the current value matches the expected value, the method updates the byte field to the new value
+     *     and returns {@code true}. Otherwise, it returns {@code false}.
+     *     This operation is useful for performing atomic updates on shared byte variables.
      *
-     * @return the boolean value read from the specified memory offset
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the byte field
+     *     long offset = ...; // The memory offset of the byte field
+     *     byte expected = ...; // The expected value of the byte field
+     *     byte newValue = ...; // The new value to set the byte field to
+     *     boolean success = compareAndSwapByte(obj, offset, expected, newValue);
+     *     }</pre>
+     *
+     * @param obj      the object containing the byte field
+     * @param offset   the memory offset of the byte field
+     * @param expected the expected value of the byte field
+     * @param newValue the new value to set the byte field to
+     *
+     * @return {@code true} if the comparison and update were successful, {@code false} otherwise
      */
-    public boolean getBoolean(Object obj, long offset) {
-        return unsafe.getBoolean(obj, offset);
-    }
+    public boolean compareAndSwapByte(Object obj, long offset, byte expected, byte newValue) {
+        long intWordOffset = offset & ~3;
 
-    /**
-     * Writes a boolean value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the boolean
-     * @param offset the memory offset at which to write the boolean
-     * @param value  the boolean value to write
-     */
-    public void putBoolean(Object obj, long offset, boolean value) {
-        unsafe.putBoolean(obj, offset, value);
-    }
+        int byteWordShift = (int) (offset & 3) << 3;
+        if (endianness().isBigEndian()) {
+            byteWordShift = 24 - byteWordShift;
+        }
 
-    /**
-     * Returns the value of a float at the specified memory offset of the given object.
-     *
-     * @param obj    the object from which to read the float
-     * @param offset the memory offset at which to read the float
-     *
-     * @return the float value read from the specified memory offset
-     */
-    public float getFloat(Object obj, long offset) {
-        return unsafe.getFloat(obj, offset);
-    }
+        int byteWordMask = 0xFF << byteWordShift;
+        int maskedUpdate = (newValue & 0xFF) << byteWordShift;
 
-    /**
-     * Writes a float value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the float
-     * @param offset the memory offset at which to write the float
-     * @param value  the float value to write
-     */
-    public void putFloat(Object obj, long offset, float value) {
-        unsafe.putFloat(obj, offset, value);
-    }
+        int oldIntWordValue;
+        int newIntWordValue;
 
-    /**
-     * Returns the value of a long at the specified memory offset of the given object.
-     *
-     * @param obj    the object from which to read the long
-     * @param offset the memory offset at which to read the long
-     *
-     * @return the long value read from the specified memory offset
-     */
-    public long getLong(Object obj, long offset) {
-        return unsafe.getLong(obj, offset);
-    }
+        do {
+            oldIntWordValue = getIntVolatile(obj, intWordOffset);
 
-    /**
-     * Writes a long value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the long
-     * @param offset the memory offset at which to write the long
-     * @param value  the long value to write
-     */
-    public void putLong(Object obj, long offset, long value) {
-        unsafe.putLong(obj, offset, value);
-    }
+            if ((byte) ((oldIntWordValue >> byteWordShift) & 0xFF) != expected) {
+                return false;
+            }
 
-    /**
-     * Returns the value of a double at the specified memory offset of the given object.
-     *
-     * @param obj    the object from which to read the double
-     * @param offset the memory offset at which to read the double
-     *
-     * @return the double value read from the specified memory offset
-     */
-    public double getDouble(Object obj, long offset) {
-        return unsafe.getDouble(obj, offset);
-    }
+            newIntWordValue = (oldIntWordValue & ~byteWordMask) | maskedUpdate;
+        } while (!compareAndSwapInt(obj, intWordOffset, oldIntWordValue, newIntWordValue));
 
-    /**
-     * Writes a double value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the double
-     * @param offset the memory offset at which to write the double
-     * @param value  the double value to write
-     */
-    public void putDouble(Object obj, long offset, double value) {
-        unsafe.putDouble(obj, offset, value);
-    }
-
-    /**
-     * Returns the reference to an object at the specified memory offset of the given object.
-     *
-     * @param obj    the object from which to read the reference
-     * @param offset the memory offset at which to read the reference
-     *
-     * @return the object reference read from the specified memory offset
-     */
-    public Object getObject(Object obj, long offset) {
-        return unsafe.getObject(obj, offset);
-    }
-
-    /**
-     * Writes a reference to an object to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the reference
-     * @param offset the memory offset at which to write the reference
-     * @param value  the object reference to write
-     */
-    public void putObject(Object obj, long offset, Object value) {
-        unsafe.putObject(obj, offset, value);
+        return true;
     }
 
     /**
      * Atomically compares the int field at the specified memory offset of the provided object
      * with the expected value, and if they are equal, updates the field to the new value.
+     *
+     * @implSpec This method atomically compares the value of the int field at the specified offset with
+     *     the expected value. If they are equal, the int field is updated with the new value.
+     *     This operation is performed atomically and is useful for managing concurrent updates to shared fields.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the int field
+     *     long offset = ...; // The memory offset of the int field
+     *     int expected = ...; // The expected value of the int field
+     *     int newValue = ...; // The new value to set the int field to
+     *     boolean success = compareAndSwapInt(obj, offset, expected, newValue);
+     *     }</pre>
      *
      * @param obj      the object containing the int field
      * @param offset   the memory offset of the int field
@@ -730,106 +489,18 @@ public final class MemoryAccess {
     }
 
     /**
-     * Atomically compares the long field at the specified memory offset of the provided object
-     * with the expected value, and if they are equal, updates the field to the new value.
-     *
-     * @param obj      the object containing the long field
-     * @param offset   the memory offset of the long field
-     * @param expected the expected value of the long field
-     * @param newValue the new value to set the long field to
-     *
-     * @return {@code true} if the comparison and update were successful, {@code false} otherwise
-     */
-    public boolean compareAndSwapLong(Object obj, long offset, long expected, long newValue) {
-        return unsafe.compareAndSwapLong(obj, offset, expected, newValue);
-    }
-
-    /**
-     * Atomically compares the reference field at the specified memory offset of the provided object
-     * with the expected value, and if they are equal, updates the field to the new value.
-     *
-     * @param obj      the object containing the reference field
-     * @param offset   the memory offset of the reference field
-     * @param expected the expected value of the reference field
-     * @param newValue the new value to set the reference field to
-     *
-     * @return {@code true} if the comparison and update were successful, {@code false} otherwise
-     */
-    public boolean compareAndSwapObject(Object obj, long offset, Object expected, Object newValue) {
-        return unsafe.compareAndSwapObject(obj, offset, expected, newValue);
-    }
-
-    /**
-     * Returns the value of the volatile reference field at the specified memory offset of the provided object.
-     *
-     * @param obj    the object from which to read the volatile reference
-     * @param offset the memory offset at which to read the volatile reference
-     *
-     * @return the volatile reference value read from the specified memory offset
-     */
-    public Object getObjectVolatile(Object obj, long offset) {
-        return unsafe.getObjectVolatile(obj, offset);
-    }
-
-    /**
-     * Writes a volatile reference value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile reference
-     * @param offset the memory offset at which to write the volatile reference
-     * @param value  the volatile reference value to write
-     */
-    public void putObjectVolatile(Object obj, long offset, Object value) {
-        unsafe.putObjectVolatile(obj, offset, value);
-    }
-
-    /**
-     * Returns the value of the volatile int field at the specified memory offset of the provided object.
-     *
-     * @param obj    the object from which to read the volatile int
-     * @param offset the memory offset at which to read the volatile int
-     *
-     * @return the volatile int value read from the specified memory offset
-     */
-    public int getIntVolatile(Object obj, long offset) {
-        return unsafe.getIntVolatile(obj, offset);
-    }
-
-    /**
-     * Writes a volatile int value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile int
-     * @param offset the memory offset at which to write the volatile int
-     * @param value  the volatile int value to write
-     */
-    public void putIntVolatile(Object obj, long offset, int value) {
-        unsafe.putIntVolatile(obj, offset, value);
-    }
-
-    /**
-     * Returns the value of the volatile boolean field at the specified memory offset of the provided object.
-     *
-     * @param obj    the object from which to read the volatile boolean
-     * @param offset the memory offset at which to read the volatile boolean
-     *
-     * @return the volatile boolean value read from the specified memory offset
-     */
-    public boolean getBooleanVolatile(Object obj, long offset) {
-        return unsafe.getBooleanVolatile(obj, offset);
-    }
-
-    /**
-     * Writes a volatile boolean value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile boolean
-     * @param offset the memory offset at which to write the volatile boolean
-     * @param value  the volatile boolean value to write
-     */
-    public void putBooleanVolatile(Object obj, long offset, boolean value) {
-        unsafe.putBooleanVolatile(obj, offset, value);
-    }
-
-    /**
      * Returns the value of the volatile byte field at the specified memory offset of the provided object.
+     *
+     * @implSpec This method reads the value of the volatile byte field at the specified offset.
+     *     The volatile modifier ensures that the read operation is not optimized or reordered by the compiler,
+     *     making it suitable for use in concurrent programming.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the volatile byte field
+     *     long offset = ...; // The memory offset of the volatile byte field
+     *     byte value = getByteVolatile(obj, offset);
+     *     }</pre>
      *
      * @param obj    the object from which to read the volatile byte
      * @param offset the memory offset at which to read the volatile byte
@@ -843,6 +514,18 @@ public final class MemoryAccess {
     /**
      * Writes a volatile byte value to the specified memory offset of the given object.
      *
+     * @implSpec This method writes the specified volatile byte value to the memory location at the offset.
+     *     The volatile modifier ensures that the write operation is not optimized or reordered by the compiler,
+     *     making it suitable for use in concurrent programming.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object to which to write the volatile byte
+     *     long offset = ...; // The memory offset at which to write the volatile byte
+     *     byte value = ...; // The volatile byte value to write
+     *     putByteVolatile(obj, offset, value);
+     *     }</pre>
+     *
      * @param obj    the object to which to write the volatile byte
      * @param offset the memory offset at which to write the volatile byte
      * @param value  the volatile byte value to write
@@ -852,159 +535,101 @@ public final class MemoryAccess {
     }
 
     /**
-     * Returns the value of the volatile short field at the specified memory offset of the provided object.
+     * Returns the value of the volatile int field at the specified memory offset of the provided object.
      *
-     * @param obj    the object from which to read the volatile short
-     * @param offset the memory offset at which to read the volatile short
+     * @implSpec This method reads the value of the volatile int field at the specified offset.
+     *     The volatile modifier ensures that the read operation is not optimized or reordered by the compiler,
+     *     making it suitable for use in concurrent programming.
      *
-     * @return the volatile short value read from the specified memory offset
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the volatile int field
+     *     long offset = ...; // The memory offset of the volatile int field
+     *     int value = getIntVolatile(obj, offset);
+     *     }</pre>
+     *
+     * @param obj    the object from which to read the volatile int
+     * @param offset the memory offset at which to read the volatile int
+     *
+     * @return the volatile int value read from the specified memory offset
      */
-    public short getShortVolatile(Object obj, long offset) {
-        return unsafe.getShortVolatile(obj, offset);
+    public int getIntVolatile(Object obj, long offset) {
+        return unsafe.getIntVolatile(obj, offset);
     }
 
     /**
-     * Writes a volatile short value to the specified memory offset of the given object.
+     * Writes a volatile int value to the specified memory offset of the given object.
      *
-     * @param obj    the object to which to write the volatile short
-     * @param offset the memory offset at which to write the volatile short
-     * @param value  the volatile short value to write
+     * @implSpec This method writes the specified volatile int value to the memory location at the offset.
+     *     The volatile modifier ensures that the write operation is not optimized or reordered by the compiler,
+     *     making it suitable for use in concurrent programming.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object to which to write the volatile int
+     *     long offset = ...; // The memory offset at which to write the volatile int
+     *     int value = ...; // The volatile int value to write
+     *     putIntVolatile(obj, offset, value);
+     *     }</pre>
+     *
+     * @param obj    the object to which to write the volatile int
+     * @param offset the memory offset at which to write the volatile int
+     * @param value  the volatile int value to write
      */
-    public void putShortVolatile(Object obj, long offset, short value) {
-        unsafe.putShortVolatile(obj, offset, value);
+    public void putIntVolatile(Object obj, long offset, int value) {
+        unsafe.putIntVolatile(obj, offset, value);
     }
 
     /**
-     * Returns the value of the volatile char field at the specified memory offset of the provided object.
+     * Atomically adds the given value to the byte field at the specified memory offset
+     * of the provided object and returns the previous value of the byte field.
      *
-     * @param obj    the object from which to read the volatile char
-     * @param offset the memory offset at which to read the volatile char
+     * @implSpec This method atomically adds the given value to the byte field at the specified
+     *     offset and returns the previous value of the byte field before the addition. The operation
+     *     ensures that the byte field is updated atomically to avoid race conditions.
      *
-     * @return the volatile char value read from the specified memory offset
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the byte field
+     *     long offset = ...; // The memory offset of the byte field
+     *     byte delta = ...; // The value to add to the byte field
+     *     byte previousValue = getAndAddByte(obj, offset, delta);
+     *     }</pre>
+     *
+     * @param obj    the object containing the byte field
+     * @param offset the memory offset of the byte field
+     * @param delta  the value to add to the byte field
+     *
+     * @return the previous value of the byte field before the addition
      */
-    public char getCharVolatile(Object obj, long offset) {
-        return unsafe.getCharVolatile(obj, offset);
-    }
+    public byte getAndAddByte(Object obj, long offset, byte delta) {
+        byte expected;
+        byte newValue;
 
-    /**
-     * Writes a volatile char value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile char
-     * @param offset the memory offset at which to write the volatile char
-     * @param value  the volatile char value to write
-     */
-    public void putCharVolatile(Object obj, long offset, char value) {
-        unsafe.putCharVolatile(obj, offset, value);
-    }
+        do {
+            expected = getByteVolatile(obj, offset);
+            newValue = (byte) ((expected + delta) & 0xFF);
+        } while (!compareAndSwapByte(obj, offset, expected, newValue));
 
-    /**
-     * Returns the value of the volatile long field at the specified memory offset of the provided object.
-     *
-     * @param obj    the object from which to read the volatile long
-     * @param offset the memory offset at which to read the volatile long
-     *
-     * @return the volatile long value read from the specified memory offset
-     */
-    public long getLongVolatile(Object obj, long offset) {
-        return unsafe.getLongVolatile(obj, offset);
-    }
-
-    /**
-     * Writes a volatile long value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile long
-     * @param offset the memory offset at which to write the volatile long
-     * @param value  the volatile long value to write
-     */
-    public void putLongVolatile(Object obj, long offset, long value) {
-        unsafe.putLongVolatile(obj, offset, value);
-    }
-
-    /**
-     * Returns the value of the volatile float field at the specified memory offset of the provided object.
-     *
-     * @param obj    the object from which to read the volatile float
-     * @param offset the memory offset at which to read the volatile float
-     *
-     * @return the volatile float value read from the specified memory offset
-     */
-    public float getFloatVolatile(Object obj, long offset) {
-        return unsafe.getFloatVolatile(obj, offset);
-    }
-
-    /**
-     * Writes a volatile float value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile float
-     * @param offset the memory offset at which to write the volatile float
-     * @param value  the volatile float value to write
-     */
-    public void putFloatVolatile(Object obj, long offset, float value) {
-        unsafe.putFloatVolatile(obj, offset, value);
-    }
-
-    /**
-     * Returns the value of the volatile double field at the specified memory offset of the provided object.
-     *
-     * @param obj    the object from which to read the volatile double
-     * @param offset the memory offset at which to read the volatile double
-     *
-     * @return the volatile double value read from the specified memory offset
-     */
-    public double getDoubleVolatile(Object obj, long offset) {
-        return unsafe.getDoubleVolatile(obj, offset);
-    }
-
-    /**
-     * Writes a volatile double value to the specified memory offset of the given object.
-     *
-     * @param obj    the object to which to write the volatile double
-     * @param offset the memory offset at which to write the volatile double
-     * @param value  the volatile double value to write
-     */
-    public void putDoubleVolatile(Object obj, long offset, double value) {
-        unsafe.putDoubleVolatile(obj, offset, value);
-    }
-
-    /**
-     * Writes an ordered object value to the specified memory offset of the given object.
-     * This method provides similar memory semantics as a volatile write.
-     *
-     * @param obj    the object to which to write the ordered object
-     * @param offset the memory offset at which to write the ordered object
-     * @param value  the ordered object value to write
-     */
-    public void putOrderedObject(Object obj, long offset, Object value) {
-        unsafe.putOrderedObject(obj, offset, value);
-    }
-
-    /**
-     * Writes an ordered int value to the specified memory offset of the given object.
-     * This method provides similar memory semantics as a volatile write.
-     *
-     * @param obj    the object to which to write the ordered int
-     * @param offset the memory offset at which to write the ordered int
-     * @param value  the ordered int value to write
-     */
-    public void putOrderedInt(Object obj, long offset, int value) {
-        unsafe.putOrderedInt(obj, offset, value);
-    }
-
-    /**
-     * Writes an ordered long value to the specified memory offset of the given object.
-     * This method provides similar memory semantics as a volatile write.
-     *
-     * @param obj    the object to which to write the ordered long
-     * @param offset the memory offset at which to write the ordered long
-     * @param value  the ordered long value to write
-     */
-    public void putOrderedLong(Object obj, long offset, long value) {
-        unsafe.putOrderedLong(obj, offset, value);
+        return expected;
     }
 
     /**
      * Atomically adds the given value to the int field at the specified memory offset
      * of the provided object.
+     *
+     * @implSpec This method atomically adds the given value to the int field at the specified offset.
+     *     The addition is performed atomically, and the method returns the previous value of the int field before the
+     *     addition.
+     *     This operation is useful for performing atomic updates on shared integer variables.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the int field
+     *     long offset = ...; // The memory offset of the int field
+     *     int delta = ...; // The value to add to the int field
+     *     int previousValue = getAndAddInt(obj, offset, delta);
+     *     }</pre>
      *
      * @param obj    the object containing the int field
      * @param offset the memory offset of the int field
@@ -1017,22 +642,52 @@ public final class MemoryAccess {
     }
 
     /**
-     * Atomically adds the given value to the long field at the specified memory offset
-     * of the provided object.
+     * Atomically sets the byte field at the specified memory offset of the provided object
+     * to the given new value and returns the previous value of the byte field.
      *
-     * @param obj    the object containing the long field
-     * @param offset the memory offset of the long field
-     * @param delta  the value to add to the long field
+     * @implSpec This method atomically sets the byte field at the specified offset to the new value
+     *     and returns the previous value of the byte field before the update. The operation ensures that
+     *     the byte field is updated atomically to avoid race conditions.
      *
-     * @return the previous value of the long field before the addition
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the byte field
+     *     long offset = ...; // The memory offset of the byte field
+     *     byte newValue = ...; // The new value to set the byte field to
+     *     byte previousValue = getAndSetByte(obj, offset, newValue);
+     *     }</pre>
+     *
+     * @param obj      the object containing the byte field
+     * @param offset   the memory offset of the byte field
+     * @param newValue the new value to set the byte field to
+     *
+     * @return the previous value of the byte field before the update
      */
-    public long getAndAddLong(Object obj, long offset, long delta) {
-        return unsafe.getAndAddLong(obj, offset, delta);
+    public byte getAndSetByte(Object obj, long offset, byte newValue) {
+        byte expected;
+
+        do {
+            expected = getByteVolatile(obj, offset);
+        } while (!compareAndSwapByte(obj, offset, expected, newValue));
+
+        return expected;
     }
 
     /**
      * Atomically sets the int field at the specified memory offset of the provided
      * object to the given new value.
+     *
+     * @implSpec This method atomically sets the int field at the specified offset to the given new value.
+     *     The method returns the previous value of the int field before the update.
+     *     This operation is useful for performing atomic updates on shared integer variables.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     Object obj = ...; // The object containing the int field
+     *     long offset = ...; // The memory offset of the int field
+     *     int newValue = ...; // The new value to set the int field to
+     *     int previousValue = getAndSetInt(obj, offset, newValue);
+     *     }</pre>
      *
      * @param obj      the object containing the int field
      * @param offset   the memory offset of the int field
@@ -1042,33 +697,5 @@ public final class MemoryAccess {
      */
     public int getAndSetInt(Object obj, long offset, int newValue) {
         return unsafe.getAndSetInt(obj, offset, newValue);
-    }
-
-    /**
-     * Atomically sets the long field at the specified memory offset of the provided
-     * object to the given new value.
-     *
-     * @param obj      the object containing the long field
-     * @param offset   the memory offset of the long field
-     * @param newValue the new value to set the long field to
-     *
-     * @return the previous value of the long field before the update
-     */
-    public long getAndSetLong(Object obj, long offset, long newValue) {
-        return unsafe.getAndSetLong(obj, offset, newValue);
-    }
-
-    /**
-     * Atomically sets the reference field at the specified memory offset of the provided
-     * object to the given new value.
-     *
-     * @param obj      the object containing the reference field
-     * @param offset   the memory offset of the reference field
-     * @param newValue the new value to set the reference field to
-     *
-     * @return the previous value of the reference field before the update
-     */
-    public Object getAndSetObject(Object obj, long offset, Object newValue) {
-        return unsafe.getAndSetObject(obj, offset, newValue);
     }
 }
