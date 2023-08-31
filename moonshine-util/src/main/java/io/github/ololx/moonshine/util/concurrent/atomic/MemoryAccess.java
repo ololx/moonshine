@@ -59,10 +59,33 @@ public final class MemoryAccess {
      * Enumeration representing different byte orders (endianness).
      */
     public enum Endianness {
-        ME, LE, BE;
+        /**
+         * Middle-endian byte order.
+         */
+        ME,
+
+        /**
+         * Little-endian byte order.
+         */
+        LE,
+
+        /**
+         * Big-endian byte order.
+         */
+        BE;
 
         /**
          * Checks if the byte order is big-endian.
+         *
+         * @implSpec This method checks if the current byte order enum constant is equal to {@link #BE},
+         *     indicating big-endian byte order.
+         *
+         *     Example usage:
+         *     <pre>{@code
+         *     Endianness endianness = Endianness.BE;
+         *     boolean isBigEndian = endianness.isBigEndian();
+         *     System.out.println("Is Big Endian: " + isBigEndian); // Output: true
+         *     }</pre>
          *
          * @return true if big-endian, false otherwise.
          */
@@ -73,6 +96,16 @@ public final class MemoryAccess {
         /**
          * Checks if the byte order is middle-endian.
          *
+         * @implSpec This method checks if the current byte order enum constant is equal to {@link #ME},
+         *     indicating middle-endian byte order.
+         *
+         *     Example usage:
+         *     <pre>{@code
+         *     Endianness endianness = Endianness.ME;
+         *     boolean isMiddleEndian = endianness.isMiddleEndian();
+         *     System.out.println("Is Middle Endian: " + isMiddleEndian); // Output: true
+         *     }</pre>
+         *
          * @return true if middle-endian, false otherwise.
          */
         public boolean isMiddleEndian() {
@@ -81,6 +114,16 @@ public final class MemoryAccess {
 
         /**
          * Checks if the byte order is little-endian.
+         *
+         * @implSpec This method checks if the current byte order enum constant is equal to {@link #LE},
+         *     indicating little-endian byte order.
+         *
+         *     Example usage:
+         *     <pre>{@code
+         *     Endianness endianness = Endianness.LE;
+         *     boolean isLittleEndian = endianness.isLittleEndian();
+         *     System.out.println("Is Little Endian: " + isLittleEndian); // Output: true
+         *     }</pre>
          *
          * @return true if little-endian, false otherwise.
          */
@@ -228,7 +271,20 @@ public final class MemoryAccess {
     }
 
     /**
-     * Returns the system's memory page size.
+     * Returns the memory page size of the system.
+     *
+     * @implSpec The memory page size is the smallest unit of memory that an operating system's memory management
+     *     uses. It can affect various aspects of memory allocation and performance. Understanding the
+     *     memory page size can be important when optimizing memory usage and managing memory-mapped files.
+     * @see <a href="https://en.wikipedia.org/wiki/Page_(computer_memory)">Memory Page</a>
+     * @see <a href="https://en.wikipedia.org/wiki/Memory-mapped_file">Memory-Mapped File</a>
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Getting the system memory page size
+     *     int systemPageSize = pageSize();
+     *     System.out.println("System memory page size: " + systemPageSize + " bytes");
+     *     }</pre>
      *
      * @return The memory page size in bytes.
      */
@@ -239,6 +295,16 @@ public final class MemoryAccess {
     /**
      * Returns the size of native pointers in bytes.
      *
+     * @implSpec The size of native pointers determines the largest addressable unit of memory in the system.
+     *     This information is important when dealing with memory manipulation and direct memory access.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Getting the system's native pointer size
+     *     int pointerSize = addressSize();
+     *     System.out.println("System native pointer size: " + pointerSize + " bytes");
+     *     }</pre>
+     *
      * @return The size of native pointers in bytes.
      */
     public int addressSize() {
@@ -247,6 +313,18 @@ public final class MemoryAccess {
 
     /**
      * Retrieves the memory address at the specified offset.
+     *
+     * @implSpec This method reads the memory address at the specified offset using the Unsafe class.
+     *     The behavior is undefined if the offset is not within the bounds of allocated memory.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Allocate memory and get the address at a specific offset
+     *     long memoryAddress = allocateMemory(16); // Allocates 16 bytes of memory
+     *     long offset = 8; // Offset within the allocated memory
+     *     long address = getAddress(memoryAddress + offset);
+     *     System.out.println("Memory address at offset " + offset + ": " + address);
+     *     }</pre>
      *
      * @param offset The memory offset.
      *
@@ -259,6 +337,20 @@ public final class MemoryAccess {
     /**
      * Allocates a block of native memory of the given size.
      *
+     * @implSpec This method allocates a block of native memory using the Unsafe class.
+     *     The allocated memory should be freed after use by calling `unsafe.freeMemory(address)`.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Allocate memory and use the allocated memory address
+     *     long memorySize = 1024; // 1 KB of memory
+     *     long memoryAddress = allocateMemory(memorySize);
+     *     System.out.println("Allocated memory address: " + memoryAddress);
+     *
+     *     // Don't forget to free the allocated memory after use
+     *     // unsafe.freeMemory(memoryAddress);
+     *     }</pre>
+     *
      * @param bytes The size of memory to allocate in bytes.
      *
      * @return The starting address of the allocated memory block.
@@ -269,6 +361,22 @@ public final class MemoryAccess {
 
     /**
      * Resizes a previously allocated block of native memory.
+     *
+     * @implSpec This method resizes a previously allocated block of native memory using the Unsafe class.
+     *     The content of the original block is copied to the new block if necessary.
+     *     The behavior is undefined if the provided address is not a valid allocated memory block.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Allocate initial memory
+     *     long initialSize = 64;
+     *     long initialAddress = allocateMemory(initialSize);
+     *
+     *     // Reallocate memory to a larger size
+     *     long newSize = 128;
+     *     long newAddress = reallocateMemory(initialAddress, newSize);
+     *     System.out.println("New memory address after reallocation: " + newAddress);
+     *     }</pre>
      *
      * @param address The starting address of the memory block.
      * @param bytes   The new size of the memory block in bytes.
@@ -282,6 +390,21 @@ public final class MemoryAccess {
     /**
      * Frees a previously allocated block of native memory.
      *
+     * @implSpec This method frees a previously allocated block of native memory using the Unsafe class.
+     *     After calling this method, the memory block will no longer be accessible,
+     *     and the address will be invalid for further use.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Allocate memory and use it
+     *     long memorySize = 256;
+     *     long memoryAddress = allocateMemory(memorySize);
+     *
+     *     // Free the allocated memory when done using it
+     *     freeMemory(memoryAddress);
+     *     System.out.println("Memory has been freed.");
+     *     }</pre>
+     *
      * @param address The starting address of the memory block to free.
      */
     public void freeMemory(long address) {
@@ -290,6 +413,19 @@ public final class MemoryAccess {
 
     /**
      * Fills a range of memory with a specified value.
+     *
+     * @implSpec This method fills range of memory within the given object starting from the specified offset.
+     *     The specified number of bytes will be set to the provided value.
+     *     The behavior is undefined if the provided object is not of the appropriate type to hold the memory,
+     *     or if the offset and size exceed the bounds of the object's memory.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Create a byte array and fill part of it with a value
+     *     byte[] byteArray = new byte[10];
+     *     setMemory(byteArray, 2, 4, (byte) 42);
+     *     System.out.println(Arrays.toString(byteArray)); // [0, 0, 42, 42, 42, 42, 0, 0, 0, 0]
+     *     }</pre>
      *
      * @param obj    The object whose memory is being filled.
      * @param offset The starting offset of the memory region.
@@ -302,6 +438,20 @@ public final class MemoryAccess {
 
     /**
      * Copies a range of memory from one object to another.
+     *
+     * @implSpec This method copies a range of memory from the source object to the destination object.
+     *     The specified number of bytes will be copied from the source offset to the destination offset.
+     *     The behavior is undefined if the provided objects are not of the appropriate type to hold the memory,
+     *     or if the offset and size exceed the bounds of the objects' memory.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Create two byte arrays and copy a portion of one array to the other
+     *     byte[] srcArray = {1, 2, 3, 4, 5};
+     *     byte[] destArray = new byte[3];
+     *     copyMemory(srcArray, 1, destArray, 0, 3);
+     *     System.out.println(Arrays.toString(destArray)); // [2, 3, 4]
+     *     }</pre>
      *
      * @param srcObj     The source object.
      * @param srcOffset  The starting offset of the source memory region.
@@ -316,6 +466,17 @@ public final class MemoryAccess {
     /**
      * Returns the base offset of the provided array class.
      *
+     * @implSpec This method returns the base offset that should be added to the index of an element in the array
+     *     to access the actual memory location of the element. The base offset is platform-dependent and may
+     *     vary between different array classes.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Get the base offset of a byte array
+     *     int baseOffset = arrayBaseOffset(byte[].class);
+     *     System.out.println("Base Offset: " + baseOffset);
+     *     }</pre>
+     *
      * @param arrayClass The class of the array.
      *
      * @return The base offset of the array class.
@@ -326,6 +487,17 @@ public final class MemoryAccess {
 
     /**
      * Returns the index scale of the provided array class.
+     *
+     * @implSpec This method returns the index scale, which is the factor that should be multiplied with the index
+     *     to compute the byte offset between elements in the array. The index scale is platform-dependent and
+     *     may vary between different array classes.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Get the index scale of an int array
+     *     int indexScale = arrayIndexScale(int[].class);
+     *     System.out.println("Index Scale: " + indexScale);
+     *     }</pre>
      *
      * @param arrayClass The class of the array.
      *
