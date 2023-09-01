@@ -17,9 +17,13 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic;
 
+import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
+import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
 
 /**
  * Provides low-level memory access and manipulation using the Unsafe class.
@@ -60,11 +64,6 @@ public final class MemoryAccess {
      */
     public enum Endianness {
         /**
-         * Middle-endian byte order.
-         */
-        ME,
-
-        /**
          * Little-endian byte order.
          */
         LE,
@@ -91,25 +90,6 @@ public final class MemoryAccess {
          */
         public boolean isBigEndian() {
             return this.equals(BE);
-        }
-
-        /**
-         * Checks if the byte order is middle-endian.
-         *
-         * @implSpec This method checks if the current byte order enum constant is equal to {@link #ME},
-         *     indicating middle-endian byte order.
-         *
-         *     Example usage:
-         *     <pre>{@code
-         *     Endianness endianness = Endianness.ME;
-         *     boolean isMiddleEndian = endianness.isMiddleEndian();
-         *     System.out.println("Is Middle Endian: " + isMiddleEndian); // Output: true
-         *     }</pre>
-         *
-         * @return true if middle-endian, false otherwise.
-         */
-        public boolean isMiddleEndian() {
-            return this.equals(ME);
         }
 
         /**
@@ -209,12 +189,10 @@ public final class MemoryAccess {
      *     reads the first byte of the buffer using the {@code getByte} method, and
      *     then deallocates the buffer using the {@code freeMemory} method.
      *     If the first byte of the buffer is {@code 0x01}, the platform uses
-     *     little-endian byte order; if it is {@code 0x02}, the platform uses
-     *     middle-endian (PDP-11) byte order; if it is {@code 0x04}, the platform uses
+     *     little-endian byte order; if it is {@code 0x04}, the platform uses
      *     big-endian byte order.
      *
      * @return {@link Endianness#LE} if the platform uses little-endian byte order,
-     *     {@link Endianness#ME} if the platform uses big-endian byte order,
      *     {@link Endianness#BE} if the platform uses big-endian byte order.
      *
      * @throws RuntimeException if the byte order cannot be determined.
@@ -228,13 +206,13 @@ public final class MemoryAccess {
         switch (lsb) {
             case 0x01:
                 return Endianness.LE;
+            case 0x04:
+                return Endianness.BE;
             case 0x02:
-                return Endianness.ME;
+                throw new RuntimeException("The middle-endian is an unexpected byte order");
             case 0x03:
             default:
                 throw new RuntimeException("Failed to determine byte order");
-            case 0x04:
-                return Endianness.BE;
         }
     }
 
@@ -264,7 +242,7 @@ public final class MemoryAccess {
      *     }
      *     }</pre>
      *
-     * @return The endianness of the system, indicating how multi-byte data is stored.
+     * @return The endianness of the system, indicating how multibyte data is stored.
      */
     public Endianness endianness() {
         return ENDIANNESS;
@@ -697,5 +675,155 @@ public final class MemoryAccess {
      */
     public int getAndSetInt(Object obj, long offset, int newValue) {
         return unsafe.getAndSetInt(obj, offset, newValue);
+    }
+
+    /**
+     * Atomically gets the byte value from the specified memory offset, applies the provided
+     * {@link ByteUnaryOperator} to calculate a new byte value, and atomically sets the memory
+     * location to the new value.
+     *
+     * @implSpec This method atomically applies the provided update function to the byte value at the specified
+     *     memory offset and ensures that the update is performed atomically.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Define a byte update function that increments the value by 1
+     *     ByteUnaryOperator incrementByOne = value -> (byte) (value + 1);
+     *
+     *     // Get the current byte value at the offset and update it atomically
+     *     byte oldValue = getAndUpdateByte(myObject, 0, incrementByOne);
+     *
+     *     // 'oldValue' contains the previous value, and the value at offset is incremented by 1.
+     *     }</pre>
+     *
+     * @param obj      the object containing the byte value
+     * @param offset   the memory offset of the byte value
+     * @param updating the function to apply to the byte value
+     *
+     * @return the old byte value that was replaced
+     */
+    public final int getAndUpdateByte(Object obj, long offset, ByteUnaryOperator updating) {
+        byte expected;
+        byte newValue;
+
+        do {
+            expected = getByteVolatile(obj, offset);
+            newValue = updating.applyAsByte(expected);
+        } while (!compareAndSwapByte(obj, offset, expected, newValue));
+
+        return expected;
+    }
+
+    /**
+     * Atomically gets the byte value from the specified memory offset, applies the provided
+     * {@link ByteUnaryOperator} to calculate a new byte value, and atomically sets the memory
+     * location to the new value.
+     *
+     * @implSpec This method atomically applies the provided update function to the byte value at the specified
+     *     memory offset and ensures that the update is performed atomically.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Define a byte update function that doubles the value
+     *     ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
+     *
+     *     // Get the current byte value at the offset, double it, and update it atomically
+     *     byte newValue = updateAndGetByte(myObject, 0, doubleValue);
+     *
+     *     // 'newValue' contains the updated value.
+     *     }</pre>
+     *
+     * @param obj      the object containing the byte value
+     * @param offset   the memory offset of the byte value
+     * @param updating the function to apply to the byte value
+     *
+     * @return the new byte value
+     */
+    public final int updateAndGetByte(Object obj, long offset, ByteUnaryOperator updating) {
+        byte expected;
+        byte newValue;
+
+        do {
+            expected = getByteVolatile(obj, offset);
+            newValue = updating.applyAsByte(expected);
+        } while (!compareAndSwapByte(obj, offset, expected, newValue));
+
+        return newValue;
+    }
+
+    /**
+     * Atomically gets the byte value from the specified memory offset, applies the provided
+     * {@link ByteBinaryOperator} to calculate a new byte value, and atomically sets the memory
+     * location to the new value.
+     *
+     * @implSpec This method atomically applies the provided accumulator function to the byte value at the
+     *     specified memory offset and ensures that the update is performed atomically.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Define a byte binary operator that adds the update value to the byte value
+     *     ByteBinaryOperator addValue = (currentValue, update) -> (byte) (currentValue + update);
+     *
+     *     // Get the current byte value at the offset, add 10 to it, and update it atomically
+     *     byte oldValue = getAndAccumulateByte(myObject, 0, (byte) 10, addValue);
+     *
+     *     // 'oldValue' contains the previous value, and the value at offset is incremented by 10.
+     *     }</pre>
+     *
+     * @param obj          the object containing the byte value
+     * @param offset       the memory offset of the byte value
+     * @param update       the value to combine with the byte value
+     * @param accumulation the function to apply to the byte value and the update value
+     *
+     * @return the old byte value that was replaced
+     */
+    public final int getAndAccumulateByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
+        byte expected;
+        byte newValue;
+
+        do {
+            expected = getByteVolatile(obj, offset);
+            newValue = accumulation.applyAsByte(expected, update);
+        } while (!compareAndSwapByte(obj, offset, expected, newValue));
+
+        return expected;
+    }
+
+    /**
+     * Atomically gets the byte value from the specified memory offset, applies the provided
+     * {@link ByteBinaryOperator} to calculate a new byte value, and atomically sets the memory
+     * location to the new value.
+     *
+     * @implSpec This method atomically applies the provided accumulator function to the byte value at the
+     *     specified memory offset and ensures that the update is performed atomically.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *     // Define a byte binary operator that subtracts the update value from the byte value
+     *     ByteBinaryOperator subtractValue = (currentValue, update) -> (byte) (currentValue - update);
+     *
+     *     // Get the current byte value at the offset, subtract 5 from it, and update it atomically
+     *     byte newValue = accumulateAndGetByte(myObject, 0, (byte) 5, subtractValue);
+     *
+     *     // 'newValue' contains the updated value.
+     *     }</pre>
+     *
+     * @param obj          the object containing the byte value
+     * @param offset       the memory offset of the byte value
+     * @param update       the value to combine with the byte value
+     * @param accumulation the function to apply to the byte value and the update value
+     *
+     * @return the new byte value
+     */
+    public final int accumulateAndGetByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
+        byte expected;
+        byte newValue;
+
+        do {
+            expected = getByteVolatile(obj, offset);
+            newValue = accumulation.applyAsByte(expected, update);
+        } while (!compareAndSwapByte(obj, offset, expected, newValue));
+
+        return newValue;
     }
 }

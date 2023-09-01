@@ -17,6 +17,9 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic;
 
+import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
+import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
+
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
@@ -92,13 +95,6 @@ public class AtomicByteArray {
         return getAndAdd(i, (byte) 1);
     }
 
-    /**
-     * Atomically decrements by one the element at index {@code i}.
-     *
-     * @param i the index
-     *
-     * @return the previous value
-     */
     public final byte getAndDecrement(int i) {
         return getAndAdd(i, (byte) -1);
     }
@@ -123,60 +119,20 @@ public class AtomicByteArray {
         return (byte) (getAndAdd(i, delta) + delta);
     }
 
-    public final int getAndUpdate(int i, UnaryOperator<Byte> updateFunction) {
-        long offset = checkedByteOffset(i);
-
-        byte prev;
-        byte next;
-
-        do {
-            prev = getRaw(offset);
-            next = updateFunction.apply(prev);
-        } while (!compareAndSetRaw(offset, prev, next));
-
-        return prev;
+    public final int getAndUpdate(int i, ByteUnaryOperator updateFunction) {
+        return memoryAccess.getAndUpdateByte(array, checkedByteOffset(i), updateFunction);
     }
 
-    public final int updateAndGet(int i, UnaryOperator<Byte> updateFunction) {
-        long offset = checkedByteOffset(i);
-
-        byte prev;
-        byte next;
-
-        do {
-            prev = getRaw(offset);
-            next = updateFunction.apply(prev);
-        } while (!compareAndSetRaw(offset, prev, next));
-
-        return next;
+    public final int updateAndGet(int i, ByteUnaryOperator updateFunction) {
+        return memoryAccess.updateAndGetByte(array, checkedByteOffset(i), updateFunction);
     }
 
-    public final int getAndAccumulate(int i, byte update, BinaryOperator<Byte> accumulatorFunction) {
-        long offset = checkedByteOffset(i);
-
-        byte prev;
-        byte next;
-
-        do {
-            prev = getRaw(offset);
-            next = accumulatorFunction.apply(prev, update);
-        } while (!compareAndSetRaw(offset, prev, next));
-
-        return prev;
+    public final int getAndAccumulate(int i, byte update, ByteBinaryOperator accumulatorFunction) {
+        return memoryAccess.getAndAccumulateByte(array, checkedByteOffset(i), update, accumulatorFunction);
     }
 
-    public final int accumulateAndGet(int i, byte update, BinaryOperator<Byte> accumulatorFunction) {
-        long offset = checkedByteOffset(i);
-
-        byte prev;
-        byte next;
-
-        do {
-            prev = getRaw(offset);
-            next = accumulatorFunction.apply(prev, update);
-        } while (!compareAndSetRaw(offset, prev, next));
-
-        return next;
+    public final int accumulateAndGet(int i, byte update, ByteBinaryOperator accumulatorFunction) {
+        return memoryAccess.accumulateAndGetByte(array, checkedByteOffset(i), update, accumulatorFunction);
     }
 
     private int checkedByteOffset(int i) {
