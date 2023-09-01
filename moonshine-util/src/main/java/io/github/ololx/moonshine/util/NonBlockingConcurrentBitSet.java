@@ -1,7 +1,11 @@
 package io.github.ololx.moonshine.util;
 
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
+import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
+import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.function.Function;
 
 /**
@@ -114,15 +118,15 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
          * @param binaryOperation A function that defines the binary operation on the word.
          * @implSpec This method uses a loop with compareAndSet to ensure atomicity of the operation.
          */
-        private void setWordVolatile(int wordIndex, Function<Byte, Byte> binaryOperation) {
-            //words.compareAndSet(wordIndex, binaryOperation);
-            byte currentWordValue;
+        private void setWordVolatile(int wordIndex, ByteUnaryOperator binaryOperation) {
+            words.getAndUpdate(wordIndex, binaryOperation);
+            /*byte currentWordValue;
             byte newWordValue;
 
             do {
                 currentWordValue = this.getWordVolatile(wordIndex);
-                newWordValue = binaryOperation.apply(currentWordValue);
-            } while (!words.compareAndSet(wordIndex, currentWordValue, newWordValue));
+                newWordValue = binaryOperation.applyAsByte(currentWordValue);
+            } while (!words.compareAndSet(wordIndex, currentWordValue, newWordValue));*/
         }
 
         /**

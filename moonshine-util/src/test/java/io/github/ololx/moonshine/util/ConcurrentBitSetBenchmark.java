@@ -47,10 +47,10 @@ public class ConcurrentBitSetBenchmark {
 
     @Param(
             {
-                    FULL_SYNCHRONIZATION,
+                    /*FULL_SYNCHRONIZATION,
                     ONE_READ_WRITE_LOCK,
                     SEGMENTS_SYNCHRONIZATION,
-                    MANY_READ_WRITE_LOCKS,
+                    MANY_READ_WRITE_LOCKS,*/
                     NON_BLOCKING
             }
     )
@@ -58,7 +58,7 @@ public class ConcurrentBitSetBenchmark {
 
     private ExecutorService executor;
 
-    @Param({"640"})
+    @Param({"640", "64000"})
     private int sizeOfBitSet;
 
     @Param({"5"})
