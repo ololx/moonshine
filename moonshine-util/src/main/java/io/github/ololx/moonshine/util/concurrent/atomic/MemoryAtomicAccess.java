@@ -22,8 +22,6 @@ import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
 
 /**
  * Provides low-level memory access and manipulation using the Unsafe class.
@@ -38,18 +36,15 @@ import java.util.function.UnaryOperator;
  *
  *     Example usages:
  *     <pre>{@code
- *     MemoryAccess memoryAccess = new MemoryAccess();
+ *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+ *     byte[] byteArray = new byte[2];
  *
- *     // Allocate memory and perform operations
- *     long address = memoryAccess.allocateMemory(4);
- *     memoryAccess.putInt(address, 42);
- *     int value = memoryAccess.getInt(address);
- *     memoryAccess.freeMemory(address);
- *
- *     // Atomic operations
- *     Object obj = new Object();
- *     long offset = memoryAccess.objectFieldOffset(obj.getClass().getDeclaredField("fieldName"));
- *     memoryAccess.compareAndSwapInt(obj, offset, expectedValue, newValue);
+ *     // CAS 2d (1t index) element of a byte array
+ *     long arrayBaseOffset = memoryAccess.arrayBaseOffset(byte[].class);
+ *     byte expectedValue = 0;
+ *     byte newValue = 12;
+ *     long offset = arrayBaseOffset + 1;
+ *     memoryAccess.compareAndSwapInt(byteArray, offset, expectedValue, newValue);
  *     }</pre>
  *
  * @author Alexander A. Kropotin
@@ -57,7 +52,7 @@ import java.util.function.UnaryOperator;
  *     created 30.08.2023 13:26
  */
 @SuppressWarnings("sunapi")
-public final class MemoryAccess {
+public final class MemoryAtomicAccess {
 
     /**
      * Enumeration representing different byte orders (endianness).
@@ -233,9 +228,11 @@ public final class MemoryAccess {
      *
      *     Example usages:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Getting the system endianness
-     *     Endianness systemEndianness = endianness();
-     *     if (systemEndianness == Endianness.BIG_ENDIAN) {
+     *     Endianness systemEndianness = memoryAccess.endianness();
+     *     if (systemEndianness.isBigEndian()) {
      *         System.out.println("System uses big-endian.");
      *     } else {
      *         System.out.println("System uses little-endian.");
@@ -257,8 +254,10 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Get the base offset of a byte array
-     *     int baseOffset = arrayBaseOffset(byte[].class);
+     *     int baseOffset = memoryAccess.arrayBaseOffset(byte[].class);
      *     System.out.println("Base Offset: " + baseOffset);
      *     }</pre>
      *
@@ -279,8 +278,10 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Get the index scale of an int array
-     *     int indexScale = arrayIndexScale(int[].class);
+     *     int indexScale = memoryAccess.arrayIndexScale(int[].class);
      *     System.out.println("Index Scale: " + indexScale);
      *     }</pre>
      *
@@ -301,10 +302,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Reading a byte from a memory location
      *     Object obj = ...; // The object containing the memory location
      *     long offset = ...; // The memory offset
-     *     byte value = getByte(obj, offset);
+     *     byte value = memoryAccess.getByte(obj, offset);
      *     }</pre>
      *
      * @param obj    the object from which to read the byte
@@ -324,11 +327,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Writing a byte to a memory location
      *     Object obj = ...; // The object containing the memory location
      *     long offset = ...; // The memory offset
      *     byte value = ...; // The byte value to write
-     *     putByte(obj, offset, value);
+     *     memoryAccess.putByte(obj, offset, value);
      *     }</pre>
      *
      * @param obj    the object to which to write the byte
@@ -348,10 +353,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Reading an int from a memory location
      *     Object obj = ...; // The object containing the memory location
      *     long offset = ...; // The memory offset
-     *     int value = getInt(obj, offset);
+     *     int value = memoryAccess.getInt(obj, offset);
      *     }</pre>
      *
      * @param obj    the object from which to read the int
@@ -371,11 +378,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Writing an int to a memory location
      *     Object obj = ...; // The object containing the memory location
      *     long offset = ...; // The memory offset
      *     int value = ...; // The int value to write
-     *     putInt(obj, offset, value);
+     *     memoryAccess.putInt(obj, offset, value);
      *     }</pre>
      *
      * @param obj    the object to which to write the int
@@ -397,11 +406,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the byte field
      *     long offset = ...; // The memory offset of the byte field
      *     byte expected = ...; // The expected value of the byte field
      *     byte newValue = ...; // The new value to set the byte field to
-     *     boolean success = compareAndSwapByte(obj, offset, expected, newValue);
+     *     boolean success = memoryAccess.compareAndSwapByte(obj, offset, expected, newValue);
      *     }</pre>
      *
      * @param obj      the object containing the byte field
@@ -448,11 +459,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the int field
      *     long offset = ...; // The memory offset of the int field
      *     int expected = ...; // The expected value of the int field
      *     int newValue = ...; // The new value to set the int field to
-     *     boolean success = compareAndSwapInt(obj, offset, expected, newValue);
+     *     boolean success = memoryAccess.compareAndSwapInt(obj, offset, expected, newValue);
      *     }</pre>
      *
      * @param obj      the object containing the int field
@@ -475,9 +488,11 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the volatile byte field
      *     long offset = ...; // The memory offset of the volatile byte field
-     *     byte value = getByteVolatile(obj, offset);
+     *     byte value = memoryAccess.getByteVolatile(obj, offset);
      *     }</pre>
      *
      * @param obj    the object from which to read the volatile byte
@@ -498,10 +513,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object to which to write the volatile byte
      *     long offset = ...; // The memory offset at which to write the volatile byte
      *     byte value = ...; // The volatile byte value to write
-     *     putByteVolatile(obj, offset, value);
+     *     memoryAccess.putByteVolatile(obj, offset, value);
      *     }</pre>
      *
      * @param obj    the object to which to write the volatile byte
@@ -521,9 +538,11 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the volatile int field
      *     long offset = ...; // The memory offset of the volatile int field
-     *     int value = getIntVolatile(obj, offset);
+     *     int value = memoryAccess.getIntVolatile(obj, offset);
      *     }</pre>
      *
      * @param obj    the object from which to read the volatile int
@@ -544,10 +563,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object to which to write the volatile int
      *     long offset = ...; // The memory offset at which to write the volatile int
      *     int value = ...; // The volatile int value to write
-     *     putIntVolatile(obj, offset, value);
+     *     memoryAccess.putIntVolatile(obj, offset, value);
      *     }</pre>
      *
      * @param obj    the object to which to write the volatile int
@@ -568,10 +589,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the byte field
      *     long offset = ...; // The memory offset of the byte field
      *     byte delta = ...; // The value to add to the byte field
-     *     byte previousValue = getAndAddByte(obj, offset, delta);
+     *     byte previousValue = memoryAccess.getAndAddByte(obj, offset, delta);
      *     }</pre>
      *
      * @param obj    the object containing the byte field
@@ -603,10 +626,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the int field
      *     long offset = ...; // The memory offset of the int field
      *     int delta = ...; // The value to add to the int field
-     *     int previousValue = getAndAddInt(obj, offset, delta);
+     *     int previousValue = memoryAccess.getAndAddInt(obj, offset, delta);
      *     }</pre>
      *
      * @param obj    the object containing the int field
@@ -629,10 +654,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the byte field
      *     long offset = ...; // The memory offset of the byte field
      *     byte newValue = ...; // The new value to set the byte field to
-     *     byte previousValue = getAndSetByte(obj, offset, newValue);
+     *     byte previousValue = memoryAccess.getAndSetByte(obj, offset, newValue);
      *     }</pre>
      *
      * @param obj      the object containing the byte field
@@ -661,10 +688,12 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     Object obj = ...; // The object containing the int field
      *     long offset = ...; // The memory offset of the int field
      *     int newValue = ...; // The new value to set the int field to
-     *     int previousValue = getAndSetInt(obj, offset, newValue);
+     *     int previousValue = memoryAccess.getAndSetInt(obj, offset, newValue);
      *     }</pre>
      *
      * @param obj      the object containing the int field
@@ -687,11 +716,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Define a byte update function that increments the value by 1
      *     ByteUnaryOperator incrementByOne = value -> (byte) (value + 1);
      *
      *     // Get the current byte value at the offset and update it atomically
-     *     byte oldValue = getAndUpdateByte(myObject, 0, incrementByOne);
+     *     byte oldValue = memoryAccess.getAndUpdateByte(myObject, 0, incrementByOne);
      *
      *     // 'oldValue' contains the previous value, and the value at offset is incremented by 1.
      *     }</pre>
@@ -702,7 +733,7 @@ public final class MemoryAccess {
      *
      * @return the old byte value that was replaced
      */
-    public final int getAndUpdateByte(Object obj, long offset, ByteUnaryOperator updating) {
+    public final byte getAndUpdateByte(Object obj, long offset, ByteUnaryOperator updating) {
         byte expected;
         byte newValue;
 
@@ -724,11 +755,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Define a byte update function that doubles the value
      *     ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
      *
      *     // Get the current byte value at the offset, double it, and update it atomically
-     *     byte newValue = updateAndGetByte(myObject, 0, doubleValue);
+     *     byte newValue = memoryAccess.updateAndGetByte(myObject, 0, doubleValue);
      *
      *     // 'newValue' contains the updated value.
      *     }</pre>
@@ -739,7 +772,7 @@ public final class MemoryAccess {
      *
      * @return the new byte value
      */
-    public final int updateAndGetByte(Object obj, long offset, ByteUnaryOperator updating) {
+    public final byte updateAndGetByte(Object obj, long offset, ByteUnaryOperator updating) {
         byte expected;
         byte newValue;
 
@@ -761,11 +794,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Define a byte binary operator that adds the update value to the byte value
      *     ByteBinaryOperator addValue = (currentValue, update) -> (byte) (currentValue + update);
      *
      *     // Get the current byte value at the offset, add 10 to it, and update it atomically
-     *     byte oldValue = getAndAccumulateByte(myObject, 0, (byte) 10, addValue);
+     *     byte oldValue = memoryAccess.getAndAccumulateByte(myObject, 0, (byte) 10, addValue);
      *
      *     // 'oldValue' contains the previous value, and the value at offset is incremented by 10.
      *     }</pre>
@@ -777,7 +812,7 @@ public final class MemoryAccess {
      *
      * @return the old byte value that was replaced
      */
-    public final int getAndAccumulateByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
+    public final byte getAndAccumulateByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
         byte expected;
         byte newValue;
 
@@ -799,11 +834,13 @@ public final class MemoryAccess {
      *
      *     Example usage:
      *     <pre>{@code
+     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *
      *     // Define a byte binary operator that subtracts the update value from the byte value
      *     ByteBinaryOperator subtractValue = (currentValue, update) -> (byte) (currentValue - update);
      *
      *     // Get the current byte value at the offset, subtract 5 from it, and update it atomically
-     *     byte newValue = accumulateAndGetByte(myObject, 0, (byte) 5, subtractValue);
+     *     byte newValue = memoryAccess.accumulateAndGetByte(myObject, 0, (byte) 5, subtractValue);
      *
      *     // 'newValue' contains the updated value.
      *     }</pre>
@@ -815,7 +852,7 @@ public final class MemoryAccess {
      *
      * @return the new byte value
      */
-    public final int accumulateAndGetByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
+    public final byte accumulateAndGetByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
         byte expected;
         byte newValue;
 

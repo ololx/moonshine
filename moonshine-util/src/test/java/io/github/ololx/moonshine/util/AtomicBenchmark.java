@@ -50,10 +50,10 @@ public class AtomicBenchmark {
     @Param({"100000"})
     private int sizeOfBitSet;
 
-    @Param({"1000"})
+    @Param({"100"})
     private int countOfSetters;
 
-    @Param({"1000"})
+    @Param({"100"})
     private int countOfGetters;
 
     public AtomicBenchmark() {}
