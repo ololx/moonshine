@@ -20,9 +20,6 @@ package io.github.ololx.moonshine.util.concurrent.atomic;
 import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
 import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
-
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
@@ -30,22 +27,9 @@ import java.util.function.UnaryOperator;
  */
 public class AtomicByteArray {
 
-    private static final MemoryAccess memoryAccess = new MemoryAccess();
-
-    private static final int ARRAY_BASE_OFFSET = memoryAccess.arrayBaseOffset(long[].class);
-
-    private static final int ARRAY_INDEX_OFFSET_SHIFT;
+    private static final ByteArrayAtomicAccess byteArrayAtomicAccess = new ByteArrayAtomicAccess();
 
     private final byte[] array;
-
-    static {
-        int indexScale = memoryAccess.arrayIndexScale(byte[].class);
-        if ((indexScale & (indexScale - 1)) != 0) {
-            throw new Error("The byte[] index scale is not a power of two");
-        }
-
-        ARRAY_INDEX_OFFSET_SHIFT = 31 - Integer.numberOfLeadingZeros(indexScale);
-    }
 
     public AtomicByteArray(int length) {
         array = new byte[length];
@@ -60,35 +44,19 @@ public class AtomicByteArray {
     }
 
     public byte get(final int i) {
-        return getRaw(checkedByteOffset(i));
-    }
-
-    private byte getRaw(long offset) {
-        return memoryAccess.getByteVolatile(array, offset);
+        return byteArrayAtomicAccess.getVolatile(array, i);
     }
 
     public void set(final int i, final byte newValue) {
-        memoryAccess.putByteVolatile(array, checkedByteOffset(i), newValue);
+        byteArrayAtomicAccess.putVolatile(array, i, newValue);
     }
 
     public byte getAndSet(final int i, byte newValue) {
-        return getAndSetRaw(checkedByteOffset(i), newValue);
-    }
-
-    private byte getAndSetRaw(long offset, byte newValue) {
-       return memoryAccess.getAndSetByte(array, offset, newValue);
+        return byteArrayAtomicAccess.getAndSet(array, i, newValue);
     }
 
     public boolean compareAndSet(final int i, final byte expect, final byte update) {
-        return compareAndSetRaw(checkedByteOffset(i), expect, update);
-    }
-
-    public boolean compareAndSetRaw(final long offset, final byte expect, final byte update) {
-        return memoryAccess.compareAndSwapByte(array, offset, expect, update);
-    }
-
-    public boolean weakCompareAndSet(final int i, final byte expect, final byte update) {
-        return compareAndSet(i, expect, update);
+        return byteArrayAtomicAccess.compareAndSwap(array, i, expect, update);
     }
 
     public final byte getAndIncrement(int i) {
@@ -97,14 +65,6 @@ public class AtomicByteArray {
 
     public final byte getAndDecrement(int i) {
         return getAndAdd(i, (byte) -1);
-    }
-
-    public final byte getAndAdd(int i, byte delta) {
-        return getAndAddRaw(checkedByteOffset(i), delta);
-    }
-
-    public byte getAndAddRaw(final long offset, final byte delta) {
-        return memoryAccess.getAndAddByte(array, offset, delta);
     }
 
     public final byte incrementAndGet(int i) {
@@ -119,50 +79,125 @@ public class AtomicByteArray {
         return (byte) (getAndAdd(i, delta) + delta);
     }
 
-    public final int getAndUpdate(int i, ByteUnaryOperator updateFunction) {
-        return memoryAccess.getAndUpdateByte(array, checkedByteOffset(i), updateFunction);
+    public final byte getAndAdd(int i, byte delta) {
+        return byteArrayAtomicAccess.getAndAdd(array, i, delta);
     }
 
-    public final int updateAndGet(int i, ByteUnaryOperator updateFunction) {
-        return memoryAccess.updateAndGetByte(array, checkedByteOffset(i), updateFunction);
+    public final byte getAndUpdate(int i, ByteUnaryOperator updateFunction) {
+        return byteArrayAtomicAccess.getAndUpdate(array, i, updateFunction);
     }
 
-    public final int getAndAccumulate(int i, byte update, ByteBinaryOperator accumulatorFunction) {
-        return memoryAccess.getAndAccumulateByte(array, checkedByteOffset(i), update, accumulatorFunction);
+    public final byte updateAndGet(int i, ByteUnaryOperator updateFunction) {
+        return byteArrayAtomicAccess.updateAndGet(array, i, updateFunction);
     }
 
-    public final int accumulateAndGet(int i, byte update, ByteBinaryOperator accumulatorFunction) {
-        return memoryAccess.accumulateAndGetByte(array, checkedByteOffset(i), update, accumulatorFunction);
+    public final byte getAndAccumulate(int i, byte update, ByteBinaryOperator accumulatorFunction) {
+        return byteArrayAtomicAccess.getAndAccumulate(array, i, update, accumulatorFunction);
     }
 
-    private int checkedByteOffset(int i) {
-        if (i < 0 || i >= array.length) {throw new IndexOutOfBoundsException("index " + i);}
-
-        return byteOffset(i);
-    }
-
-    private static int byteOffset(int i) {
-        return (i << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
+    public final byte accumulateAndGet(int i, byte update, ByteBinaryOperator accumulatorFunction) {
+        return byteArrayAtomicAccess.accumulateAndGet(array, i, update, accumulatorFunction);
     }
 
     @Override
     public String toString() {
-        if (this.array.length < 1) {
+        int lastElementIndex = array.length - 1;
+
+        if (lastElementIndex < 0) {
             return "[]";
         }
 
-        StringBuilder arrayStringBuilder = new StringBuilder();
+        // initial capacity = lastElementIndex * (4 (symbols max for byte) + 2 (symbols for ', ')
+        StringBuilder arrayStringBuilder = new StringBuilder(lastElementIndex * 6);
         arrayStringBuilder.append('[');
 
-        int lastElementIndex = this.array.length - 1;
-        for (int elementIndex = 0; elementIndex < lastElementIndex; elementIndex++) {
-            arrayStringBuilder.append(getRaw(byteOffset(elementIndex)))
-                .append(',')
-                .append(' ');
+        for (int elementIndex = 0; ; elementIndex++) {
+            arrayStringBuilder.append(this.get(elementIndex));
+
+            if (elementIndex == lastElementIndex) {
+                break;
+            }
+
+            arrayStringBuilder.append(", ");
         }
 
-        return arrayStringBuilder.append(getRaw(byteOffset(lastElementIndex)))
-            .append(']')
+        return arrayStringBuilder.append(']')
             .toString();
+    }
+
+    static class ByteArrayAtomicAccess {
+
+        private static final Class<?> ARRAY_CLASS = byte[].class;
+
+        private static final int ARRAY_BASE_OFFSET;
+
+        private static final long ARRAY_INDEX_OFFSET_SHIFT;
+
+        private static final MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+
+        static {
+            ARRAY_BASE_OFFSET = memoryAccess.arrayBaseOffset(ARRAY_CLASS);
+
+            int indexScale = memoryAccess.arrayIndexScale(ARRAY_CLASS);
+            if ((indexScale & (indexScale - 1)) != 0) {
+                throw new Error("The byte[] index scale is not a power of two");
+            }
+
+            ARRAY_INDEX_OFFSET_SHIFT = 31 - Integer.numberOfLeadingZeros(indexScale);
+        }
+
+        private ByteArrayAtomicAccess() {}
+
+        private static long checkedByteOffset(final byte[] array, final int i) {
+            if (i < 0 || i >= array.length) {
+                throw new IndexOutOfBoundsException(String.format(
+                    "The index %s out of a bounds [%s, %s]", i, 0, array.length - 1
+                ));
+            }
+
+            return ((long) i << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
+        }
+
+        public byte getVolatile(final byte[] array, final int i) {
+            return memoryAccess.getByteVolatile(array, checkedByteOffset(array, i));
+        }
+
+        public void putVolatile(final byte[] array, final int i, final byte newValue) {
+            memoryAccess.putByteVolatile(array, checkedByteOffset(array, i), newValue);
+        }
+
+        public byte getAndSet(final byte[] array, final int i, final byte newValue) {
+            return memoryAccess.getAndSetByte(array, checkedByteOffset(array, i), newValue);
+        }
+
+        public boolean compareAndSwap(final byte[] array, final int i, final byte expect, final byte update) {
+            return memoryAccess.compareAndSwapByte(array, checkedByteOffset(array, i), expect, update);
+        }
+
+        public byte getAndAdd(final byte[] array, final int i, final byte delta) {
+            return memoryAccess.getAndAddByte(array, checkedByteOffset(array, i), delta);
+        }
+
+        public byte getAndUpdate(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
+            return memoryAccess.getAndUpdateByte(array, checkedByteOffset(array, i), updateFunction);
+        }
+
+        public byte updateAndGet(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
+            return memoryAccess.updateAndGetByte(array, checkedByteOffset(array, i), updateFunction);
+        }
+
+        public byte getAndAccumulate(final byte[] array,
+                                     final int i,
+                                     final byte update,
+                                     final ByteBinaryOperator accumulatorFunction) {
+            return memoryAccess.getAndAccumulateByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
+        }
+
+        public byte accumulateAndGet(final byte[] array,
+                                     final int i,
+                                     final byte update,
+                                     final ByteBinaryOperator accumulatorFunction) {
+            return memoryAccess.accumulateAndGetByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
+        }
     }
 }
