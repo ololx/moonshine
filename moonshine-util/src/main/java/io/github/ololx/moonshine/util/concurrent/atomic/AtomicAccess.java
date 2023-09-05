@@ -36,7 +36,7 @@ import java.lang.reflect.Field;
  *
  *     Example usages:
  *     <pre>{@code
- *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+ *     AtomicAccess memoryAccess = new AtomicAccess();
  *     byte[] byteArray = new byte[2];
  *
  *     // CAS 2d (1t index) element of a byte array
@@ -52,7 +52,7 @@ import java.lang.reflect.Field;
  *     created 30.08.2023 13:26
  */
 @SuppressWarnings("sunapi")
-public final class MemoryAtomicAccess {
+class AtomicAccess {
 
     /**
      * Enumeration representing different byte orders (endianness).
@@ -74,7 +74,7 @@ public final class MemoryAtomicAccess {
          * @implSpec This method checks if the current byte order enum constant is equal to {@link #BE},
          *     indicating big-endian byte order.
          *
-         *     Example usage:
+         *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
          *     Endianness endianness = Endianness.BE;
          *     boolean isBigEndian = endianness.isBigEndian();
@@ -93,7 +93,7 @@ public final class MemoryAtomicAccess {
          * @implSpec This method checks if the current byte order enum constant is equal to {@link #LE},
          *     indicating little-endian byte order.
          *
-         *     Example usage:
+         *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
          *     Endianness endianness = Endianness.LE;
          *     boolean isLittleEndian = endianness.isLittleEndian();
@@ -125,6 +125,8 @@ public final class MemoryAtomicAccess {
         // Determine the endianness of the underlying platform
         ENDIANNESS = getEndianness();
     }
+
+    private AtomicAccess() {}
 
     /**
      * Retrieves the Unsafe class using reflection.
@@ -228,7 +230,7 @@ public final class MemoryAtomicAccess {
      *
      *     Example usages:
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Getting the system endianness
      *     Endianness systemEndianness = memoryAccess.endianness();
@@ -241,7 +243,7 @@ public final class MemoryAtomicAccess {
      *
      * @return The endianness of the system, indicating how multibyte data is stored.
      */
-    public Endianness endianness() {
+    public final Endianness endianness() {
         return ENDIANNESS;
     }
 
@@ -252,9 +254,9 @@ public final class MemoryAtomicAccess {
      *     to access the actual memory location of the element. The base offset is platform-dependent and may
      *     vary between different array classes.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Get the base offset of a byte array
      *     int baseOffset = memoryAccess.arrayBaseOffset(byte[].class);
@@ -265,7 +267,7 @@ public final class MemoryAtomicAccess {
      *
      * @return The base offset of the array class.
      */
-    public int arrayBaseOffset(Class<?> arrayClass) {
+    public final int arrayBaseOffset(final Class<?> arrayClass) {
         return unsafe.arrayBaseOffset(arrayClass);
     }
 
@@ -276,9 +278,9 @@ public final class MemoryAtomicAccess {
      *     to compute the byte offset between elements in the array. The index scale is platform-dependent and
      *     may vary between different array classes.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Get the index scale of an int array
      *     int indexScale = memoryAccess.arrayIndexScale(int[].class);
@@ -289,7 +291,7 @@ public final class MemoryAtomicAccess {
      *
      * @return The index scale of the array class.
      */
-    public int arrayIndexScale(Class<?> arrayClass) {
+    public final int arrayIndexScale(final Class<?> arrayClass) {
         return unsafe.arrayIndexScale(arrayClass);
     }
 
@@ -300,9 +302,9 @@ public final class MemoryAtomicAccess {
      *     It is the caller's responsibility to ensure that the memory at the specified offset is accessible and
      *     contains a valid byte value.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Reading a byte from a memory location
      *     Object obj = ...; // The object containing the memory location
@@ -315,7 +317,7 @@ public final class MemoryAtomicAccess {
      *
      * @return the byte value read from the specified memory offset
      */
-    public byte getByte(Object obj, long offset) {
+    public final byte getByte(final Object obj, final long offset) {
         return unsafe.getByte(obj, offset);
     }
 
@@ -325,9 +327,9 @@ public final class MemoryAtomicAccess {
      * @implSpec This method writes a byte value to the memory location specified by the object and offset.
      *     It is the caller's responsibility to ensure that the memory at the specified offset is writable.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Writing a byte to a memory location
      *     Object obj = ...; // The object containing the memory location
@@ -340,7 +342,7 @@ public final class MemoryAtomicAccess {
      * @param offset the memory offset at which to write the byte
      * @param value  the byte value to write
      */
-    public void putByte(Object obj, long offset, byte value) {
+    public final void putByte(final Object obj, final long offset, final byte value) {
         unsafe.putByte(obj, offset, value);
     }
 
@@ -351,9 +353,9 @@ public final class MemoryAtomicAccess {
      *     It is the caller's responsibility to ensure that the memory at the specified offset is accessible and
      *     contains a valid int value.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Reading an int from a memory location
      *     Object obj = ...; // The object containing the memory location
@@ -366,7 +368,7 @@ public final class MemoryAtomicAccess {
      *
      * @return the int value read from the specified memory offset
      */
-    public int getInt(Object obj, long offset) {
+    public final int getInt(final Object obj, final long offset) {
         return unsafe.getInt(obj, offset);
     }
 
@@ -376,9 +378,9 @@ public final class MemoryAtomicAccess {
      * @implSpec This method writes an int value to the memory location specified by the object and offset.
      *     It is the caller's responsibility to ensure that the memory at the specified offset is writable.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Writing an int to a memory location
      *     Object obj = ...; // The object containing the memory location
@@ -391,7 +393,7 @@ public final class MemoryAtomicAccess {
      * @param offset the memory offset at which to write the int
      * @param value  the int value to write
      */
-    public void putInt(Object obj, long offset, int value) {
+    public final void putInt(final Object obj, final long offset, final int value) {
         unsafe.putInt(obj, offset, value);
     }
 
@@ -404,9 +406,9 @@ public final class MemoryAtomicAccess {
      *     and returns {@code true}. Otherwise, it returns {@code false}.
      *     This operation is useful for performing atomic updates on shared byte variables.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the byte field
      *     long offset = ...; // The memory offset of the byte field
@@ -457,9 +459,9 @@ public final class MemoryAtomicAccess {
      *     the expected value. If they are equal, the int field is updated with the new value.
      *     This operation is performed atomically and is useful for managing concurrent updates to shared fields.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the int field
      *     long offset = ...; // The memory offset of the int field
@@ -486,9 +488,9 @@ public final class MemoryAtomicAccess {
      *     The volatile modifier ensures that the read operation is not optimized or reordered by the compiler,
      *     making it suitable for use in concurrent programming.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the volatile byte field
      *     long offset = ...; // The memory offset of the volatile byte field
@@ -511,9 +513,9 @@ public final class MemoryAtomicAccess {
      *     The volatile modifier ensures that the write operation is not optimized or reordered by the compiler,
      *     making it suitable for use in concurrent programming.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object to which to write the volatile byte
      *     long offset = ...; // The memory offset at which to write the volatile byte
@@ -536,9 +538,9 @@ public final class MemoryAtomicAccess {
      *     The volatile modifier ensures that the read operation is not optimized or reordered by the compiler,
      *     making it suitable for use in concurrent programming.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the volatile int field
      *     long offset = ...; // The memory offset of the volatile int field
@@ -561,9 +563,9 @@ public final class MemoryAtomicAccess {
      *     The volatile modifier ensures that the write operation is not optimized or reordered by the compiler,
      *     making it suitable for use in concurrent programming.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object to which to write the volatile int
      *     long offset = ...; // The memory offset at which to write the volatile int
@@ -587,9 +589,9 @@ public final class MemoryAtomicAccess {
      *     offset and returns the previous value of the byte field before the addition. The operation
      *     ensures that the byte field is updated atomically to avoid race conditions.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the byte field
      *     long offset = ...; // The memory offset of the byte field
@@ -624,9 +626,9 @@ public final class MemoryAtomicAccess {
      *     addition.
      *     This operation is useful for performing atomic updates on shared integer variables.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the int field
      *     long offset = ...; // The memory offset of the int field
@@ -652,9 +654,9 @@ public final class MemoryAtomicAccess {
      *     and returns the previous value of the byte field before the update. The operation ensures that
      *     the byte field is updated atomically to avoid race conditions.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the byte field
      *     long offset = ...; // The memory offset of the byte field
@@ -686,9 +688,9 @@ public final class MemoryAtomicAccess {
      *     The method returns the previous value of the int field before the update.
      *     This operation is useful for performing atomic updates on shared integer variables.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     Object obj = ...; // The object containing the int field
      *     long offset = ...; // The memory offset of the int field
@@ -714,9 +716,9 @@ public final class MemoryAtomicAccess {
      * @implSpec This method atomically applies the provided update function to the byte value at the specified
      *     memory offset and ensures that the update is performed atomically.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Define a byte update function that increments the value by 1
      *     ByteUnaryOperator incrementByOne = value -> (byte) (value + 1);
@@ -753,9 +755,9 @@ public final class MemoryAtomicAccess {
      * @implSpec This method atomically applies the provided update function to the byte value at the specified
      *     memory offset and ensures that the update is performed atomically.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Define a byte update function that doubles the value
      *     ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
@@ -772,7 +774,7 @@ public final class MemoryAtomicAccess {
      *
      * @return the new byte value
      */
-    public final byte updateAndGetByte(Object obj, long offset, ByteUnaryOperator updating) {
+    public final byte updateAndGetByte(final Object obj, final long offset, final ByteUnaryOperator updating) {
         byte expected;
         byte newValue;
 
@@ -792,9 +794,9 @@ public final class MemoryAtomicAccess {
      * @implSpec This method atomically applies the provided accumulator function to the byte value at the
      *     specified memory offset and ensures that the update is performed atomically.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Define a byte binary operator that adds the update value to the byte value
      *     ByteBinaryOperator addValue = (currentValue, update) -> (byte) (currentValue + update);
@@ -812,7 +814,10 @@ public final class MemoryAtomicAccess {
      *
      * @return the old byte value that was replaced
      */
-    public final byte getAndAccumulateByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
+    public final byte getAndAccumulateByte(final Object obj,
+                                           final long offset,
+                                           final byte update,
+                                           final ByteBinaryOperator accumulation) {
         byte expected;
         byte newValue;
 
@@ -832,9 +837,9 @@ public final class MemoryAtomicAccess {
      * @implSpec This method atomically applies the provided accumulator function to the byte value at the
      *     specified memory offset and ensures that the update is performed atomically.
      *
-     *     Example usage:
+     *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
+     *     AtomicAccess memoryAccess = new AtomicAccess();
      *
      *     // Define a byte binary operator that subtracts the update value from the byte value
      *     ByteBinaryOperator subtractValue = (currentValue, update) -> (byte) (currentValue - update);
@@ -862,5 +867,320 @@ public final class MemoryAtomicAccess {
         } while (!compareAndSwapByte(obj, offset, expected, newValue));
 
         return newValue;
+    }
+
+    /**
+     * A utility class to provide atomic operations on byte arrays.
+     *
+     * @implSpec This class is designed for atomic operations on byte arrays using underlying
+     *     atomic memory access semantics provided by {@link AtomicAccess}. The operations include volatile gets/sets,
+     *     atomic compare-and-swap, get-and-add, get-and-update, and accumulate operations.
+     *
+     * @see AtomicAccess
+     */
+    static class ByteArray {
+
+        /**
+         * Represents the class of a byte array.
+         */
+        private static final Class<?> ARRAY_CLASS = byte[].class;
+
+        /**
+         * The offset of the base address of the byte array.
+         */
+        private static final int ARRAY_BASE_OFFSET;
+
+        /**
+         * The offset shift for indexing into the byte array.
+         */
+        private static final int ARRAY_INDEX_OFFSET_SHIFT;
+
+        /**
+         * Instance of {@code AtomicAccess} for atomic operations.
+         */
+        private static final AtomicAccess ATOMIC_ACCESS = new AtomicAccess();
+
+        static {
+            ARRAY_BASE_OFFSET = ATOMIC_ACCESS.arrayBaseOffset(ARRAY_CLASS);
+
+            int indexScale = ATOMIC_ACCESS.arrayIndexScale(ARRAY_CLASS);
+            if ((indexScale & (indexScale - 1)) != 0) {
+                throw new Error("The byte[] index scale is not a power of two");
+            }
+
+            ARRAY_INDEX_OFFSET_SHIFT = 31 - Integer.numberOfLeadingZeros(indexScale);
+        }
+
+        /**
+         * Default constructor.
+         */
+        public ByteArray() {}
+
+        /**
+         * Validates the index against the byte array bounds and calculates the byte offset.
+         *
+         * @implSpec This method calculates the offset for the given index in the byte array
+         *     based on the internal configuration set during class initialization.
+         *
+         * @param array The byte array to be checked.
+         * @param i     The index to be checked.
+         *
+         * @return The calculated byte offset.
+         * @throws IndexOutOfBoundsException if the index is out of bounds.
+         */
+        private static long checkedByteOffset(final byte[] array, final int i) {
+            if (i < 0 || i >= array.length) {
+                throw new IndexOutOfBoundsException(String.format(
+                    "The index %s out of a bounds [%s, %s]", i, 0, array.length - 1
+                ));
+            }
+
+            return ((long) i << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
+        }
+
+        /**
+         * Returns the byte value at the given index of the byte array using volatile semantics.
+         *
+         * @implSpec This method leverages {@link AtomicAccess#getByteVolatile(Object, long)}
+         *     to achieve volatile memory access semantics.
+         *
+         * @see AtomicAccess#getByteVolatile(Object, long)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *             AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *             byte[] array = {1, 2, 3, 4, 5};
+         *             byte value = byteArray.getVolatile(array, 2);
+         *             System.out.println(value); // Prints 3
+         *             }</pre>
+         *
+         * @param array The byte array to fetch the value from.
+         * @param i     The index of the element to fetch.
+         *
+         * @return The byte value at the given index.
+         */
+        public byte getVolatile(final byte[] array, final int i) {
+            return ATOMIC_ACCESS.getByteVolatile(array, checkedByteOffset(array, i));
+        }
+
+        /**
+         * Sets the byte value at the given index of the byte array using volatile semantics.
+         *
+         * @implSpec This method uses {@link AtomicAccess#putByteVolatile(Object, long, byte)}
+         *     to provide volatile memory semantics.
+         *
+         * @see AtomicAccess#putByteVolatile(Object, long, byte)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byteArray.putVolatile(array, 2, (byte) 8);
+         *     }</pre>
+         *
+         * @param array    The byte array to update.
+         * @param i        The index of the element to update.
+         * @param newValue The new byte value to set.
+         */
+        public void putVolatile(final byte[] array, final int i, final byte newValue) {
+            ATOMIC_ACCESS.putByteVolatile(array, checkedByteOffset(array, i), newValue);
+        }
+
+        /**
+         * Atomically sets the element at position {@code i} to the given {@code newValue}
+         * and returns the old value.
+         *
+         * @implSpec This method uses {@link AtomicAccess#getAndSetByte(Object, long, byte)}
+         *     for atomic updates.
+         *
+         * @see AtomicAccess#getAndSetByte(Object, long, byte)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byte oldValue = byteArray.getAndSet(array, 2, (byte) 8);
+         *     System.out.println(oldValue); // Prints 3
+         *     }</pre>
+         *
+         * @param array    The byte array to update.
+         * @param i        The index of the element to update.
+         * @param newValue The new byte value to set.
+         *
+         * @return The previous value at the given index.
+         */
+        public byte getAndSet(final byte[] array, final int i, final byte newValue) {
+            return ATOMIC_ACCESS.getAndSetByte(array, checkedByteOffset(array, i), newValue);
+        }
+
+        /**
+         * Atomically updates the byte at the given index with the expected value.
+         *
+         * @implSpec This method uses {@link AtomicAccess#compareAndSwapByte(Object, long, byte, byte)}
+         *     for atomic comparison and swap.
+         *
+         * @see AtomicAccess#compareAndSwapByte(Object, long, byte, byte)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     boolean swapped = byteArray.compareAndSwap(array, 2, (byte) 3, (byte) 8);
+         *     System.out.println(swapped); // Prints true
+         *     }</pre>
+         *
+         * @param array  The byte array to update.
+         * @param i      The index of the element to update.
+         * @param expect The expected byte value.
+         * @param update The new byte value to set if the current value is {@code expect}.
+         *
+         * @return {@code true} if successful; or {@code false} if the actual value
+         *     was not equal to the expected value.
+         */
+        public boolean compareAndSwap(final byte[] array, final int i, final byte expect, final byte update) {
+            return ATOMIC_ACCESS.compareAndSwapByte(array, checkedByteOffset(array, i), expect, update);
+        }
+
+        /**
+         * Atomically adds the given value to the element at the specified index.
+         *
+         * @implSpec This method uses {@link AtomicAccess#getAndAddByte(Object, long, byte)}
+         *     for atomic addition.
+         *
+         * @see AtomicAccess#getAndAddByte(Object, long, byte)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byte oldValue = byteArray.getAndAdd(array, 2, (byte) 2);
+         *     System.out.println(oldValue); // Prints 3
+         *     }</pre>
+         *
+         * @param array The byte array to update.
+         * @param i     The index of the element to update.
+         * @param delta The value to add.
+         *
+         * @return The previous value at the given index.
+         */
+        public byte getAndAdd(final byte[] array, final int i, final byte delta) {
+            return ATOMIC_ACCESS.getAndAddByte(array, checkedByteOffset(array, i), delta);
+        }
+
+        /**
+         * Atomically updates the byte at the given index using the provided update function.
+         *
+         * @implSpec This method uses {@link AtomicAccess#getAndUpdateByte(Object, long, ByteUnaryOperator)}
+         *     for atomic updates.
+         *
+         * @see AtomicAccess#getAndUpdateByte(Object, long, ByteUnaryOperator)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byte oldValue = byteArray.getAndUpdate(array, 2, val -> (byte) (val + 1));
+         *     System.out.println(oldValue); // Prints 3
+         *     }</pre>
+         *
+         * @param array          The byte array to update.
+         * @param i              The index of the element to update.
+         * @param updateFunction A unary operator function to apply.
+         *
+         * @return The previous value at the given index.
+         */
+        public byte getAndUpdate(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
+            return ATOMIC_ACCESS.getAndUpdateByte(array, checkedByteOffset(array, i), updateFunction);
+        }
+
+        /**
+         * Atomically updates the byte at the given index using the provided update function,
+         * and then returns the updated value.
+         *
+         * @implSpec This method uses {@link AtomicAccess#updateAndGetByte(Object, long, ByteUnaryOperator)}
+         *     for atomic updates.
+         *
+         * @see AtomicAccess#updateAndGetByte(Object, long, ByteUnaryOperator)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byte updatedValue = byteArray.updateAndGet(array, 2, val -> (byte) (val + 1));
+         *     System.out.println(updatedValue); // Prints 4
+         *     }</pre>
+         *
+         * @param array          The byte array to update.
+         * @param i              The index of the element to update.
+         * @param updateFunction A unary operator function to apply.
+         *
+         * @return The updated value at the given index.
+         */
+        public byte updateAndGet(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
+            return ATOMIC_ACCESS.updateAndGetByte(array, checkedByteOffset(array, i), updateFunction);
+        }
+
+        /**
+         * Atomically updates the byte at the given index using the accumulator function and given update.
+         *
+         * @implSpec This method uses
+         *     {@link AtomicAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryOperator)}
+         *     for atomic accumulation.
+         *
+         * @see AtomicAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryOperator)
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byte oldValue = byteArray.getAndAccumulate(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
+         *     System.out.println(oldValue); // Prints 3
+         *     }</pre>
+         *
+         * @param array               The byte array to update.
+         * @param i                   The index of the element to update.
+         * @param update              The byte value to use with the accumulator function.
+         * @param accumulatorFunction A binary operator function to apply.
+         *
+         * @return The previous value at the given index.
+         */
+        public byte getAndAccumulate(final byte[] array,
+                                     final int i,
+                                     final byte update,
+                                     final ByteBinaryOperator accumulatorFunction) {
+            return ATOMIC_ACCESS.getAndAccumulateByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
+        }
+
+        /**
+         * Atomically updates the byte at the given index using the accumulator function and given update,
+         * and then returns the updated value.
+         *
+         * @see AtomicAccess#accumulateAndGetByte(Object, long, byte, ByteBinaryOperator)
+         *
+         * @implSpec This method uses
+         *     {@link AtomicAccess#accumulateAndGetByte(Object, long, byte, ByteBinaryOperator)}
+         *     for atomic accumulation.
+         *
+         *     <p><strong>Example usage:</strong></p>
+         *     <pre>{@code
+         *     AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+         *     byte[] array = {1, 2, 3, 4, 5};
+         *     byte updatedValue = byteArray.accumulateAndGet(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
+         *     System.out.println(updatedValue); // Prints 5
+         *     }</pre>
+         *
+         * @param array               The byte array to update.
+         * @param i                   The index of the element to update.
+         * @param update              The byte value to use with the accumulator function.
+         * @param accumulatorFunction A binary operator function to apply.
+         *
+         * @return The updated value at the given index.
+         */
+        public byte accumulateAndGet(final byte[] array,
+                                     final int i,
+                                     final byte update,
+                                     final ByteBinaryOperator accumulatorFunction) {
+            return ATOMIC_ACCESS.accumulateAndGetByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
+        }
     }
 }

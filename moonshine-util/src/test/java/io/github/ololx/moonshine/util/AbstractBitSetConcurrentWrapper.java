@@ -9,7 +9,7 @@ import java.util.BitSet;
  * @apiNote This abstract class defines the common structure and initialization logic for concurrent bit set
  * implementations.
  * @implSpec Concrete subclasses are expected to implement the actual bit manipulation methods.
- * @see ConcurrentBitSet
+ * @see io.github.ololx.moonshine.util.ConcurrentBitSet
  * <p>
  * project concurrent-bitset
  * created 14.08.2023 14:55
