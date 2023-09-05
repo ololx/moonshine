@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 /**
  * A concurrent bit set implementation using separate segment locks.
- * This class extends {@link AbstractBitSetConcurrentWrapper}.
+ * This class extends {@link io.github.ololx.moonshine.util.AbstractBitSetConcurrentWrapper}.
  *
  * @apiNote This class is suitable for scenarios where multiple threads may concurrently access
  * different segments of the bit set, ensuring better concurrency compared to full synchronization.
@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
  * for each segment of the bit set.
  * @implSpec All public methods in this class are thread-safe. The segment locks ensure
  * that operations on different segments can be performed concurrently by different threads.
- * @see AbstractBitSetConcurrentWrapper
+ * @see io.github.ololx.moonshine.util.AbstractBitSetConcurrentWrapper
  * <p>
  * project concurrent-bitset
  * created 14.08.2023 18:52

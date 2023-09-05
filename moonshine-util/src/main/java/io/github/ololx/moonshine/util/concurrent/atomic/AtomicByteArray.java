@@ -21,13 +21,33 @@ import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
 import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 
 /**
+ * This class represents an atomic byte array, providing safe concurrent access to its elements.
+ * It offers atomic operations for reading and writing byte array elements, such as get, set, getAndSet,
+ * compareAndSet, as well as increment, decrement, and arithmetic operations on array elements.
+ *
+ * You can create an AtomicByteArray instance using constructors that take either the array's size or
+ * an existing byte array.
+ *
+ * @implNote All operations in this class are atomic, ensuring thread-safe access to the array.
+ *     It uses underlying memory access provided by {@link AtomicAccess}.
+ * @implSpec The atomic operations provided by this class guarantee atomicity of each individual operation but do
+ *     not provide atomicity of sequences of operations. Users are responsible for ensuring that sequences of operations
+ *     are performed atomically when required.
+ *
+ *     Usage example:
+ *     <pre>{@code
+ *     AtomicByteArray byteArray = new AtomicByteArray(10); // Create an array with 10 elements
+ *     byteArray.set(0, (byte) 42); // Set the value of an array element
+ *     byte value = byteArray.get(0); // Get the value of an array element
+ *     }</pre>
+ *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 27.08.2023 16:08
  */
 public class AtomicByteArray {
 
-    private static final ByteArrayAtomicAccess byteArrayAtomicAccess = new ByteArrayAtomicAccess();
+    private static final AtomicAccess.ByteArray byteArrayAtomicAccess = new AtomicAccess.ByteArray();
 
     private final byte[] array;
 
@@ -123,81 +143,5 @@ public class AtomicByteArray {
 
         return arrayStringBuilder.append(']')
             .toString();
-    }
-
-    static class ByteArrayAtomicAccess {
-
-        private static final Class<?> ARRAY_CLASS = byte[].class;
-
-        private static final int ARRAY_BASE_OFFSET;
-
-        private static final long ARRAY_INDEX_OFFSET_SHIFT;
-
-        private static final MemoryAtomicAccess memoryAccess = new MemoryAtomicAccess();
-
-        static {
-            ARRAY_BASE_OFFSET = memoryAccess.arrayBaseOffset(ARRAY_CLASS);
-
-            int indexScale = memoryAccess.arrayIndexScale(ARRAY_CLASS);
-            if ((indexScale & (indexScale - 1)) != 0) {
-                throw new Error("The byte[] index scale is not a power of two");
-            }
-
-            ARRAY_INDEX_OFFSET_SHIFT = 31 - Integer.numberOfLeadingZeros(indexScale);
-        }
-
-        private ByteArrayAtomicAccess() {}
-
-        private static long checkedByteOffset(final byte[] array, final int i) {
-            if (i < 0 || i >= array.length) {
-                throw new IndexOutOfBoundsException(String.format(
-                    "The index %s out of a bounds [%s, %s]", i, 0, array.length - 1
-                ));
-            }
-
-            return ((long) i << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
-        }
-
-        public byte getVolatile(final byte[] array, final int i) {
-            return memoryAccess.getByteVolatile(array, checkedByteOffset(array, i));
-        }
-
-        public void putVolatile(final byte[] array, final int i, final byte newValue) {
-            memoryAccess.putByteVolatile(array, checkedByteOffset(array, i), newValue);
-        }
-
-        public byte getAndSet(final byte[] array, final int i, final byte newValue) {
-            return memoryAccess.getAndSetByte(array, checkedByteOffset(array, i), newValue);
-        }
-
-        public boolean compareAndSwap(final byte[] array, final int i, final byte expect, final byte update) {
-            return memoryAccess.compareAndSwapByte(array, checkedByteOffset(array, i), expect, update);
-        }
-
-        public byte getAndAdd(final byte[] array, final int i, final byte delta) {
-            return memoryAccess.getAndAddByte(array, checkedByteOffset(array, i), delta);
-        }
-
-        public byte getAndUpdate(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
-            return memoryAccess.getAndUpdateByte(array, checkedByteOffset(array, i), updateFunction);
-        }
-
-        public byte updateAndGet(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
-            return memoryAccess.updateAndGetByte(array, checkedByteOffset(array, i), updateFunction);
-        }
-
-        public byte getAndAccumulate(final byte[] array,
-                                     final int i,
-                                     final byte update,
-                                     final ByteBinaryOperator accumulatorFunction) {
-            return memoryAccess.getAndAccumulateByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
-        }
-
-        public byte accumulateAndGet(final byte[] array,
-                                     final int i,
-                                     final byte update,
-                                     final ByteBinaryOperator accumulatorFunction) {
-            return memoryAccess.accumulateAndGetByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
-        }
     }
 }
