@@ -110,7 +110,7 @@ class AtomicAccess {
     /**
      * Constant representing the endianness of the system.
      */
-    public static final Endianness ENDIANNESS;
+    public static final Endianness SYSTEM_ENDIANNESS;
 
     /**
      * The instance of the Unsafe class obtained through reflection.
@@ -123,10 +123,8 @@ class AtomicAccess {
         // Obtain an instance of Unsafe using reflection
         unsafe = getUnsafeInstanceForClass(unsafeClass);
         // Determine the endianness of the underlying platform
-        ENDIANNESS = getEndianness();
+        SYSTEM_ENDIANNESS = getSystemEndianness();
     }
-
-    private AtomicAccess() {}
 
     /**
      * Retrieves the Unsafe class using reflection.
@@ -138,10 +136,9 @@ class AtomicAccess {
      *
      * @return The Unsafe class.
      *
-     * @throws RuntimeException if the Unsafe class cannot be found.
      * @throws RuntimeException if the Unsafe class cannot be found using reflection.
      */
-    private static Class<?> getUnsafeClass() throws RuntimeException {
+    private static Class<?> getUnsafeClass() {
         try {
             return Class.forName("sun.misc.Unsafe");
         } catch (ClassNotFoundException e) {
@@ -162,7 +159,7 @@ class AtomicAccess {
      *
      * @throws RuntimeException if an instance of Unsafe cannot be obtained.
      */
-    private static Unsafe getUnsafeInstanceForClass(Class<?> unsafeClass) throws RuntimeException {
+    private static Unsafe getUnsafeInstanceForClass(Class<?> unsafeClass) {
         try {
             Field f = unsafeClass.getDeclaredField("theUnsafe");
             f.setAccessible(true);
@@ -194,7 +191,7 @@ class AtomicAccess {
      *
      * @throws RuntimeException if the byte order cannot be determined.
      */
-    private static Endianness getEndianness() {
+    private static Endianness getSystemEndianness() {
         long offset = unsafe.allocateMemory(4);
         unsafe.putInt(offset, 0x04030201);
         byte lsb = (byte) unsafe.getByte(offset);
@@ -244,7 +241,7 @@ class AtomicAccess {
      * @return The endianness of the system, indicating how multibyte data is stored.
      */
     public final Endianness endianness() {
-        return ENDIANNESS;
+        return SYSTEM_ENDIANNESS;
     }
 
     /**
@@ -424,7 +421,7 @@ class AtomicAccess {
      *
      * @return {@code true} if the comparison and update were successful, {@code false} otherwise
      */
-    public boolean compareAndSwapByte(Object obj, long offset, byte expected, byte newValue) {
+    public final boolean compareAndSwapByte(final Object obj, final long offset, final byte expected, final byte newValue) {
         long intWordOffset = offset & ~3;
 
         int byteWordShift = (int) (offset & 3) << 3;
@@ -477,7 +474,7 @@ class AtomicAccess {
      *
      * @return {@code true} if the comparison and update were successful, {@code false} otherwise
      */
-    public boolean compareAndSwapInt(Object obj, long offset, int expected, int newValue) {
+    public final boolean compareAndSwapInt(final Object obj, final long offset, final int expected, final int newValue) {
         return unsafe.compareAndSwapInt(obj, offset, expected, newValue);
     }
 
@@ -502,7 +499,7 @@ class AtomicAccess {
      *
      * @return the volatile byte value read from the specified memory offset
      */
-    public byte getByteVolatile(Object obj, long offset) {
+    public final byte getByteVolatile(final Object obj, final long offset) {
         return unsafe.getByteVolatile(obj, offset);
     }
 
@@ -527,7 +524,7 @@ class AtomicAccess {
      * @param offset the memory offset at which to write the volatile byte
      * @param value  the volatile byte value to write
      */
-    public void putByteVolatile(Object obj, long offset, byte value) {
+    public final void putByteVolatile(final Object obj, final long offset, final byte value) {
         unsafe.putByteVolatile(obj, offset, value);
     }
 
@@ -552,7 +549,7 @@ class AtomicAccess {
      *
      * @return the volatile int value read from the specified memory offset
      */
-    public int getIntVolatile(Object obj, long offset) {
+    public final int getIntVolatile(final Object obj, final long offset) {
         return unsafe.getIntVolatile(obj, offset);
     }
 
@@ -577,7 +574,7 @@ class AtomicAccess {
      * @param offset the memory offset at which to write the volatile int
      * @param value  the volatile int value to write
      */
-    public void putIntVolatile(Object obj, long offset, int value) {
+    public final void putIntVolatile(final Object obj, final long offset, final int value) {
         unsafe.putIntVolatile(obj, offset, value);
     }
 
@@ -605,7 +602,7 @@ class AtomicAccess {
      *
      * @return the previous value of the byte field before the addition
      */
-    public byte getAndAddByte(Object obj, long offset, byte delta) {
+    public final byte getAndAddByte(final Object obj, final long offset, final byte delta) {
         byte expected;
         byte newValue;
 
@@ -642,7 +639,7 @@ class AtomicAccess {
      *
      * @return the previous value of the int field before the addition
      */
-    public int getAndAddInt(Object obj, long offset, int delta) {
+    public final int getAndAddInt(final Object obj, final long offset, final int delta) {
         return unsafe.getAndAddInt(obj, offset, delta);
     }
 
@@ -670,7 +667,7 @@ class AtomicAccess {
      *
      * @return the previous value of the byte field before the update
      */
-    public byte getAndSetByte(Object obj, long offset, byte newValue) {
+    public final byte getAndSetByte(final Object obj, final long offset, final byte newValue) {
         byte expected;
 
         do {
@@ -704,7 +701,7 @@ class AtomicAccess {
      *
      * @return the previous value of the int field before the update
      */
-    public int getAndSetInt(Object obj, long offset, int newValue) {
+    public final int getAndSetInt(final Object obj, final long offset, final int newValue) {
         return unsafe.getAndSetInt(obj, offset, newValue);
     }
 
@@ -735,7 +732,7 @@ class AtomicAccess {
      *
      * @return the old byte value that was replaced
      */
-    public final byte getAndUpdateByte(Object obj, long offset, ByteUnaryOperator updating) {
+    public final byte getAndUpdateByte(final Object obj, final long offset, final ByteUnaryOperator updating) {
         byte expected;
         byte newValue;
 
@@ -857,7 +854,10 @@ class AtomicAccess {
      *
      * @return the new byte value
      */
-    public final byte accumulateAndGetByte(Object obj, long offset, byte update, ByteBinaryOperator accumulation) {
+    public final byte accumulateAndGetByte(final Object obj,
+                                           final long offset,
+                                           final byte update,
+                                           final ByteBinaryOperator accumulation) {
         byte expected;
         byte newValue;
 
@@ -870,7 +870,7 @@ class AtomicAccess {
     }
 
     /**
-     * A utility class to provide atomic operations on byte arrays.
+     * A class to provide atomic operations on byte arrays.
      *
      * @implSpec This class is designed for atomic operations on byte arrays using underlying
      *     atomic memory access semantics provided by {@link AtomicAccess}. The operations include volatile gets/sets,
@@ -898,23 +898,27 @@ class AtomicAccess {
         /**
          * Instance of {@code AtomicAccess} for atomic operations.
          */
-        private static final AtomicAccess ATOMIC_ACCESS = new AtomicAccess();
+        private static final AtomicAccess atomicAccess = new AtomicAccess();
 
+        /**
+         * Static initialization block for setting up class-level constants related to direct memory access.
+         */
         static {
-            ARRAY_BASE_OFFSET = ATOMIC_ACCESS.arrayBaseOffset(ARRAY_CLASS);
+            // Get the base offset of byte arrays for direct memory access.
+            ARRAY_BASE_OFFSET = atomicAccess.arrayBaseOffset(ARRAY_CLASS);
 
-            int indexScale = ATOMIC_ACCESS.arrayIndexScale(ARRAY_CLASS);
+            // Determine and Verify the index scale (the number of bytes between each element of the array) of byte
+            // arrays.
+            // In most JVM implementations, it should be as arrays are typically allocated in contiguous memory blocks.
+            int indexScale = atomicAccess.arrayIndexScale(ARRAY_CLASS);
             if ((indexScale & (indexScale - 1)) != 0) {
                 throw new Error("The byte[] index scale is not a power of two");
             }
 
+            // Compute the shift value based on the index scale.
+            // This shift is useful when working with atomic operations that require element-wise offsets.
             ARRAY_INDEX_OFFSET_SHIFT = 31 - Integer.numberOfLeadingZeros(indexScale);
         }
-
-        /**
-         * Default constructor.
-         */
-        public ByteArray() {}
 
         /**
          * Validates the index against the byte array bounds and calculates the byte offset.
@@ -923,19 +927,19 @@ class AtomicAccess {
          *     based on the internal configuration set during class initialization.
          *
          * @param array The byte array to be checked.
-         * @param i     The index to be checked.
+         * @param index     The index to be checked.
          *
          * @return The calculated byte offset.
          * @throws IndexOutOfBoundsException if the index is out of bounds.
          */
-        private static long checkedByteOffset(final byte[] array, final int i) {
-            if (i < 0 || i >= array.length) {
+        private static long checkedByteOffset(final byte[] array, final int index) {
+            if (index < 0 || index >= array.length) {
                 throw new IndexOutOfBoundsException(String.format(
-                    "The index %s out of a bounds [%s, %s]", i, 0, array.length - 1
+                    "The index %s out of a bounds [%s, %s]", index, 0, array.length - 1
                 ));
             }
 
-            return ((long) i << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
+            return ((long) index << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
         }
 
         /**
@@ -955,12 +959,12 @@ class AtomicAccess {
          *             }</pre>
          *
          * @param array The byte array to fetch the value from.
-         * @param i     The index of the element to fetch.
+         * @param index     The index of the element to fetch.
          *
          * @return The byte value at the given index.
          */
-        public byte getVolatile(final byte[] array, final int i) {
-            return ATOMIC_ACCESS.getByteVolatile(array, checkedByteOffset(array, i));
+        public byte getVolatile(final byte[] array, final int index) {
+            return atomicAccess.getByteVolatile(array, checkedByteOffset(array, index));
         }
 
         /**
@@ -979,15 +983,15 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array    The byte array to update.
-         * @param i        The index of the element to update.
+         * @param index        The index of the element to update.
          * @param newValue The new byte value to set.
          */
-        public void putVolatile(final byte[] array, final int i, final byte newValue) {
-            ATOMIC_ACCESS.putByteVolatile(array, checkedByteOffset(array, i), newValue);
+        public void putVolatile(final byte[] array, final int index, final byte newValue) {
+            atomicAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
         }
 
         /**
-         * Atomically sets the element at position {@code i} to the given {@code newValue}
+         * Atomically sets the element at position {@code index} to the given {@code newValue}
          * and returns the old value.
          *
          * @implSpec This method uses {@link AtomicAccess#getAndSetByte(Object, long, byte)}
@@ -1004,13 +1008,13 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array    The byte array to update.
-         * @param i        The index of the element to update.
+         * @param index        The index of the element to update.
          * @param newValue The new byte value to set.
          *
          * @return The previous value at the given index.
          */
-        public byte getAndSet(final byte[] array, final int i, final byte newValue) {
-            return ATOMIC_ACCESS.getAndSetByte(array, checkedByteOffset(array, i), newValue);
+        public byte getAndSet(final byte[] array, final int index, final byte newValue) {
+            return atomicAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
         }
 
         /**
@@ -1030,15 +1034,15 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array  The byte array to update.
-         * @param i      The index of the element to update.
+         * @param index      The index of the element to update.
          * @param expect The expected byte value.
          * @param update The new byte value to set if the current value is {@code expect}.
          *
          * @return {@code true} if successful; or {@code false} if the actual value
          *     was not equal to the expected value.
          */
-        public boolean compareAndSwap(final byte[] array, final int i, final byte expect, final byte update) {
-            return ATOMIC_ACCESS.compareAndSwapByte(array, checkedByteOffset(array, i), expect, update);
+        public boolean compareAndSwap(final byte[] array, final int index, final byte expect, final byte update) {
+            return atomicAccess.compareAndSwapByte(array, checkedByteOffset(array, index), expect, update);
         }
 
         /**
@@ -1058,13 +1062,13 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array The byte array to update.
-         * @param i     The index of the element to update.
+         * @param index     The index of the element to update.
          * @param delta The value to add.
          *
          * @return The previous value at the given index.
          */
-        public byte getAndAdd(final byte[] array, final int i, final byte delta) {
-            return ATOMIC_ACCESS.getAndAddByte(array, checkedByteOffset(array, i), delta);
+        public byte getAndAdd(final byte[] array, final int index, final byte delta) {
+            return atomicAccess.getAndAddByte(array, checkedByteOffset(array, index), delta);
         }
 
         /**
@@ -1084,13 +1088,13 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array          The byte array to update.
-         * @param i              The index of the element to update.
+         * @param index              The index of the element to update.
          * @param updateFunction A unary operator function to apply.
          *
          * @return The previous value at the given index.
          */
-        public byte getAndUpdate(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
-            return ATOMIC_ACCESS.getAndUpdateByte(array, checkedByteOffset(array, i), updateFunction);
+        public byte getAndUpdate(final byte[] array, final int index, final ByteUnaryOperator updateFunction) {
+            return atomicAccess.getAndUpdateByte(array, checkedByteOffset(array, index), updateFunction);
         }
 
         /**
@@ -1111,13 +1115,13 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array          The byte array to update.
-         * @param i              The index of the element to update.
+         * @param index              The index of the element to update.
          * @param updateFunction A unary operator function to apply.
          *
          * @return The updated value at the given index.
          */
-        public byte updateAndGet(final byte[] array, final int i, final ByteUnaryOperator updateFunction) {
-            return ATOMIC_ACCESS.updateAndGetByte(array, checkedByteOffset(array, i), updateFunction);
+        public byte updateAndGet(final byte[] array, final int index, final ByteUnaryOperator updateFunction) {
+            return atomicAccess.updateAndGetByte(array, checkedByteOffset(array, index), updateFunction);
         }
 
         /**
@@ -1138,17 +1142,22 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array               The byte array to update.
-         * @param i                   The index of the element to update.
+         * @param index                   The index of the element to update.
          * @param update              The byte value to use with the accumulator function.
          * @param accumulatorFunction A binary operator function to apply.
          *
          * @return The previous value at the given index.
          */
         public byte getAndAccumulate(final byte[] array,
-                                     final int i,
+                                     final int index,
                                      final byte update,
                                      final ByteBinaryOperator accumulatorFunction) {
-            return ATOMIC_ACCESS.getAndAccumulateByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
+            return atomicAccess.getAndAccumulateByte(
+                array,
+                checkedByteOffset(array, index),
+                update,
+                accumulatorFunction
+            );
         }
 
         /**
@@ -1170,17 +1179,22 @@ class AtomicAccess {
          *     }</pre>
          *
          * @param array               The byte array to update.
-         * @param i                   The index of the element to update.
+         * @param index                   The index of the element to update.
          * @param update              The byte value to use with the accumulator function.
          * @param accumulatorFunction A binary operator function to apply.
          *
          * @return The updated value at the given index.
          */
         public byte accumulateAndGet(final byte[] array,
-                                     final int i,
+                                     final int index,
                                      final byte update,
                                      final ByteBinaryOperator accumulatorFunction) {
-            return ATOMIC_ACCESS.accumulateAndGetByte(array, checkedByteOffset(array, i), update, accumulatorFunction);
+            return atomicAccess.accumulateAndGetByte(
+                array,
+                checkedByteOffset(array, index),
+                update,
+                accumulatorFunction
+            );
         }
     }
 }

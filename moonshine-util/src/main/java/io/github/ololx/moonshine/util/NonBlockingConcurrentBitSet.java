@@ -1,7 +1,8 @@
 package io.github.ololx.moonshine.util;
 
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
-import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
+
+import java.util.function.IntUnaryOperator;
 
 /**
  * A thread-safe implementation of a concurrent bitset using atomic operations.
@@ -22,9 +23,42 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     private static final int WORD_SIZE = Byte.SIZE;
 
     /**
+     * The number of bits required to address a specific position within a "word."
+     * Each "word" corresponds to a long (64 bits), so 6 bits are needed.
+     */
+    private static final int WORD_INDEX_SHIFT = 3;
+
+    private static final int WORD_MASK = 0x7;
+
+    /**
+     * A utility function that extracts the bit index within a word for a given bit index.
+     * The result ensures the bit index is within the bounds of a word.
+     */
+    private static final IntUnaryOperator bitIndexShift = bitIndex -> {
+        return (byte) (bitIndex & WORD_MASK);
+    };
+
+    /**
+     * A utility function that returns a mask with only one bit set, corresponding to the given bit shift.
+     * This mask can be used in bitwise operations to isolate or modify a specific bit.
+     */
+    private static final IntUnaryOperator bitMask = bitShift -> {
+        return 1 << bitShift;
+    };
+
+    /**
+     * A utility function that calculates the word index (e.g., in an array of integers) for a given bit index.
+     * This can be useful in scenarios where bits are managed in groups or words,
+     * and a specific bit index needs to be mapped to its corresponding word.
+     */
+    private static final IntUnaryOperator wordIndex = bitIndex -> {
+        return bitIndex >> WORD_INDEX_SHIFT;
+    };
+
+    /**
      * The internal storage for the bitset.
      */
-    private final AtomicWordArray data;
+    private final AtomicByteArray data;
 
     /**
      * Creates a new NonBlockingConcurrentBitset with the specified size.
@@ -32,7 +66,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      * @param size The number of bits in the bitset.
      */
     public NonBlockingConcurrentBitSet(int size) {
-        this.data = new AtomicWordArray((size + WORD_SIZE - 1) / WORD_SIZE);
+        this.data = new AtomicByteArray((size + WORD_SIZE - 1) / WORD_SIZE);
     }
 
     /**
@@ -44,11 +78,10 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      */
     @Override
     public boolean get(int bitIndex) {
-        int wordIndex = bitIndex / WORD_SIZE;
-        int bitOffset = bitIndex % WORD_SIZE;
-        int bitMask = 1 << bitOffset;
-
-        return (this.data.getWordVolatile(wordIndex) & bitMask) >> bitOffset != 0;
+        checkIndex(bitIndex);
+        int bitOffset = bitIndexShift.applyAsInt(bitIndex);
+        int bitMask = NonBlockingConcurrentBitSet.bitMask.applyAsInt(bitOffset);
+        return (this.data.get(wordIndex.applyAsInt(bitIndex)) & bitMask) >> bitOffset != 0;
     }
 
     /**
@@ -58,10 +91,9 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      */
     @Override
     public void set(int bitIndex) {
-        int wordIndex = bitIndex / WORD_SIZE;
-        int bitOffset = bitIndex % WORD_SIZE;
-        int bitMask = 1 << bitOffset;
-        this.data.setWordVolatile(wordIndex, (word) -> (byte) (word | bitMask));
+        checkIndex(bitIndex);
+        int bitMask = 1 << bitIndexShift.applyAsInt(bitIndex);
+        this.data.updateAndGet(wordIndex.applyAsInt(bitIndex), word -> (byte) (word | bitMask));
     }
 
     /**
@@ -71,10 +103,9 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      */
     @Override
     public void clear(int bitIndex) {
-        int wordIndex = bitIndex / WORD_SIZE;
-        int bitOffset = bitIndex % WORD_SIZE;
-        int bitMask = 1 << bitOffset;
-        this.data.setWordVolatile(wordIndex, (word) -> (byte) (word & ~bitMask));
+        checkIndex(bitIndex);
+        int bitMask = 1 << bitIndexShift.applyAsInt(bitIndex);
+        this.data.updateAndGet(wordIndex.applyAsInt(bitIndex), (word) -> (byte) (word & ~bitMask));
     }
 
     /**
@@ -84,58 +115,28 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      */
     @Override
     public void flip(int bitIndex) {
-        int wordIndex = bitIndex / WORD_SIZE;
-        int bitOffset = bitIndex % WORD_SIZE;
-        int bitMask = 1 << bitOffset;
-        this.data.setWordVolatile(wordIndex, (word) -> (byte) (word ^ bitMask));
+        checkIndex(bitIndex);
+        int bitMask = 1 << bitIndexShift.applyAsInt(bitIndex);
+        this.data.updateAndGet(wordIndex.applyAsInt(bitIndex), (word) -> (byte) (word ^ bitMask));
     }
 
     /**
-     * An internal class that represents an atomic word array for bit storage.
+     * Checks if the provided bit index is within the valid range of the data array.
+     * The valid range is [0, bitsCount), where bitsCount is the total number of bits in the data array.
+     * If the provided bit index is outside the acceptable range, this method throws an
+     * {@link IndexOutOfBoundsException}.
+     *
+     * @param bitIndex The bit index to check.
+     *
+     * @throws IndexOutOfBoundsException If the bitIndex is negative or greater than or equal to the total number of
+     *                                   bits in the data array.
      */
-    private static class AtomicWordArray {
-
-        private final AtomicByteArray words;
-
-        /**
-         * Creates a new AtomicWordArray with the specified size.
-         *
-         * @param size The size of the array in bytes.
-         */
-        private AtomicWordArray(int size) {
-            this.words = new AtomicByteArray(size);
-        }
-
-        /**
-         * Sets the value of the word at the specified index using a binary operation.
-         *
-         * @param wordIndex       The index of the word to set.
-         * @param binaryOperation A function that defines the binary operation on the word.
-         *
-         * @implSpec This method uses a loop with compareAndSet to ensure atomicity of the operation.
-         */
-        private void setWordVolatile(int wordIndex, ByteUnaryOperator binaryOperation) {
-            words.getAndUpdate(wordIndex, binaryOperation);
-            /*byte currentWordValue;
-            byte newWordValue;
-
-            do {
-                currentWordValue = this.getWordVolatile(wordIndex);
-                newWordValue = binaryOperation.applyAsByte(currentWordValue);
-            } while (!words.compareAndSet(wordIndex, currentWordValue, newWordValue));*/
-        }
-
-        /**
-         * Gets the value of the word at the specified index in a volatile manner.
-         *
-         * @param wordIndex The index of the word to retrieve.
-         *
-         * @return The value of the word at the specified index.
-         *
-         * @implSpec This method uses VarHandle to perform a volatile read of the array element.
-         */
-        private byte getWordVolatile(int wordIndex) {
-            return words.get(wordIndex);
+    private void checkIndex(final int bitIndex) {
+        int bitsCount = this.data.length() * WORD_SIZE;
+        if (bitIndex < 0 || bitIndex >= bitsCount) {
+            throw new IndexOutOfBoundsException(String.format(
+                "The bitIndex %s out of bounds [%s, %s)", bitIndex, 0, bitsCount
+            ));
         }
     }
 }

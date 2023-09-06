@@ -109,12 +109,12 @@ public class AtomicByteArray {
      *         System.out.println(value); // Prints 30
      *     }</pre>
      *
-     * @param i the index of the desired element.
+     * @param index the index of the desired element.
      *
      * @return the byte value at the given index.
      */
-    public byte get(final int i) {
-        return byteArrayAtomicAccess.getVolatile(array, i);
+    public byte get(final int index) {
+        return byteArrayAtomicAccess.getVolatile(array, index);
     }
 
     /**
@@ -130,11 +130,11 @@ public class AtomicByteArray {
      *         System.out.println(updatedValue); // Prints 42
      *     }</pre>
      *
-     * @param i        the index of the element to be set.
+     * @param index        the index of the element to be set.
      * @param newValue the new byte value to be stored.
      */
-    public void set(final int i, final byte newValue) {
-        byteArrayAtomicAccess.putVolatile(array, i, newValue);
+    public void set(final int index, final byte newValue) {
+        byteArrayAtomicAccess.putVolatile(array, index, newValue);
     }
 
     /**
@@ -149,13 +149,13 @@ public class AtomicByteArray {
      *         System.out.println(oldValue); // Prints 3
      *     }</pre>
      *
-     * @param i        the index of the element to be set.
+     * @param index        the index of the element to be set.
      * @param newValue the new byte value to be stored.
      *
      * @return the old byte value.
      */
-    public byte getAndSet(final int i, byte newValue) {
-        return byteArrayAtomicAccess.getAndSet(array, i, newValue);
+    public byte getAndSet(final int index, byte newValue) {
+        return byteArrayAtomicAccess.getAndSet(array, index, newValue);
     }
 
     /**
@@ -171,15 +171,15 @@ public class AtomicByteArray {
      *         System.out.println(wasUpdated); // Prints true
      *     }</pre>
      *
-     * @param i      the index of the element to be set.
+     * @param index      the index of the element to be set.
      * @param expect the expected byte value.
      * @param update the new byte value to be stored if the current value equals the expected value.
      *
      * @return {@code true} if successful. {@code false} return indicates that the actual value was not equal to the
      *     expected value.
      */
-    public boolean compareAndSet(final int i, final byte expect, final byte update) {
-        return byteArrayAtomicAccess.compareAndSwap(array, i, expect, update);
+    public boolean compareAndSet(final int index, final byte expect, final byte update) {
+        return byteArrayAtomicAccess.compareAndSwap(array, index, expect, update);
     }
 
     /**
@@ -192,12 +192,12 @@ public class AtomicByteArray {
      *         System.out.println(oldValue); // Prints 30
      *     }</pre>
      *
-     * @param i the index of the element to be incremented.
+     * @param index the index of the element to be incremented.
      *
      * @return the old byte value.
      */
-    public final byte getAndIncrement(int i) {
-        return getAndAdd(i, (byte) 1);
+    public final byte getAndIncrement(final int index) {
+        return getAndAdd(index, (byte) 1);
     }
 
     /**
@@ -210,12 +210,12 @@ public class AtomicByteArray {
      *         System.out.println(oldValue); // Prints 30
      *     }</pre>
      *
-     * @param i the index of the element to be decremented.
+     * @param index the index of the element to be decremented.
      *
      * @return the old byte value.
      */
-    public final byte getAndDecrement(int i) {
-        return getAndAdd(i, (byte) -1);
+    public final byte getAndDecrement(final int index) {
+        return getAndAdd(index, (byte) -1);
     }
 
     /**
@@ -228,12 +228,12 @@ public class AtomicByteArray {
      *         System.out.println(updatedValue); // Prints 31
      *     }</pre>
      *
-     * @param i the index of the element to be incremented.
+     * @param index the index of the element to be incremented.
      *
      * @return the updated byte value.
      */
-    public final byte incrementAndGet(int i) {
-        return (byte) (getAndAdd(i, (byte) 1) + 1);
+    public final byte incrementAndGet(final int index) {
+        return (byte) (getAndAdd(index, (byte) 1) + 1);
     }
 
     /**
@@ -246,12 +246,12 @@ public class AtomicByteArray {
      *         System.out.println(updatedValue); // Prints 29
      *     }</pre>
      *
-     * @param i the index of the element to be decremented.
+     * @param index the index of the element to be decremented.
      *
      * @return the updated byte value.
      */
-    public final byte decrementAndGet(int i) {
-        return (byte) (getAndAdd(i, (byte) -1) - 1);
+    public final byte decrementAndGet(final int index) {
+        return (byte) (getAndAdd(index, (byte) -1) - 1);
     }
 
     /**
@@ -264,13 +264,13 @@ public class AtomicByteArray {
      *         System.out.println(updatedValue); // Prints 35
      *     }</pre>
      *
-     * @param i     the index of the element to be updated.
+     * @param index     the index of the element to be updated.
      * @param delta the value to add to the byte at the specified index.
      *
      * @return the updated byte value.
      */
-    public byte addAndGet(int i, byte delta) {
-        return (byte) (getAndAdd(i, delta) + delta);
+    public byte addAndGet(final int index, byte delta) {
+        return (byte) (getAndAdd(index, delta) + delta);
     }
 
     /**
@@ -283,13 +283,13 @@ public class AtomicByteArray {
      *         System.out.println(oldValue); // Prints 30
      *     }</pre>
      *
-     * @param i     the index of the element to be updated.
+     * @param index     the index of the element to be updated.
      * @param delta the value to add to the byte at the specified index.
      *
      * @return the old byte value.
      */
-    public final byte getAndAdd(int i, byte delta) {
-        return byteArrayAtomicAccess.getAndAdd(array, i, delta);
+    public final byte getAndAdd(final int index, byte delta) {
+        return byteArrayAtomicAccess.getAndAdd(array, index, delta);
     }
 
     /**
@@ -305,13 +305,13 @@ public class AtomicByteArray {
      *         System.out.println(oldValue); // Prints 30
      *     }</pre>
      *
-     * @param i              the index of the element to be updated.
+     * @param index              the index of the element to be updated.
      * @param updateFunction a function that computes the new byte value based on the current value.
      *
      * @return the old byte value.
      */
-    public final byte getAndUpdate(int i, ByteUnaryOperator updateFunction) {
-        return byteArrayAtomicAccess.getAndUpdate(array, i, updateFunction);
+    public final byte getAndUpdate(final int index, ByteUnaryOperator updateFunction) {
+        return byteArrayAtomicAccess.getAndUpdate(array, index, updateFunction);
     }
 
     /**
@@ -327,13 +327,13 @@ public class AtomicByteArray {
      *         System.out.println(updatedValue); // Prints 60
      *     }</pre>
      *
-     * @param i              the index of the element to be updated.
+     * @param index              the index of the element to be updated.
      * @param updateFunction a function that computes the new byte value based on the current value.
      *
      * @return the updated byte value.
      */
-    public final byte updateAndGet(int i, ByteUnaryOperator updateFunction) {
-        return byteArrayAtomicAccess.updateAndGet(array, i, updateFunction);
+    public final byte updateAndGet(final int index, ByteUnaryOperator updateFunction) {
+        return byteArrayAtomicAccess.updateAndGet(array, index, updateFunction);
     }
 
     /**
@@ -349,14 +349,14 @@ public class AtomicByteArray {
      *         System.out.println(oldValue); // Prints 30
      *     }</pre>
      *
-     * @param i                   the index of the element to be updated.
+     * @param index                   the index of the element to be updated.
      * @param update              the byte value to be used in the accumulator function.
      * @param accumulatorFunction a function that computes the new byte value based on the current and given values.
      *
      * @return the old byte value.
      */
-    public final byte getAndAccumulate(int i, byte update, ByteBinaryOperator accumulatorFunction) {
-        return byteArrayAtomicAccess.getAndAccumulate(array, i, update, accumulatorFunction);
+    public final byte getAndAccumulate(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
+        return byteArrayAtomicAccess.getAndAccumulate(array, index, update, accumulatorFunction);
     }
 
     /**
@@ -372,14 +372,14 @@ public class AtomicByteArray {
      *         System.out.println(updatedValue); // Prints 32
      *     }</pre>
      *
-     * @param i                   the index of the element to be updated.
+     * @param index                   the index of the element to be updated.
      * @param update              the byte value to be used in the accumulator function.
      * @param accumulatorFunction a function that computes the new byte value based on the current and given values.
      *
      * @return the updated byte value.
      */
-    public final byte accumulateAndGet(int i, byte update, ByteBinaryOperator accumulatorFunction) {
-        return byteArrayAtomicAccess.accumulateAndGet(array, i, update, accumulatorFunction);
+    public final byte accumulateAndGet(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
+        return byteArrayAtomicAccess.accumulateAndGet(array, index, update, accumulatorFunction);
     }
 
     /**
