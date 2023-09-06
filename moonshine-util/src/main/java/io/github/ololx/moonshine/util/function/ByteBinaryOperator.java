@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.util.function;
 
-import java.util.Objects;
-
 /**
  * A functional interface for binary operations on two byte values.
  *
