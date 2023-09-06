@@ -114,21 +114,6 @@ public class AtomicLongArrayWrapper implements AtomicArrayWrapper<Long> {
     }
 
     /**
-     * Atomically sets the element at the specified index to the given value if the current value is equal to the
-     * expected value.
-     *
-     * @param i      The index of the element to set.
-     * @param expect The expected value.
-     * @param update The new value to set if the current value is equal to the expected value.
-     *
-     * @return {@code true} if successful; {@code false} otherwise.
-     */
-    @Override
-    public boolean weakCompareAndSet(int i, Long expect, Long update) {
-        return array.weakCompareAndSet(i, expect, update);
-    }
-
-    /**
      * Atomically increments the element at the specified index by one and returns the previous value.
      *
      * @param i The index of the element to increment.

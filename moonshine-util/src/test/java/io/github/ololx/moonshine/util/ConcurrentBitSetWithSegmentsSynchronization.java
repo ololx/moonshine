@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
  * that operations on different segments can be executed concurrently by different threads.
  * @see AbstractBitSetConcurrentWrapper
  * <p>
- * project concurrent-bitset
+ * project moonshine
  * created 24.08.2023 19:52
  */
 public class ConcurrentBitSetWithSegmentsSynchronization extends AbstractBitSetConcurrentWrapper {

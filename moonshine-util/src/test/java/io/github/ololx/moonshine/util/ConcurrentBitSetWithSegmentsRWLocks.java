@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
  * that operations on different segments can be performed concurrently by different threads.
  * @see io.github.ololx.moonshine.util.AbstractBitSetConcurrentWrapper
  * <p>
- * project concurrent-bitset
+ * project moonshine
  * created 14.08.2023 18:52
  *
  * @author Alexander A. Kropotin
