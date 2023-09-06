@@ -11,7 +11,7 @@ import java.util.BitSet;
  * @implSpec Concrete subclasses are expected to implement the actual bit manipulation methods.
  * @see io.github.ololx.moonshine.util.ConcurrentBitSet
  * <p>
- * project concurrent-bitset
+ * project moonshine
  * created 14.08.2023 14:55
  *
  * @author Alexander A. Kropotin

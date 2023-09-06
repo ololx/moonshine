@@ -6,7 +6,7 @@ package io.github.ololx.moonshine.util;
  *
  * @author Alexander A. Kropotin
  *
- *         project concurrent-bitset
+ *         project moonshine
  *         created 14.08.2023 14:52
  * @apiNote This class is suitable for scenarios where thread safety is required, but the performance
  *         impact of full synchronization may be a concern.

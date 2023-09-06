@@ -87,28 +87,6 @@ public interface AtomicArrayWrapper<T> {
     boolean compareAndSet(int i, T expect, T update);
 
     /**
-     * Atomically sets the element at the specified index to the given update
-     * value if the current value at that index is equal to the expected value.
-     * This method provides weaker guarantees compared to {@link #compareAndSet(int, Object, Object)},
-     * and it may fail spuriously. It is only appropriate in scenarios where the weaker
-     * guarantees are acceptable and can be compensated for.
-     *
-     * @param i      the index
-     * @param expect the expected value
-     * @param update the new value
-     *
-     * @return {@code true} if the value was updated, {@code false} otherwise
-     *
-     * @implNote This method is provided as a convenience to satisfy the implementation
-     *     of the {@link AtomicArrayWrapper} interface. Depending on the underlying
-     *     implementation of {@link #compareAndSet(int, Object, Object)}, the
-     *     behavior of this method may vary.
-     */
-    default boolean weakCompareAndSet(int i, T expect, T update) {
-        return compareAndSet(i, expect, update);
-    }
-
-    /**
      * Atomically increments the element at the specified index by one and
      * returns the previous value.
      *

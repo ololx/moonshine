@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  * threads to perform read operations concurrently.
  * @see io.github.ololx.moonshine.util.AbstractBitSetConcurrentWrapper
  * <p>
- * project concurrent-bitset
+ * project moonshine
  * created 14.08.2023 14:52
  *
  * @author Alexander A. Kropotin

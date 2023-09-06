@@ -11,14 +11,13 @@ import java.util.function.Function;
 /**
  * A thread-safe implementation of a concurrent bitset using atomic operations.
  *
- * @apiNote This class provides methods to manipulate individual bits in a thread-safe manner.
- * It is designed for scenarios where multiple threads need to access and modify
- * a shared bitset concurrently.
- *
- * project concurrent-bitset
- * created 01.08.2023 10:52
- *
  * @author Alexander A. Kropotin
+ * @apiNote This class provides methods to manipulate individual bits in a thread-safe manner.
+ *     It is designed for scenarios where multiple threads need to access and modify
+ *     a shared bitset concurrently.
+ *
+ *     project moonshine
+ *     created 01.08.2023 10:52
  */
 public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
 
@@ -45,6 +44,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      * Gets the value of the bit at the specified index.
      *
      * @param bitIndex The index of the bit to retrieve.
+     *
      * @return The value of the bit (true or false) at the specified index.
      */
     @Override
@@ -116,6 +116,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
          *
          * @param wordIndex       The index of the word to set.
          * @param binaryOperation A function that defines the binary operation on the word.
+         *
          * @implSpec This method uses a loop with compareAndSet to ensure atomicity of the operation.
          */
         private void setWordVolatile(int wordIndex, ByteUnaryOperator binaryOperation) {
@@ -133,7 +134,9 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
          * Gets the value of the word at the specified index in a volatile manner.
          *
          * @param wordIndex The index of the word to retrieve.
+         *
          * @return The value of the word at the specified index.
+         *
          * @implSpec This method uses VarHandle to perform a volatile read of the array element.
          */
         private byte getWordVolatile(int wordIndex) {

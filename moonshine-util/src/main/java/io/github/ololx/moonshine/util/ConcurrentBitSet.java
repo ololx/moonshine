@@ -4,13 +4,12 @@ package io.github.ololx.moonshine.util;
  * An interface for a concurrent bit set, providing methods to manipulate
  * individual bits in a thread-safe manner.
  *
- * @apiNote Implementations of this interface are expected to provide thread-safe
- * behavior for all methods.
- * <p>
- * project concurrent-bitset
- * created 14.08.2023 13:51
- *
  * @author Alexander A. Kropotin
+ * @apiNote Implementations of this interface are expected to provide thread-safe
+ *     behavior for all methods.
+ *     <p>
+ *     project moonshine
+ *     created 14.08.2023 13:51
  */
 public interface ConcurrentBitSet {
 
@@ -18,6 +17,7 @@ public interface ConcurrentBitSet {
      * Gets the value of the bit at the specified index.
      *
      * @param bitIndex The index of the bit to retrieve.
+     *
      * @return The value of the bit (true or false) at the specified index.
      */
     boolean get(int bitIndex);
