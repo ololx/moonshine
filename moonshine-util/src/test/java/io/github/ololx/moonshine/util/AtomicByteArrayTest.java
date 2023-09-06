@@ -4,7 +4,6 @@ import io.github.ololx.moonshine.measuring.memory.WholeMemoryAllocationMeter;
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import sun.misc.Unsafe;
 
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
