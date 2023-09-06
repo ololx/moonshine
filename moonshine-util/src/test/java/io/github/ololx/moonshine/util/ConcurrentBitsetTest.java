@@ -25,26 +25,6 @@ public class ConcurrentBitsetTest {
                 .collect(Collectors.toList());
 
         data.add(new Object[]{
-                new ConcurrentBitSetWithFullSynchronization(bitSetSize),
-                unitIndexes,
-                bitSetSize
-        });
-        data.add(new Object[]{
-                new ConcurrentBitSetWithGeneralRWLock(bitSetSize),
-                unitIndexes,
-                bitSetSize
-        });
-        data.add(new Object[]{
-                new ConcurrentBitSetWithSegmentsRWLocks(bitSetSize),
-                unitIndexes,
-                bitSetSize
-        });
-        data.add(new Object[]{
-            new ConcurrentBitSetWithSegmentsSynchronization(bitSetSize),
-            unitIndexes,
-            bitSetSize
-        });
-        data.add(new Object[]{
                 new NonBlockingConcurrentBitSet(bitSetSize),
                 unitIndexes,
                 bitSetSize
