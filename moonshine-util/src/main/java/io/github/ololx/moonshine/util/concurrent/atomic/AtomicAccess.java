@@ -136,13 +136,13 @@ class AtomicAccess {
      *
      * @return The Unsafe class.
      *
-     * @throws RuntimeException if the Unsafe class cannot be found using reflection.
+     * @throws Error if the Unsafe class cannot be found using reflection.
      */
     private static Class<?> getUnsafeClass() {
         try {
             return Class.forName("sun.misc.Unsafe");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new Error("Can't find the sun.misc.Unsafe", e);
         }
     }
 
@@ -157,7 +157,7 @@ class AtomicAccess {
      *
      * @return An instance of Unsafe.
      *
-     * @throws RuntimeException if an instance of Unsafe cannot be obtained.
+     * @throws Error if an instance of Unsafe cannot be obtained.
      */
     private static Unsafe getUnsafeInstanceForClass(Class<?> unsafeClass) {
         try {
@@ -168,7 +168,7 @@ class AtomicAccess {
 
             return (Unsafe) obj;
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new Error("Can't get the Unsafe instance from sun.misc.Unsafe.theUnsafe", e);
         }
     }
 
@@ -189,7 +189,8 @@ class AtomicAccess {
      * @return {@link Endianness#LE} if the platform uses little-endian byte order,
      *     {@link Endianness#BE} if the platform uses big-endian byte order.
      *
-     * @throws RuntimeException if the byte order cannot be determined.
+     * @throws Error if the byte order was be determined like middle-endian.
+     * @throws Error if the byte order cannot be determined.
      */
     private static Endianness getSystemEndianness() {
         long offset = unsafe.allocateMemory(4);
@@ -203,10 +204,10 @@ class AtomicAccess {
             case 0x04:
                 return Endianness.BE;
             case 0x02:
-                throw new RuntimeException("The middle-endian is an unexpected byte order");
+                throw new Error("The middle-endian is an unexpected byte order");
             case 0x03:
             default:
-                throw new RuntimeException("Failed to determine byte order");
+                throw new Error("Failed to determine byte order");
         }
     }
 
@@ -266,6 +267,38 @@ class AtomicAccess {
      */
     public final int arrayBaseOffset(final Class<?> arrayClass) {
         return unsafe.arrayBaseOffset(arrayClass);
+    }
+
+    /**
+     * Returns the offset of the specified field of the given class.
+     *
+     * @implSpec This method uses {@link Unsafe#objectFieldOffset(Field)} to obtain the offset of the field with
+     * the specified name in the given class. The offset can be used to access the field's value in objects of the
+     * class. If a field with the specified name does not exist, a {@link NoSuchFieldException} will be thrown,
+     * wrapped in an {@link IllegalArgumentException}.
+     *
+     * <p><strong>Example usage:</strong></p>
+     * <pre>{@code
+     * AtomicAccess memoryAccess = new AtomicAccess();
+     *
+     * // Get the field offset of a specific field in a class
+     * long fieldOffset = memoryAccess.objectFieldOffset(MyClass.class, "myField");
+     * System.out.println("Field Offset: " + fieldOffset);
+     * }</pre>
+     *
+     * @param objectClass The class in which to find the field.
+     * @param fieldName The name of the field whose offset should be obtained.
+     *
+     * @return The offset of the field.
+     *
+     * @throws IllegalArgumentException if the field with the specified name does not exist in the class.
+     */
+    public final long objectFieldOffset(final Class<?> objectClass, String fieldName) {
+        try {
+            return unsafe.objectFieldOffset(objectClass.getDeclaredField(fieldName));
+        } catch (NoSuchFieldException e) {
+            throw new IllegalArgumentException(String.format("No such field %s.%s", fieldName, objectClass), e);
+        }
     }
 
     /**
