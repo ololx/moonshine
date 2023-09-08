@@ -23,7 +23,7 @@
     <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine</artifactId>
-    <version>0.11.0-SNAPSHOT</version>
+    <version>0.12.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <!--artifact>-->
 
@@ -68,6 +68,7 @@
         <module>moonshine-stopwatch</module>
         <module>moonshine-bytes</module>
         <module>moonshine-measuring</module>
+        <module>moonshine-util</module>
     </modules>
     <!--project modules>-->
 
