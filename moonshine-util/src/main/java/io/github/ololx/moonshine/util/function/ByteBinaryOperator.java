@@ -26,6 +26,7 @@ package io.github.ololx.moonshine.util.function;
  *     project moonshine
  *     created 01.09.2023 10:34
  */
+@FunctionalInterface
 public interface ByteBinaryOperator {
 
     /**

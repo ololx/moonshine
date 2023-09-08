@@ -1,10 +1,8 @@
 package io.github.ololx.moonshine.util.function;
 
-import io.github.ololx.moonshine.util.NonBlockingConcurrentBitSet;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Alexander A. Kropotin

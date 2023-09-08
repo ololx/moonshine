@@ -29,6 +29,7 @@ import java.util.Objects;
  *     project moonshine
  *     created 01.09.2023 10:34
  */
+@FunctionalInterface
 public interface ByteUnaryOperator {
 
     /**
