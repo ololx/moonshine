@@ -195,7 +195,7 @@ class AtomicAccess {
     private static Endianness getSystemEndianness() {
         long offset = unsafe.allocateMemory(4);
         unsafe.putInt(offset, 0x04030201);
-        byte lsb = (byte) unsafe.getByte(offset);
+        byte lsb = unsafe.getByte(offset);
         unsafe.freeMemory(offset);
 
         switch (lsb) {

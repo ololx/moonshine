@@ -28,32 +28,29 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      */
     private static final int WORD_INDEX_SHIFT = 3;
 
+    /**
+     * The bits in byte word to cut int to byte.
+     */
     private static final int WORD_MASK = 0x7;
 
     /**
      * A utility function that extracts the bit index within a word for a given bit index.
      * The result ensures the bit index is within the bounds of a word.
      */
-    private static final IntUnaryOperator bitIndexShift = bitIndex -> {
-        return (byte) (bitIndex & WORD_MASK);
-    };
+    private static final IntUnaryOperator bitIndexShiftOperator = bitIndex -> bitIndex & WORD_MASK;
 
     /**
      * A utility function that returns a mask with only one bit set, corresponding to the given bit shift.
      * This mask can be used in bitwise operations to isolate or modify a specific bit.
      */
-    private static final IntUnaryOperator bitMask = bitShift -> {
-        return 1 << bitShift;
-    };
+    private static final IntUnaryOperator bitMaskOperator = bitShift -> 1 << bitShift;
 
     /**
      * A utility function that calculates the word index (e.g., in an array of integers) for a given bit index.
      * This can be useful in scenarios where bits are managed in groups or words,
      * and a specific bit index needs to be mapped to its corresponding word.
      */
-    private static final IntUnaryOperator wordIndex = bitIndex -> {
-        return bitIndex >> WORD_INDEX_SHIFT;
-    };
+    private static final IntUnaryOperator wordIndexOperator = bitIndex -> bitIndex >> WORD_INDEX_SHIFT;
 
     /**
      * The internal storage for the bitset.
@@ -79,9 +76,9 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     @Override
     public boolean get(int bitIndex) {
         checkIndex(bitIndex);
-        int bitOffset = bitIndexShift.applyAsInt(bitIndex);
-        int bitMask = NonBlockingConcurrentBitSet.bitMask.applyAsInt(bitOffset);
-        return (this.data.get(wordIndex.applyAsInt(bitIndex)) & bitMask) >> bitOffset != 0;
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = NonBlockingConcurrentBitSet.bitMaskOperator.applyAsInt(bitOffset);
+        return (this.data.get(wordIndexOperator.applyAsInt(bitIndex)) & bitMask) >> bitOffset != 0;
     }
 
     /**
@@ -92,8 +89,8 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     @Override
     public void set(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShift.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndex.applyAsInt(bitIndex), word -> (byte) (word | bitMask));
+        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
+        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word | bitMask));
     }
 
     /**
@@ -104,8 +101,8 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     @Override
     public void clear(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShift.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndex.applyAsInt(bitIndex), (word) -> (byte) (word & ~bitMask));
+        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
+        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), (word) -> (byte) (word & ~bitMask));
     }
 
     /**
@@ -116,8 +113,8 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     @Override
     public void flip(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShift.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndex.applyAsInt(bitIndex), (word) -> (byte) (word ^ bitMask));
+        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
+        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), (word) -> (byte) (word ^ bitMask));
     }
 
     /**
