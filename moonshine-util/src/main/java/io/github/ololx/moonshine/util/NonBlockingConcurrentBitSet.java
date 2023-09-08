@@ -58,12 +58,18 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     private final AtomicByteArray data;
 
     /**
+     * The max index which can be used.
+     */
+    private final int maxIndex;
+
+    /**
      * Creates a new NonBlockingConcurrentBitset with the specified size.
      *
      * @param size The number of bits in the bitset.
      */
     public NonBlockingConcurrentBitSet(int size) {
         this.data = new AtomicByteArray((size + WORD_SIZE - 1) / WORD_SIZE);
+        this.maxIndex = size - 1;
     }
 
     /**
@@ -129,10 +135,9 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      *                                   bits in the data array.
      */
     private void checkIndex(final int bitIndex) {
-        int bitsCount = this.data.length() * WORD_SIZE;
-        if (bitIndex < 0 || bitIndex >= bitsCount) {
+        if (bitIndex < 0 || bitIndex > maxIndex) {
             throw new IndexOutOfBoundsException(String.format(
-                "The bitIndex %s out of bounds [%s, %s)", bitIndex, 0, bitsCount
+                "The bitIndex %s out of bounds [%s, %s]", bitIndex, 0, maxIndex
             ));
         }
     }
