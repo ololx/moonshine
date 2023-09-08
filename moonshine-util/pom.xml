@@ -71,35 +71,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-core -->
-        <dependency>
-            <groupId>org.openjdk.jmh</groupId>
-            <artifactId>jmh-core</artifactId>
-            <version>1.37</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-generator-annprocess -->
-        <dependency>
-            <groupId>org.openjdk.jmh</groupId>
-            <artifactId>jmh-generator-annprocess</artifactId>
-            <version>1.37</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.ololx.moonshine</groupId>
-            <artifactId>moonshine-measuring</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.openjdk.jcstress/jcstress-core -->
-        <dependency>
-            <groupId>org.openjdk.jcstress</groupId>
-            <artifactId>jcstress-core</artifactId>
-            <version>0.16</version>
-            <scope>test</scope>
-        </dependency>
-
-
         <!-- https://mvnrepository.com/artifact/com.googlecode.multithreadedtc/multithreadedtc -->
         <dependency>
             <groupId>com.googlecode.multithreadedtc</groupId>

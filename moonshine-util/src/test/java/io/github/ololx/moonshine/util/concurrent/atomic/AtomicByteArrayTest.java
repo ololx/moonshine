@@ -3,7 +3,8 @@ package io.github.ololx.moonshine.util.concurrent.atomic;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Alexander A. Kropotin
@@ -12,7 +13,7 @@ import static org.testng.Assert.*;
  */
 public class AtomicByteArrayTest {
 
-    private AtomicByteArray atomicByteArray;
+    AtomicByteArray atomicByteArray;
 
     @BeforeMethod
     public void setUp() {
