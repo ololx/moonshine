@@ -13,7 +13,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class AtomicByteArrayWrapperTest {
 
-    AtomicByteArrayWrapper atomicByteArray;
+    AtomicArrayWrapper<Byte> atomicByteArray;
 
     @BeforeMethod
     public void setUp() {
