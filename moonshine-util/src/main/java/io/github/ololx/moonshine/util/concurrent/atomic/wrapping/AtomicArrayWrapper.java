@@ -147,11 +147,4 @@ public interface AtomicArrayWrapper<T> {
      * @return the updated value at the specified index
      */
     T addAndGet(int i, T delta);
-
-    /**
-     * Returns a string representation of the current values in the array.
-     *
-     * @return a string representation of the array
-     */
-    String toString();
 }
