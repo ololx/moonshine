@@ -102,7 +102,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     public void clear(int bitIndex) {
         checkIndex(bitIndex);
         int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), (word) -> (byte) (word & ~bitMask));
+        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word & ~bitMask));
     }
 
     /**
@@ -114,7 +114,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     public void flip(int bitIndex) {
         checkIndex(bitIndex);
         int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), (word) -> (byte) (word ^ bitMask));
+        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word ^ bitMask));
     }
 
     /**
