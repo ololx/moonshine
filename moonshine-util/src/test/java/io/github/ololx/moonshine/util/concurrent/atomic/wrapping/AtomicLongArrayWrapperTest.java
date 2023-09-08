@@ -13,7 +13,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class AtomicLongArrayWrapperTest {
 
-    AtomicLongArrayWrapper atomicLongArray;
+    AtomicArrayWrapper<Long> atomicLongArray;
 
     @BeforeMethod
     public void setUp() {

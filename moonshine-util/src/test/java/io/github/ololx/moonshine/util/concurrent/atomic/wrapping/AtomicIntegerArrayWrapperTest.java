@@ -13,7 +13,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class AtomicIntegerArrayWrapperTest {
 
-    AtomicIntegerArrayWrapper atomicIntegerArray;
+    AtomicArrayWrapper<Integer> atomicIntegerArray;
 
     @BeforeMethod
     public void setUp() {
