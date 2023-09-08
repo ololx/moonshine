@@ -6,11 +6,16 @@ import org.junit.Test;
 
 public class NonBlockingConcurrentBitSetMultithreadingTest extends MultithreadedTest {
 
-    NonBlockingConcurrentBitSet bitSet;
+    NonBlockingConcurrentBitSet bitSet = new NonBlockingConcurrentBitSet(3);
 
-    @Override
-    public void initialize() {
-        this.bitSet = new NonBlockingConcurrentBitSet(2);
+    @Test
+    public void set_whenInvokeInManyThreadsAndManyTimes_thenAllChangesWereApplied() throws Throwable {
+        assertTrue(checkInMultiThreading());
+    }
+
+    private static boolean checkInMultiThreading() throws Throwable {
+        TestFramework.runManyTimes(new NonBlockingConcurrentBitSetMultithreadingTest(), 1000);
+        return true;
     }
 
     public void thread1() throws InterruptedException {
@@ -24,10 +29,5 @@ public class NonBlockingConcurrentBitSetMultithreadingTest extends Multithreaded
     @Override
     public void finish() {
         assertTrue(bitSet.get(1) && bitSet.get(2));
-    }
-
-    @Test
-    public void set_get_test() throws Throwable {
-        TestFramework.runManyTimes(new NonBlockingConcurrentBitSetMultithreadingTest(), 1000);
     }
 }
