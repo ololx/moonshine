@@ -2,7 +2,7 @@ package io.github.ololx.moonshine.util.function;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Alexander A. Kropotin
