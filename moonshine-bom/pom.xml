@@ -23,7 +23,7 @@
     <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine-bom</artifactId>
-    <version>0.12.0-SNAPSHOT</version>
+    <version>0.12.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <!--artifact>-->
 
@@ -140,6 +140,11 @@
                 <artifactId>moonshine-measuring</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.ololx.moonshine</groupId>
+                <artifactId>moonshine-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--project modules>-->
 
             <!--<test utils-->
@@ -153,6 +158,21 @@
                 <artifactId>equalsverifier</artifactId>
                 <version>${dependency.equalsverifier.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.groovy/groovy -->
+            <dependency>
+                <groupId>org.apache.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>4.0.14</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>2.4-M1-groovy-4.0</version>
+            </dependency>
+
             <!--test utils>-->
         </dependencies>
 
