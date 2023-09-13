@@ -23,7 +23,7 @@
     <!--<artifact-->
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine</artifactId>
-    <version>0.12.0-SNAPSHOT</version>
+    <version>0.12.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <!--artifact>-->
 
@@ -144,7 +144,7 @@
         <plugin.maven-jar-plugin.version>3.1.1</plugin.maven-jar-plugin.version>
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
         <plugin.maven-surefire-plugin.version>2.12.4</plugin.maven-surefire-plugin.version>
-        <plugin.jacoco-maven-plugin.version>0.8.8</plugin.jacoco-maven-plugin.version>
+        <plugin.jacoco-maven-plugin.version>0.8.10</plugin.jacoco-maven-plugin.version>
         <!--plugins versions>-->
     </properties>
     <!--properties>-->
