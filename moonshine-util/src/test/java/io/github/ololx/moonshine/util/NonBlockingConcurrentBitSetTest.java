@@ -33,21 +33,21 @@ public class NonBlockingConcurrentBitSetTest {
     @DataProvider
     public Object[][] providesBitSetsAndLength() {
         return new Object[][] {
-            {new NonBlockingConcurrentBitSet(1), 1},
-            {new NonBlockingConcurrentBitSet(8), 8},
-            {new NonBlockingConcurrentBitSet(64), 64},
+            {new ConcurrentBitArray(1), 1},
+            {new ConcurrentBitArray(8), 8},
+            {new ConcurrentBitArray(64), 64},
         };
     }
 
     @Test(dataProvider = "providesBitSetsAndLength")
-    public void get_whenBitIsUnsetted_thenReturnFalse(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void get_whenBitIsUnsetted_thenReturnFalse(ConcurrentBitArray bitSet, int length) {
         for (int i = 0; i < length; i++) {
             assertFalse(bitSet.get(i));
         }
     }
 
     @Test(dataProvider = "providesBitSetsAndLength")
-    public void set_whenSetBit_thenGetReturnTrue(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void set_whenSetBit_thenGetReturnTrue(ConcurrentBitArray bitSet, int length) {
         for (int i = 0; i < length; i++) {
             assertFalse(bitSet.get(i));
             bitSet.set(i);
@@ -56,7 +56,7 @@ public class NonBlockingConcurrentBitSetTest {
     }
 
     @Test(dataProvider = "providesBitSetsAndLength")
-    public void clear_whenBitIsCleared_thenReturnFalse(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void clear_whenBitIsCleared_thenReturnFalse(ConcurrentBitArray bitSet, int length) {
         for (int i = 0; i < length; i++) {
             bitSet.clear(i);
             assertFalse(bitSet.get(i));
@@ -67,7 +67,7 @@ public class NonBlockingConcurrentBitSetTest {
     }
 
     @Test(dataProvider = "providesBitSetsAndLength")
-    public void flip_whenBitIsUnset_thenReturnTrue(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void flip_whenBitIsUnset_thenReturnTrue(ConcurrentBitArray bitSet, int length) {
         for (int i = 0; i < length; i++) {
             assertFalse(bitSet.get(i));
             bitSet.flip(i);
@@ -78,42 +78,42 @@ public class NonBlockingConcurrentBitSetTest {
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void get_whenIndexLessThanZero_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void get_whenIndexLessThanZero_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(-1);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void get_whenIndexMoreThanBitSetLength_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void get_whenIndexMoreThanBitSetLength_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(length);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void set_whenIndexLessThanZero_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void set_whenIndexLessThanZero_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(-1);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void set_whenIndexMoreThanBitSetLength_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void set_whenIndexMoreThanBitSetLength_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(length);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void clear_whenIndexLessThanZero_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void clear_whenIndexLessThanZero_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(-1);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void clear_whenIndexMoreThanBitSetLength_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void clear_whenIndexMoreThanBitSetLength_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(length);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void flip_whenIndexLessThanZero_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void flip_whenIndexLessThanZero_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(-1);
     }
 
     @Test(dataProvider = "providesBitSetsAndLength", expectedExceptions = IndexOutOfBoundsException.class)
-    public void flip_whenIndexMoreThanBitSetLength_thenThrowException(NonBlockingConcurrentBitSet bitSet, int length) {
+    public void flip_whenIndexMoreThanBitSetLength_thenThrowException(ConcurrentBitArray bitSet, int length) {
         bitSet.get(length);
     }
 }

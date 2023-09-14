@@ -1,3 +1,20 @@
+/**
+ * Copyright 2023 the project moonshine authors
+ * and the original author or authors annotated by {@author}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.ololx.moonshine.util;
 
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
@@ -5,7 +22,7 @@ import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
 import java.util.function.IntUnaryOperator;
 
 /**
- * A thread-safe implementation of a concurrent bitset using atomic operations.
+ * A thread-safe implementation of a {@link ConcurrentBitCollection} using atomic operations.
  *
  * @author Alexander A. Kropotin
  * @apiNote This class provides methods to manipulate individual bits in a thread-safe manner.
@@ -15,7 +32,7 @@ import java.util.function.IntUnaryOperator;
  *     project moonshine
  *     created 01.08.2023 10:52
  */
-public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
+public class ConcurrentBitArray implements ConcurrentBitCollection {
 
     /**
      * The size of a word in bits.
@@ -67,7 +84,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
      *
      * @param size The number of bits in the bitset.
      */
-    public NonBlockingConcurrentBitSet(int size) {
+    public ConcurrentBitArray(int size) {
         this.data = new AtomicByteArray((size + WORD_SIZE - 1) / WORD_SIZE);
         this.maxIndex = size - 1;
     }
@@ -83,7 +100,7 @@ public class NonBlockingConcurrentBitSet implements ConcurrentBitSet {
     public boolean get(int bitIndex) {
         checkIndex(bitIndex);
         int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
-        int bitMask = NonBlockingConcurrentBitSet.bitMaskOperator.applyAsInt(bitOffset);
+        int bitMask = ConcurrentBitArray.bitMaskOperator.applyAsInt(bitOffset);
         return (this.data.get(wordIndexOperator.applyAsInt(bitIndex)) & bitMask) >> bitOffset != 0;
     }
 
