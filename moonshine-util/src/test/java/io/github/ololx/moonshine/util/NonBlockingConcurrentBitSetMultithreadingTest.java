@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class NonBlockingConcurrentBitSetMultithreadingTest extends MultithreadedTest {
 
-    NonBlockingConcurrentBitSet bitSet = new NonBlockingConcurrentBitSet(3);
+    ConcurrentBitArray bitSet = new ConcurrentBitArray(3);
 
     @Test
     public void set_whenInvokeInManyThreadsAndManyTimes_thenAllChangesWereApplied() throws Throwable {
