@@ -19,6 +19,7 @@ package io.github.ololx.moonshine.util.concurrent.atomic
 
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * @author Alexander A. Kropotin
@@ -147,11 +148,18 @@ class AtomicByteArrayTest extends Specification {
         atomicLongArray.get(1) == 4 as byte
     }
 
-    def "toString() - when get string then return correct string representation"() {
+    @Unroll
+    def "toString() - when get string from #array then return correct string = #stringRepresentation"() {
         given:
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         expect:
         atomicLongArray.toString() == "[1, 2, 3, 4, 5]"
+
+        where:
+        array                     | stringRepresentation
+        [] as byte[]              | "[]"
+        [1, 2, 3] as byte[]       | "[1, 2, 3, 4, 5]"
+        [1, 2, 3, 4, 5] as byte[] | "[1, 2, 3, 4, 5]"
     }
 }
