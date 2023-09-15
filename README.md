@@ -14,7 +14,7 @@ This is a java utils and extensions library
 [![DeepSource](https://deepsource.io/gh/ololx/moonshine.svg/?label=active+issues&show_trend=true&token=WjXoWTUy4w1uJyI6FIFTFo46)](https://deepsource.io/gh/ololx/moonshine/?ref=repository-badge)
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
+[![Codecov](https://codecov.io/gh/ololx/moonshine/graph/badge.svg?token=j2DbKEj47p)](https://codecov.io/gh/ololx/moonshine)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ololx_moonshine&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=ololx_moonshine)
 
 # Moonshine
