@@ -161,16 +161,16 @@
 
             <!-- https://mvnrepository.com/artifact/org.apache.groovy/groovy -->
             <dependency>
-                <groupId>org.codehaus.groovy</groupId>
+                <groupId>org.apache.groovy</groupId>
                 <artifactId>groovy</artifactId>
-                <version>3.0.9</version>
+                <version>4.0.14</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
             <dependency>
                 <groupId>org.spockframework</groupId>
                 <artifactId>spock-core</artifactId>
-                <version>2.0-groovy-3.0</version>
+                <version>2.4-M1-groovy-4.0</version>
             </dependency>
 
             <!--test utils>-->

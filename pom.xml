@@ -120,12 +120,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!--<sonar cloud properties-->
-        <sonar.organization>ololx</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.outputDirectory}</sonar.coverage.jacoco.xmlReportPaths>
-        <!--sonar cloud properties>-->
-
         <!--<distribution plugins versions-->
         <plugin.nexus.staging.ver>1.6.8</plugin.nexus.staging.ver>
         <plugin.maven.source.ver>3.2.1</plugin.maven.source.ver>
@@ -144,7 +138,7 @@
         <plugin.maven-compiler-plugin.version>3.8.1</plugin.maven-compiler-plugin.version>
         <plugin.maven-jar-plugin.version>3.1.1</plugin.maven-jar-plugin.version>
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
-        <plugin.maven-surefire-plugin.version>2.22.2</plugin.maven-surefire-plugin.version>
+        <plugin.maven-surefire-plugin.version>3.1.2</plugin.maven-surefire-plugin.version>
         <plugin.jacoco-maven-plugin.version>0.8.10</plugin.jacoco-maven-plugin.version>
         <!--plugins versions>-->
     </properties>
@@ -370,7 +364,7 @@
                 <plugin>
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
-                    <version>2.0.0</version>
+                    <version>3.0.0</version>
                     <executions>
                         <execution>
                             <goals>
