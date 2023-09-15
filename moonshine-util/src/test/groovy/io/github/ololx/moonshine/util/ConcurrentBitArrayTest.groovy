@@ -1,6 +1,24 @@
+/**
+ * Copyright 2022 the project moonshine authors
+ * and the original author or authors annotated by {@author}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.ololx.moonshine.util
 
-import io.github.ololx.moonshine.util.ConcurrentBitArray
+
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -11,8 +29,11 @@ import spock.lang.Unroll
  */
 class ConcurrentBitArrayTest extends Specification {
 
+    @Shared
+    Random random = new Random()
+
     @Unroll
-    def "get when #index bit is unsetted then return false"() {
+    def "get() - when #index bit is unsetted then return false"() {
         given:
         def bits = new ConcurrentBitArray(length)
 
@@ -21,13 +42,13 @@ class ConcurrentBitArrayTest extends Specification {
 
         where:
         length | index
-        1      | 0
-        8      | 7
-        64     | 63
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
     }
 
     @Unroll
-    def "set when set #index bit then get return true with length"() {
+    def "set() - when set #index bit then get return true with length"() {
         given:
         def bits = new ConcurrentBitArray(length)
 
@@ -39,13 +60,13 @@ class ConcurrentBitArrayTest extends Specification {
 
         where:
         length | index
-        1      | 0
-        8      | 7
-        64     | 63
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
     }
 
     @Unroll
-    def "clear when #index bit is cleared then return false with length"() {
+    def "clear() - when #index bit is cleared then return false with length"() {
         given:
         def bits = new ConcurrentBitArray(length)
 
@@ -58,13 +79,13 @@ class ConcurrentBitArrayTest extends Specification {
 
         where:
         length | index
-        1      | 0
-        8      | 7
-        64     | 63
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
     }
 
     @Unroll
-    def "flip when #index bit is unset then return true with length"() {
+    def "flip() - when #index bit is unset then return true with length"() {
         given:
         def bits = new ConcurrentBitArray(length)
 
@@ -76,96 +97,92 @@ class ConcurrentBitArrayTest extends Specification {
 
         where:
         length | index
-        1      | 0
-        8      | 7
-        64     | 63
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
     }
 
-    def "get when index less than 0 then throw exception"() {
+    @Unroll
+    def "get() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
-        def bits = new ConcurrentBitArray(1)
+        def bits = new ConcurrentBitArray(length)
 
         when:
-        bits.get(-1)
+        bits.get(index)
 
         then:
         thrown(IndexOutOfBoundsException)
+
+        where:
+        length | index
+        1      | -1
+        1      | 1
+        8      | -1
+        8      | 8
+        64     | -1
+        64     | 64
     }
 
-    def "get when index more than bit's length then throw exception"() {
+    @Unroll
+    def "set() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
-        def bits = new ConcurrentBitArray(1)
+        def bits = new ConcurrentBitArray(length)
 
         when:
-        bits.get(1)
+        bits.set(index)
 
         then:
         thrown(IndexOutOfBoundsException)
+
+        where:
+        length | index
+        1      | -1
+        1      | 1
+        8      | -1
+        8      | 8
+        64     | -1
+        64     | 64
     }
 
-    def "set when index less than 0 then throw exception"() {
+    @Unroll
+    def "clear() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
-        def bits = new ConcurrentBitArray(1)
+        def bits = new ConcurrentBitArray(length)
 
         when:
-        bits.set(-1)
+        bits.clear(index)
 
         then:
         thrown(IndexOutOfBoundsException)
+
+        where:
+        length | index
+        1      | -1
+        1      | 1
+        8      | -1
+        8      | 8
+        64     | -1
+        64     | 64
     }
 
-    def "set when index more than bit's length then throw exception"() {
+    @Unroll
+    def "flip() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
-        def bits = new ConcurrentBitArray(1)
+        def bits = new ConcurrentBitArray(length)
 
         when:
-        bits.set(1)
+        bits.flip(index)
 
         then:
         thrown(IndexOutOfBoundsException)
-    }
 
-    def "clear when index less than 0 then throw exception"() {
-        given:
-        def bits = new ConcurrentBitArray(1)
-
-        when:
-        bits.clear(-1)
-
-        then:
-        thrown(IndexOutOfBoundsException)
-    }
-
-    def "clear when index more than bit's length then throw exception"() {
-        given:
-        def bits = new ConcurrentBitArray(1)
-
-        when:
-        bits.clear(1)
-
-        then:
-        thrown(IndexOutOfBoundsException)
-    }
-
-    def "flip when index less than 0 then throw exception"() {
-        given:
-        def bits = new ConcurrentBitArray(1)
-
-        when:
-        bits.flip(-1)
-
-        then:
-        thrown(IndexOutOfBoundsException)
-    }
-
-    def "flip when index more than bit's length then throw exception"() {
-        given:
-        def bits = new ConcurrentBitArray(1)
-
-        when:
-        bits.flip(1)
-
-        then:
-        thrown(IndexOutOfBoundsException)
+        where:
+        length | index
+        1      | -1
+        1      | 1
+        8      | -1
+        8      | 8
+        64     | -1
+        64     | 64
     }
 }
