@@ -2,10 +2,7 @@
 <suite name="All tests suite" parallel="methods" thread-count="10">
     <test name="All tests">
         <classes>
-            <class name="io.github.ololx.moonshine.util.ConcurrentBitArrayTest"/>
-            <class name="io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArrayTest"/>
-            <class name="io.github.ololx.moonshine.util.function.ByteBinaryOperatorTest"/>
-            <class name="io.github.ololx.moonshine.util.function.ByteUnaryOperatorTest"/>
+            <class name="io.github.ololx.moonshine.util.concurrent.atomic.AtomicAccessTest"/>
         </classes>
     </test>
 </suite>
