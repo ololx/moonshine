@@ -142,9 +142,9 @@
         <plugin.buildnumber-maven-plugin.version>1.4</plugin.buildnumber-maven-plugin.version>
         <plugin.maven-clean-plugin.version>3.1.0</plugin.maven-clean-plugin.version>
         <plugin.maven-compiler-plugin.version>3.8.1</plugin.maven-compiler-plugin.version>
-        <plugin.maven-jar-plugin.version>2.12.2</plugin.maven-jar-plugin.version>
+        <plugin.maven-jar-plugin.version>3.1.1</plugin.maven-jar-plugin.version>
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
-        <plugin.maven-surefire-plugin.version>3.1.2</plugin.maven-surefire-plugin.version>
+        <plugin.maven-surefire-plugin.version>2.22.2</plugin.maven-surefire-plugin.version>
         <plugin.jacoco-maven-plugin.version>0.8.10</plugin.jacoco-maven-plugin.version>
         <!--plugins versions>-->
     </properties>
@@ -370,7 +370,7 @@
                 <plugin>
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>2.0.0</version>
                     <executions>
                         <execution>
                             <goals>
