@@ -60,10 +60,10 @@ class AtomicByteArrayTest extends Specification {
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long oldValue = atomicLongArray.getAndSet(0, 7 as byte)
+        byte oldValue = atomicLongArray.getAndSet(0, 7 as byte)
 
         then:
-        oldValue == 1L
+        oldValue == 1 as byte
         atomicLongArray.get(0) == 7 as byte
     }
 
@@ -84,10 +84,10 @@ class AtomicByteArrayTest extends Specification {
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long oldValue = atomicLongArray.getAndIncrement(0)
+        byte oldValue = atomicLongArray.getAndIncrement(0)
 
         then:
-        oldValue == 1L
+        oldValue == 1 as byte
         atomicLongArray.get(0) == 2 as byte
     }
 
@@ -96,10 +96,10 @@ class AtomicByteArrayTest extends Specification {
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long oldValue = atomicLongArray.getAndDecrement(1)
+        byte oldValue = atomicLongArray.getAndDecrement(1)
 
         then:
-        oldValue == 2
+        oldValue == 2 as byte
         atomicLongArray.get(1) == 1 as byte
     }
 
@@ -108,10 +108,10 @@ class AtomicByteArrayTest extends Specification {
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long newValue = atomicLongArray.incrementAndGet(0)
+        byte newValue = atomicLongArray.incrementAndGet(0)
 
         then:
-        newValue == 2
+        newValue == 2 as byte
     }
 
     def "decrementAndGet() - when decrement then decrement value and return new value"() {
@@ -119,33 +119,79 @@ class AtomicByteArrayTest extends Specification {
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long newValue = atomicLongArray.decrementAndGet(1)
+        byte newValue = atomicLongArray.decrementAndGet(1)
 
         then:
-        newValue == 1
+        newValue == 1 as byte
     }
 
-    def "addAndGet() - when add then add value and return new value"() {
+    def "addAndGet() - when add delta then add value and return new value"() {
         given:
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long newValue = atomicLongArray.addAndGet(1, 3 as byte)
+        byte newValue = atomicLongArray.addAndGet(1, 3 as byte)
 
         then:
-        newValue == 5
+        newValue == 5 as byte
     }
 
-    def "getAndAdd() - when add then add value and return old value"() {
+    def "getAndAdd() - when add delta then add value and return old value"() {
         given:
         def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long oldValue = atomicLongArray.getAndAdd(1, 2 as byte)
+        byte oldValue = atomicLongArray.getAndAdd(1, 2 as byte)
 
         then:
-        oldValue == 2
+        oldValue == 2 as byte
         atomicLongArray.get(1) == 4 as byte
+    }
+
+    def "getAndUpdate() - when update value then update value and return old value"() {
+        given:
+        def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte oldValue = atomicLongArray.getAndUpdate(1, value -> value + 12 as byte)
+
+        then:
+        oldValue == 2 as byte
+        atomicLongArray.get(1) == 14 as byte
+    }
+
+    def "updateAndGet() - when update value then update value and return new value"() {
+        given:
+        def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte newValue = atomicLongArray.updateAndGet(1, value -> value + 12 as byte)
+
+        then:
+        newValue == 14 as byte
+    }
+
+    def "getAndAccumulate() - when update value then update value and return old value"() {
+        given:
+        def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte oldValue = atomicLongArray.getAndAccumulate(1, 12 as byte, (value, update) -> value as byte + update as byte)
+
+        then:
+        oldValue == 2 as byte
+        atomicLongArray.get(1) == 14 as byte
+    }
+
+    def "accumulateAndGet() - when update value then update value and return new value"() {
+        given:
+        def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte newValue = atomicLongArray.accumulateAndGet(1, 12 as byte, (value, update) -> value as byte + update as byte)
+
+        then:
+        newValue == 14 as byte
     }
 
     @Unroll
