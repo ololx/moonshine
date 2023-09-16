@@ -197,15 +197,15 @@ class AtomicByteArrayTest extends Specification {
     @Unroll
     def "toString() - when get string from #array then return correct string = #stringRepresentation"() {
         given:
-        def atomicLongArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+        def atomicLongArray = new AtomicByteArray(array)
 
         expect:
-        atomicLongArray.toString() == "[1, 2, 3, 4, 5]"
+        atomicLongArray.toString() == stringRepresentation
 
         where:
         array                     | stringRepresentation
         [] as byte[]              | "[]"
-        [1, 2, 3] as byte[]       | "[1, 2, 3, 4, 5]"
+        [1, 2, 3] as byte[]       | "[1, 2, 3]"
         [1, 2, 3, 4, 5] as byte[] | "[1, 2, 3, 4, 5]"
     }
 }
