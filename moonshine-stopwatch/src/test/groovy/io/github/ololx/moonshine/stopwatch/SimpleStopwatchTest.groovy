@@ -28,7 +28,7 @@ import java.time.Duration
  *
  * @author Alexander A. Kropotin
  */
-class SimpleStopwatchSpec extends Specification {
+class SimpleStopwatchTest extends Specification {
 
     def "start() - when start then start time updated and not equals stopped time"() {
         given: "a new SimpleStopwatch instance"
