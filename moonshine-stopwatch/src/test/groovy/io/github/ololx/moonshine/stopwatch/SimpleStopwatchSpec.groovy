@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package stopwatch
+package io.github.ololx.moonshine.stopwatch
 
 import io.github.ololx.moonshine.stopwatch.SimpleStopwatch
 import spock.lang.Specification
@@ -30,18 +30,18 @@ import java.time.Duration
  */
 class SimpleStopwatchSpec extends Specification {
 
-    def "test start method"() {
+    def "start() - when start then start time updated and not equals stopped time"() {
         given: "a new SimpleStopwatch instance"
         SimpleStopwatch stopwatch = new SimpleStopwatch()
 
         when: "start method is called"
         stopwatch.start()
 
-        then: "start time should not be STOPPED"
-        stopwatch.startTime != SimpleStopwatch.STOPPED
+        then: "start time should be more than STOPPED"
+        stopwatch.startTime > SimpleStopwatch.STOPPED
     }
 
-    def "test stop method"() {
+    def "stop() - when stop then start time updated to stopped time and elapsed time more than 0"() {
         given: "a started SimpleStopwatch instance"
         SimpleStopwatch stopwatch = new SimpleStopwatch()
         stopwatch.start()
@@ -54,11 +54,9 @@ class SimpleStopwatchSpec extends Specification {
         stopwatch.elapsedTime > 0
     }
 
-    def "test reset method"() {
-        given: "a started and then stopped SimpleStopwatch instance"
-        SimpleStopwatch stopwatch = new SimpleStopwatch()
-        stopwatch.start()
-        stopwatch.stop()
+    def "reset() - when reset then start time updated to stopped time and elapsed time equals 0"() {
+        given: "a started SimpleStopwatch instance"
+        SimpleStopwatch stopwatch = new SimpleStopwatch().start()
 
         when: "reset method is called"
         stopwatch.reset()
@@ -68,7 +66,7 @@ class SimpleStopwatchSpec extends Specification {
         stopwatch.elapsedTime == 0
     }
 
-    def "test elapsed method"() {
+    def "elapsed() - when once was started then return elapsed time more than 0"() {
         given: "a started SimpleStopwatch instance"
         SimpleStopwatch stopwatch = new SimpleStopwatch()
         stopwatch.start()
@@ -78,6 +76,18 @@ class SimpleStopwatchSpec extends Specification {
 
         then: "elapsed time should be a Duration instance and greater than 0"
         elapsed instanceof Duration
-            elapsed.toNanos() > 0
+        elapsed.toNanos() > 0
+    }
+
+    def "elapsed() - when wasn't started then return elapsed time equals 0"() {
+        given: "a started SimpleStopwatch instance"
+        SimpleStopwatch stopwatch = new SimpleStopwatch()
+
+        when: "elapsed method is called without stopping the stopwatch"
+        Duration elapsed = stopwatch.elapsed()
+
+        then: "elapsed time should be a Duration instance and greater than 0"
+        elapsed instanceof Duration
+        elapsed.toNanos() == 0
     }
 }
