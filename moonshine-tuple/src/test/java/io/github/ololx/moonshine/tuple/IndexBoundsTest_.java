@@ -11,7 +11,7 @@ import static org.testng.Assert.*;
  *
  * @author Alexander A. Kropotin
  */
-public class IndexBoundsTest {
+public class IndexBoundsTest_ {
 
     @DataProvider
     static Object[][] providesIndexesWithinUpperBounds() {

@@ -34,7 +34,7 @@ import static org.testng.Assert.assertFalse;
  *
  * @author Alexander A. Kropotin
  */
-public class BaseIteratorTest {
+public class BaseIteratorTest_ {
 
     @DataProvider
     static Object[][] providesTuples() {

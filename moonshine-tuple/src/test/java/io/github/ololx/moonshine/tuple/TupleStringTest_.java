@@ -11,7 +11,7 @@ import static org.testng.Assert.assertEquals;
  *
  * @author Alexander A. Kropotin
  */
-public class TupleStringTest {
+public class TupleStringTest_ {
 
     @DataProvider
     static Object[][] providesTuples() {
