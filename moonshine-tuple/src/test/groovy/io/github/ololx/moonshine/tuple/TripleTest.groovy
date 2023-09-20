@@ -164,7 +164,6 @@ class TripleTest extends Specification {
         1  | 2  | 3  | 3     | 22
     }
 
-
     @Unroll
     def "contains() - when tuple<#t0, #t1, #t2> contains #value then return true"() {
         given:
@@ -339,8 +338,7 @@ class TripleTest extends Specification {
         def actual = tuple.iterator()
 
         then:
-        actual.hasNext() == true
-        // You may also want to iterate through all the elements to confirm they are correct
+        actual.size() == tuple.size()
     }
 
     @Unroll
