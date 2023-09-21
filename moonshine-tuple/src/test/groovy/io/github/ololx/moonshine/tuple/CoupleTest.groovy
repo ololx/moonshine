@@ -302,7 +302,7 @@ class CoupleTest extends Specification {
 
         then:
         actual.estimateSize() == tuple.size()
-        (actual.characteristics()  ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
+        (actual.characteristics() ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
     }
 
     @Unroll
@@ -314,7 +314,13 @@ class CoupleTest extends Specification {
         def actual = tuple.iterator()
 
         then:
-        actual.size() == tuple.size()
+        def iteratedElements = []
+
+        while (actual.hasNext()) {
+            iteratedElements.add(actual.next())
+        }
+
+        iteratedElements == tuple.toArray()
     }
 
     @Unroll
