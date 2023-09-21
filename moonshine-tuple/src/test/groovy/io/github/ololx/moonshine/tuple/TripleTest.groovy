@@ -338,7 +338,13 @@ class TripleTest extends Specification {
         def actual = tuple.iterator()
 
         then:
-        actual.size() == tuple.size()
+        def iteratedElements = []
+
+        while (actual.hasNext()) {
+            iteratedElements.add(actual.next())
+        }
+
+        iteratedElements == tuple.toArray()
     }
 
     @Unroll
