@@ -17,7 +17,8 @@
 
 package io.github.ololx.moonshine.measuring.cpu
 
-import io.github.ololx.moonshine.measuring.cpu.CpuUsage
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -33,7 +34,7 @@ import java.time.Duration
 class CpuUsageTest extends Specification {
 
     @Shared
-    def cores = Runtime.getRuntime().availableProcessors()
+    int cores = Runtime.getRuntime().availableProcessors()
 
     @Unroll
     def "toUsageFraction() - when create with #cpuTime and #interval then return correct usage #fraction"() {
@@ -106,10 +107,10 @@ class CpuUsageTest extends Specification {
         thrown(IllegalArgumentException)
 
         where:
-        cpuTime               | interval
-        Duration.ofNanos(100) | Duration.ofNanos(-100)
-        Duration.ofNanos(-100)| Duration.ofNanos(100)
-        Duration.ofNanos(-100)| Duration.ofNanos(-100)
-        null                  | null
+        cpuTime                | interval
+        Duration.ofNanos(100)  | Duration.ofNanos(-100)
+        Duration.ofNanos(-100) | Duration.ofNanos(100)
+        Duration.ofNanos(-100) | Duration.ofNanos(-100)
+        null                   | null
     }
 }
