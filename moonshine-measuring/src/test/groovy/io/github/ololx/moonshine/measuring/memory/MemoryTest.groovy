@@ -17,7 +17,8 @@
 
 package io.github.ololx.moonshine.measuring.memory
 
-import io.github.ololx.moonshine.measuring.memory.Memory
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -53,6 +54,7 @@ class MemoryTest extends Specification {
         memorySize << [0L, 1L, 100L, 1000L]
     }
 
+    @CompileDynamic
     @Unroll
     def "should correctly represent megabytes for memory size #memorySize"() {
         when:
@@ -65,6 +67,7 @@ class MemoryTest extends Specification {
         memorySize << [0L, 1L, 100L, 1000L]
     }
 
+    @CompileDynamic
     @Unroll
     def "should correctly represent gigabytes for memory size #memorySize"() {
         when:
@@ -77,6 +80,7 @@ class MemoryTest extends Specification {
         memorySize << [0L, 1L, 100L, 1000L]
     }
 
+    @CompileDynamic
     @Unroll
     def "should correctly represent terabytes for memory size #memorySize"() {
         when:
@@ -89,6 +93,7 @@ class MemoryTest extends Specification {
         memorySize << [0L, 1L, 100L, 1000L]
     }
 
+    @CompileDynamic
     @Unroll
     def "adding #firstMemorySize bytes to #secondMemorySize bytes should result in #expectedMemorySize bytes"() {
         when:
@@ -106,6 +111,7 @@ class MemoryTest extends Specification {
         512L            | 512L             | 1024L
     }
 
+    @CompileDynamic
     @Unroll
     def "subtracting #secondMemorySize bytes from #firstMemorySize bytes should result in #expectedMemorySize bytes"() {
         when:
@@ -123,6 +129,7 @@ class MemoryTest extends Specification {
         1024L           | 512L             | 512L
     }
 
+    @CompileDynamic
     @Unroll
     def "comparing memory size of #firstMemorySize bytes with #secondMemorySize bytes should return #expectedComparingResult"() {
         when:
