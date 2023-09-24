@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util;
+package io.github.ololx.moonshine.util.concurrent;
 
 /**
  * An interface for a concurrent bit collection, providing methods to manipulate
  * individual bits in a thread-safe manner.
  *
- * @author Alexander A. Kropotin
  * @apiNote Implementations of this interface are expected to provide thread-safe
  *     behavior for all methods.
- *     <p>
+ *
+ * @author Alexander A. Kropotin
  *     project moonshine
  *     created 14.08.2023 13:51
  */
