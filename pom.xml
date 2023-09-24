@@ -299,7 +299,6 @@
                 <!--compiling source>-->
 
                 <!--<reporting code coverage-->
-                <!--used for sonarcloud.io-->
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
@@ -349,14 +348,11 @@
                     <version>${plugin.maven-surefire-plugin.version}</version>
                     <configuration>
                         <reportFormat>plain</reportFormat>
-                        <parallel>methods</parallel>
+                        <parallel>classes</parallel>
                         <threadCount>10</threadCount>
                         <systemPropertyVariables>
                             <jacoco-agent.destfile>**/jacoco.exec</jacoco-agent.destfile>
                         </systemPropertyVariables>
-                        <includes>
-                            <include>**/*Spec.groovy</include>
-                        </includes>
                     </configuration>
                 </plugin>
 
@@ -373,7 +369,6 @@
                     </executions>
                 </plugin>
                 <!--test plugins>-->
-
             </plugins>
         </pluginManagement>
         <!--plugins versions management>-->
