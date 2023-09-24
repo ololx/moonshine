@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.util
 
-
+import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll

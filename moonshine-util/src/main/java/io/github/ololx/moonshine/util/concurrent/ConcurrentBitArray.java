@@ -15,20 +15,22 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util;
+package io.github.ololx.moonshine.util.concurrent;
 
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
+import io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection;
 
 import java.util.function.IntUnaryOperator;
 
 /**
- * A thread-safe implementation of a {@link ConcurrentBitCollection} using atomic operations.
+ * A thread-safe implementation of a {@link io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection} using
+ * atomic operations.
  *
- * @author Alexander A. Kropotin
  * @apiNote This class provides methods to manipulate individual bits in a thread-safe manner.
  *     It is designed for scenarios where multiple threads need to access and modify
  *     a shared bitset concurrently.
  *
+ * @author Alexander A. Kropotin
  *     project moonshine
  *     created 01.08.2023 10:52
  */
