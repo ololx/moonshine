@@ -17,7 +17,8 @@
  - limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--<artifact-->
@@ -39,7 +40,7 @@
             <name>The Apache Software License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
-            <comments />
+            <comments/>
         </license>
     </licenses>
     <!--info>-->
@@ -110,8 +111,11 @@
         <!--distribution plugins versions>-->
 
         <!--<dependencies versions-->
-        <dependency.testng.version>7.0.0</dependency.testng.version>
         <dependency.equalsverifier.version>3.0.3</dependency.equalsverifier.version>
+        <dependency.junit.version>4.13.2</dependency.junit.version>
+        <dependency.groovy.version>4.0.14</dependency.groovy.version>
+        <dependency.spock.version>2.4-M1-groovy-4.0</dependency.spock.version>
+        <dependency.multithreadedtc.version>1.01</dependency.multithreadedtc.version>
         <!--dependencies versions>-->
     </properties>
     <!--properties>-->
@@ -149,30 +153,39 @@
 
             <!--<test utils-->
             <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>${dependency.testng.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>nl.jqno.equalsverifier</groupId>
                 <artifactId>equalsverifier</artifactId>
                 <version>${dependency.equalsverifier.version}</version>
+                <scope>test</scope>
             </dependency>
-
-            <!-- https://mvnrepository.com/artifact/org.apache.groovy/groovy -->
+            <!-- https://mvnrepository.com/artifact/junit/junit -->
             <dependency>
-                <groupId>org.apache.groovy</groupId>
-                <artifactId>groovy</artifactId>
-                <version>4.0.14</version>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${dependency.junit.version}</version>
+                <scope>test</scope>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/com.googlecode.multithreadedtc/multithreadedtc -->
+            <dependency>
+                <groupId>com.googlecode.multithreadedtc</groupId>
+                <artifactId>multithreadedtc</artifactId>
+                <version>${dependency.multithreadedtc.version}</version>
+                <scope>test</scope>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
             <dependency>
                 <groupId>org.spockframework</groupId>
                 <artifactId>spock-core</artifactId>
-                <version>2.4-M1-groovy-4.0</version>
+                <version>${dependency.spock.version}</version>
+                <scope>test</scope>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/org.apache.groovy/groovy -->
+            <dependency>
+                <groupId>org.apache.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${dependency.groovy.version}</version>
+                <scope>test</scope>
+            </dependency>
             <!--test utils>-->
         </dependencies>
 

@@ -140,6 +140,7 @@
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
         <plugin.maven-surefire-plugin.version>3.1.2</plugin.maven-surefire-plugin.version>
         <plugin.jacoco-maven-plugin.version>0.8.10</plugin.jacoco-maven-plugin.version>
+        <plugin.gmavenplus-plugin.version>3.0.0</plugin.gmavenplus-plugin.version>
         <!--plugins versions>-->
     </properties>
     <!--properties>-->
@@ -353,18 +354,16 @@
                         <systemPropertyVariables>
                             <jacoco-agent.destfile>**/jacoco.exec</jacoco-agent.destfile>
                         </systemPropertyVariables>
-                        <suiteXmlFiles>
-                            <suiteXmlFile>
-                                ${project.basedir}/src/test/resources/all_tests_suite.xml
-                            </suiteXmlFile>
-                        </suiteXmlFiles>
+                        <includes>
+                            <include>**/*Spec.groovy</include>
+                        </includes>
                     </configuration>
                 </plugin>
 
                 <plugin>
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>${plugin.gmavenplus-plugin.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -404,14 +403,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
             </plugin>
             <!--test plugins>-->
 
             <!--<reporting code coverage-->
-            <!--used for sonarcloud.io-->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
