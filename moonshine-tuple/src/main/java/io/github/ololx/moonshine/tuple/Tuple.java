@@ -17,14 +17,22 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static java.util.Spliterator.*;
+import static java.util.Spliterator.IMMUTABLE;
+import static java.util.Spliterator.ORDERED;
+import static java.util.Spliterator.SIZED;
 
 /**
  * A finite ordered list (otherwise <i>sequence</i>) of fixed length elements.
