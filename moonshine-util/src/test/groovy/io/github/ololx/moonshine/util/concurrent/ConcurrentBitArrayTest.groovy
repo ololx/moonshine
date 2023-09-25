@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util
+package io.github.ololx.moonshine.util.concurrent
 
-import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray
+
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -48,61 +48,6 @@ class ConcurrentBitArrayTest extends Specification {
     }
 
     @Unroll
-    def "set() - when set #index bit then get return true with length"() {
-        given:
-        def bits = new ConcurrentBitArray(length)
-
-        when:
-        bits.set(index)
-
-        then:
-        bits.get(index)
-
-        where:
-        length | index
-        1      | random.nextInt(1)
-        8      | random.nextInt(8)
-        64     | random.nextInt(64)
-    }
-
-    @Unroll
-    def "clear() - when #index bit is cleared then return false with length"() {
-        given:
-        def bits = new ConcurrentBitArray(length)
-
-        when:
-        bits.set(index)
-        bits.clear(index)
-
-        then:
-        !bits.get(index)
-
-        where:
-        length | index
-        1      | random.nextInt(1)
-        8      | random.nextInt(8)
-        64     | random.nextInt(64)
-    }
-
-    @Unroll
-    def "flip() - when #index bit is unset then return true with length"() {
-        given:
-        def bits = new ConcurrentBitArray(length)
-
-        when:
-        bits.flip(index)
-
-        then:
-        bits.get(index)
-
-        where:
-        length | index
-        1      | random.nextInt(1)
-        8      | random.nextInt(8)
-        64     | random.nextInt(64)
-    }
-
-    @Unroll
     def "get() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
         def bits = new ConcurrentBitArray(length)
@@ -121,6 +66,24 @@ class ConcurrentBitArrayTest extends Specification {
         8      | 8
         64     | -1
         64     | 64
+    }
+
+    @Unroll
+    def "set() - when set #index bit then get return true with length"() {
+        given:
+        def bits = new ConcurrentBitArray(length)
+
+        when:
+        bits.set(index)
+
+        then:
+        bits.get(index)
+
+        where:
+        length | index
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
     }
 
     @Unroll
@@ -145,6 +108,25 @@ class ConcurrentBitArrayTest extends Specification {
     }
 
     @Unroll
+    def "clear() - when #index bit is cleared then return false with length"() {
+        given:
+        def bits = new ConcurrentBitArray(length)
+
+        when:
+        bits.set(index)
+        bits.clear(index)
+
+        then:
+        !bits.get(index)
+
+        where:
+        length | index
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
+    }
+
+    @Unroll
     def "clear() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
         def bits = new ConcurrentBitArray(length)
@@ -166,6 +148,24 @@ class ConcurrentBitArrayTest extends Specification {
     }
 
     @Unroll
+    def "flip() - when #index bit is unset then return true with length"() {
+        given:
+        def bits = new ConcurrentBitArray(length)
+
+        when:
+        bits.flip(index)
+
+        then:
+        bits.get(index)
+
+        where:
+        length | index
+        1      | random.nextInt(1)
+        8      | random.nextInt(8)
+        64     | random.nextInt(64)
+    }
+
+    @Unroll
     def "flip() - when #index bit is out of bounds [0, #length) then throw exception"() {
         given:
         def bits = new ConcurrentBitArray(length)
@@ -184,5 +184,22 @@ class ConcurrentBitArrayTest extends Specification {
         8      | 8
         64     | -1
         64     | 64
+    }
+
+    @Unroll
+    def "cardinality() - when bitset contains 1 bits in #words then return #cardinality"() {
+        given:
+        def bits = ConcurrentBitArray.valueOf(words as byte[])
+
+        expect:
+        bits.cardinality() == cardinality
+
+        where:
+        words        | cardinality
+        []           | 0
+        [1]          | 1
+        [-1]         | 8
+        [1, 1, 1, 1] | 4
+        [1, 2, 3, 4] | 5
     }
 }

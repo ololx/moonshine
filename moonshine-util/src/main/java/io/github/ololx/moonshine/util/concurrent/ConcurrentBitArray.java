@@ -18,7 +18,6 @@
 package io.github.ololx.moonshine.util.concurrent;
 
 import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
-import io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection;
 
 import java.util.function.IntUnaryOperator;
 
@@ -79,7 +78,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     /**
      * The max index which can be used.
      */
-    private final int maxIndex;
+    private final int lastBitIndex;
 
     /**
      * Creates a new NonBlockingConcurrentBitset with the specified size.
@@ -88,7 +87,29 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
      */
     public ConcurrentBitArray(int size) {
         this.data = new AtomicByteArray((size + WORD_SIZE - 1) / WORD_SIZE);
-        this.maxIndex = size - 1;
+        this.lastBitIndex = size - 1;
+    }
+
+    /**
+     * Creates a new ConcurrentBitArray using the provided byte array.
+     *
+     * @param words The byte array representing the initial state of the bit array.
+     */
+    private ConcurrentBitArray(final byte[] words) {
+        // put origin value because words.clone() will be invoked inside AtomicByteArray constructor
+        this.data = new AtomicByteArray(words);
+        this.lastBitIndex = words.length * 8 - 1;
+    }
+
+    /**
+     * Returns a new instance of ConcurrentBitArray using the provided byte array.
+     *
+     * @param bytes The byte array representing the initial state of the bit array.
+     *
+     * @return A new instance of ConcurrentBitArray initialized with the given byte array.
+     */
+    public static ConcurrentBitArray valueOf(final byte[] bytes) {
+        return new ConcurrentBitArray(bytes);
     }
 
     /**
@@ -154,10 +175,71 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
      *                                   bits in the data array.
      */
     private void checkIndex(final int bitIndex) {
-        if (bitIndex < 0 || bitIndex > maxIndex) {
+        if (bitIndex < 0 || bitIndex > lastBitIndex) {
             throw new IndexOutOfBoundsException(String.format(
-                "The bitIndex %s out of bounds [%s, %s]", bitIndex, 0, maxIndex
+                "The bitIndex %s out of bounds [%s, %s]", bitIndex, 0, lastBitIndex
             ));
+        }
+    }
+
+    /**
+     * Returns the number of bits in the collection that are set to 1. This is often referred to as the
+     * <a href="https://en.wikipedia.org/wiki/Hamming_weight">Hamming weight</a> or pop count.
+     *
+     * @implSpec This implementation iterates over each byte in the internal {@code AtomicByteArray}
+     *     and uses a precomputed lookup table (from the {@code BitCounting} utility class) to determine
+     *     the number of set bits in each byte. The sum of all set bits across all bytes is returned as the result.
+     *
+     * @return The number of bits set to 1.
+     */
+    @Override
+    public int cardinality() {
+        int wordsCount = data.length();
+        int cardinality = 0;
+
+        for (int index = 0; index < wordsCount; index++) {
+            cardinality += BitCounting.popCount(data.get(index));
+        }
+
+        return cardinality;
+    }
+
+    /**
+     * Aт utility class to help count the number of bits set in a byte.
+     */
+    private static final class BitCounting {
+
+        /**
+         * A lookup table used to quickly determine the bit count for a byte value.
+         */
+        private static final byte[] BYTE_LOOKUP = new byte[256];
+
+        static {
+            // NIBBLE_LOOKUP is a lookup table used to determine the number of set bits
+            // in a 4-bit nibble. It maps each possible nibble value (0 through 15) to
+            // its respective number of set bits (0 through 4).
+            final byte[] NIBBLE_LOOKUP = {
+                0, 1, 1, 2, 1, 2, 2, 3,
+                1, 2, 2, 3, 2, 3, 3, 4
+            };
+
+            // Populate BYTE_LOOKUP using the NIBBLE_LOOKUP table. This extends the
+            // idea of the nibble lookup to a full byte, by considering each byte as
+            // two separate nibbles and summing the set bits of each nibble.
+            for (int i = 0; i < 256; i++) {
+                BYTE_LOOKUP[i] = (byte) (NIBBLE_LOOKUP[i & 0x0F] + NIBBLE_LOOKUP[(i & 0xF0) >>> 4]);
+            }
+        }
+
+        /**
+         * Returns the number of bits that are set in a byte. Uses a lookup table for faster results.
+         *
+         * @param bits The byte for which to count set bits.
+         *
+         * @return The number of set bits in the byte.
+         */
+        public static int popCount(byte bits) {
+            return BYTE_LOOKUP[bits & 0xFF];
         }
     }
 }
