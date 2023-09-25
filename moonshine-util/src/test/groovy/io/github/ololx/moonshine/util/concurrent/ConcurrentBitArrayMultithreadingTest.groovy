@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util
+package io.github.ololx.moonshine.util.concurrent
 
 import edu.umd.cs.mtc.MultithreadedTest
 import edu.umd.cs.mtc.TestFramework
-import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray
 import org.junit.Test
 
 /**
