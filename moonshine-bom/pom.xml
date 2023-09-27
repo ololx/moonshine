@@ -186,6 +186,20 @@
                 <version>${dependency.groovy.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-core -->
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-core</artifactId>
+                <version>1.37</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-generator-annprocess -->
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-generator-annprocess</artifactId>
+                <version>1.37</version>
+                <scope>test</scope>
+            </dependency>
             <!--test utils>-->
         </dependencies>
 
