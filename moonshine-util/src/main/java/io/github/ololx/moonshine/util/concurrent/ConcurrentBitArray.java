@@ -198,48 +198,30 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
         int cardinality = 0;
 
         for (int index = 0; index < wordsCount; index++) {
-            cardinality += BitCounting.popCount(data.get(index));
+            cardinality += ByteBitCounting.bitCount(data.get(index));
         }
 
         return cardinality;
     }
 
     /**
-     * Aт utility class to help count the number of bits set in a byte.
+     * A utility class to help count the number of bits set in a byte.
      */
-    private static final class BitCounting {
+    private static final class ByteBitCounting {
 
         /**
-         * A lookup table used to quickly determine the bit count for a byte value.
-         */
-        private static final byte[] BYTE_LOOKUP = new byte[256];
-
-        static {
-            // NIBBLE_LOOKUP is a lookup table used to determine the number of set bits
-            // in a 4-bit nibble. It maps each possible nibble value (0 through 15) to
-            // its respective number of set bits (0 through 4).
-            final byte[] NIBBLE_LOOKUP = {
-                0, 1, 1, 2, 1, 2, 2, 3,
-                1, 2, 2, 3, 2, 3, 3, 4
-            };
-
-            // Populate BYTE_LOOKUP using the NIBBLE_LOOKUP table. This extends the
-            // idea of the nibble lookup to a full byte, by considering each byte as
-            // two separate nibbles and summing the set bits of each nibble.
-            for (int i = 0; i < 256; i++) {
-                BYTE_LOOKUP[i] = (byte) (NIBBLE_LOOKUP[i & 0x0F] + NIBBLE_LOOKUP[(i & 0xF0) >>> 4]);
-            }
-        }
-
-        /**
-         * Returns the number of bits that are set in a byte. Uses a lookup table for faster results.
+         * Returns the number of one-bits in the two's complement binary representation
+         * of the specified {@code byte} value.
          *
-         * @param bits The byte for which to count set bits.
-         *
-         * @return The number of set bits in the byte.
+         * @param bits the value whose bits are to be counted
+         * @return the number of one-bits in the specified value
          */
-        public static int popCount(byte bits) {
-            return BYTE_LOOKUP[bits & 0xFF];
+        public static int bitCount(byte bits) {
+            int count = bits & 0xFF;
+            count = count - ((count >>> 1) & 0x55);
+            count = (count & 0x33) + ((count >>> 2) & 0x33);
+            count = (count + (count >>> 4)) & 0x0F;
+            return count;
         }
     }
 }

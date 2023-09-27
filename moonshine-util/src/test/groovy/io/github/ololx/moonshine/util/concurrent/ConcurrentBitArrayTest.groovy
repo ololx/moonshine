@@ -198,6 +198,8 @@ class ConcurrentBitArrayTest extends Specification {
         words        | cardinality
         []           | 0
         [1]          | 1
+        [-128]       | 1
+        [127]        | 7
         [-1]         | 8
         [1, 1, 1, 1] | 4
         [1, 2, 3, 4] | 5

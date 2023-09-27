@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
+Added
+
+- New method `cardinality()` in `ConcurrentBitCollection` interface - return the bits pop count.
+
 ## [0.12.0] - 2023-09-08
 
 ### Added
