@@ -7,15 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
-Added
+## [0.13.0] - 2023-09-28
+
+### Added
 
 - New method `cardinality()` in `ConcurrentBitCollection` interface - return the bits pop count.
+
+### Changed
+
+- Method `toString()` for the `EmptyTuple` that always return '(∅)'
 
 ## [0.12.0] - 2023-09-08
 
 ### Added
-
-Added
 
 - New class `AtomicByteArray`, which provides atomic operations over `byte[]`, with operations largely analogous to other types of atomic arrays
   in `java.util.concurrent.atomic`.
