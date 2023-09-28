@@ -213,12 +213,12 @@ class EmptyTupleTest extends Specification {
     }
 
     @Unroll
-    def "toString() - tuple always is empty and thus return an empty string representation '()'"() {
+    def "toString() - tuple always is empty and thus return an empty string representation '(∅)'"() {
         given:
         def tuple = new EmptyTuple()
 
         expect:
-        tuple.toString() == "()"
+        tuple.toString() == "(∅)"
     }
 
     @Unroll

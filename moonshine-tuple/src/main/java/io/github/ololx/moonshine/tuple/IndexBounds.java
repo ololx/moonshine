@@ -20,10 +20,9 @@ package io.github.ololx.moonshine.tuple;
 /**
  * Utility methods to check if index are correct for the specific range.
  *
- * project moonshine
- * created 23.01.2023 16:19
- * <br/>
  * @author Alexander A. Kropotin
+ *     project moonshine
+ *     created 23.01.2023 16:19
  */
 final class IndexBounds {
 
@@ -44,10 +43,11 @@ final class IndexBounds {
      *     <li>{@code index >= toExclusive}</li>
      * </ol>
      *
-     * @param index the index
+     * @param index       the index
      * @param toExclusive the upper-bound (exclusive) of the range
+     *
      * @return {@code true} if index is within bounds of the range,
-     * or {@code false} otherwise
+     *     or {@code false} otherwise
      */
     static boolean checkIndex(int index, int toExclusive) {
         return checkIndex(index, 0, toExclusive);
@@ -64,11 +64,12 @@ final class IndexBounds {
      *     <li>{@code index >= toExclusive}</li>
      * </ol>
      *
-     * @param index the index
+     * @param index         the index
      * @param fromInclusive the lower-bound (inclusive) of the range
-     * @param toExclusive the upper-bound (exclusive) of the range
+     * @param toExclusive   the upper-bound (exclusive) of the range
+     *
      * @return {@code true} if index is within bounds of the range,
-     * or {@code false} otherwise
+     *     or {@code false} otherwise
      */
     static boolean checkIndex(int index, int fromInclusive, int toExclusive) {
         return index >= fromInclusive && index < toExclusive;
@@ -88,11 +89,13 @@ final class IndexBounds {
      * }
      * </pre></blockquote>
      *
-     * @param index the index
+     * @param index       the index
      * @param toExclusive the upper-bound (exclusive) of the range
+     *
      * @return {@code index} if index is within bounds
+     *
      * @throws IndexOutOfBoundsException if {@code index} is out of
-     * a bounds
+     *                                   a bounds
      */
     static int requireIndexWithinBounds(int index, int toExclusive) {
         return requireIndexWithinBounds(index, 0, toExclusive);
@@ -112,17 +115,19 @@ final class IndexBounds {
      * }
      * </pre></blockquote>
      *
-     * @param index the index
+     * @param index         the index
      * @param fromInclusive the lower-bound (inclusive) of the range
-     * @param toExclusive the upper-bound (exclusive) of the range
+     * @param toExclusive   the upper-bound (exclusive) of the range
+     *
      * @return {@code index} if index is within specified bounds
+     *
      * @throws IndexOutOfBoundsException if {@code index} is out of
-     * the specified bounds
+     *                                   the specified bounds
      */
     static int requireIndexWithinBounds(int index, int fromInclusive, int toExclusive) {
         if (!checkIndex(index, fromInclusive, toExclusive)) {
             throw new IndexOutOfBoundsException(String.format(
-                    "The index %s out of a bounds [%s, %s)", index, fromInclusive, toExclusive
+                "The index %s out of a bounds [%s, %s)", index, fromInclusive, toExclusive
             ));
         }
 

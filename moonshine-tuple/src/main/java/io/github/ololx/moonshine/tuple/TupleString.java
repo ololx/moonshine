@@ -35,6 +35,7 @@ import java.util.stream.IntStream;
  * project moonshine
  * created 29.01.2023 12:34
  * <br/>
+ *
  * @author Alexander A. Kropotin
  */
 final class TupleString {
@@ -48,16 +49,16 @@ final class TupleString {
     /**
      * Returns a formatted string using the tuple argument.
      *
-     * @implSpec
-     * The string consists of a list of the tuple's elements in their order,
-     * enclosed in round brackets ({@code "()"}).  Adjacent elements are
-     * separated by the characters {@code ", "} (comma and space).
-     *
      * @param tuple the specified tuple
+     *
      * @return the formatted string of the specified tuple. Typically,
-     * a formatted string contains a sequence of the elements of a tuple
-     * in parentheses.
-     * @see  AbstractTuple#toString()
+     *     a formatted string contains a sequence of the elements of a tuple
+     *     in parentheses.
+     *
+     * @implSpec The string consists of a list of the tuple's elements in their order,
+     *     enclosed in round brackets ({@code "()"}).  Adjacent elements are
+     *     separated by the characters {@code ", "} (comma and space).
+     * @see AbstractTuple#toString()
      */
     static String format(Tuple tuple) {
         final int elementsCount = tuple.size();
@@ -65,10 +66,11 @@ final class TupleString {
         final StringBuilder tupleStringBuilder = new StringBuilder(tupleStringLength);
 
         tupleStringBuilder.append(String.valueOf(tuple.getOrDefault(0, "")));
-        IntStream.range(1, elementsCount).forEach(index -> {
-            tupleStringBuilder.append(", ");
-            tupleStringBuilder.append(String.valueOf(tuple.getOrDefault(index, "")));
-        });
+        IntStream.range(1, elementsCount)
+            .forEach(index -> {
+                tupleStringBuilder.append(", ");
+                tupleStringBuilder.append(String.valueOf(tuple.getOrDefault(index, "")));
+            });
 
         tupleStringBuilder.insert(0, "(");
         tupleStringBuilder.append(")");

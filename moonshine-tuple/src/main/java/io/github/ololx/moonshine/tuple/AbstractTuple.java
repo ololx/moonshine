@@ -23,23 +23,21 @@ package io.github.ololx.moonshine.tuple;
  * <br/>
  * This class contains basic realizations of {@code Tuple} interface methods.
  *
- * project moonshine
- * created 18.01.2023 18:59
- * <br/>
  * @author Alexander A. Kropotin
+ *     project moonshine
+ *     created 18.01.2023 18:59
  */
 abstract class AbstractTuple implements Tuple {
 
     /**
      * Returns a string representation of this tuple.
      *
-     * @implSpec
-     * The string consists of a list of the tuple's elements in their order,
-     * enclosed in round brackets ({@code "()"}).  Adjacent elements are
-     * separated by the characters {@code ", "} (comma and space). Elements
-     * are converted to strings as by {@link String#valueOf(Object)}.
-     *
      * @return a string representation of this tuple
+     *
+     * @implSpec The string consists of a list of the tuple's elements in their order,
+     *     enclosed in round brackets ({@code "()"}).  Adjacent elements are
+     *     separated by the characters {@code ", "} (comma and space). Elements
+     *     are converted to strings as by {@link String#valueOf(Object)}.
      */
     @Override
     public String toString() {
