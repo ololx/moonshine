@@ -7,10 +7,14 @@ search_enabled: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "Home page":
-    - "https://ololx.github.io"
   "View on GitHub":
     - "https://github.com/ololx/moonshine"
+  "Home page":
+    - "https://ololx.github.io/moonshine"
+  "Javadoc":
+    - "https://javadoc.io/doc/io.github.ololx.moonshine"
+  "Examples usage":
+    - "https://github.com/ololx/moonshine-examples"
     
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: true
