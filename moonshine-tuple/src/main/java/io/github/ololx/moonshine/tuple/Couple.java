@@ -61,7 +61,7 @@ public class Couple<A, B> extends AbstractTuple implements Tuple2<A, B> {
     /**
      * Create new tuple from array elements values
      *
-     * @param array  the elements of this tuple
+     * @param array the elements of this tuple
      *
      * @return new tuple with specified elements values
      *
@@ -95,7 +95,9 @@ public class Couple<A, B> extends AbstractTuple implements Tuple2<A, B> {
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -116,7 +118,9 @@ public class Couple<A, B> extends AbstractTuple implements Tuple2<A, B> {
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -205,8 +209,4 @@ public class Couple<A, B> extends AbstractTuple implements Tuple2<A, B> {
 
         return isT0Equals && isT1Equals;
     }
-
-
-
-
 }
