@@ -59,6 +59,20 @@ class OctupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Octuple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE, Character.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Double.MIN_VALUE, Long.MIN_VALUE, Float.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2, #t3, #t4, #t5, #t6, #t7 then tuple contains #t0, #t1, #t2, #t3, #t4, #t5, #t6, #t7"() {
         given:
         def tuple = Octuple.of(t0, t1, t2, t3, t4, t5, t6, t7)
@@ -266,7 +280,7 @@ class OctupleTest extends Specification {
         where:
         t0 | t1 | t2 | t3 | t4 | t5 | t6 | t7 | index | defaultValue
         1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | -1    | 12
-        1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 8     | 22 
+        1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 8     | 22
     }
 
     @Unroll
@@ -451,7 +465,7 @@ class OctupleTest extends Specification {
         def tuple = Octuple.of(t0, t1, t2, t3, t4, t5, t6, t7)
 
         when:
-        def actual = tuple.convert { it.getT0() * 2 }
+        def actual = tuple.convert {it.getT0() * 2}
 
         then:
         actual == expected
