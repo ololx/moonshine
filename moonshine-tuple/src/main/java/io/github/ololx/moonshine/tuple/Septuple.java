@@ -101,6 +101,13 @@ public class Septuple<A, B, C, D, E, F, G> extends AbstractTuple implements Tupl
     /**
      * Create new tuple from array elements values
      *
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
+     * @param <D> the type of fourth element in this tuple
+     * @param <E> the type of fifth element in this tuple
+     * @param <F> the type of sixth element in this tuple
+     * @param <G> the type of seventh element in this tuple
      * @param array the elements of this tuple
      *
      * @return new tuple with specified elements values
@@ -109,8 +116,9 @@ public class Septuple<A, B, C, D, E, F, G> extends AbstractTuple implements Tupl
      *     This method acts as bridge between array-based, collection-based
      *     and tuple-based APIs.
      */
-    public static Septuple<?, ?, ?, ?, ?, ?, ?> from(Object[] array) {
-        return new Septuple<>(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D, E, F, G> Septuple<A, B, C, D, E, F, G> from(Object[] array) {
+        return (Septuple<A, B, C, D, E, F, G>) new Septuple<>(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
     }
 
     /**

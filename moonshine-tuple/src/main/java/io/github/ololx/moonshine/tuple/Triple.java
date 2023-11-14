@@ -69,6 +69,9 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
     /**
      * Create new tuple from array elements values
      *
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
      * @param array  the elements of this tuple
      *
      * @return new tuple with specified elements values
@@ -77,8 +80,9 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
      *     This method acts as bridge between array-based, collection-based
      *     and tuple-based APIs.
      */
-    public static Triple<?, ?, ?> from(Object[] array) {
-        return new Triple<>(array[0], array[1], array[2]);
+    @SuppressWarnings("unchecked")
+    public static <A, B, C> Triple<A, B, C> from(Object[] array) {
+        return (Triple<A, B, C>) new Triple<>(array[0], array[1], array[2]);
     }
 
     /**
@@ -105,7 +109,9 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -126,7 +132,9 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return

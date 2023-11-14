@@ -93,6 +93,12 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     /**
      * Create new tuple from array elements values
      *
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
+     * @param <D> the type of fourth element in this tuple
+     * @param <E> the type of fifth element in this tuple
+     * @param <F> the type of sixth element in this tuple
      * @param array  the elements of this tuple
      *
      * @return new tuple with specified elements values
@@ -101,8 +107,9 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
      *     This method acts as bridge between array-based, collection-based
      *     and tuple-based APIs.
      */
-    public static Sextuple<?, ?, ?, ?, ?, ?> from(Object[] array) {
-        return new Sextuple<>(array[0], array[1], array[2], array[3], array[4], array[5]);
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D, E, F> Sextuple<A, B, C, D, E, F> from(Object[] array) {
+        return (Sextuple<A, B, C, D, E, F>) new Sextuple<>(array[0], array[1], array[2], array[3], array[4], array[5]);
     }
 
     /**
@@ -135,7 +142,9 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -156,7 +165,9 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return

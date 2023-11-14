@@ -85,6 +85,11 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     /**
      * Create new tuple from array elements values
      *
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
+     * @param <D> the type of fourth element in this tuple
+     * @param <E> the type of fifth element in this tuple
      * @param array  the elements of this tuple
      *
      * @return new tuple with specified elements values
@@ -93,8 +98,9 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
      *     This method acts as bridge between array-based, collection-based
      *     and tuple-based APIs.
      */
-    public static Quintuple<?, ?, ?, ?, ?> from(Object[] array) {
-        return new Quintuple<>(array[0], array[1], array[2], array[3], array[4]);
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D, E> Quintuple<A, B, C, D, E> from(Object[] array) {
+        return (Quintuple<A, B, C, D, E>) new Quintuple<>(array[0], array[1], array[2], array[3], array[4]);
     }
 
     /**
@@ -125,7 +131,9 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -146,7 +154,9 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
