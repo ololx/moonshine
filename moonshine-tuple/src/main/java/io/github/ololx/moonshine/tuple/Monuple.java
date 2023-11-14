@@ -53,7 +53,8 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     /**
      * Create new tuple from array elements values
      *
-     * @param array  the elements of this tuple
+     * @param <A> the type of element in this tuple
+     * @param array the elements of this tuple
      *
      * @return new tuple with specified elements values
      *
@@ -61,8 +62,9 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
      *     This method acts as bridge between array-based, collection-based
      *     and tuple-based APIs.
      */
-    public static Monuple<?> from(Object[] array) {
-        return new Monuple<>(array[0]);
+    @SuppressWarnings("unchecked")
+    public static <T> Monuple<T> from(Object[] array) {
+        return (Monuple<T>) new Monuple<>(array[0]);
     }
 
     /**
@@ -85,7 +87,9 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -116,7 +120,9 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
 
         return hash;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -175,8 +181,4 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
 
         return (this.t0 == null && other.getT0() == null) || (this.t0 != null && this.t0.equals(other.getT0()));
     }
-
-
-
-
 }
