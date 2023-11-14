@@ -77,6 +77,10 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     /**
      * Create new tuple from array elements values
      *
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
+     * @param <D> the type of fourth element in this tuple
      * @param array  the elements of this tuple
      *
      * @return new tuple with specified elements values
@@ -85,13 +89,18 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
      *     This method acts as bridge between array-based, collection-based
      *     and tuple-based APIs.
      */
-    public static Quadruple<?, ?, ?, ?> from(Object[] array) {
-        return new Quadruple<>(array[0], array[1], array[2], array[3]);
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D> Quadruple<A, B, C, D> from(Object[] array) {
+        return (Quadruple<A, B, C, D>) new Quadruple<>(array[0], array[1], array[2], array[3]);
     }
 
     /**
      * Create new tuple with specified elements values
      *
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
+     * @param <D> the type of fourth element in this tuple
      * @param t0 the first element of this tuple
      * @param t1 the second element of this tuple
      * @param t2 the third element of this tuple
@@ -111,7 +120,9 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -132,7 +143,9 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return

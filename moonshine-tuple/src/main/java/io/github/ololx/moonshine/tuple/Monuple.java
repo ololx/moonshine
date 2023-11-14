@@ -53,7 +53,7 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     /**
      * Create new tuple from array elements values
      *
-     * @param <A> the type of element in this tuple
+     * @param <A>   the type of element in this tuple
      * @param array the elements of this tuple
      *
      * @return new tuple with specified elements values
@@ -63,8 +63,8 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
      *     and tuple-based APIs.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Monuple<T> from(Object[] array) {
-        return (Monuple<T>) new Monuple<>(array[0]);
+    public static <A> Monuple<A> from(Object[] array) {
+        return (Monuple<A>) new Monuple<>(array[0]);
     }
 
     /**
