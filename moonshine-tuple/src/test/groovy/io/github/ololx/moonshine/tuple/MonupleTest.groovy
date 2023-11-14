@@ -45,6 +45,22 @@ class MonupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Monuple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE] as Object[],
+            [Short.MIN_VALUE] as Object[],
+            [Float.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0 then tuple contains #t0"() {
         given:
         def tuple = Monuple.of(t0)

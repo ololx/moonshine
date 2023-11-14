@@ -55,6 +55,20 @@ class SextupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Sextuple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE, Character.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Double.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2, #t3, #t4, #t5 then tuple contains #t0, #t1, #t2, #t3, #t4, #t5"() {
         given:
         def tuple = Sextuple.of(t0, t1, t2, t3, t4, t5)
@@ -437,7 +451,7 @@ class SextupleTest extends Specification {
         def tuple = Sextuple.of(t0, t1, t2, t3, t4, t5)
 
         when:
-        def actual = tuple.convert { it.getT0() * 2 }
+        def actual = tuple.convert {it.getT0() * 2}
 
         then:
         actual == expected

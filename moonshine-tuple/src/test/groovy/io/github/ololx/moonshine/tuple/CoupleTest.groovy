@@ -47,6 +47,22 @@ class CoupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Couple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE, Character.MIN_VALUE] as Object[],
+            [Short.MIN_VALUE, Integer.MIN_VALUE] as Object[],
+            [Float.MIN_VALUE, Double.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1 then tuple contains #t0, #t1"() {
         given:
         def tuple = Couple.of(t0, t1)
