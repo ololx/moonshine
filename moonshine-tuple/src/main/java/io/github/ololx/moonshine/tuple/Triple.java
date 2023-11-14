@@ -67,6 +67,21 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array  the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Triple<?, ?, ?> from(Object[] array) {
+        return new Triple<>(array[0], array[1], array[2]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple

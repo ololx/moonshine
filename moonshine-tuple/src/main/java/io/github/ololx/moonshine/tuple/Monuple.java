@@ -51,6 +51,21 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array  the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Monuple<?> from(Object[] array) {
+        return new Monuple<>(array[0]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of element in this tuple

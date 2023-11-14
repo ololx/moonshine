@@ -99,6 +99,21 @@ public class Septuple<A, B, C, D, E, F, G> extends AbstractTuple implements Tupl
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Septuple<?, ?, ?, ?, ?, ?, ?> from(Object[] array) {
+        return new Septuple<>(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple
@@ -130,7 +145,9 @@ public class Septuple<A, B, C, D, E, F, G> extends AbstractTuple implements Tupl
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -151,7 +168,9 @@ public class Septuple<A, B, C, D, E, F, G> extends AbstractTuple implements Tupl
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -316,8 +335,6 @@ public class Septuple<A, B, C, D, E, F, G> extends AbstractTuple implements Tupl
 
         return isT0Equals && isT1Equals && isT2Equals && isT3Equals && isT4Equals && isT5Equals && isT6Equals;
     }
-
-
 
 
 }

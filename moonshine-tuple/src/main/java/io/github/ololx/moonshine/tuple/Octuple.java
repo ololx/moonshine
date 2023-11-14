@@ -107,6 +107,21 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Octuple<?, ?, ?, ?, ?, ?, ?, ?> from(Object[] array) {
+        return new Octuple<>(array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple
@@ -147,7 +162,9 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -168,7 +185,9 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -355,8 +374,6 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
             isT6Equals &&
             isT7Equals;
     }
-
-
 
 
 }
