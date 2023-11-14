@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - yyyy-mm-dd
 
+### Added
+
+- New factory method `from()` has been added to the Tuple collection, which allows to create
+  new Tuple instance of given values.
+
+
 ## [0.13.0] - 2023-09-28
 
 ### Added
@@ -16,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Method `toString()` for the `EmptyTuple` that always return '(∅)'
+
 
 ## [0.12.0] - 2023-09-08
 
@@ -32,12 +39,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New class `NonBlockingConcurrentBitSet`, which is a thread-safe alternative to `java.util.BitSet`, but is immutable and currently offers 4 operations on
   bits (get, set, flip, and clear).
 
+
 ## [0.11.0] - 2023-07-14
 
 ### Added
 
-- New method `of()`` has been added to the Tuple collection, which allows create
+- New method `of()` has been added to the Tuple collection, which allows to create
   new Tuple instance of given values.
+
 
 ## [0.10.0] - 2023-07-09
 
@@ -46,12 +55,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New method `convert()`` has been added to the Tuple collection, which allows convert
   Tuple instance into other Objects.
 
+
 ## [0.9.0] - 2023-07-06
 
 ### Added
 
 - New method `stream()`` has been added to the Tuple collection, which allows creating a new stream
   from a Tuple object. The similar method toStream() has been deprecated and will be removed in upcoming releases.
+
 
 ## [0.8.2] - 2023-06-23
 
@@ -72,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New `ZonedDateTime` coder/decoder realization.
 - New utility class for byte array operations, such as: `concat`, `reorder`, e.t.c.
 
+
 ## [0.7.0] - 2023-04-27
 
 ### Added
@@ -79,11 +91,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New utility classes for CPU usage measuring.
 - New class for CPU usage representation and converting.
 
+
 ## [0.6.1] - 2023-04-11
 
 ### Fixed
 
 - The `WholeMemoryAllocatedMeter` negative result when GC activated during measuring.
+
 
 ## [0.6.0] - 2023-04-08
 
@@ -91,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - New utility classes for allocated memory measuring.
 - New class for memory representation and converting.
+
 
 ## [0.5.0] - 2023-03-29
 
@@ -111,6 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New utility class for encoding double values to byte array.
 - New utility class for decoding byte array to double value.
 
+
 ## [0.4.0] - 2023-02-03
 
 ### Added
@@ -121,6 +137,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New tuple method `toStream()`, which return a stream of tuple elements
 - New tuple method `contains()`, which allows to check that element contains in tuple
 - New tuple methods `indexOf()` and `lastIndexOf()`, which allow to get first and last index of specified element
+
 
 ## [0.3.0] - 2023-01-29
 
@@ -141,6 +158,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Method `get()` realization for all Tuple realizations to `final`.
 - Method `size()` realization for all Tuple realizations to `final`.
+
 
 ## [0.2.3] - 2023-01-09
 
