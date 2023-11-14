@@ -59,6 +59,21 @@ public class Couple<A, B> extends AbstractTuple implements Tuple2<A, B> {
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array  the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Couple<?, ?> from(Object[] array) {
+        return new Couple<>(array[0], array[1]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple

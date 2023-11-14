@@ -75,6 +75,21 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array  the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Quadruple<?, ?, ?, ?> from(Object[] array) {
+        return new Quadruple<>(array[0], array[1], array[2], array[3]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param t0 the first element of this tuple

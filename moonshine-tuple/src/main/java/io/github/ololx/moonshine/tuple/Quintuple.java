@@ -83,6 +83,21 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     }
 
     /**
+     * Create new tuple from array elements values
+     *
+     * @param array  the elements of this tuple
+     *
+     * @return new tuple with specified elements values
+     *
+     *     <br/>
+     *     This method acts as bridge between array-based, collection-based
+     *     and tuple-based APIs.
+     */
+    public static Quintuple<?, ?, ?, ?, ?> from(Object[] array) {
+        return new Quintuple<>(array[0], array[1], array[2], array[3], array[4]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple
