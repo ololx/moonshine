@@ -66,6 +66,32 @@ class QuadrupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Quadruple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Quadruple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            new Object[0],
+            new Object[1],
+            new Object[2],
+            new Object[3]
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2, #t3 then tuple contains #t0, #t1, #t2, #t3"() {
         given:
         def tuple = Quadruple.of(t0, t1, t2, t3)
