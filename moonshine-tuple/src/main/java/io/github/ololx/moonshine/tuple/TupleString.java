@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.stream.IntStream;
-
 /**
  * An interpreter for the string representation of tuples. This class provides
  * utility methods for creating print-style string representations of a specific
