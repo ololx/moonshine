@@ -73,6 +73,36 @@ class OctupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Octuple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Octuple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            new Object[0],
+            new Object[1],
+            new Object[2],
+            new Object[3],
+            new Object[4],
+            new Object[5],
+            new Object[6],
+            new Object[7],
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2, #t3, #t4, #t5, #t6, #t7 then tuple contains #t0, #t1, #t2, #t3, #t4, #t5, #t6, #t7"() {
         given:
         def tuple = Octuple.of(t0, t1, t2, t3, t4, t5, t6, t7)

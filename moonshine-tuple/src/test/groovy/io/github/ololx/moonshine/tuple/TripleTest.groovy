@@ -64,6 +64,31 @@ class TripleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Triple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Triple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            new Object[0],
+            new Object[1],
+            new Object[2]
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2 then tuple contains #t0, #t1, #t2"() {
         given:
         def tuple = Triple.of(t0, t1, t2)

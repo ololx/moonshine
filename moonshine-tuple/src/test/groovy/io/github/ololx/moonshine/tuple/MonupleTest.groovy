@@ -61,6 +61,29 @@ class MonupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Monuple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Monuple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            [] as Object[]
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0 then tuple contains #t0"() {
         given:
         def tuple = Monuple.of(t0)
