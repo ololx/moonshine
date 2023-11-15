@@ -37,6 +37,28 @@ public class EmptyTuple
     private static final int SIZE = 0;
 
     /**
+     * Creates a new {@code EmptyTuple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code EmptyTuple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
+     *
+     * @param array the array from which the tuple is to be created
+     *
+     * @return a new {@code EmptyTuple} without any elements on an array
+     *
+     * @throws NullPointerException if the array is null
+     * @implSpec This implementation always return EmptyTuple ignoring array elements
+     */
+    public static EmptyTuple from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        }
+
+        return new EmptyTuple();
+    }
+
+    /**
      * Returns the element at the specified position in this tuple, or
      * {@code defaultValue} if the index is out of
      * range ({@code index < 0 || index >= size()})
