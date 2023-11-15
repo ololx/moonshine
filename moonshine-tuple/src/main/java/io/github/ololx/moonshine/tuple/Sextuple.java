@@ -91,24 +91,34 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     }
 
     /**
-     * Create new tuple from array elements values
+     * Creates a new {@code Sextuple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code Sextuple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
      *
-     * @param <A> the type of first element in this tuple
-     * @param <B> the type of second element in this tuple
-     * @param <C> the type of third element in this tuple
-     * @param <D> the type of fourth element in this tuple
-     * @param <E> the type of fifth element in this tuple
-     * @param <F> the type of sixth element in this tuple
-     * @param array  the elements of this tuple
+     * @param <A>   the type of first element in this tuple
+     * @param <B>   the type of second element in this tuple
+     * @param <C>   the type of third element in this tuple
+     * @param <D>   the type of fourth element in this tuple
+     * @param <E>   the type of fifth element in this tuple
+     * @param <F>   the type of sixth element in this tuple
+     * @param array the array from which the tuple is to be created
      *
-     * @return new tuple with specified elements values
+     * @return a new {@code Sextuple} containing the first element of the given array
      *
-     *     <br/>
-     *     This method acts as bridge between array-based, collection-based
-     *     and tuple-based APIs.
+     * @throws NullPointerException     if the array is null
+     * @throws IllegalArgumentException if the array size is not equal to or greater than the required number of
+     *                                  elements for the tuple
      */
     @SuppressWarnings("unchecked")
     public static <A, B, C, D, E, F> Sextuple<A, B, C, D, E, F> from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        } else if (array.length < SIZE) {
+            throw new IllegalArgumentException("The array size must be equal to or greater than tuple size");
+        }
+
         return (Sextuple<A, B, C, D, E, F>) new Sextuple<>(array[0], array[1], array[2], array[3], array[4], array[5]);
     }
 
@@ -145,6 +155,14 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     }
 
     /**
+     * Returns the second element in this tuple.
+     *
+     * @return the second element in this tuple.
+     */
+    @Override
+    public B getT1() {
+        return this.t1;
+    }    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -158,16 +176,24 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     }
 
     /**
-     * Returns the second element in this tuple.
+     * Returns the third element in this tuple.
      *
-     * @return the second element in this tuple.
+     * @return the third element in this tuple.
      */
     @Override
-    public B getT1() {
-        return this.t1;
+    public C getT2() {
+        return this.t2;
     }
 
     /**
+     * Returns the fourth element in this tuple.
+     *
+     * @return the fourth element in this tuple.
+     */
+    @Override
+    public D getT3() {
+        return this.t3;
+    }    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -197,26 +223,6 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
             default:
                 return (V) this.t5;
         }
-    }
-
-    /**
-     * Returns the third element in this tuple.
-     *
-     * @return the third element in this tuple.
-     */
-    @Override
-    public C getT2() {
-        return this.t2;
-    }
-
-    /**
-     * Returns the fourth element in this tuple.
-     *
-     * @return the fourth element in this tuple.
-     */
-    @Override
-    public D getT3() {
-        return this.t3;
     }
 
     /**
@@ -317,6 +323,8 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
 
         return isT0Equals && isT1Equals && isT2Equals && isT3Equals && isT4Equals && isT5Equals;
     }
+
+
 
 
 

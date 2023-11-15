@@ -107,7 +107,11 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     }
 
     /**
-     * Create new tuple from array elements values
+     * Creates a new {@code Couple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code Couple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
      *
      * @param <A>   the type of first element in this tuple
      * @param <B>   the type of second element in this tuple
@@ -117,16 +121,22 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
      * @param <F>   the type of sixth element in this tuple
      * @param <G>   the type of seventh element in this tuple
      * @param <H>   the type of eighth element in this tuple
-     * @param array the elements of this tuple
+     * @param array the array from which the tuple is to be created
      *
-     * @return new tuple with specified elements values
+     * @return a new {@code Couple} containing the first element of the given array
      *
-     *     <br/>
-     *     This method acts as bridge between array-based, collection-based
-     *     and tuple-based APIs.
+     * @throws NullPointerException     if the array is null
+     * @throws IllegalArgumentException if the array size is not equal to or greater than the required number of
+     *                                  elements for the tuple
      */
     @SuppressWarnings("unchecked")
     public static <A, B, C, D, E, F, G, H> Octuple<A, B, C, D, E, F, G, H> from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        } else if (array.length < SIZE) {
+            throw new IllegalArgumentException("The array size must be equal to or greater than tuple size");
+        }
+
         return (Octuple<A, B, C, D, E, F, G, H>) new Octuple<>(
             array[0],
             array[1],
@@ -183,6 +193,14 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     }
 
     /**
+     * Returns the second element in this tuple.
+     *
+     * @return the second element in this tuple.
+     */
+    @Override
+    public B getT1() {
+        return this.t1;
+    }    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -196,16 +214,24 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     }
 
     /**
-     * Returns the second element in this tuple.
+     * Returns the third element in this tuple.
      *
-     * @return the second element in this tuple.
+     * @return the third element in this tuple.
      */
     @Override
-    public B getT1() {
-        return this.t1;
+    public C getT2() {
+        return this.t2;
     }
 
     /**
+     * Returns the fourth element in this tuple.
+     *
+     * @return the fourth element in this tuple.
+     */
+    @Override
+    public D getT3() {
+        return this.t3;
+    }    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -239,26 +265,6 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
             default:
                 return (V) this.t7;
         }
-    }
-
-    /**
-     * Returns the third element in this tuple.
-     *
-     * @return the third element in this tuple.
-     */
-    @Override
-    public C getT2() {
-        return this.t2;
-    }
-
-    /**
-     * Returns the fourth element in this tuple.
-     *
-     * @return the fourth element in this tuple.
-     */
-    @Override
-    public D getT3() {
-        return this.t3;
     }
 
     /**
@@ -392,6 +398,10 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
             isT6Equals &&
             isT7Equals;
     }
+
+
+
+
 
 
 }

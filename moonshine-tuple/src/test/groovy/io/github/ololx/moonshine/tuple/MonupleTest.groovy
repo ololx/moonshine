@@ -292,7 +292,7 @@ class MonupleTest extends Specification {
 
         then:
         actual.estimateSize() == tuple.size()
-        (actual.characteristics()  ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
+        (actual.characteristics() ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
     }
 
     @Unroll
