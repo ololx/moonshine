@@ -101,6 +101,39 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     }
 
     /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this tuple
+     *
+     * @throws IndexOutOfBoundsException if the index is out of
+     *                                   range ({@code index < 0 || index >= size()})
+     * @implSpec This implementation will return the first element if the index is 1;
+     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <V> V get(int index) {
+        IndexBounds.requireIndexWithinBounds(index, this.size());
+
+        return (V) this.t0;
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 1 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
+    }
+
+    /**
      * Returns a hash code value for the tuple.
      *
      * @return a hash code value for this tuple.
@@ -118,17 +151,6 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
 
         return hash;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 1 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -170,26 +192,4 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
 
         return (this.t0 == null && other.getT0() == null) || (this.t0 != null && this.t0.equals(other.getT0()));
     }
-
-    /**
-     * Returns the element at the specified position in this tuple.
-     *
-     * @param index index of the element to return
-     *
-     * @return the element at the specified position in this tuple
-     *
-     * @throws IndexOutOfBoundsException if the index is out of
-     *                                   range ({@code index < 0 || index >= size()})
-     * @implSpec This implementation will return the first element if the index is 1;
-     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public final <V> V get(int index) {
-        IndexBounds.requireIndexWithinBounds(index, this.size());
-
-        return (V) this.t0;
-    }
-
-
 }
