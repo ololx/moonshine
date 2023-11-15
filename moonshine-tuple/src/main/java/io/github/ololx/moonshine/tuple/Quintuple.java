@@ -151,17 +151,6 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 5 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -182,7 +171,19 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     @Override
     public D getT3() {
         return this.t3;
-    }    /**
+    }
+
+    /**
+     * Returns the fifth element in this tuple.
+     *
+     * @return the fifth element in this tuple.
+     */
+    @Override
+    public E getT4() {
+        return this.t4;
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -213,13 +214,16 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
     }
 
     /**
-     * Returns the fifth element in this tuple.
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
      *
-     * @return the fifth element in this tuple.
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 5 as a size {@code SIZE} of the tuple.
      */
     @Override
-    public E getT4() {
-        return this.t4;
+    public final int size() {
+        return SIZE;
     }
 
     /**
@@ -297,10 +301,4 @@ public class Quintuple<A, B, C, D, E> extends AbstractTuple implements Tuple5<A,
 
         return isT0Equals && isT1Equals && isT2Equals && isT3Equals && isT4Equals;
     }
-
-
-
-
-
-
 }

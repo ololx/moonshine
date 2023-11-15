@@ -106,16 +106,6 @@ public interface Tuple extends Iterable<Object> {
     }
 
     /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer. If this tuple contains more than
-     * {@code Integer.MAX_VALUE} elements,
-     * returns {@code Integer.MAX_VALUE}.
-     *
-     * @return the number of elements in this tuple
-     */
-    int size();
-
-    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param <V>   the type of this tuple element to return
@@ -127,6 +117,16 @@ public interface Tuple extends Iterable<Object> {
      *                                   range ({@code index < 0 || index >= size()})
      */
     <V> V get(int index);
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer. If this tuple contains more than
+     * {@code Integer.MAX_VALUE} elements,
+     * returns {@code Integer.MAX_VALUE}.
+     *
+     * @return the number of elements in this tuple
+     */
+    int size();
 
     /**
      * Returns {@code true} if this list tuple the specified {@code value}

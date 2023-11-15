@@ -78,19 +78,6 @@ public class EmptyTuple
     }
 
     /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 0 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
-    }
-
-    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -103,6 +90,19 @@ public class EmptyTuple
     public final <V> V get(int index) {
         IndexBounds.requireIndexWithinBounds(index, this.size());
         return null;
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 0 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
     }
 
     /**

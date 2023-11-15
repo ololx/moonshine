@@ -140,17 +140,6 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 4 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -171,7 +160,9 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     @Override
     public D getT3() {
         return this.t3;
-    }    /**
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -197,6 +188,19 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
             default:
                 return (V) this.t3;
         }
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 4 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
     }
 
     /**
@@ -270,10 +274,4 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
 
         return isT0Equals && isT1Equals && isT2Equals && isT3Equals;
     }
-
-
-
-
-
-
 }

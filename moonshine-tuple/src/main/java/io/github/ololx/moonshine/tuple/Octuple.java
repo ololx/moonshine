@@ -200,17 +200,6 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 8 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -231,40 +220,6 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public D getT3() {
         return this.t3;
-    }    /**
-     * Returns the element at the specified position in this tuple.
-     *
-     * @param index index of the element to return
-     *
-     * @return the element at the specified position in this tuple
-     *
-     * @throws IndexOutOfBoundsException if the index is out of
-     *                                   range ({@code index < 0 || index >= size()})
-     * @implSpec This implementation will return the first, second, third, fourth, fifth,
-     *     sixth element if the index is in range [0, 1, 2, 3, 4, 5, 6, 7];
-     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public final <V> V get(int index) {
-        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
-            case 0:
-                return (V) this.t0;
-            case 1:
-                return (V) this.t1;
-            case 2:
-                return (V) this.t2;
-            case 3:
-                return (V) this.t3;
-            case 4:
-                return (V) this.t4;
-            case 5:
-                return (V) this.t5;
-            case 6:
-                return (V) this.t6;
-            default:
-                return (V) this.t7;
-        }
     }
 
     /**
@@ -305,6 +260,55 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public H getT7() {
         return this.t7;
+    }
+
+    /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this tuple
+     *
+     * @throws IndexOutOfBoundsException if the index is out of
+     *                                   range ({@code index < 0 || index >= size()})
+     * @implSpec This implementation will return the first, second, third, fourth, fifth,
+     *     sixth element if the index is in range [0, 1, 2, 3, 4, 5, 6, 7];
+     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <V> V get(int index) {
+        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
+            case 0:
+                return (V) this.t0;
+            case 1:
+                return (V) this.t1;
+            case 2:
+                return (V) this.t2;
+            case 3:
+                return (V) this.t3;
+            case 4:
+                return (V) this.t4;
+            case 5:
+                return (V) this.t5;
+            case 6:
+                return (V) this.t6;
+            default:
+                return (V) this.t7;
+        }
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 8 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
     }
 
     /**
@@ -398,10 +402,4 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
             isT6Equals &&
             isT7Equals;
     }
-
-
-
-
-
-
 }

@@ -129,17 +129,6 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 3 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -153,26 +142,6 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
     }
 
     /**
-     * Returns a hash code value for the tuple.
-     *
-     * @return a hash code value for this tuple.
-     *
-     * @implSpec This implementation generates a hash code given the order of
-     *     the elements and their hash code.
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-
-        int hash = 0;
-        int index = 0;
-
-        hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
-        hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
-        hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
-
-        return hash;
-    }    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -196,6 +165,41 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
             default:
                 return (V) this.t2;
         }
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 3 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
+    }
+
+    /**
+     * Returns a hash code value for the tuple.
+     *
+     * @return a hash code value for this tuple.
+     *
+     * @implSpec This implementation generates a hash code given the order of
+     *     the elements and their hash code.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+
+        int hash = 0;
+        int index = 0;
+
+        hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
+        hash = prime * ++index + hash + (this.t1 == null ? 0 : this.t1.hashCode());
+        hash = prime * ++index + hash + (this.t2 == null ? 0 : this.t2.hashCode());
+
+        return hash;
     }
 
     /**
@@ -244,10 +248,4 @@ public class Triple<A, B, C> extends AbstractTuple implements Tuple3<A, B, C> {
 
         return isT0Equals && isT1Equals && isT2Equals;
     }
-
-
-
-
-
-
 }
