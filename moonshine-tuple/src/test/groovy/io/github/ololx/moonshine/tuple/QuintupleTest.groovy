@@ -53,6 +53,47 @@ class QuintupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Quintuple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE, Character.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Quintuple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Quintuple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            new Object[0],
+            new Object[1],
+            new Object[2],
+            new Object[3],
+            new Object[4],
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2, #t3, #t4 then tuple contains #t0, #t1, #t2, #t3, #t4"() {
         given:
         def tuple = Quintuple.of(t0, t1, t2, t3, t4)

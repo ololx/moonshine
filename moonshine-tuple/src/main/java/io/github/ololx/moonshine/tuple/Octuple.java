@@ -107,6 +107,49 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     }
 
     /**
+     * Creates a new {@code Couple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code Couple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
+     *
+     * @param <A>   the type of first element in this tuple
+     * @param <B>   the type of second element in this tuple
+     * @param <C>   the type of third element in this tuple
+     * @param <D>   the type of fourth element in this tuple
+     * @param <E>   the type of fifth element in this tuple
+     * @param <F>   the type of sixth element in this tuple
+     * @param <G>   the type of seventh element in this tuple
+     * @param <H>   the type of eighth element in this tuple
+     * @param array the array from which the tuple is to be created
+     *
+     * @return a new {@code Couple} containing the first element of the given array
+     *
+     * @throws NullPointerException     if the array is null
+     * @throws IllegalArgumentException if the array size is not equal to or greater than the required number of
+     *                                  elements for the tuple
+     */
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D, E, F, G, H> Octuple<A, B, C, D, E, F, G, H> from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        } else if (array.length < SIZE) {
+            throw new IllegalArgumentException("The array size must be equal to or greater than tuple size");
+        }
+
+        return (Octuple<A, B, C, D, E, F, G, H>) new Octuple<>(
+            array[0],
+            array[1],
+            array[2],
+            array[3],
+            array[4],
+            array[5],
+            array[6],
+            array[7]
+        );
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple
@@ -147,17 +190,6 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 8 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -168,40 +200,6 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
-     * Returns the element at the specified position in this tuple.
-     *
-     * @param index index of the element to return
-     *
-     * @return the element at the specified position in this tuple
-     *
-     * @throws IndexOutOfBoundsException if the index is out of
-     *                                   range ({@code index < 0 || index >= size()})
-     * @implSpec This implementation will return the first, second, third, fourth, fifth,
-     *     sixth element if the index is in range [0, 1, 2, 3, 4, 5, 6, 7];
-     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public final <V> V get(int index) {
-        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
-            case 0:
-                return (V) this.t0;
-            case 1:
-                return (V) this.t1;
-            case 2:
-                return (V) this.t2;
-            case 3:
-                return (V) this.t3;
-            case 4:
-                return (V) this.t4;
-            case 5:
-                return (V) this.t5;
-            case 6:
-                return (V) this.t6;
-            default:
-                return (V) this.t7;
-        }
     }
 
     /**
@@ -262,6 +260,55 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
     @Override
     public H getT7() {
         return this.t7;
+    }
+
+    /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this tuple
+     *
+     * @throws IndexOutOfBoundsException if the index is out of
+     *                                   range ({@code index < 0 || index >= size()})
+     * @implSpec This implementation will return the first, second, third, fourth, fifth,
+     *     sixth element if the index is in range [0, 1, 2, 3, 4, 5, 6, 7];
+     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <V> V get(int index) {
+        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
+            case 0:
+                return (V) this.t0;
+            case 1:
+                return (V) this.t1;
+            case 2:
+                return (V) this.t2;
+            case 3:
+                return (V) this.t3;
+            case 4:
+                return (V) this.t4;
+            case 5:
+                return (V) this.t5;
+            case 6:
+                return (V) this.t6;
+            default:
+                return (V) this.t7;
+        }
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 8 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
     }
 
     /**
@@ -355,8 +402,4 @@ public class Octuple<A, B, C, D, E, F, G, H> extends AbstractTuple implements Tu
             isT6Equals &&
             isT7Equals;
     }
-
-
-
-
 }

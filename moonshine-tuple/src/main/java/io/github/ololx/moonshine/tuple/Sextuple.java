@@ -91,6 +91,38 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     }
 
     /**
+     * Creates a new {@code Sextuple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code Sextuple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
+     *
+     * @param <A>   the type of first element in this tuple
+     * @param <B>   the type of second element in this tuple
+     * @param <C>   the type of third element in this tuple
+     * @param <D>   the type of fourth element in this tuple
+     * @param <E>   the type of fifth element in this tuple
+     * @param <F>   the type of sixth element in this tuple
+     * @param array the array from which the tuple is to be created
+     *
+     * @return a new {@code Sextuple} containing the first element of the given array
+     *
+     * @throws NullPointerException     if the array is null
+     * @throws IllegalArgumentException if the array size is not equal to or greater than the required number of
+     *                                  elements for the tuple
+     */
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D, E, F> Sextuple<A, B, C, D, E, F> from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        } else if (array.length < SIZE) {
+            throw new IllegalArgumentException("The array size must be equal to or greater than tuple size");
+        }
+
+        return (Sextuple<A, B, C, D, E, F>) new Sextuple<>(array[0], array[1], array[2], array[3], array[4], array[5]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of first element in this tuple
@@ -120,17 +152,6 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 6 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -141,36 +162,6 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
-     * Returns the element at the specified position in this tuple.
-     *
-     * @param index index of the element to return
-     *
-     * @return the element at the specified position in this tuple
-     *
-     * @throws IndexOutOfBoundsException if the index is out of
-     *                                   range ({@code index < 0 || index >= size()})
-     * @implSpec This implementation will return the first, second, third, fourth, fifth,
-     *     sixth element if the index is in range [0, 1, 2, 3, 4, 5];
-     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public final <V> V get(int index) {
-        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
-            case 0:
-                return (V) this.t0;
-            case 1:
-                return (V) this.t1;
-            case 2:
-                return (V) this.t2;
-            case 3:
-                return (V) this.t3;
-            case 4:
-                return (V) this.t4;
-            default:
-                return (V) this.t5;
-        }
     }
 
     /**
@@ -211,6 +202,51 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
     @Override
     public F getT5() {
         return this.t5;
+    }
+
+    /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this tuple
+     *
+     * @throws IndexOutOfBoundsException if the index is out of
+     *                                   range ({@code index < 0 || index >= size()})
+     * @implSpec This implementation will return the first, second, third, fourth, fifth,
+     *     sixth element if the index is in range [0, 1, 2, 3, 4, 5];
+     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <V> V get(int index) {
+        switch (IndexBounds.requireIndexWithinBounds(index, this.size())) {
+            case 0:
+                return (V) this.t0;
+            case 1:
+                return (V) this.t1;
+            case 2:
+                return (V) this.t2;
+            case 3:
+                return (V) this.t3;
+            case 4:
+                return (V) this.t4;
+            default:
+                return (V) this.t5;
+        }
+    }
+
+    /**
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
+     *
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 6 as a size {@code SIZE} of the tuple.
+     */
+    @Override
+    public final int size() {
+        return SIZE;
     }
 
     /**
@@ -291,8 +327,4 @@ public class Sextuple<A, B, C, D, E, F> extends AbstractTuple implements Tuple6<
 
         return isT0Equals && isT1Equals && isT2Equals && isT3Equals && isT4Equals && isT5Equals;
     }
-
-
-
-
 }

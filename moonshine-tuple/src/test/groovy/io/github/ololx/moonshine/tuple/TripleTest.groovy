@@ -49,6 +49,46 @@ class TripleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Triple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE, Character.MIN_VALUE, Short.MIN_VALUE] as Object[],
+            [Short.MIN_VALUE, Integer.MIN_VALUE, Float.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Triple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Triple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            new Object[0],
+            new Object[1],
+            new Object[2]
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0, #t1, #t2 then tuple contains #t0, #t1, #t2"() {
         given:
         def tuple = Triple.of(t0, t1, t2)
@@ -326,7 +366,7 @@ class TripleTest extends Specification {
 
         then:
         actual.estimateSize() == tuple.size()
-        (actual.characteristics()  ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
+        (actual.characteristics() ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
     }
 
     @Unroll

@@ -33,6 +33,29 @@ import static java.util.Spliterator.*
 class EmptyTupleTest extends Specification {
 
     @Unroll
+    def "new EmptyTuple() - when create with 0 args then tuple contains 0 args"() {
+        expect:
+        new EmptyTuple().size() == 0
+    }
+
+    @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = EmptyTuple.from(elements)
+
+        expect:
+        tuple.toArray().length == 0
+
+        where:
+        elements << [
+            [] as Object[],
+            [Byte.MIN_VALUE] as Object[],
+            [Byte.MIN_VALUE, Short.MIN_VALUE] as Object[],
+            [Byte.MIN_VALUE, Short.MIN_VALUE, Float.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
     def "get() - #index always is out of bounds and thus throw exception"() {
         given:
         def tuple = new EmptyTuple()
@@ -191,7 +214,7 @@ class EmptyTupleTest extends Specification {
 
         then:
         actual.estimateSize() == tuple.size()
-        (actual.characteristics()  ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
+        (actual.characteristics() ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
     }
 
     @Unroll

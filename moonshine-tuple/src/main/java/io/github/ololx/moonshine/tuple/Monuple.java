@@ -51,6 +51,34 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     }
 
     /**
+     * Creates a new {@code Monuple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code Monuple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
+     *
+     * @param <A>   the type of first element in this tuple
+     * @param array the array from which the tuple is to be created
+     *
+     * @return a new {@code Monuple} containing the first element of the given array
+     *
+     * @throws NullPointerException     if the array is null
+     * @throws IllegalArgumentException if the array size is not equal to or greater than the required number of
+     *                                  elements for the tuple
+     */
+    @SuppressWarnings("unchecked")
+    public static <A> Monuple<A> from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        } else if (array.length < SIZE) {
+            throw new IllegalArgumentException("The array size must be equal to or greater than tuple size");
+        }
+
+        return (Monuple<A>) new Monuple<>(array[0]);
+    }
+
+
+    /**
      * Create new tuple with specified elements values
      *
      * @param <A> the type of element in this tuple
@@ -70,7 +98,29 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
+    }
+
+    /**
+     * Returns the element at the specified position in this tuple.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this tuple
+     *
+     * @throws IndexOutOfBoundsException if the index is out of
+     *                                   range ({@code index < 0 || index >= size()})
+     * @implSpec This implementation will return the first element if the index is 1;
+     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <V> V get(int index) {
+        IndexBounds.requireIndexWithinBounds(index, this.size());
+
+        return (V) this.t0;
+    }
+
+    /**
      * Returns the number of elements in this tuple.
      * The size is a non-negative integer.
      *
@@ -101,24 +151,6 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
         hash = prime * ++index + hash + (this.t0 == null ? 0 : this.t0.hashCode());
 
         return hash;
-    }    /**
-     * Returns the element at the specified position in this tuple.
-     *
-     * @param index index of the element to return
-     *
-     * @return the element at the specified position in this tuple
-     *
-     * @throws IndexOutOfBoundsException if the index is out of
-     *                                   range ({@code index < 0 || index >= size()})
-     * @implSpec This implementation will return the first element if the index is 1;
-     *     otherwise throw an exception {@link IndexOutOfBoundsException}.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public final <V> V get(int index) {
-        IndexBounds.requireIndexWithinBounds(index, this.size());
-
-        return (V) this.t0;
     }
 
     /**
@@ -160,8 +192,4 @@ public class Monuple<A> extends AbstractTuple implements Tuple1<A> {
 
         return (this.t0 == null && other.getT0() == null) || (this.t0 != null && this.t0.equals(other.getT0()));
     }
-
-
-
-
 }

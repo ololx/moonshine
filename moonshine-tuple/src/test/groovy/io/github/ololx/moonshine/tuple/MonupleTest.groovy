@@ -45,6 +45,45 @@ class MonupleTest extends Specification {
     }
 
     @Unroll
+    def "from() - when create with #elements then tuple contains #elements"() {
+        given:
+        def tuple = Monuple.from(elements)
+
+        expect:
+        tuple.toArray() == elements
+
+        where:
+        elements << [
+            [Byte.MIN_VALUE] as Object[],
+            [Short.MIN_VALUE] as Object[],
+            [Float.MIN_VALUE] as Object[],
+        ]
+    }
+
+    @Unroll
+    def "from() - when create with null then throw exception"() {
+        when:
+        def tuple = Monuple.from(null)
+
+        then:
+        thrown(NullPointerException)
+    }
+
+    @Unroll
+    def "from() - when create with size = #elements.length then throw exception"() {
+        when:
+        def tuple = Monuple.from()
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        elements << [
+            [] as Object[]
+        ]
+    }
+
+    @Unroll
     def "of() - when create with #t0 then tuple contains #t0"() {
         given:
         def tuple = Monuple.of(t0)
@@ -276,7 +315,7 @@ class MonupleTest extends Specification {
 
         then:
         actual.estimateSize() == tuple.size()
-        (actual.characteristics()  ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
+        (actual.characteristics() ^ SUBSIZED) == (SIZED | IMMUTABLE | ORDERED)
     }
 
     @Unroll

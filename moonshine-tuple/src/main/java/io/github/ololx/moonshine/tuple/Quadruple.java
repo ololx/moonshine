@@ -75,12 +75,46 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     }
 
     /**
+     * Creates a new {@code Quadruple} instance from an array of objects.
+     * <p>
+     * This method provides a convenient way to create a {@code Quadruple} from an array. It acts as a bridge
+     * between array-based, collection-based, and tuple-based APIs, allowing easy conversion of an array to a tuple
+     * </p>
+     *
+     * @param <A>   the type of first element in this tuple
+     * @param <B>   the type of second element in this tuple
+     * @param <C>   the type of third element in this tuple
+     * @param <D>   the type of fourth element in this tuple
+     * @param array the array from which the tuple is to be created
+     *
+     * @return a new {@code Quadruple} containing the first element of the given array
+     *
+     * @throws NullPointerException     if the array is null
+     * @throws IllegalArgumentException if the array size is not equal to or greater than the required number of
+     *                                  elements for the tuple
+     */
+    @SuppressWarnings("unchecked")
+    public static <A, B, C, D> Quadruple<A, B, C, D> from(Object[] array) {
+        if (array == null) {
+            throw new NullPointerException("The array must not be null");
+        } else if (array.length < SIZE) {
+            throw new IllegalArgumentException("The array size must be equal to or greater than tuple size");
+        }
+
+        return (Quadruple<A, B, C, D>) new Quadruple<>(array[0], array[1], array[2], array[3]);
+    }
+
+    /**
      * Create new tuple with specified elements values
      *
-     * @param t0 the first element of this tuple
-     * @param t1 the second element of this tuple
-     * @param t2 the third element of this tuple
-     * @param t3 the fourth element of this tuple
+     * @param <A> the type of first element in this tuple
+     * @param <B> the type of second element in this tuple
+     * @param <C> the type of third element in this tuple
+     * @param <D> the type of fourth element in this tuple
+     * @param t0  the first element of this tuple
+     * @param t1  the second element of this tuple
+     * @param t2  the third element of this tuple
+     * @param t3  the fourth element of this tuple
      *
      * @return new tuple with specified elements values
      */
@@ -96,17 +130,6 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     @Override
     public A getT0() {
         return this.t0;
-    }    /**
-     * Returns the number of elements in this tuple.
-     * The size is a non-negative integer.
-     *
-     * @return the number of elements in this tuple
-     *
-     * @implSpec This implementation always return 4 as a size {@code SIZE} of the tuple.
-     */
-    @Override
-    public final int size() {
-        return SIZE;
     }
 
     /**
@@ -117,7 +140,29 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     @Override
     public B getT1() {
         return this.t1;
-    }    /**
+    }
+
+    /**
+     * Returns the third element in this tuple.
+     *
+     * @return the third element in this tuple.
+     */
+    @Override
+    public C getT2() {
+        return this.t2;
+    }
+
+    /**
+     * Returns the fourth element in this tuple.
+     *
+     * @return the fourth element in this tuple.
+     */
+    @Override
+    public D getT3() {
+        return this.t3;
+    }
+
+    /**
      * Returns the element at the specified position in this tuple.
      *
      * @param index index of the element to return
@@ -146,23 +191,16 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
     }
 
     /**
-     * Returns the third element in this tuple.
+     * Returns the number of elements in this tuple.
+     * The size is a non-negative integer.
      *
-     * @return the third element in this tuple.
+     * @return the number of elements in this tuple
+     *
+     * @implSpec This implementation always return 4 as a size {@code SIZE} of the tuple.
      */
     @Override
-    public C getT2() {
-        return this.t2;
-    }
-
-    /**
-     * Returns the fourth element in this tuple.
-     *
-     * @return the fourth element in this tuple.
-     */
-    @Override
-    public D getT3() {
-        return this.t3;
+    public final int size() {
+        return SIZE;
     }
 
     /**
@@ -236,8 +274,4 @@ public class Quadruple<A, B, C, D> extends AbstractTuple implements Tuple4<A, B,
 
         return isT0Equals && isT1Equals && isT2Equals && isT3Equals;
     }
-
-
-
-
 }

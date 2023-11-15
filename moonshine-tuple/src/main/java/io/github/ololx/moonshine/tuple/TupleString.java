@@ -17,8 +17,6 @@
 
 package io.github.ololx.moonshine.tuple;
 
-import java.util.stream.IntStream;
-
 /**
  * An interpreter for the string representation of tuples. This class provides
  * utility methods for creating print-style string representations of a specific
@@ -66,11 +64,11 @@ final class TupleString {
         final StringBuilder tupleStringBuilder = new StringBuilder(tupleStringLength);
 
         tupleStringBuilder.append(String.valueOf(tuple.getOrDefault(0, "")));
-        IntStream.range(1, elementsCount)
-            .forEach(index -> {
-                tupleStringBuilder.append(", ");
-                tupleStringBuilder.append(String.valueOf(tuple.getOrDefault(index, "")));
-            });
+
+        for (int elementIndex = 1; elementIndex < elementsCount; elementIndex++) {
+            tupleStringBuilder.append(", ");
+            tupleStringBuilder.append(String.valueOf(tuple.getOrDefault(elementIndex, "")));
+        }
 
         tupleStringBuilder.insert(0, "(");
         tupleStringBuilder.append(")");
