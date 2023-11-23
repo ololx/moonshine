@@ -20,11 +20,10 @@ package io.github.ololx.moonshine.util.function;
 /**
  * A functional interface for binary operations on two byte values.
  *
- * @see java.util.function.BinaryOperator
- *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 01.09.2023 10:34
+ * @see java.util.function.BinaryOperator
  */
 @FunctionalInterface
 public interface ByteBinaryOperator {
@@ -32,22 +31,21 @@ public interface ByteBinaryOperator {
     /**
      * Applies this operator to the given byte operands.
      *
+     * @param left  the first byte operand
+     * @param right the second byte operand
+     *
      * @return the result of applying this operator to the operands
      *
      *     Example usage:
      *     <pre>{@code
-     *     // Define a ByteBinaryOperator that adds two byte values
-     *     ByteBinaryOperator addition = (left, right) -> (byte) (left + right);
+     *         // Define a ByteBinaryOperator that adds two byte values
+     *         ByteBinaryOperator addition = (left, right) -> (byte) (left + right);
      *
-     *     // Apply the addition operation to two byte values
-     *     byte result = addition.applyAsByte((byte) 5, (byte) 3);
+     *         // Apply the addition operation to two byte values
+     *         byte result = addition.applyAsByte((byte) 5, (byte) 3);
      *
-     *     // 'result' contains the sum of the two byte values (8).
-     *     }</pre>
-     *
-     * @param left  the first byte operand
-     * @param right the second byte operand
+     *         // 'result' contains the sum of the two byte values (8).
+     *         }</pre>
      */
     byte applyAsByte(byte left, byte right);
 }
-

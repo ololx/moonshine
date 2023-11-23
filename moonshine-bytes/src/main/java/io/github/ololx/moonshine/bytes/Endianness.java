@@ -37,15 +37,15 @@ public final class Endianness {
      * address.
      */
     public static final ByteOrder BIG_ENDIAN = new ByteOrder(
-            "Big-Endian",
-            0x1,
-            size -> index -> {
-                if (size == 1) {
-                    return 0;
-                }
-
-                return size - 1 - index;
+        "Big-Endian",
+        0x1,
+        size -> index -> {
+            if (size == 1) {
+                return 0;
             }
+
+            return size - 1 - index;
+        }
     );
 
     /**
@@ -54,9 +54,9 @@ public final class Endianness {
      * address.
      */
     public static final ByteOrder LITTLE_ENDIAN = new ByteOrder(
-            "Little-Endian",
-            0x2,
-            size -> ByteIndexOperator.identity()
+        "Little-Endian",
+        0x2,
+        size -> ByteIndexOperator.identity()
     );
 
     /**
@@ -64,17 +64,17 @@ public final class Endianness {
      * of the big-endian order where adjacent bytes are swapped in pairs.
      */
     public static final ByteOrder PDP_ENDIAN = new ByteOrder(
-            "PDP-Endian",
-            0x3,
-            size -> index -> {
-                if (size == 1) {
-                    return 0;
-                }
-
-                return index % 2 == 0
-                        ? Math.max(0, size - 1 - (index + 1))
-                        : Math.min(size - 1, size - 1 - (index - 1));
+        "PDP-Endian",
+        0x3,
+        size -> index -> {
+            if (size == 1) {
+                return 0;
             }
+
+            return index % 2 == 0
+                   ? Math.max(0, size - 1 - (index + 1))
+                   : Math.min(size - 1, size - 1 - (index - 1));
+        }
     );
 
     /**
@@ -88,9 +88,10 @@ public final class Endianness {
      * the Java virtual machine is running. This is determined at runtime by
      * the {@code UnsafeHelper} class.
      */
-    static final ByteOrder NATIVE = UnsafeHelper.getInstance().isBigEndian()
-            ? BIG_ENDIAN
-            : LITTLE_ENDIAN;
+    static final ByteOrder NATIVE = UnsafeHelper.getInstance()
+                                        .isBigEndian()
+                                    ? BIG_ENDIAN
+                                    : LITTLE_ENDIAN;
 
     /**
      * Override constructor by defaults (implicit public constructor).

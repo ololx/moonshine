@@ -74,11 +74,13 @@ public class AtomicByteArrayBenchmark {
 
     private static final String ATOMIC_LONG_ARRAY = "AtomicLongArray";
 
-    @Param({
-        ATOMIC_BYTE_ARRAY,
-        ATOMIC_INT_ARRAY,
-        ATOMIC_LONG_ARRAY
-    })
+    @Param(
+        {
+            ATOMIC_BYTE_ARRAY,
+            ATOMIC_INT_ARRAY,
+            ATOMIC_LONG_ARRAY
+        }
+    )
     private String typeOfAtomicArray;
 
     @Param({"100"})
@@ -193,7 +195,7 @@ public class AtomicByteArrayBenchmark {
 
     interface AtomicArrayBenchmarkWrapper {
 
-        public < T extends Number> long get(final int index);
+        public <T extends Number> long get(final int index);
 
         public void set(int index);
     }

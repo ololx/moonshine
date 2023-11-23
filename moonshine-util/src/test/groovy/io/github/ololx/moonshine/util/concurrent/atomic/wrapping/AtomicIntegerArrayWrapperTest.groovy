@@ -53,7 +53,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
         2      | [1, 2] as int[]
         3      | [1, 2, 3] as int[]
     }
-    
+
     def "length() - when get length then return correct length"() {
         given:
         def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])

@@ -30,33 +30,29 @@ import java.util.Objects;
  * <p>This class implements the Measurer interface to measure the CPU usage of
  * a process during a certain period of time.</p>
  *
- * @implSpec
- * <ul>
+ * @author Alexander A. Kropotin
+ * @implSpec <ul>
  *     <li>The CPU usage is measured in nanoseconds.</li>
  *     <li>The measurement period starts and ends when the {@link #start()} and
  *     {@link #stop()} methods are called, respectively.</li>
- * </ul>
+ *     </ul>
+ * @apiNote This implementation measures the CPU usage by the current process.
+ *     To measure the CPU usage of any thread, use a different implementation
+ *     of the {@link Measurer} interface.
  *
- * @apiNote
- * This implementation measures the CPU usage by the current process.
- * To measure the CPU usage of any thread, use a different implementation
- * of the {@link Measurer} interface.
+ *     <p><strong>Example usage:</strong></p>
+ *     <pre>{@code
+ *     ThreadCpuUsageMeter meter = new ThreadCpuUsageMeter();
  *
- * <p><strong>Example usage:</strong></p>
- * <pre>{@code
- * ThreadCpuUsageMeter meter = new ThreadCpuUsageMeter();
+ *     meter.start();
+ *     // Some code to be measured
+ *     meter.stop();
  *
- * meter.start();
- * // Some code to be measured
- * meter.stop();
+ *     CpuUsage result = meter.result();
+ *     }</pre>
  *
- * CpuUsage result = meter.result();
- * }</pre>
- *
- * project moonshine
- * created 13.04.2023 14:29
- *
- * @author Alexander A. Kropotin
+ *     project moonshine
+ *     created 13.04.2023 14:29
  */
 public class ProcessCpuUsageMeter implements Measurer<CpuUsage> {
 
@@ -66,27 +62,27 @@ public class ProcessCpuUsageMeter implements Measurer<CpuUsage> {
     private static final long STOPPED = -1;
 
     /**
-     The OperatingSystemMXBean instance used to obtain CPU load information.
+     * The OperatingSystemMXBean instance used to obtain CPU load information.
      */
     private final OperatingSystemMXBean systemMXBean;
 
     /**
-     The CPU time at the start of the measurement period.
+     * The CPU time at the start of the measurement period.
      */
     private long startCpuTime;
 
     /**
-     The CPU time at the end of the measurement period.
+     * The CPU time at the end of the measurement period.
      */
     private long endCpuTime;
 
     /**
-     The wall-clock time at the start of the measurement period.
+     * The wall-clock time at the start of the measurement period.
      */
     private long startMeasuringTime;
 
     /**
-     The wall-clock time at the end of the measurement period.
+     * The wall-clock time at the end of the measurement period.
      */
     private long endMeasuringTime;
 
@@ -105,12 +101,13 @@ public class ProcessCpuUsageMeter implements Measurer<CpuUsage> {
      * the specified OperatingSystemMXBean instance.
      *
      * @param systemMXBean the OperatingSystemMXBean instance to use
+     *
      * @throws NullPointerException if operatingSystemMXBean is null
      */
     public ProcessCpuUsageMeter(OperatingSystemMXBean systemMXBean) {
         this.systemMXBean = Objects.requireNonNull(
-                systemMXBean,
-                "The operatingSystemMXBean must not be null"
+            systemMXBean,
+            "The operatingSystemMXBean must not be null"
         );
         this.startCpuTime = STOPPED;
     }
@@ -152,9 +149,9 @@ public class ProcessCpuUsageMeter implements Measurer<CpuUsage> {
      * {@link CpuUsage} object.
      *
      * <p>This method should be called after {@link #stop()} method.</p>
-
+     *
      * @return a {@link CpuUsage} object representing the CPU usage during the
-     * measurement period.
+     *     measurement period.
      */
     @Override
     public CpuUsage result() {
@@ -163,8 +160,8 @@ public class ProcessCpuUsageMeter implements Measurer<CpuUsage> {
         }
 
         return CpuUsage.ofUsageTime(
-                Duration.ofNanos(endCpuTime - startCpuTime),
-                Duration.ofNanos(endMeasuringTime - startMeasuringTime)
+            Duration.ofNanos(endCpuTime - startCpuTime),
+            Duration.ofNanos(endMeasuringTime - startMeasuringTime)
         );
     }
 }

@@ -33,16 +33,19 @@ public class CharDecoder implements ValueBytesDecoder<Character> {
      * Decodes a byte array to a {@code Character} value starting at a given
      * offset with specified endianness.
      *
-     * @param bytes the byte array to decode
-     * @param offset the offset at which decoding should start
+     * @param bytes      the byte array to decode
+     * @param offset     the offset at which decoding should start
      * @param endianness the endianness to be used for encoding
+     *
      * @return the decoded value of given type
+     *
      * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
-     * is out of the {@code bytes} bounds
+     *                                   is out of the {@code bytes} bounds
      */
     @Override
     public Character decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
-        short shortValue = ValueBytesDecoder.value16BitDecoder().decode(bytes, offset, endianness);
+        short shortValue = ValueBytesDecoder.value16BitDecoder()
+            .decode(bytes, offset, endianness);
         return (char) shortValue;
     }
 }

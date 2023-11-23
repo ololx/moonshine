@@ -38,20 +38,24 @@ public class UUIDDecoder implements ValueBytesDecoder<UUID> {
      * Decodes a byte array to a {@code UUID} value starting at a given offset
      * with specified endianness.
      *
-     * @param bytes the byte array to decode
-     * @param offset the offset at which decoding should start
+     * @param bytes      the byte array to decode
+     * @param offset     the offset at which decoding should start
      * @param endianness the endianness to be used for encoding
+     *
      * @return the decoded value of given type
+     *
      * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
-     * is out of the {@code bytes} bounds
+     *                                   is out of the {@code bytes} bounds
      */
     @Override
     public UUID decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
         byte[] reordered = Bytes.reorder(bytes, offset, endianness, identity());
 
         return new UUID(
-                ValueBytesDecoder.value64BitDecoder().decode(reordered, offset, identity()),
-                ValueBytesDecoder.value64BitDecoder().decode(reordered, offset + 8, identity())
+            ValueBytesDecoder.value64BitDecoder()
+                .decode(reordered, offset, identity()),
+            ValueBytesDecoder.value64BitDecoder()
+                .decode(reordered, offset + 8, identity())
         );
     }
 }

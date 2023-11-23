@@ -26,33 +26,29 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A class representing a byte order, with a name, unique ID, and providing
  * access to a {@link ByteOrderProvider} to retrieve the byte order.
  *
- * @implSpec
- * <p>This class provides access to a {@link ByteOrderProvider} to retrieve the
- * byte order. The byte order can be obtained using the {@link #byteOrder(int)}
- * method, which takes a most significant byte value and returns an array of
- * integers representing the order of bytes for that byte order.
- * For example: {@code new int[] {0, 1, 2, 3}} for the Big-endian order of
- * int32 type value.</p>
- * <p>The byte order provider is set at construction time and cannot be changed
- * afterwards.</p>
- * <p>The implementation of the {@link #byteOrder(int)} method is delegated to
- * the {@link ByteOrderProvider} passed at construction time.</p>
- *
- * @implNote
- * <p>This class is immutable and thread-safe.</p>
- * <p>This class is used in conjunction with {@link ByteOrderProvider} to
- * determine the order of bytes in multi-byte values.</p>
- * <p>This class provides a default implementation of byte order that can be
- * used as a reference.</p>
- * <p>The byte order provider can be implemented by the user and provided to
- * the constructor.</p>
- * <p>This class is implemented using an {@link AtomicInteger} to assign a unique
- * identifier to each instance.</p>
- *
- * project moonshine
- * created 22.02.2023 14:13
- *
  * @author Alexander A. Kropotin
+ * @implSpec <p>This class provides access to a {@link ByteOrderProvider} to retrieve the
+ *     byte order. The byte order can be obtained using the {@link #byteOrder(int)}
+ *     method, which takes a most significant byte value and returns an array of
+ *     integers representing the order of bytes for that byte order.
+ *     For example: {@code new int[] {0, 1, 2, 3}} for the Big-endian order of
+ *     int32 type value.</p>
+ *     <p>The byte order provider is set at construction time and cannot be changed
+ *     afterwards.</p>
+ *     <p>The implementation of the {@link #byteOrder(int)} method is delegated to
+ *     the {@link ByteOrderProvider} passed at construction time.</p>
+ * @implNote <p>This class is immutable and thread-safe.</p>
+ *     <p>This class is used in conjunction with {@link ByteOrderProvider} to
+ *     determine the order of bytes in multi-byte values.</p>
+ *     <p>This class provides a default implementation of byte order that can be
+ *     used as a reference.</p>
+ *     <p>The byte order provider can be implemented by the user and provided to
+ *     the constructor.</p>
+ *     <p>This class is implemented using an {@link AtomicInteger} to assign a unique
+ *     identifier to each instance.</p>
+ *
+ *     project moonshine
+ *     created 22.02.2023 14:13
  */
 public class ByteOrder {
 
@@ -79,8 +75,9 @@ public class ByteOrder {
     /**
      * Constructs a ByteOrder object with the given name and provider.
      *
-     * @param name the name of the byte order.
+     * @param name              the name of the byte order.
      * @param byteOrderProvider the provider for the byte order array.
+     *
      * @throws NullPointerException if the name or provider is null.
      */
     public ByteOrder(String name, ByteOrderProvider byteOrderProvider) {
@@ -92,15 +89,14 @@ public class ByteOrder {
     /**
      * Constructs a ByteOrder object with the given name, id and provider.
      *
-     * @implSpec
-     * This is the special implementation for internal use only. This
-     * constructor allows creating new {@code ByteOrder} instance with the
-     * specified {@code id}.
-     *
-     * @param id the id of the byte order.
-     * @param name the name of the byte order.
+     * @param id                the id of the byte order.
+     * @param name              the name of the byte order.
      * @param byteOrderProvider the provider for the byte order array.
+     *
      * @throws NullPointerException if the name or provider is null.
+     * @implSpec This is the special implementation for internal use only. This
+     *     constructor allows creating new {@code ByteOrder} instance with the
+     *     specified {@code id}.
      */
     ByteOrder(String name, int id, ByteOrderProvider byteOrderProvider) {
         this.name = Objects.requireNonNull(name);
@@ -131,6 +127,7 @@ public class ByteOrder {
      * Returns the byte order array for the given most significant byte.
      *
      * @param mostSignificantByte The most significant byte.
+     *
      * @return the byte order array.
      */
     public final ByteIndexOperator byteOrder(int mostSignificantByte) {
