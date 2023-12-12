@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - New factory method `from()` has been added to the Tuple collection, which allows to create
   new Tuple instance of given values.
-
+- New module with `Bloom filter` implementations.
 
 ## [0.13.0] - 2023-09-28
 
