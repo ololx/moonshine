@@ -33,15 +33,18 @@ public class LongDecoder implements ValueBytesDecoder<Long> {
      * Decodes a byte array to a {@code Long} value starting at a given
      * offset with specified endianness.
      *
-     * @param bytes the byte array to decode
-     * @param offset the offset at which decoding should start
+     * @param bytes      the byte array to decode
+     * @param offset     the offset at which decoding should start
      * @param endianness the endianness to be used for encoding
+     *
      * @return the decoded value of given type
+     *
      * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
-     * is out of the {@code bytes} bounds
+     *                                   is out of the {@code bytes} bounds
      */
     @Override
     public Long decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
-        return ValueBytesDecoder.value64BitDecoder().decode(bytes, offset, endianness);
+        return ValueBytesDecoder.value64BitDecoder()
+            .decode(bytes, offset, endianness);
     }
 }

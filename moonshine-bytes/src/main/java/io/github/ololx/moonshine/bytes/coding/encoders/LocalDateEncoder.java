@@ -39,20 +39,21 @@ public class LocalDateEncoder implements ValueBytesEncoder<LocalDate> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value the value type {@code LocalDate} to be encoded
-     * @param offset the starting offset for encoding in the byte array
+     * @param value      the value type {@code LocalDate} to be encoded
+     * @param offset     the starting offset for encoding in the byte array
      * @param endianness the endianness to be used for encoding
+     *
      * @return the byte array that contains the encoded value
      */
     @Override
     public byte[] encode(LocalDate value, int offset, ByteIndexOperator endianness) {
         byte[] encoded = Bytes.concat(
-                ValueBytesEncoder.value32BitEncoder()
-                        .encode(value.getYear(), offset, identity()),
-                ValueBytesEncoder.value8BitEncoder()
-                        .encode((byte) value.getMonthValue(), identity()),
-                ValueBytesEncoder.value8BitEncoder()
-                        .encode((byte) value.getDayOfMonth(), identity())
+            ValueBytesEncoder.value32BitEncoder()
+                .encode(value.getYear(), offset, identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getMonthValue(), identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getDayOfMonth(), identity())
         );
 
         return Bytes.reorder(encoded, offset, identity(), endianness);

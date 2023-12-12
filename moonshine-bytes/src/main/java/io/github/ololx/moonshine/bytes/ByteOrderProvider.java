@@ -33,12 +33,12 @@ public interface ByteOrderProvider {
     /**
      * Returns a byte index operator based on the given most significant byte.
      *
-     * @implSpec
-     * This method should return a non-null {@code ByteIndexOperator} instance
-     * for all valid byte orders.
-     *
      * @param size (value size) the number of bytes occupied by the value.
+     *
      * @return a {@code ByteIndexOperator} instance for the given byte order.
+     *
+     * @implSpec This method should return a non-null {@code ByteIndexOperator} instance
+     *     for all valid byte orders.
      */
     ByteIndexOperator provide(int size);
 }

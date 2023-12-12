@@ -34,14 +34,16 @@ public class CharEncoder implements ValueBytesEncoder<Character> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value the value type {@code Character} to be encoded
-     * @param offset the starting offset for encoding in the byte array
+     * @param value      the value type {@code Character} to be encoded
+     * @param offset     the starting offset for encoding in the byte array
      * @param endianness the endianness to be used for encoding
+     *
      * @return the byte array that contains the encoded value
      */
     @Override
     public byte[] encode(Character value, int offset, ByteIndexOperator endianness) {
         short shortValue = (short) value.charValue();
-        return ValueBytesEncoder.value16BitEncoder().encode(shortValue, offset, endianness);
+        return ValueBytesEncoder.value16BitEncoder()
+            .encode(shortValue, offset, endianness);
     }
 }

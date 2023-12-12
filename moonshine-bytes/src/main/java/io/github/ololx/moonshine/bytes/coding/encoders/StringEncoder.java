@@ -39,9 +39,10 @@ public class StringEncoder implements ValueBytesEncoder<String> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value the value type {@code String} to be encoded
-     * @param offset the starting offset for encoding in the byte array
+     * @param value      the value type {@code String} to be encoded
+     * @param offset     the starting offset for encoding in the byte array
      * @param endianness the endianness to be used for encoding
+     *
      * @return the byte array that contains the encoded value
      */
     @Override
@@ -51,7 +52,8 @@ public class StringEncoder implements ValueBytesEncoder<String> {
         }
 
         byte[][] encoded = new byte[value.length()][];
-        encoded[0] = ValueBytesEncoder.value16BitEncoder().encode((short) value.charAt(0), offset, identity());
+        encoded[0] = ValueBytesEncoder.value16BitEncoder()
+            .encode((short) value.charAt(0), offset, identity());
 
         for (int charIndex = 1; charIndex < value.length(); charIndex++) {
             encoded[charIndex] = charEncoder.encode(value.charAt(charIndex), identity());

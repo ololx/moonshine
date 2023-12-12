@@ -29,27 +29,26 @@ import java.util.Objects;
  * uses the MemoryMXBean to measure the amount of allocated bytes before and
  * after the code execution.
  *
- * @implNote This implementation tracks the total memory usage of the JVM before and
- * after the measurement period, then calculates the difference to determine
- * the total memory allocation.
- * @apiNote The returned {@link Memory} object represents the total memory allocation
- * during the measurement period.
- *
- * <p><strong>Example usage:</strong></p>
- * <pre>{@code
- * WholeMemoryAllocationMeter meter = new WholeMemoryAllocationMeter();
- *
- * meter.start();
- * // execute some code here
- * meter.stop();
- *
- * Memory allocatedMemory = meter.result();
- * }</pre>
- *
- * project moonshine
- * created 01.04.2023 18:42
- *
  * @author Alexander A. Kropotin
+ * @implNote This implementation tracks the total memory usage of the JVM before and
+ *     after the measurement period, then calculates the difference to determine
+ *     the total memory allocation.
+ * @apiNote The returned {@link Memory} object represents the total memory allocation
+ *     during the measurement period.
+ *
+ *     <p><strong>Example usage:</strong></p>
+ *     <pre>{@code
+ *     WholeMemoryAllocationMeter meter = new WholeMemoryAllocationMeter();
+ *
+ *     meter.start();
+ *     // execute some code here
+ *     meter.stop();
+ *
+ *     Memory allocatedMemory = meter.result();
+ *     }</pre>
+ *
+ *     project moonshine
+ *     created 01.04.2023 18:42
  */
 public class WholeMemoryAllocationMeter implements Measurer<Memory> {
 
@@ -84,12 +83,13 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
      *
      * @param threadMXBean the {@link ThreadMXBean} to use for memory usage
      *                     information
+     *
      * @throws NullPointerException if {@code threadMXBean} is {@code null}
      */
     WholeMemoryAllocationMeter(ThreadMXBean threadMXBean) {
         this.threadMXBean = Objects.requireNonNull(
-                threadMXBean,
-                "The thread MX bean must not be null"
+            threadMXBean,
+            "The thread MX bean must not be null"
         );
     }
 
@@ -142,7 +142,7 @@ public class WholeMemoryAllocationMeter implements Measurer<Memory> {
      * <p>This method should be called after {@link #stop()} method.</p>
      *
      * @return a {@link Memory} object representing the total memory allocation
-     * during the measurement period
+     *     during the measurement period
      */
     @Override
     public Memory result() {

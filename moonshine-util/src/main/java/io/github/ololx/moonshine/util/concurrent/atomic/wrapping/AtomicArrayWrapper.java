@@ -20,6 +20,11 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
 /**
  * A generic interface for working with atomic arrays.
  *
+ * @param <T> the type of elements stored in the array
+ *
+ * @author Alexander A. Kropotin
+ *     project moonshine
+ *     created 25.08.2023 16:07
  * @apiNote This interface provides atomic operations on arrays, allowing
  *     for concurrent modifications while maintaining consistency.
  *     Implementations of this interface may use various strategies
@@ -30,12 +35,6 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
  *     implementation details may vary, and the performance characteristics
  *     could be influenced by the underlying hardware, JVM, and concurrency
  *     mechanisms.
- *
- * @param <T> the type of elements stored in the array
- *
- * @author Alexander A. Kropotin
- *     project moonshine
- *     created 25.08.2023 16:07
  */
 public interface AtomicArrayWrapper<T> {
 

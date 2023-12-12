@@ -53,7 +53,7 @@ class AtomicLongArrayWrapperTest extends Specification {
         2      | [1, 2] as long[]
         3      | [1, 2, 3] as long[]
     }
-    
+
     def "length() - when get length then return correct length"() {
         given:
         def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])

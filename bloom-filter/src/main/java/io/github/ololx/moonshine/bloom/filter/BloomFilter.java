@@ -15,18 +15,27 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent;
+package io.github.ololx.moonshine.bloom.filter;
 
-import io.github.ololx.moonshine.util.BitCollection;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 /**
- * An interface for a concurrent bit collection, providing methods to manipulate
- * individual bits in a thread-safe manner.
- *
  * @author Alexander A. Kropotin
  *     project moonshine
- *     created 14.08.2023 13:51
- * @apiNote Implementations of this interface are expected to provide thread-safe
- *     behavior for all methods.
+ *     created 24/11/2023 11:25 am
  */
-public interface ConcurrentBitCollection extends BitCollection {}
+public interface BloomFilter<V> {
+
+    boolean add(Entry<V> value);
+
+    boolean contains(Entry<V> value);
+
+    interface Entry<V> {
+
+        V getValue();
+
+        byte[] getBytes();
+    }
+}

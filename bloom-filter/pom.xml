@@ -17,8 +17,8 @@
  - limitations under the License.
 -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,15 +32,14 @@
     <!--parent>-->
 
     <!--<artifact-->
-    <artifactId>moonshine-measuring</artifactId>
+    <artifactId>moonshine-bloom-filter</artifactId>
     <packaging>jar</packaging>
     <!--artifact>-->
 
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Measuring module contains classes - utilities for measuring application
-        performance: time measurement, cpu load measurement, memory allocation measurement, e.t.c.
+        The Moonshine Util module contains extensions of the Java Util classes.
     </description>
     <url>https://ololx.github.io/moonshine</url>
     <inceptionYear>2023</inceptionYear>
@@ -62,14 +61,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>nl.jqno.equalsverifier</groupId>
-            <artifactId>equalsverifier</artifactId>
+            <groupId>com.googlecode.multithreadedtc</groupId>
+            <artifactId>multithreadedtc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>

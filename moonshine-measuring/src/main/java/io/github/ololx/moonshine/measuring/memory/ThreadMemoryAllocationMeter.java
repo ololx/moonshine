@@ -29,31 +29,27 @@ import java.util.Objects;
  * uses the ThreadMXBean to measure the amount of allocated bytes before and
  * after the code execution.
  *
- * @implSpec
- * This implementation uses the {@link ThreadMXBean
- * #getThreadAllocatedBytes(long)} method to measure the amount of allocated
- * bytes before and after the code execution.
- *
- * @implNote
- * This implementation measures only the amount of memory allocated by the
- * current thread. To measure the memory allocation of multiple threads, use
- * a different implementation of the {@link Measurer} interface.
- *
- * <p><strong>Example usage:</strong></p>
- * <pre>{@code
- * ThreadMemoryAllocationMeter meter = new ThreadMemoryAllocationMeter();
- *
- * meter.start();
- * // execute some code here
- * meter.stop();
- *
- * Memory allocatedMemory = meter.result();
- * }</pre>
- *
- * project moonshine
- * created 01.04.2023 18:42
- *
  * @author Alexander A. Kropotin
+ * @implSpec This implementation uses the {@link ThreadMXBean
+ *     #getThreadAllocatedBytes(long)} method to measure the amount of allocated
+ *     bytes before and after the code execution.
+ * @implNote This implementation measures only the amount of memory allocated by the
+ *     current thread. To measure the memory allocation of multiple threads, use
+ *     a different implementation of the {@link Measurer} interface.
+ *
+ *     <p><strong>Example usage:</strong></p>
+ *     <pre>{@code
+ *     ThreadMemoryAllocationMeter meter = new ThreadMemoryAllocationMeter();
+ *
+ *     meter.start();
+ *     // execute some code here
+ *     meter.stop();
+ *
+ *     Memory allocatedMemory = meter.result();
+ *     }</pre>
+ *
+ *     project moonshine
+ *     created 01.04.2023 18:42
  */
 public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
 
@@ -89,12 +85,13 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      * the specified ThreadMXBean instance.
      *
      * @param threadMXBean the ThreadMXBean instance to use
+     *
      * @throws NullPointerException if threadMXBean is null
      */
     ThreadMemoryAllocationMeter(ThreadMXBean threadMXBean) {
         this.threadMXBean = Objects.requireNonNull(
-                threadMXBean,
-                "The thread MX bean must be not null"
+            threadMXBean,
+            "The thread MX bean must be not null"
         );
     }
 
@@ -108,7 +105,8 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      */
     @Override
     public ThreadMemoryAllocationMeter start() {
-        this.startUsedMemory = this.threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
+        this.startUsedMemory = this.threadMXBean.getThreadAllocatedBytes(Thread.currentThread()
+                                                                             .getId());
 
         return this;
     }
@@ -123,7 +121,8 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      */
     @Override
     public ThreadMemoryAllocationMeter stop() {
-        this.endUsedMemory = this.threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
+        this.endUsedMemory = this.threadMXBean.getThreadAllocatedBytes(Thread.currentThread()
+                                                                           .getId());
 
         return this;
     }
@@ -135,7 +134,7 @@ public class ThreadMemoryAllocationMeter implements Measurer<Memory> {
      * <p>This method should be called after {@link #stop()} method.</p>
      *
      * @return a Memory object representing the amount of memory allocated
-     * by the thread during the measurement period
+     *     by the thread during the measurement period
      */
     @Override
     public Memory result() {
