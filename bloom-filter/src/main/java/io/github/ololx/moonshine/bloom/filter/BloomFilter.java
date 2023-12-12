@@ -17,6 +17,10 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
@@ -24,11 +28,14 @@ package io.github.ololx.moonshine.bloom.filter;
  */
 public interface BloomFilter<V> {
 
-    boolean put(V value);
+    boolean add(Entry<V> value);
 
-    boolean mayContain(V value);
+    boolean contains(Entry<V> value);
 
-    default boolean notContain(V value) {
-        return !mayContain(value);
+    interface Entry<V> {
+
+        V getValue();
+
+        byte[] getBytes();
     }
 }
