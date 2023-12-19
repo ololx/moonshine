@@ -19,6 +19,7 @@ package io.github.ololx.moonshine.bloom.filter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -34,8 +35,11 @@ public interface BloomFilter<V> {
 
     interface Entry<V> {
 
-        V getValue();
-
         byte[] getBytes();
+    }
+
+    interface HashFunction<V> {
+
+        int apply(Entry<V> entry);
     }
 }
