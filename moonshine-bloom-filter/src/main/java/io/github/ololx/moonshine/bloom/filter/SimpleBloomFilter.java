@@ -25,21 +25,21 @@ import java.util.List;
  *     project moonshine
  *     created 18/12/2023 10:40 am
  */
-public class SimpleBloomFilter<V> implements BloomFilter<V> {
+public class SimpleBloomFilter implements BloomFilter {
 
     private final BitSet bits;
 
-    private final List<HashFunction<V>> hashes;
+    private final List<HashFunction> hashes;
 
-    public SimpleBloomFilter(int size, List<HashFunction<V>> hashes) {
+    public SimpleBloomFilter(int size, List<HashFunction> hashes) {
         this.bits = new BitSet(size);
         this.hashes = hashes;
     }
 
     @Override
-    public boolean add(final Entry<V> value) {
+    public boolean add(final BytesSupplier value) {
         this.hashes.forEach(vHashFunction -> {
-            int index = vHashFunction.apply(value);
+            int index = vHashFunction.apply(value.getBytes());
             index = index % this.bits.size();
             this.bits.set(index);
         });
@@ -48,9 +48,10 @@ public class SimpleBloomFilter<V> implements BloomFilter<V> {
     }
 
     @Override
-    public boolean contains(final Entry<V> value) {
-        for (HashFunction<V> vHashFunction : hashes) {
-            int index = vHashFunction.apply(value) % this.bits.size();
+    public boolean contains(final BytesSupplier value) {
+        for (HashFunction vHashFunction : hashes) {
+            int index = vHashFunction.apply(value.getBytes()) % this.bits.size();
+
             if (!this.bits.get(index)) {
                 return false;
             };

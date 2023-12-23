@@ -17,29 +17,24 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 24/11/2023 11:25 am
  */
-public interface BloomFilter<V> {
+public interface BloomFilter {
 
-    boolean add(Entry<V> value);
+    boolean add(BytesSupplier value);
 
-    boolean contains(Entry<V> value);
+    boolean contains(BytesSupplier value);
 
-    interface Entry<V> {
+    interface BytesSupplier {
 
         byte[] getBytes();
     }
 
-    interface HashFunction<V> {
+    interface HashFunction {
 
-        int apply(Entry<V> entry);
+        int apply(byte[] value);
     }
 }

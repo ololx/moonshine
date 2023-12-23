@@ -15,7 +15,7 @@ class SimpleBloomFilterTest extends Specification {
         given: "a SimpleBloomFilter with one unset bit and mock hash functions"
         BloomFilter.HashFunction hashFunctionStub1 = (vv) -> 3;
         BloomFilter.HashFunction hashFunctionStub2 = (vv) -> 7;
-        def entry = () -> byte[]::new
+        BloomFilter.BytesSupplier entry = () -> new byte[0]
         def bloomFilter = new SimpleBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
         bloomFilter.bits.set(3)
         bloomFilter.bits.set(7)
