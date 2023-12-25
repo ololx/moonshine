@@ -17,24 +17,20 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
+import io.github.ololx.moonshine.util.BitCollection;
+
+import java.util.Objects;
+
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
- *     created 24/11/2023 11:25 am
+ *     created 25/12/2023 12:09 pm
  */
-public interface BloomFilter {
+public abstract class AbstractBloomFilter implements BloomFilter {
 
-    boolean add(BytesSupplier value);
+    protected final BitCollection bits;
 
-    boolean absent(BytesSupplier value);
-
-    interface BytesSupplier {
-
-        byte[] getBytes();
-    }
-
-    interface HashFunction {
-
-        int apply(byte[] value);
+    AbstractBloomFilter(final BitCollection bits) {
+        this.bits = Objects.requireNonNull(bits, "The values set must be not null");
     }
 }

@@ -61,6 +61,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.ololx.moonshine</groupId>
+            <artifactId>moonshine-util</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.googlecode.multithreadedtc</groupId>
             <artifactId>multithreadedtc</artifactId>
         </dependency>

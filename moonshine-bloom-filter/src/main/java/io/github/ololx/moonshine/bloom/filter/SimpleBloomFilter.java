@@ -17,7 +17,8 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
-import java.util.BitSet;
+import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray;
+
 import java.util.List;
 
 /**
@@ -25,38 +26,39 @@ import java.util.List;
  *     project moonshine
  *     created 18/12/2023 10:40 am
  */
-public class SimpleBloomFilter implements BloomFilter {
-
-    private final BitSet bits;
+public class SimpleBloomFilter extends AbstractBloomFilter {
 
     private final List<HashFunction> hashes;
 
+    private final int size;
+
     public SimpleBloomFilter(int size, List<HashFunction> hashes) {
-        this.bits = new BitSet(size);
+        super(new ConcurrentBitArray(size));
+        this.size = size;
         this.hashes = hashes;
     }
 
     @Override
     public boolean add(final BytesSupplier value) {
-        this.hashes.forEach(vHashFunction -> {
+        for (HashFunction vHashFunction : hashes) {
             int index = vHashFunction.apply(value.getBytes());
-            index = index % this.bits.size();
+            index = index % this.size;
             this.bits.set(index);
-        });
+        }
 
         return true;
     }
 
     @Override
-    public boolean contains(final BytesSupplier value) {
+    public boolean absent(final BytesSupplier value) {
         for (HashFunction vHashFunction : hashes) {
-            int index = vHashFunction.apply(value.getBytes()) % this.bits.size();
+            int index = vHashFunction.apply(value.getBytes()) % this.size;
 
             if (!this.bits.get(index)) {
-                return false;
+                return true;
             };
         }
 
-        return true;
+        return false;
     }
 }

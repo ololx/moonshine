@@ -11,19 +11,18 @@ import spock.lang.Specification
 
 class SimpleBloomFilterTest extends Specification {
 
-    def "contains method should return false if any bit is not set"() {
-        given: "a SimpleBloomFilter with one unset bit and mock hash functions"
-        BloomFilter.HashFunction hashFunctionStub1 = (vv) -> 3;
-        BloomFilter.HashFunction hashFunctionStub2 = (vv) -> 7;
-        BloomFilter.BytesSupplier entry = () -> new byte[0]
+    def "absent - when filter doesn't contain #bytesSupplierValue then return true"() {
+        given:
+        BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
+        BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
+        BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
         def bloomFilter = new SimpleBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
-        bloomFilter.bits.set(3)
-        bloomFilter.bits.set(7)
 
-        when: "checking if the filter contains an entry"
-        def result = bloomFilter.contains(entry)
+        expect:
+        bloomFilter.absent(entry)
 
-        then: "returns false"
-        result
+        where:
+        bytesSupplierValue       | bits
+        new byte[0]              | [3, 7] as int[]
     }
 }
