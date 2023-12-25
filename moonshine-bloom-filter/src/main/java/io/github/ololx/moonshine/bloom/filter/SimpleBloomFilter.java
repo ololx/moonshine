@@ -56,7 +56,7 @@ public class SimpleBloomFilter extends AbstractBloomFilter {
 
             if (!this.bits.get(index)) {
                 return true;
-            };
+            }
         }
 
         return false;
