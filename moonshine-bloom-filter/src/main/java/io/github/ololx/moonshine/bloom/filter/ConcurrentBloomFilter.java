@@ -18,7 +18,10 @@
 package io.github.ololx.moonshine.bloom.filter;
 
 import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray;
+import io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,23 +29,29 @@ import java.util.List;
  *     project moonshine
  *     created 18/12/2023 10:40 am
  */
-public class SimpleBloomFilter extends AbstractBloomFilter {
+public class ConcurrentBloomFilter implements BloomFilter {
 
-    private final List<HashFunction> hashes;
+    private final ConcurrentBitCollection bits;
+
+    private final HashAlignmentPolicy indexPolicy;
+
+    private final List<HashFunction> hashing;
 
     private final int size;
 
-    public SimpleBloomFilter(int size, List<HashFunction> hashes) {
-        super(new ConcurrentBitArray(size));
+    public ConcurrentBloomFilter(int size, Collection<HashFunction> hashing) {
         this.size = size;
-        this.hashes = hashes;
+        this.bits = new ConcurrentBitArray(size);
+        this.hashing = new ArrayList<>(hashing);
+        this.indexPolicy = new CircularHashAlignmentPolicy(size);
     }
 
     @Override
     public boolean add(final BytesSupplier value) {
-        for (HashFunction vHashFunction : hashes) {
-            int index = vHashFunction.apply(value.getBytes());
-            index = index % this.size;
+        for (HashFunction function : hashing) {
+            int hash = function.apply(value.getBytes());
+            int index = indexPolicy.align(hash);
+
             this.bits.set(index);
         }
 
@@ -51,8 +60,9 @@ public class SimpleBloomFilter extends AbstractBloomFilter {
 
     @Override
     public boolean absent(final BytesSupplier value) {
-        for (HashFunction vHashFunction : hashes) {
-            int index = vHashFunction.apply(value.getBytes()) % this.size;
+        for (HashFunction function : hashing) {
+            int hash = function.apply(value.getBytes());
+            int index = indexPolicy.align(hash);
 
             if (!this.bits.get(index)) {
                 return true;
@@ -60,5 +70,19 @@ public class SimpleBloomFilter extends AbstractBloomFilter {
         }
 
         return false;
+    }
+
+    private static final class CircularHashAlignmentPolicy implements HashAlignmentPolicy {
+
+        private final int size;
+
+        private CircularHashAlignmentPolicy(final int size) {
+            this.size = size;
+        }
+
+        @Override
+        public int align(final int hash) {
+            return hash % this.size;
+        }
     }
 }

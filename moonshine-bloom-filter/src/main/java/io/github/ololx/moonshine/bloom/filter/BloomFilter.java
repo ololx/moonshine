@@ -37,4 +37,9 @@ public interface BloomFilter {
 
         int apply(byte[] value);
     }
+
+    interface HashAlignmentPolicy {
+
+        int align(int hash);
+    }
 }
