@@ -25,4 +25,57 @@ class ConcurrentBloomFilterTest extends Specification {
         bytesSupplierValue       | bits
         new byte[0]              | [3, 7] as int[]
     }
+
+    def "add - when a new value is added then relevant bits are set"() {
+        given:
+        BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
+        BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
+        BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
+        def bloomFilter = new ConcurrentBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+
+        when:
+        boolean result = bloomFilter.add(entry)
+
+        then:
+        result
+        bloomFilter.bits.get(bits[0])
+        bloomFilter.bits.get(bits[1])
+
+        where:
+        bytesSupplierValue       | bits
+        new byte[0]              | [3, 7] as int[]
+    }
+
+    def "absent - when value is present then return false"() {
+        given:
+        BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
+        BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
+        BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
+        def bloomFilter = new ConcurrentBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+        bloomFilter.bits.set(bits[0])
+        bloomFilter.bits.set(bits[1])
+
+        expect:
+        !bloomFilter.absent(entry)
+
+        where:
+        bytesSupplierValue       | bits
+        new byte[0]              | [3, 7] as int[]
+    }
+
+    def "add - when adding values concurrently then all bits are correctly set"() {
+        given:
+        int size = 10
+        BloomFilter.HashFunction hashFunctionStub = (value) -> Math.abs(Arrays.hashCode(value)) % size
+        def bloomFilter = new ConcurrentBloomFilter(size, [hashFunctionStub])
+        def entries = (0..20).collect { idx ->
+            return { -> String.format("entry%d", idx).getBytes() } as BloomFilter.BytesSupplier
+        }
+
+        when:
+        entries.parallelStream().forEach { bloomFilter.add(it) }
+
+        then:
+        entries.every { (!bloomFilter.absent(it))}
+    }
 }
