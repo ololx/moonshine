@@ -38,8 +38,9 @@ import java.util.function.Function;
  *     However, the accuracy of the Bloom filter is highly dependent on the quality and independence of the hash
  *     functions provided.
  *     It's crucial to use hash functions that distribute the elements uniformly over the bit array.
- * @project moonshine
- * @created 18/12/2023 10:40 am
+ *
+ *     project moonshine
+ *     created 18.12.2023 10:40
  */
 public class ConcurrentBloomFilter implements BloomFilter {
 
@@ -122,6 +123,27 @@ public class ConcurrentBloomFilter implements BloomFilter {
 
         return false;
     }
+
+    /**
+     * Returns the size of the Bloom filter. The size represents the number of bits in the underlying
+     * ConcurrentBitCollection and is an important factor that influences the probability of false positives.
+     * The size is indicative of the space complexity and capacity of the Bloom filter.
+     *
+     * @return the size of the Bloom filter as an integer, representing the number of bits in the underlying bit array.
+     *
+     * @apiNote The size of the Bloom filter determines its capacity to store elements and directly influences the
+     *     false
+     *     positive rate. A larger size typically means a lower false positive rate, but it also means higher space
+     *     consumption. Choosing the right size is crucial and should be based on the expected number of elements and
+     *     the acceptable false positive rate for your specific use case. In a concurrent environment, it's also
+     *     important
+     *     to ensure that the size is sufficient to minimize collisions and maintain performance.
+     */
+    @Override
+    public int size() {
+        return this.size;
+    }
+
 
     /**
      * Aligns a hash code to fit within the bounds of the bit array size.

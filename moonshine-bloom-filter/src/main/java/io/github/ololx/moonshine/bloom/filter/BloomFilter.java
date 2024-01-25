@@ -28,8 +28,9 @@ package io.github.ololx.moonshine.bloom.filter;
  *     for false positives. It's particularly useful when the cost of a false positive is less significant
  *     than the savings in space. However, it should not be used for security-sensitive applications
  *     where false positives can lead to vulnerabilities.
- * @project moonshine
- * @created 24/11/2023 11:25 am
+ *
+ *     project moonshine
+ *     created 24.11.2023 11:25
  */
 public interface BloomFilter {
 
@@ -58,6 +59,19 @@ public interface BloomFilter {
      *     but will never return false negatives (indicating a value is not in the set when it is).
      */
     boolean absent(BytesSupplier value);
+
+    /**
+     * Returns the size of the Bloom filter. The size is the total number of bits in the underlying bit array
+     * and is indicative of the space complexity of the filter. It's directly related to the capacity of the
+     * Bloom filter and its ability to minimize false positives.
+     *
+     * @return the size of the Bloom filter as an integer.
+     *
+     * @apiNote The size of the Bloom filter is a crucial factor in its effectiveness. A larger size reduces the
+     *     probability of false positives but increases the space usage. It's essential to balance the size
+     *     with the expected number of elements and the acceptable false positive rate based on the use case.
+     */
+    int size();
 
     /**
      * The BytesSupplier interface provides a method to supply bytes.
