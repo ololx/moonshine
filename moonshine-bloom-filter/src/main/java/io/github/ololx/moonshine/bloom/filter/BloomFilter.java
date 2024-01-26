@@ -74,6 +74,44 @@ public interface BloomFilter {
     int size();
 
     /**
+     * Returns the approximate number of distinct elements that have been added to the Bloom filter.
+     * This is not always precise due to the probabilistic nature of the Bloom filter, which may lead to overestimation.
+     *
+     * @return the approximate count of distinct elements in the Bloom filter.
+     *
+     * @apiNote The cardinality estimation is not exact and is subject to the specific characteristics of the
+     *     Bloom filter, such as its size and the number of hash functions used. As more elements are added,
+     *     the accuracy of the cardinality estimate may degrade.
+     */
+    int cardinality();
+
+    /**
+     * Checks whether the Bloom filter is empty, meaning no elements have been added to it.
+     *
+     * @return true if the Bloom filter is empty, false otherwise.
+     *
+     * @apiNote Being empty means all bits in the underlying bit array are unset. However, due to the probabilistic
+     *     nature of the Bloom filter, it's not possible to differentiate between an empty filter and a filter with
+     *     a sufficiently sparse population of elements. This method should be used with an understanding of the
+     *     Bloom filter's limitations.
+     */
+    boolean isEmpty();
+
+    /**
+     * Checks whether the Bloom filter contains any elements.
+     *
+     * @return true if the Bloom filter contains one or more elements, false if it's empty.
+     *
+     * @apiNote This method is the inverse of isEmpty(). It provides a more intuitive way to check for the presence of
+     *     elements in the Bloom filter, especially when you're expecting it to be populated. Note that due to the
+     *     probabilistic nature of the Bloom filter, a return value of true does not guarantee the presence of a
+     *     specific element.
+     */
+    default boolean isPresent() {
+        return !isEmpty();
+    }
+
+    /**
      * The BytesSupplier interface provides a method to supply bytes.
      * It's designed to abstract the way byte arrays are obtained.
      */

@@ -23,8 +23,6 @@ import io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * ConcurrentBloomFilter is a thread-safe implementation of the BloomFilter interface. It leverages concurrent data
@@ -144,6 +142,41 @@ public class ConcurrentBloomFilter implements BloomFilter {
         return this.size;
     }
 
+    /**
+     * Returns the approximate number of distinct elements that have been added to the Bloom filter.
+     * This count is derived from the underlying ConcurrentBitCollection, which may provide a more accurate
+     * count in a concurrent environment.
+     *
+     * @return the approximate count of distinct elements in the Bloom filter.
+     *
+     * @apiNote The cardinality estimation in the concurrent context may be subject to the behavior of the
+     *     underlying
+     *     concurrent data structure used for bit storage. It aims to provide a thread-safe estimate of the number of
+     *     elements added to the Bloom filter, but like all Bloom filters, it may not be perfectly accurate due to the
+     *     probabilistic nature of the data structure.
+     */
+    @Override
+    public int cardinality() {
+        return this.bits.cardinality();
+    }
+
+    /**
+     * Checks whether the Bloom filter is empty, meaning no elements have been added to it.
+     * This check is based on the cardinality of the underlying ConcurrentBitCollection.
+     *
+     * @return true if the Bloom filter is empty (cardinality is zero), false otherwise.
+     *
+     * @apiNote In a concurrent environment, the isEmpty check is thread-safe and reflects the state of the
+     *     Bloom filter at the moment of the call. However, due to the nature of concurrent operations, the state
+     *     can change rapidly, so the result should be used with an understanding that it may not represent
+     *     the state at a later time. An empty Bloom filter means that no bits are set in the bit array, but
+     *     like all Bloom filters, it does not guarantee that no elements have been added, especially in a
+     *     highly concurrent scenario.
+     */
+    @Override
+    public boolean isEmpty() {
+        return this.cardinality() == 0;
+    }
 
     /**
      * Aligns a hash code to fit within the bounds of the bit array size.
