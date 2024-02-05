@@ -70,6 +70,7 @@
         <module>moonshine-measuring</module>
         <module>moonshine-util</module>
         <module>moonshine-bloom-filter</module>
+        <module>moonshine-unsafe-adapter</module>
     </modules>
     <!--project modules>-->
 
