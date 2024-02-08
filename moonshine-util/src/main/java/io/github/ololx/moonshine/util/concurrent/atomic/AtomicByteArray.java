@@ -17,6 +17,7 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic;
 
+import io.github.moonshine.unsafe.adapter.AtomicAccess;
 import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
 import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 
@@ -290,7 +291,7 @@ public class AtomicByteArray {
      *         }</pre>
      */
     public final byte getAndUpdate(final int index, ByteUnaryOperator updateFunction) {
-        return byteArrayAtomicAccess.getAndUpdate(array, index, updateFunction);
+        return byteArrayAtomicAccess.getAndUpdate(array, index, updateFunction::applyAsByte);
     }
 
     /**
@@ -312,7 +313,7 @@ public class AtomicByteArray {
      *         }</pre>
      */
     public final byte updateAndGet(final int index, ByteUnaryOperator updateFunction) {
-        return byteArrayAtomicAccess.updateAndGet(array, index, updateFunction);
+        return byteArrayAtomicAccess.updateAndGet(array, index, updateFunction::applyAsByte);
     }
 
     /**
@@ -335,7 +336,7 @@ public class AtomicByteArray {
      *         }</pre>
      */
     public final byte getAndAccumulate(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
-        return byteArrayAtomicAccess.getAndAccumulate(array, index, update, accumulatorFunction);
+        return byteArrayAtomicAccess.getAndAccumulate(array, index, update, accumulatorFunction::applyAsByte);
     }
 
     /**
@@ -358,7 +359,7 @@ public class AtomicByteArray {
      *         }</pre>
      */
     public final byte accumulateAndGet(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
-        return byteArrayAtomicAccess.accumulateAndGet(array, index, update, accumulatorFunction);
+        return byteArrayAtomicAccess.accumulateAndGet(array, index, update, accumulatorFunction::applyAsByte);
     }
 
     /**

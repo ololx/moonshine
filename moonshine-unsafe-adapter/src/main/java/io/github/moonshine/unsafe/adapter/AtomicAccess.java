@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent.atomic;
+package io.github.moonshine.unsafe.adapter;
 
-import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
-import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -51,7 +49,7 @@ import java.lang.reflect.Field;
  *         }</pre>
  */
 @SuppressWarnings("sunapi")
-class AtomicAccess {
+public class AtomicAccess {
 
     /**
      * Constant representing the endianness of the system.
@@ -120,8 +118,8 @@ class AtomicAccess {
      * Determines whether the underlying platform uses <b>big-endian</b> or
      * <b>little-endian</b> byte order.
      *
-     * @return {@link Endianness#LE} if the platform uses little-endian byte order,
-     *     {@link Endianness#BE} if the platform uses big-endian byte order.
+     * @return {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#LE} if the platform uses little-endian byte order,
+     *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#BE} if the platform uses big-endian byte order.
      *
      * @throws Error if the byte order was be determined like middle-endian.
      * @throws Error if the byte order cannot be determined.
@@ -187,7 +185,7 @@ class AtomicAccess {
      * @return The offset of the field.
      *
      * @throws IllegalArgumentException if the field with the specified name does not exist in the class.
-     * @implSpec This method uses {@link Unsafe#objectFieldOffset(Field)} to obtain the offset of the field with
+     * @implSpec This method uses {@link sun.misc.Unsafe#objectFieldOffset(java.lang.reflect.Field)} to obtain the offset of the field with
      *     the specified name in the given class. The offset can be used to access the field's value in objects of the
      *     class. If a field with the specified name does not exist, a {@link NoSuchFieldException} will be thrown,
      *     wrapped in an {@link IllegalArgumentException}.
@@ -512,11 +510,11 @@ class AtomicAccess {
      *     which is determined during the initialization of the application.
      *     The actual endianness of the system hardware is unlikely to change while the application is running.
      *     Endianness refers to the byte order in which multi-byte data types are stored in memory.
-     *     It can be either {@link Endianness#BE} (most significant byte first) or
-     *     {@link Endianness#LE} (least significant byte first).
+     *     It can be either {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#BE} (most significant byte first) or
+     *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#LE} (least significant byte first).
      *     This information can be crucial when working with binary data formats that are shared
      *     between systems with different endianness.
-     * @see Endianness
+     * @see io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness
      * @see <a href="https://en.wikipedia.org/wiki/Endianness">Endianness</a>
      *
      *     Example usages:
@@ -687,7 +685,7 @@ class AtomicAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link ByteUnaryOperator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.AtomicAccess.ByteUnaryAccumulator} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj      the object containing the byte value
@@ -712,13 +710,13 @@ class AtomicAccess {
      *         // 'oldValue' contains the previous value, and the value at offset is incremented by 1.
      *         }</pre>
      */
-    public final byte getAndUpdateByte(final Object obj, final long offset, final ByteUnaryOperator updating) {
+    public final byte getAndUpdateByte(final Object obj, final long offset, final ByteUnaryAccumulator updating) {
         byte expected;
         byte newValue;
 
         do {
             expected = getByteVolatile(obj, offset);
-            newValue = updating.applyAsByte(expected);
+            newValue = updating.apply(expected);
         } while (!compareAndSwapByte(obj, offset, expected, newValue));
 
         return expected;
@@ -726,7 +724,7 @@ class AtomicAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link ByteUnaryOperator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.AtomicAccess.ByteUnaryAccumulator} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj      the object containing the byte value
@@ -751,13 +749,13 @@ class AtomicAccess {
      *         // 'newValue' contains the updated value.
      *         }</pre>
      */
-    public final byte updateAndGetByte(final Object obj, final long offset, final ByteUnaryOperator updating) {
+    public final byte updateAndGetByte(final Object obj, final long offset, final ByteUnaryAccumulator updating) {
         byte expected;
         byte newValue;
 
         do {
             expected = getByteVolatile(obj, offset);
-            newValue = updating.applyAsByte(expected);
+            newValue = updating.apply(expected);
         } while (!compareAndSwapByte(obj, offset, expected, newValue));
 
         return newValue;
@@ -765,7 +763,7 @@ class AtomicAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link ByteBinaryOperator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.AtomicAccess.ByteBinaryAccumulator} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj          the object containing the byte value
@@ -794,13 +792,13 @@ class AtomicAccess {
     public final byte getAndAccumulateByte(final Object obj,
                                            final long offset,
                                            final byte update,
-                                           final ByteBinaryOperator accumulation) {
+                                           final ByteBinaryAccumulator accumulation) {
         byte expected;
         byte newValue;
 
         do {
             expected = getByteVolatile(obj, offset);
-            newValue = accumulation.applyAsByte(expected, update);
+            newValue = accumulation.apply(expected, update);
         } while (!compareAndSwapByte(obj, offset, expected, newValue));
 
         return expected;
@@ -808,7 +806,7 @@ class AtomicAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link ByteBinaryOperator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.AtomicAccess.ByteBinaryAccumulator} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj          the object containing the byte value
@@ -837,13 +835,13 @@ class AtomicAccess {
     public final byte accumulateAndGetByte(final Object obj,
                                            final long offset,
                                            final byte update,
-                                           final ByteBinaryOperator accumulation) {
+                                           final ByteBinaryAccumulator accumulation) {
         byte expected;
         byte newValue;
 
         do {
             expected = getByteVolatile(obj, offset);
-            newValue = accumulation.applyAsByte(expected, update);
+            newValue = accumulation.apply(expected, update);
         } while (!compareAndSwapByte(obj, offset, expected, newValue));
 
         return newValue;
@@ -906,11 +904,11 @@ class AtomicAccess {
      * A class to provide atomic operations on byte arrays.
      *
      * @implSpec This class is designed for atomic operations on byte arrays using underlying
-     *     atomic memory access semantics provided by {@link AtomicAccess}. The operations include volatile gets/sets,
+     *     atomic memory access semantics provided by {@link io.github.moonshine.unsafe.adapter.AtomicAccess}. The operations include volatile gets/sets,
      *     atomic compare-and-swap, get-and-add, get-and-update, and accumulate operations.
-     * @see AtomicAccess
+     * @see io.github.moonshine.unsafe.adapter.AtomicAccess
      */
-    static class ByteArray {
+    public static class ByteArray {
 
         /**
          * Represents the class of a byte array.
@@ -960,9 +958,9 @@ class AtomicAccess {
          *
          * @return The byte value at the given index.
          *
-         * @implSpec This method leverages {@link AtomicAccess#getByteVolatile(Object, long)}
+         * @implSpec This method leverages {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getByteVolatile(Object, long)}
          *     to achieve volatile memory access semantics.
-         * @see AtomicAccess#getByteVolatile(Object, long)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getByteVolatile(Object, long)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1005,9 +1003,9 @@ class AtomicAccess {
          * @param index    The index of the element to update.
          * @param newValue The new byte value to set.
          *
-         * @implSpec This method uses {@link AtomicAccess#putByteVolatile(Object, long, byte)}
+         * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#putByteVolatile(Object, long, byte)}
          *     to provide volatile memory semantics.
-         * @see AtomicAccess#putByteVolatile(Object, long, byte)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#putByteVolatile(Object, long, byte)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1030,9 +1028,9 @@ class AtomicAccess {
          *
          * @return The previous value at the given index.
          *
-         * @implSpec This method uses {@link AtomicAccess#getAndSetByte(Object, long, byte)}
+         * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndSetByte(Object, long, byte)}
          *     for atomic updates.
-         * @see AtomicAccess#getAndSetByte(Object, long, byte)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndSetByte(Object, long, byte)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1057,9 +1055,9 @@ class AtomicAccess {
          * @return {@code true} if successful; or {@code false} if the actual value
          *     was not equal to the expected value.
          *
-         * @implSpec This method uses {@link AtomicAccess#compareAndSwapByte(Object, long, byte, byte)}
+         * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#compareAndSwapByte(Object, long, byte, byte)}
          *     for atomic comparison and swap.
-         * @see AtomicAccess#compareAndSwapByte(Object, long, byte, byte)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#compareAndSwapByte(Object, long, byte, byte)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1082,9 +1080,9 @@ class AtomicAccess {
          *
          * @return The previous value at the given index.
          *
-         * @implSpec This method uses {@link AtomicAccess#getAndAddByte(Object, long, byte)}
+         * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAddByte(Object, long, byte)}
          *     for atomic addition.
-         * @see AtomicAccess#getAndAddByte(Object, long, byte)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAddByte(Object, long, byte)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1107,9 +1105,9 @@ class AtomicAccess {
          *
          * @return The previous value at the given index.
          *
-         * @implSpec This method uses {@link AtomicAccess#getAndUpdateByte(Object, long, ByteUnaryOperator)}
+         * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteUnaryAccumulator)}
          *     for atomic updates.
-         * @see AtomicAccess#getAndUpdateByte(Object, long, ByteUnaryOperator)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteUnaryAccumulator)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1119,7 +1117,7 @@ class AtomicAccess {
          *         System.out.println(oldValue); // Prints 3
          *         }</pre>
          */
-        public byte getAndUpdate(final byte[] array, final int index, final ByteUnaryOperator updateFunction) {
+        public byte getAndUpdate(final byte[] array, final int index, final ByteUnaryAccumulator updateFunction) {
             return atomicAccess.getAndUpdateByte(array, checkedByteOffset(array, index), updateFunction);
         }
 
@@ -1133,9 +1131,9 @@ class AtomicAccess {
          *
          * @return The updated value at the given index.
          *
-         * @implSpec This method uses {@link AtomicAccess#updateAndGetByte(Object, long, ByteUnaryOperator)}
+         * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteUnaryAccumulator)}
          *     for atomic updates.
-         * @see AtomicAccess#updateAndGetByte(Object, long, ByteUnaryOperator)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteUnaryAccumulator)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1145,7 +1143,7 @@ class AtomicAccess {
          *         System.out.println(updatedValue); // Prints 4
          *         }</pre>
          */
-        public byte updateAndGet(final byte[] array, final int index, final ByteUnaryOperator updateFunction) {
+        public byte updateAndGet(final byte[] array, final int index, final ByteUnaryAccumulator updateFunction) {
             return atomicAccess.updateAndGetByte(array, checkedByteOffset(array, index), updateFunction);
         }
 
@@ -1160,9 +1158,9 @@ class AtomicAccess {
          * @return The previous value at the given index.
          *
          * @implSpec This method uses
-         *     {@link AtomicAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryOperator)}
+         *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteBinaryAccumulator)}
          *     for atomic accumulation.
-         * @see AtomicAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryOperator)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteBinaryAccumulator)
          *
          *     <p><strong>Example usage:</strong></p>
          *     <pre>{@code
@@ -1175,7 +1173,7 @@ class AtomicAccess {
         public byte getAndAccumulate(final byte[] array,
                                      final int index,
                                      final byte update,
-                                     final ByteBinaryOperator accumulatorFunction) {
+                                     final ByteBinaryAccumulator accumulatorFunction) {
             return atomicAccess.getAndAccumulateByte(
                 array,
                 checkedByteOffset(array, index),
@@ -1196,7 +1194,7 @@ class AtomicAccess {
          * @return The updated value at the given index.
          *
          * @implSpec This method uses
-         *     {@link AtomicAccess#accumulateAndGetByte(Object, long, byte, ByteBinaryOperator)}
+         *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteBinaryAccumulator)}
          *     for atomic accumulation.
          *
          *     <p><strong>Example usage:</strong></p>
@@ -1206,12 +1204,12 @@ class AtomicAccess {
          *         byte updatedValue = byteArray.accumulateAndGet(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
          *         System.out.println(updatedValue); // Prints 5
          *         }</pre>
-         * @see AtomicAccess#accumulateAndGetByte(Object, long, byte, ByteBinaryOperator)
+         * @see io.github.moonshine.unsafe.adapter.AtomicAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.AtomicAccess.ByteBinaryAccumulator)
          */
         public byte accumulateAndGet(final byte[] array,
                                      final int index,
                                      final byte update,
-                                     final ByteBinaryOperator accumulatorFunction) {
+                                     final ByteBinaryAccumulator accumulatorFunction) {
             return atomicAccess.accumulateAndGetByte(
                 array,
                 checkedByteOffset(array, index),
@@ -1219,5 +1217,48 @@ class AtomicAccess {
                 accumulatorFunction
             );
         }
+    }
+
+    /**
+     * A functional interface for binary operations on two byte values.
+     *
+     * @author Alexander A. Kropotin
+     *     project moonshine
+     *     created 01.09.2023 10:34
+     * @see java.util.function.BinaryOperator
+     */
+    @FunctionalInterface
+    public interface ByteBinaryAccumulator {
+
+        /**
+         * Applies this accumulator to the given byte operands.
+         *
+         * @param left  the first byte operand
+         * @param right the second byte operand
+         *
+         * @return the result of applying this operator to the operands
+         */
+        byte apply(byte left, byte right);
+    }
+
+    /**
+     * It represents an operation on a single byte-valued operand that produces a byte-valued result.
+     *
+     * @author Alexander A. Kropotin
+     *     project moonshine
+     *     created 01.09.2023 10:34
+     * @see java.util.function.UnaryOperator
+     */
+    @FunctionalInterface
+    public interface ByteUnaryAccumulator {
+
+        /**
+         * Applies this accumulator to the given operand.
+         *
+         * @param operand the operand to be operated on
+         *
+         * @return the result of applying this accumulator
+         */
+        byte apply(byte operand);
     }
 }

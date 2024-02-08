@@ -151,6 +151,11 @@
             </dependency>
             <dependency>
                 <groupId>io.github.ololx.moonshine</groupId>
+                <artifactId>moonshine-unsafe-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.ololx.moonshine</groupId>
                 <artifactId>moonshine-util</artifactId>
                 <version>${project.version}</version>
             </dependency>

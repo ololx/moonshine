@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent.atomic
+package io.github.moonshine.unsafe.adapter
 
 
 import groovy.transform.TupleConstructor
@@ -305,8 +305,8 @@ class AtomicAccessTest extends Specification {
 
         where:
         object                  | delta | newValue
-        new MutableInteger(0)   | 12    | 12
-        new MutableInteger(100) | 22    | 122
+        new MutableInteger(0)   | 12 | 12
+        new MutableInteger(100) | 22 | 122
     }
 
     def "getAndSetInt() - when in #object put #newValue then #object contains #newValue"() {

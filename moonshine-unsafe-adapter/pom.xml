@@ -17,8 +17,8 @@
  - limitations under the License.
 -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,17 +32,17 @@
     <!--parent>-->
 
     <!--<artifact-->
-    <artifactId>moonshine-util</artifactId>
+    <artifactId>moonshine-unsafe-adapter</artifactId>
     <packaging>jar</packaging>
     <!--artifact>-->
 
     <!--<info-->
     <name>${project.artifactId}</name>
     <description>
-        The Moonshine Util module contains extensions of the Java Util classes.
+        The Moonshine Unsafe Adapter module provides a set of Unsafe wrappers that group methods by themes and usage cases.
     </description>
     <url>https://ololx.github.io/moonshine</url>
-    <inceptionYear>2023</inceptionYear>
+    <inceptionYear>2024</inceptionYear>
     <!--info>-->
 
     <!--<developers and contributors-->
@@ -61,10 +61,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.ololx.moonshine</groupId>
-            <artifactId>moonshine-unsafe-adapter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.googlecode.multithreadedtc</groupId>
             <artifactId>multithreadedtc</artifactId>
         </dependency>
@@ -79,14 +75,6 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openjdk.jmh</groupId>
-            <artifactId>jmh-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openjdk.jmh</groupId>
-            <artifactId>jmh-generator-annprocess</artifactId>
         </dependency>
     </dependencies>
 
