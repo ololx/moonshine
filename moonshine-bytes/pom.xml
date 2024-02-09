@@ -62,12 +62,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.ololx.moonshine</groupId>
+            <artifactId>moonshine-unsafe-adapter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.ololx.moonshine</groupId>
+            <artifactId>moonshine-unsafe-adapter</artifactId>
         </dependency>
     </dependencies>
 

@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New factory method `from()` has been added to the Tuple collection, which allows to create
   new Tuple instance of given values.
 - New module with `Bloom filter` implementations.
+- New module `moonshine-unsafe-adapter` with collection of usable wrappers of the `Unsafe` class, where each wrapper contains methods grouped by one aim (or 
+  mission).
+
+### Changed
+- Move `AtomicAccess` class from module `moonshine-util` to module `moonshine-unsafe-adapter`.
+- Remove class `UnsafeHelper` in module `moonshine-bytes` and use `AtomicAccess` from module `moonshine-unsafe-adapter` instead.
 
 ## [0.13.0] - 2023-09-28
 
