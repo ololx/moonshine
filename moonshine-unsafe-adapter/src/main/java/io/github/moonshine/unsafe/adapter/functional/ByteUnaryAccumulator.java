@@ -15,14 +15,25 @@
  * limitations under the License.
  */
 
-package io.github.moonshine.unsafe.adapter;
+package io.github.moonshine.unsafe.adapter.functional;
 
 /**
+ * It represents an operation on a single byte-valued operand that produces a byte-valued result.
+ *
  * @author Alexander A. Kropotin
  *     project moonshine
- *     created 12/02/2024 3:56 pm
+ *     created 01.09.2023 10:34
+ * @see java.util.function.UnaryOperator
  */
-public interface AtomicVariableHandle {
+@FunctionalInterface
+public interface ByteUnaryAccumulator {
 
-
+    /**
+     * Applies this accumulator to the given operand.
+     *
+     * @param operand the operand to be operated on
+     *
+     * @return the result of applying this accumulator
+     */
+    byte apply(byte operand);
 }

@@ -15,14 +15,26 @@
  * limitations under the License.
  */
 
-package io.github.moonshine.unsafe.adapter;
+package io.github.moonshine.unsafe.adapter.functional;
 
 /**
+ * A functional interface for binary operations on two byte values.
+ *
  * @author Alexander A. Kropotin
  *     project moonshine
- *     created 12/02/2024 3:56 pm
+ *     created 01.09.2023 10:34
+ * @see java.util.function.BinaryOperator
  */
-public interface AtomicVariableHandle {
+@FunctionalInterface
+public interface ByteBinaryAccumulator {
 
-
+    /**
+     * Applies this accumulator to the given byte operands.
+     *
+     * @param left  the first byte operand
+     * @param right the second byte operand
+     *
+     * @return the result of applying this operator to the operands
+     */
+    byte apply(byte left, byte right);
 }
