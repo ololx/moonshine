@@ -20,9 +20,6 @@ package io.github.moonshine.unsafe.adapter;
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
- *     created 12/02/2024 3:56 pm
+ *     created 12/02/2024 3:56 pm
  */
-public interface AtomicVariableHandle {
-
-
-}
+public interface AtomicVariableHandle {}

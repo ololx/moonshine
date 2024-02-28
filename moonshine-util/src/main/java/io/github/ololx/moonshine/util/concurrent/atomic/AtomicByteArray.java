@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic;
 
-import io.github.moonshine.unsafe.adapter.AtomicAccess;
+import io.github.moonshine.unsafe.adapter.AtomicByteArrayHandle;
 import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
 import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 
@@ -33,7 +33,7 @@ import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
  *     project moonshine
  *     created 27.08.2023 16:08
  * @implNote All operations in this class are atomic, ensuring thread-safe access to the array.
- *     It uses underlying memory access provided by {@link AtomicAccess.ByteArray}.
+ *     It uses underlying memory access provided by {@link AtomicByteArrayHandle}.
  * @implSpec The atomic operations provided by this class guarantee atomicity of each individual operation but do
  *     not provide atomicity of sequences of operations. Users are responsible for ensuring that sequences of operations
  *     are performed atomically when required.
@@ -50,7 +50,7 @@ public class AtomicByteArray {
     /**
      * Provides atomic access to the byte array elements.
      */
-    private static final AtomicAccess.ByteArray byteArrayAtomicAccess = new AtomicAccess.ByteArray();
+    private static final AtomicByteArrayHandle byteArrayAtomicAccess = new AtomicByteArrayHandle();
 
     /**
      * The underlying byte array.
@@ -103,7 +103,7 @@ public class AtomicByteArray {
      * @param index    the index of the element to be set.
      * @param newValue the new byte value to be stored.
      *
-     * @see AtomicAccess.ByteArray#putVolatile(byte[], int, byte)
+     * @see AtomicByteArrayHandle#putVolatile(byte[], int, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -125,7 +125,7 @@ public class AtomicByteArray {
      *
      * @return the old byte value.
      *
-     * @see AtomicAccess.ByteArray#getAndSet(byte[], int, byte)
+     * @see AtomicByteArrayHandle#getAndSet(byte[], int, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -149,7 +149,7 @@ public class AtomicByteArray {
      * @return {@code true} if successful. {@code false} return indicates that the actual value was not equal to the
      *     expected value.
      *
-     * @see AtomicAccess.ByteArray#compareAndSwap(byte[], int, byte, byte)
+     * @see AtomicByteArrayHandle#compareAndSwap(byte[], int, byte, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -406,7 +406,7 @@ public class AtomicByteArray {
      *
      * @return the byte value at the given index.
      *
-     * @see AtomicAccess.ByteArray#getVolatile(byte[], int)
+     * @see AtomicByteArrayHandle#getVolatile(byte[], int)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
