@@ -32,7 +32,7 @@ import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator;
  *     atomic compare-and-swap, get-and-add, get-and-update, and accumulate operations.
  * @see io.github.moonshine.unsafe.adapter.AtomicAccess
  */
-public final class AtomicByteArrayHandle implements AtomicVariableHandle {
+public final class AtomicByteArrayAccess implements AtomicVarAccess {
 
     /**
      * Represents the class of a byte array.
