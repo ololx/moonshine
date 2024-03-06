@@ -31,10 +31,10 @@ class AtomicAccessTest extends Specification {
 
     def "endianness() - when Endianness was detected then return Endianness BigEndian or LittleEndian"() {
         given:
-        AtomicAccess atomicAccess = new AtomicAccess()
+        MemoryAccess atomicAccess = new MemoryAccess()
 
         when:
-        AtomicAccess.Endianness endianness = atomicAccess.endianness()
+        MemoryAccess.Endianness endianness = atomicAccess.endianness()
 
         then:
         endianness != null
@@ -44,7 +44,7 @@ class AtomicAccessTest extends Specification {
     @Unroll
     def "arrayBaseOffset() - when put #arrayClass then return offset"() {
         given:
-        AtomicAccess atomicAccess = new AtomicAccess()
+        MemoryAccess atomicAccess = new MemoryAccess()
 
         when:
         Integer arrayBaseOffset = atomicAccess.arrayBaseOffset(arrayClass)
@@ -59,7 +59,7 @@ class AtomicAccessTest extends Specification {
     @Unroll
     def "arrayIndexScale() - when put #arrayClass then return scale"() {
         given:
-        AtomicAccess atomicAccess = new AtomicAccess()
+        MemoryAccess atomicAccess = new MemoryAccess()
 
         when:
         Integer arrayIndexScale = atomicAccess.arrayIndexScale(byte[].class)
@@ -74,7 +74,7 @@ class AtomicAccessTest extends Specification {
     @Unroll
     def "objectFieldOffset() - when put #objClass and #fieldName then return scale"(Class<?> objClass, String fieldName) {
         given:
-        AtomicAccess atomicAccess = new AtomicAccess()
+        MemoryAccess atomicAccess = new MemoryAccess()
 
         when:
         Long objectFieldOffset = atomicAccess.objectFieldOffset(objClass, fieldName)
@@ -93,7 +93,7 @@ class AtomicAccessTest extends Specification {
 
     def "getByte() - when #object exists then return value of #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -108,7 +108,7 @@ class AtomicAccessTest extends Specification {
 
     def "getByteVolatile() - when #object exists then return value of #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -123,7 +123,7 @@ class AtomicAccessTest extends Specification {
 
     def "putByte() - when put #value in #object then value changed in #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -140,7 +140,7 @@ class AtomicAccessTest extends Specification {
 
     def "putByteVolatile() - when put #value in #object then value changed in #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -157,7 +157,7 @@ class AtomicAccessTest extends Specification {
 
     def "getInt() - when #object exists then return value of #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -172,7 +172,7 @@ class AtomicAccessTest extends Specification {
 
     def "getIntVolatile() - when #object exists then return value of #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -187,7 +187,7 @@ class AtomicAccessTest extends Specification {
 
     def "putInt() - when put #value in #object then value changed in #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -204,7 +204,7 @@ class AtomicAccessTest extends Specification {
 
     def "putIntVolatile() - when put #value in #object then value changed in #object field"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -221,7 +221,7 @@ class AtomicAccessTest extends Specification {
 
     def "compareAndSwapByte() - when #object contains #oldValue then swap on #newValue"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -239,7 +239,7 @@ class AtomicAccessTest extends Specification {
 
     def "getAndAddByte() - when in #object put #delta then #object contains #newValue"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -257,7 +257,7 @@ class AtomicAccessTest extends Specification {
 
     def "getAndAddByte() - when in #object put #newValue then #object contains #newValue"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -275,7 +275,7 @@ class AtomicAccessTest extends Specification {
 
     def "compareAndSwapInt() - when #object contains #oldValue then swap on #newValue"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -293,7 +293,7 @@ class AtomicAccessTest extends Specification {
 
     def "getAndAddInt() - when in #object put #delta then #object contains #newValue"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")
@@ -311,7 +311,7 @@ class AtomicAccessTest extends Specification {
 
     def "getAndSetInt() - when in #object put #newValue then #object contains #newValue"() {
         given:
-        def atomicAccess = new AtomicAccess()
+        def atomicAccess = new MemoryAccess()
 
         when:
         def valueOffset = atomicAccess.objectFieldOffset(object.class, "value")

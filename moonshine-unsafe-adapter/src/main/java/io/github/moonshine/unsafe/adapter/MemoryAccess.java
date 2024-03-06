@@ -51,7 +51,7 @@ import java.lang.reflect.Field;
  *         }</pre>
  */
 @SuppressWarnings("sunapi")
-public class AtomicAccess {
+public class MemoryAccess {
 
     /**
      * Constant representing the endianness of the system.
@@ -120,8 +120,8 @@ public class AtomicAccess {
      * Determines whether the underlying platform uses <b>big-endian</b> or
      * <b>little-endian</b> byte order.
      *
-     * @return {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#LE} if the platform uses little-endian byte order,
-     *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#BE} if the platform uses big-endian byte order.
+     * @return {@link MemoryAccess.Endianness#LE} if the platform uses little-endian byte order,
+     *     {@link MemoryAccess.Endianness#BE} if the platform uses big-endian byte order.
      *
      * @throws Error if the byte order was be determined like middle-endian.
      * @throws Error if the byte order cannot be determined.
@@ -512,11 +512,11 @@ public class AtomicAccess {
      *     which is determined during the initialization of the application.
      *     The actual endianness of the system hardware is unlikely to change while the application is running.
      *     Endianness refers to the byte order in which multi-byte data types are stored in memory.
-     *     It can be either {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#BE} (most significant byte first) or
-     *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness#LE} (least significant byte first).
+     *     It can be either {@link MemoryAccess.Endianness#BE} (most significant byte first) or
+     *     {@link MemoryAccess.Endianness#LE} (least significant byte first).
      *     This information can be crucial when working with binary data formats that are shared
      *     between systems with different endianness.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess.Endianness
+     * @see MemoryAccess.Endianness
      * @see <a href="https://en.wikipedia.org/wiki/Endianness">Endianness</a>
      *
      *     Example usages:

@@ -27,10 +27,10 @@ import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator;
  *     project moonshine
  *     created 28/02/2024 10:35 am
  * @implSpec This class is designed for atomic operations on byte arrays using underlying
- *     atomic memory access semantics provided by {@link io.github.moonshine.unsafe.adapter.AtomicAccess}. The
+ *     atomic memory access semantics provided by {@link MemoryAccess}. The
  *     operations include volatile gets/sets,
  *     atomic compare-and-swap, get-and-add, get-and-update, and accumulate operations.
- * @see io.github.moonshine.unsafe.adapter.AtomicAccess
+ * @see MemoryAccess
  */
 public final class AtomicByteArrayAccess implements AtomicVarAccess {
 
@@ -52,7 +52,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
     /**
      * Instance of {@code AtomicAccess} for atomic operations.
      */
-    private static final AtomicAccess atomicAccess = new AtomicAccess();
+    private static final MemoryAccess atomicAccess = new MemoryAccess();
 
     /**
      * Static initialization block for setting up class-level constants related to direct memory access.
@@ -82,9 +82,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      * @return The byte value at the given index.
      *
-     * @implSpec This method leverages {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getByteVolatile(Object, long)}
+     * @implSpec This method leverages {@link MemoryAccess#getByteVolatile(Object, long)}
      *     to achieve volatile memory access semantics.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getByteVolatile(Object, long)
+     * @see MemoryAccess#getByteVolatile(Object, long)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -127,9 +127,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      * @param index    The index of the element to update.
      * @param newValue The new byte value to set.
      *
-     * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#putByteVolatile(Object, long, byte)}
+     * @implSpec This method uses {@link MemoryAccess#putByteVolatile(Object, long, byte)}
      *     to provide volatile memory semantics.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#putByteVolatile(Object, long, byte)
+     * @see MemoryAccess#putByteVolatile(Object, long, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -152,9 +152,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      * @return The previous value at the given index.
      *
-     * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndSetByte(Object, long, byte)}
+     * @implSpec This method uses {@link MemoryAccess#getAndSetByte(Object, long, byte)}
      *     for atomic updates.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndSetByte(Object, long, byte)
+     * @see MemoryAccess#getAndSetByte(Object, long, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -179,9 +179,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      * @return {@code true} if successful; or {@code false} if the actual value
      *     was not equal to the expected value.
      *
-     * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#compareAndSwapByte(Object, long, byte, byte)}
+     * @implSpec This method uses {@link MemoryAccess#compareAndSwapByte(Object, long, byte, byte)}
      *     for atomic comparison and swap.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#compareAndSwapByte(Object, long, byte, byte)
+     * @see MemoryAccess#compareAndSwapByte(Object, long, byte, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -204,9 +204,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      * @return The previous value at the given index.
      *
-     * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAddByte(Object, long, byte)}
+     * @implSpec This method uses {@link MemoryAccess#getAndAddByte(Object, long, byte)}
      *     for atomic addition.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAddByte(Object, long, byte)
+     * @see MemoryAccess#getAndAddByte(Object, long, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -229,9 +229,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      * @return The previous value at the given index.
      *
-     * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)}
+     * @implSpec This method uses {@link MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)}
      *     for atomic updates.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)
+     * @see MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -255,9 +255,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      * @return The updated value at the given index.
      *
-     * @implSpec This method uses {@link io.github.moonshine.unsafe.adapter.AtomicAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)}
+     * @implSpec This method uses {@link MemoryAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)}
      *     for atomic updates.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)
+     * @see MemoryAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -282,9 +282,9 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      * @return The previous value at the given index.
      *
      * @implSpec This method uses
-     *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
      *     for atomic accumulation.
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -318,7 +318,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      * @return The updated value at the given index.
      *
      * @implSpec This method uses
-     *     {@link io.github.moonshine.unsafe.adapter.AtomicAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
+     *     {@link MemoryAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
      *     for atomic accumulation.
      *
      *     <p><strong>Example usage:</strong></p>
@@ -328,7 +328,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *         byte updatedValue = byteArray.accumulateAndGet(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
      *         System.out.println(updatedValue); // Prints 5
      *         }</pre>
-     * @see io.github.moonshine.unsafe.adapter.AtomicAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
+     * @see MemoryAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
      */
     public byte accumulateAndGet(final byte[] array,
                                  final int index,

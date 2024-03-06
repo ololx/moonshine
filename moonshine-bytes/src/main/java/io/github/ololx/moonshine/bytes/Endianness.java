@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.moonshine.unsafe.adapter.AtomicAccess;
+import io.github.moonshine.unsafe.adapter.MemoryAccess;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
 /**
@@ -89,7 +89,7 @@ public final class Endianness {
      * the Java virtual machine is running. This is determined at runtime by
      * the {@code AtomicAccess} class.
      */
-    static final ByteOrder NATIVE = AtomicAccess.SYSTEM_ENDIANNESS.isBigEndian()
+    static final ByteOrder NATIVE = MemoryAccess.SYSTEM_ENDIANNESS.isBigEndian()
                                     ? BIG_ENDIAN
                                     : LITTLE_ENDIAN;
 
