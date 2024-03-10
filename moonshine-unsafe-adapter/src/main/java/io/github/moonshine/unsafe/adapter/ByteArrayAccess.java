@@ -32,7 +32,7 @@ import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator;
  *     atomic compare-and-swap, get-and-add, get-and-update, and accumulate operations.
  * @see MemoryAccess
  */
-public final class AtomicByteArrayAccess implements AtomicVarAccess {
+public final class ByteArrayAccess implements VarAccess {
 
     /**
      * Represents the class of a byte array.
@@ -50,7 +50,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
     private static final int ARRAY_INDEX_OFFSET_SHIFT;
 
     /**
-     * Instance of {@code AtomicAccess} for atomic operations.
+     * Instance of {@link MemoryAccess} for atomic operations.
      */
     private static final MemoryAccess atomicAccess = new MemoryAccess();
 
@@ -75,6 +75,55 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
     }
 
     /**
+     * Returns the byte value at the given index of the byte array.
+     *
+     * @param array The byte array to fetch the value from.
+     * @param index The index of the element to fetch.
+     *
+     * @return The byte value at the given index.
+     *
+     * @implSpec This method leverages {@link MemoryAccess#getByte(Object, long)}
+     *     to fetch the byte value without volatile memory access semantics.
+     * @see MemoryAccess#getByte(Object, long)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte value = byteArray.get(array, 2);
+     *         System.out.println(value); // Prints 3
+     *         }</pre>
+     */
+    public byte get(final byte[] array, final int index) {
+        return atomicAccess.getByte(array, checkedByteOffset(array, index));
+    }
+
+    /**
+     * Sets the byte value at the given index of the byte array.
+     *
+     * @param array    The byte array to update.
+     * @param index    The index of the element to update.
+     * @param newValue The new byte value to set.
+     *
+     * @implSpec Although this method updates the byte array, it uses
+     * {@link MemoryAccess#putByteVolatile(Object, long, byte)} inadvertently mentioned in the code snippet.
+     * For non-volatile behavior, it should ideally use {@link MemoryAccess#putByte(Object, long, byte)}.
+     * This might be an oversight, as the method name does not imply volatile semantics.
+     * @see MemoryAccess#putByteVolatile(Object, long, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byteArray.set(array, 2, (byte) 8);
+     *         // Assuming intended non-volatile behavior, the example uses putByteVolatile.
+     *         }</pre>
+     */
+    public void set(final byte[] array, final int index, final byte newValue) {
+        atomicAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
+    }
+
+    /**
      * Returns the byte value at the given index of the byte array using volatile semantics.
      *
      * @param array The byte array to fetch the value from.
@@ -88,7 +137,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *                 AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *                 ByteArrayAccess byteArray = new ByteArrayAccess();
      *                 byte[] array = {1, 2, 3, 4, 5};
      *                 byte value = byteArray.getVolatile(array, 2);
      *                 System.out.println(value); // Prints 3
@@ -96,28 +145,6 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      */
     public byte getVolatile(final byte[] array, final int index) {
         return atomicAccess.getByteVolatile(array, checkedByteOffset(array, index));
-    }
-
-    /**
-     * Validates the index against the byte array bounds and calculates the byte offset.
-     *
-     * @param array The byte array to be checked.
-     * @param index The index to be checked.
-     *
-     * @return The calculated byte offset.
-     *
-     * @throws IndexOutOfBoundsException if the index is out of bounds.
-     * @implSpec This method calculates the offset for the given index in the byte array
-     *     based on the internal configuration set during class initialization.
-     */
-    private static long checkedByteOffset(final byte[] array, final int index) {
-        if (index < 0 || index >= array.length) {
-            throw new IndexOutOfBoundsException(String.format(
-                "The index %s out of a bounds [%s, %s]", index, 0, array.length - 1
-            ));
-        }
-
-        return ((long) index << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
     }
 
     /**
@@ -133,7 +160,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byteArray.putVolatile(array, 2, (byte) 8);
      *         }</pre>
@@ -158,7 +185,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte oldValue = byteArray.getAndSet(array, 2, (byte) 8);
      *         System.out.println(oldValue); // Prints 3
@@ -185,7 +212,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         boolean swapped = byteArray.compareAndSwap(array, 2, (byte) 3, (byte) 8);
      *         System.out.println(swapped); // Prints true
@@ -210,7 +237,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte oldValue = byteArray.getAndAdd(array, 2, (byte) 2);
      *         System.out.println(oldValue); // Prints 3
@@ -235,7 +262,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte oldValue = byteArray.getAndUpdate(array, 2, val -> (byte) (val + 1));
      *         System.out.println(oldValue); // Prints 3
@@ -261,7 +288,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte updatedValue = byteArray.updateAndGet(array, 2, val -> (byte) (val + 1));
      *         System.out.println(updatedValue); // Prints 4
@@ -288,7 +315,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte oldValue = byteArray.getAndAccumulate(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
      *         System.out.println(oldValue); // Prints 3
@@ -323,7 +350,7 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess.ByteArray byteArray = new AtomicAccess.ByteArray();
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte updatedValue = byteArray.accumulateAndGet(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
      *         System.out.println(updatedValue); // Prints 5
@@ -340,5 +367,27 @@ public final class AtomicByteArrayAccess implements AtomicVarAccess {
             update,
             accumulatorFunction
         );
+    }
+
+    /**
+     * Validates the index against the byte array bounds and calculates the byte offset.
+     *
+     * @param array The byte array to be checked.
+     * @param index The index to be checked.
+     *
+     * @return The calculated byte offset.
+     *
+     * @throws IndexOutOfBoundsException if the index is out of bounds.
+     * @implSpec This method calculates the offset for the given index in the byte array
+     *     based on the internal configuration set during class initialization.
+     */
+    private static long checkedByteOffset(final byte[] array, final int index) {
+        if (index < 0 || index >= array.length) {
+            throw new IndexOutOfBoundsException(String.format(
+                "The index %s out of a bounds [%s, %s]", index, 0, array.length - 1
+            ));
+        }
+
+        return ((long) index << ARRAY_INDEX_OFFSET_SHIFT) + ARRAY_BASE_OFFSET;
     }
 }

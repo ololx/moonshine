@@ -22,4 +22,4 @@ package io.github.moonshine.unsafe.adapter;
  *     project moonshine
  *     created 12/02/2024 3:56 pm
  */
-public interface AtomicVarAccess {}
+public interface VarAccess {}

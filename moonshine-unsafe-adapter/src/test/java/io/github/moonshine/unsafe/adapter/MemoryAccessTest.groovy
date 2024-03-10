@@ -27,7 +27,7 @@ import spock.lang.Unroll
  * project moonshine
  * created 16/09/2023 11:09 am
  */
-class AtomicAccessTest extends Specification {
+class MemoryAccessTest extends Specification {
 
     def "endianness() - when Endianness was detected then return Endianness BigEndian or LittleEndian"() {
         given:

@@ -39,7 +39,7 @@ import java.lang.reflect.Field;
  *
  *     Example usages:
  *     <pre>{@code
- *         AtomicAccess memoryAccess = new AtomicAccess();
+ *         MemoryAccess memoryAccess = new MemoryAccess();
  *         byte[] byteArray = new byte[2];
  *
  *         // CAS 2d (1t index) element of a byte array
@@ -51,7 +51,7 @@ import java.lang.reflect.Field;
  *         }</pre>
  */
 @SuppressWarnings("sunapi")
-public class MemoryAccess {
+public final class MemoryAccess {
 
     /**
      * Constant representing the endianness of the system.
@@ -167,7 +167,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Get the base offset of a byte array
      *         int baseOffset = memoryAccess.arrayBaseOffset(byte[].class);
@@ -194,7 +194,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *     AtomicAccess memoryAccess = new AtomicAccess();
+     *     MemoryAccess memoryAccess = new MemoryAccess();
      *
      *     // Get the field offset of a specific field in a class
      *     long fieldOffset = memoryAccess.objectFieldOffset(MyClass.class, "myField");
@@ -222,7 +222,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Get the index scale of an int array
      *         int indexScale = memoryAccess.arrayIndexScale(int[].class);
@@ -247,7 +247,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Reading a byte from a memory location
      *         Object obj = ...; // The object containing the memory location
@@ -271,7 +271,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Writing a byte to a memory location
      *         Object obj = ...; // The object containing the memory location
@@ -298,7 +298,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Reading an int from a memory location
      *         Object obj = ...; // The object containing the memory location
@@ -322,7 +322,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Writing an int to a memory location
      *         Object obj = ...; // The object containing the memory location
@@ -348,7 +348,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object to which to write the volatile byte
      *         long offset = ...; // The memory offset at which to write the volatile byte
@@ -373,7 +373,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object to which to write the volatile int
      *         long offset = ...; // The memory offset at which to write the volatile int
@@ -401,7 +401,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the byte field
      *         long offset = ...; // The memory offset of the byte field
@@ -435,7 +435,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the volatile byte field
      *         long offset = ...; // The memory offset of the volatile byte field
@@ -464,7 +464,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the byte field
      *         long offset = ...; // The memory offset of the byte field
@@ -521,7 +521,7 @@ public class MemoryAccess {
      *
      *     Example usages:
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Getting the system endianness
      *         Endianness systemEndianness = memoryAccess.endianness();
@@ -550,7 +550,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the volatile int field
      *         long offset = ...; // The memory offset of the volatile int field
@@ -578,7 +578,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the int field
      *         long offset = ...; // The memory offset of the int field
@@ -611,7 +611,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the int field
      *         long offset = ...; // The memory offset of the int field
@@ -639,7 +639,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the byte field
      *         long offset = ...; // The memory offset of the byte field
@@ -673,7 +673,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         Object obj = ...; // The object containing the int field
      *         long offset = ...; // The memory offset of the int field
@@ -701,7 +701,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Define a byte update function that increments the value by 1
      *         ByteUnaryOperator incrementByOne = value -> (byte) (value + 1);
@@ -740,7 +740,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Define a byte update function that doubles the value
      *         ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
@@ -780,7 +780,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Define a byte binary operator that adds the update value to the byte value
      *         ByteBinaryOperator addValue = (currentValue, update) -> (byte) (currentValue + update);
@@ -823,7 +823,7 @@ public class MemoryAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *         AtomicAccess memoryAccess = new AtomicAccess();
+     *         MemoryAccess memoryAccess = new MemoryAccess();
      *
      *         // Define a byte binary operator that subtracts the update value from the byte value
      *         ByteBinaryOperator subtractValue = (currentValue, update) -> (byte) (currentValue - update);
