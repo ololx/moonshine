@@ -195,4 +195,88 @@ class ByteArrayAccessTest extends Specification {
         then:
         thrown(IndexOutOfBoundsException)
     }
+
+    def "getOpaque() - when valid index then return byte value with opaque read semantics"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        expect:
+        byteArrayAccess.getOpaque(array, 0) == 1 as byte
+        byteArrayAccess.getOpaque(array, 1) == 2 as byte
+        byteArrayAccess.getOpaque(array, 2) == 3 as byte
+        byteArrayAccess.getOpaque(array, 3) == 4 as byte
+        byteArrayAccess.getOpaque(array, 4) == 5 as byte
+    }
+
+    def "setOpaque() - when valid index then update byte value with opaque write semantics"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.setOpaque(array, 0, (byte) 10)
+        byteArrayAccess.setOpaque(array, 4, (byte) 50)
+
+        then:
+        array[0] == 10
+        array[4] == 50
+    }
+
+    @Unroll
+    def "getOpaque() and setOpaque() - when set #value at index #index then getOpaque returns #value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [0, 0, 0, 0, 0] as byte[]
+
+        when:
+        byteArrayAccess.setOpaque(array, index, value as byte)
+
+        then:
+        byteArrayAccess.getOpaque(array, index) == value as byte
+
+        where:
+        index | value
+        0     | -128
+        1     | 127
+        2     | 0
+        3     | -1
+        4     | 1
+    }
+
+    def "setOpaque() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.setOpaque(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.setOpaque(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getOpaque() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getOpaque(array, -1)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getOpaque(array, array.length)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
 }
