@@ -216,6 +216,52 @@ public final class ByteArrayAccess implements VarAccess {
     }
 
     /**
+     * Returns the byte value at the given index of the byte array using volatile semantics.
+     *
+     * @param array The byte array to fetch the value from.
+     * @param index The index of the element to fetch.
+     *
+     * @return The byte value at the given index.
+     *
+     * @implSpec This method leverages {@link MemoryAccess#getByteVolatile(Object, long)}
+     *     to achieve volatile memory access semantics.
+     * @see MemoryAccess#getByteVolatile(Object, long)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte value = byteArray.getAcquire(array, 2);
+     *         System.out.println(value); // Prints 3
+     *         }</pre>
+     */
+    public byte getAcquire(final byte[] array, final int index) {
+        return memoryAccess.getByteVolatile(array, checkedByteOffset(array, index));
+    }
+
+    /**
+     * Sets the byte value at the given index of the byte array using volatile semantics.
+     *
+     * @param array    The byte array to update.
+     * @param index    The index of the element to update.
+     * @param newValue The new byte value to set.
+     *
+     * @implSpec This method uses {@link MemoryAccess#putByteVolatile(Object, long, byte)}
+     *     to provide volatile memory semantics.
+     * @see MemoryAccess#putByteVolatile(Object, long, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byteArray.setRelease(array, 2, (byte) 8);
+     *         }</pre>
+     */
+    public void setRelease(final byte[] array, final int index, final byte newValue) {
+        memoryAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
+    }
+
+    /**
      * Atomically sets the element at position {@code index} to the given {@code newValue}
      * and returns the old value.
      *

@@ -135,8 +135,8 @@ class ByteArrayAccessTest extends Specification {
         byteArrayAccess.setVolatile(array, 4, (byte) 50)
 
         then:
-        array[0] == 10
-        array[4] == 50
+        array[0] == 10 as byte
+        array[4] == 50 as byte
     }
 
     @Unroll
@@ -219,8 +219,8 @@ class ByteArrayAccessTest extends Specification {
         byteArrayAccess.setOpaque(array, 4, (byte) 50)
 
         then:
-        array[0] == 10
-        array[4] == 50
+        array[0] == 10 as byte
+        array[4] == 50 as byte
     }
 
     @Unroll
@@ -275,6 +275,90 @@ class ByteArrayAccessTest extends Specification {
 
         when:
         byteArrayAccess.getOpaque(array, array.length)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getAcquire() - when valid index then return byte value with acquire semantics"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        expect:
+        byteArrayAccess.getAcquire(array, 0) == 1 as byte
+        byteArrayAccess.getAcquire(array, 1) == 2 as byte
+        byteArrayAccess.getAcquire(array, 2) == 3 as byte
+        byteArrayAccess.getAcquire(array, 3) == 4 as byte
+        byteArrayAccess.getAcquire(array, 4) == 5 as byte
+    }
+
+    def "setRelease() - when valid index then update byte value with release semantics"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.setRelease(array, 0, (byte) 10)
+        byteArrayAccess.setRelease(array, 4, (byte) 50)
+
+        then:
+        array[0] == 10 as byte
+        array[4] == 50 as byte
+    }
+
+    @Unroll
+    def "getAcquire() and setRelease() - when set #value at index #index then getAcquire returns #value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [0, 0, 0, 0, 0] as byte[]
+
+        when:
+        byteArrayAccess.setRelease(array, index, value as byte)
+
+        then:
+        byteArrayAccess.getAcquire(array, index) == value as byte
+
+        where:
+        index | value
+        0     | -128
+        1     | 127
+        2     | 0
+        3     | -1
+        4     | 1
+    }
+
+    def "setRelease() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.setRelease(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.setRelease(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getAcquire() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAcquire(array, -1)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAcquire(array, array.length)
 
         then:
         thrown(IndexOutOfBoundsException)
