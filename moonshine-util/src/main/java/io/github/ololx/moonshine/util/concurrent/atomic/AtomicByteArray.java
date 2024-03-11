@@ -103,7 +103,7 @@ public class AtomicByteArray {
      * @param index    the index of the element to be set.
      * @param newValue the new byte value to be stored.
      *
-     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#putVolatile(byte[], int, byte)
+     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#setVolatile(byte[], int, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -114,7 +114,7 @@ public class AtomicByteArray {
      *         }</pre>
      */
     public void set(final int index, final byte newValue) {
-        byteArrayAtomicAccess.putVolatile(array, index, newValue);
+        byteArrayAtomicAccess.setVolatile(array, index, newValue);
     }
 
     /**

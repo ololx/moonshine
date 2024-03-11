@@ -52,19 +52,19 @@ public final class ByteArrayAccess implements VarAccess {
     /**
      * Instance of {@link MemoryAccess} for atomic operations.
      */
-    private static final MemoryAccess atomicAccess = new MemoryAccess();
+    private static final MemoryAccess memoryAccess = new MemoryAccess();
 
     /**
      * Static initialization block for setting up class-level constants related to direct memory access.
      */
     static {
         // Get the base offset of byte arrays for direct memory access.
-        ARRAY_BASE_OFFSET = atomicAccess.arrayBaseOffset(ARRAY_CLASS);
+        ARRAY_BASE_OFFSET = memoryAccess.arrayBaseOffset(ARRAY_CLASS);
 
         // Determine and Verify the index scale (the number of bytes between each element of the array) of byte
         // arrays.
         // In most JVM implementations, it should be as arrays are typically allocated in contiguous memory blocks.
-        int indexScale = atomicAccess.arrayIndexScale(ARRAY_CLASS);
+        int indexScale = memoryAccess.arrayIndexScale(ARRAY_CLASS);
         if ((indexScale & (indexScale - 1)) != 0) {
             throw new Error("The byte[] index scale is not a power of two");
         }
@@ -95,7 +95,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public byte get(final byte[] array, final int index) {
-        return atomicAccess.getByte(array, checkedByteOffset(array, index));
+        return memoryAccess.getByte(array, checkedByteOffset(array, index));
     }
 
     /**
@@ -120,7 +120,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public void set(final byte[] array, final int index, final byte newValue) {
-        atomicAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
+        memoryAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
     }
 
     /**
@@ -137,14 +137,14 @@ public final class ByteArrayAccess implements VarAccess {
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
-     *                 ByteArrayAccess byteArray = new ByteArrayAccess();
-     *                 byte[] array = {1, 2, 3, 4, 5};
-     *                 byte value = byteArray.getVolatile(array, 2);
-     *                 System.out.println(value); // Prints 3
-     *                 }</pre>
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte value = byteArray.getVolatile(array, 2);
+     *         System.out.println(value); // Prints 3
+     *         }</pre>
      */
     public byte getVolatile(final byte[] array, final int index) {
-        return atomicAccess.getByteVolatile(array, checkedByteOffset(array, index));
+        return memoryAccess.getByteVolatile(array, checkedByteOffset(array, index));
     }
 
     /**
@@ -162,11 +162,11 @@ public final class ByteArrayAccess implements VarAccess {
      *     <pre>{@code
      *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
-     *         byteArray.putVolatile(array, 2, (byte) 8);
+     *         byteArray.setVolatile(array, 2, (byte) 8);
      *         }</pre>
      */
-    public void putVolatile(final byte[] array, final int index, final byte newValue) {
-        atomicAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
+    public void setVolatile(final byte[] array, final int index, final byte newValue) {
+        memoryAccess.putByteVolatile(array, checkedByteOffset(array, index), newValue);
     }
 
     /**
@@ -192,7 +192,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public byte getAndSet(final byte[] array, final int index, final byte newValue) {
-        return atomicAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
+        return memoryAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
     }
 
     /**
@@ -219,7 +219,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public boolean compareAndSwap(final byte[] array, final int index, final byte expect, final byte update) {
-        return atomicAccess.compareAndSwapByte(array, checkedByteOffset(array, index), expect, update);
+        return memoryAccess.compareAndSwapByte(array, checkedByteOffset(array, index), expect, update);
     }
 
     /**
@@ -244,7 +244,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public byte getAndAdd(final byte[] array, final int index, final byte delta) {
-        return atomicAccess.getAndAddByte(array, checkedByteOffset(array, index), delta);
+        return memoryAccess.getAndAddByte(array, checkedByteOffset(array, index), delta);
     }
 
     /**
@@ -269,7 +269,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public byte getAndUpdate(final byte[] array, final int index, final ByteUnaryAccumulator updateFunction) {
-        return atomicAccess.getAndUpdateByte(array, checkedByteOffset(array, index), updateFunction);
+        return memoryAccess.getAndUpdateByte(array, checkedByteOffset(array, index), updateFunction);
     }
 
     /**
@@ -295,7 +295,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public byte updateAndGet(final byte[] array, final int index, final ByteUnaryAccumulator updateFunction) {
-        return atomicAccess.updateAndGetByte(array, checkedByteOffset(array, index), updateFunction);
+        return memoryAccess.updateAndGetByte(array, checkedByteOffset(array, index), updateFunction);
     }
 
     /**
@@ -325,7 +325,7 @@ public final class ByteArrayAccess implements VarAccess {
                                  final int index,
                                  final byte update,
                                  final ByteBinaryAccumulator accumulatorFunction) {
-        return atomicAccess.getAndAccumulateByte(
+        return memoryAccess.getAndAccumulateByte(
             array,
             checkedByteOffset(array, index),
             update,
@@ -361,7 +361,7 @@ public final class ByteArrayAccess implements VarAccess {
                                  final int index,
                                  final byte update,
                                  final ByteBinaryAccumulator accumulatorFunction) {
-        return atomicAccess.accumulateAndGetByte(
+        return memoryAccess.accumulateAndGetByte(
             array,
             checkedByteOffset(array, index),
             update,

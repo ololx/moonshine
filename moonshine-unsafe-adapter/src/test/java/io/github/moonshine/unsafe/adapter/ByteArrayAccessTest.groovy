@@ -34,11 +34,11 @@ class ByteArrayAccessTest extends Specification {
         byte[] array = [1, 2, 3, 4, 5] as byte[]
 
         expect:
-        byteArrayAccess.get(array, 0) == 1
-        byteArrayAccess.get(array, 1) == 2
-        byteArrayAccess.get(array, 2) == 3
-        byteArrayAccess.get(array, 3) == 4
-        byteArrayAccess.get(array, 4) == 5
+        byteArrayAccess.get(array, 0) == 1 as byte
+        byteArrayAccess.get(array, 1) == 2 as byte
+        byteArrayAccess.get(array, 2) == 3 as byte
+        byteArrayAccess.get(array, 3) == 4 as byte
+        byteArrayAccess.get(array, 4) == 5 as byte
     }
 
     def "set() - when valid index then update byte value in array"() {
@@ -51,8 +51,8 @@ class ByteArrayAccessTest extends Specification {
         byteArrayAccess.set(array, 4, (byte) 50)
 
         then:
-        array[0] == 10
-        array[4] == 50
+        array[0] == 10 as byte
+        array[4] == 50 as byte
     }
 
     @Unroll
@@ -65,7 +65,7 @@ class ByteArrayAccessTest extends Specification {
         byteArrayAccess.set(array, index, value as byte)
 
         then:
-        byteArrayAccess.get(array, index) == value
+        byteArrayAccess.get(array, index) == value as byte
 
         where:
         index | value
@@ -107,6 +107,90 @@ class ByteArrayAccessTest extends Specification {
 
         when:
         byteArrayAccess.get(array, array.length)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getVolatile() - when valid index then return byte value with volatile read semantics"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        expect:
+        byteArrayAccess.getVolatile(array, 0) == 1 as byte
+        byteArrayAccess.getVolatile(array, 1) == 2 as byte
+        byteArrayAccess.getVolatile(array, 2) == 3 as byte
+        byteArrayAccess.getVolatile(array, 3) == 4 as byte
+        byteArrayAccess.getVolatile(array, 4) == 5 as byte
+    }
+
+    def "setVolatile() - when valid index then update byte value with volatile write semantics"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.setVolatile(array, 0, (byte) 10)
+        byteArrayAccess.setVolatile(array, 4, (byte) 50)
+
+        then:
+        array[0] == 10
+        array[4] == 50
+    }
+
+    @Unroll
+    def "getVolatile() and setVolatile() - when set #value at index #index then getVolatile returns #value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [0, 0, 0, 0, 0] as byte[]
+
+        when:
+        byteArrayAccess.setVolatile(array, index, value as byte)
+
+        then:
+        byteArrayAccess.getVolatile(array, index) == value as byte
+
+        where:
+        index | value
+        0     | -128
+        1     | 127
+        2     | 0
+        3     | -1
+        4     | 1
+    }
+
+    def "setVolatile() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.setVolatile(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.setVolatile(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getVolatile() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getVolatile(array, -1)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getVolatile(array, array.length)
 
         then:
         thrown(IndexOutOfBoundsException)
