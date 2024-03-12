@@ -262,6 +262,33 @@ public final class ByteArrayAccess implements VarAccess {
     }
 
     /**
+     * Atomically updates the byte at the given index with the expected value.
+     *
+     * @param array  The byte array to update.
+     * @param index  The index of the element to update.
+     * @param expect The expected byte value.
+     * @param update The new byte value to set if the current value is {@code expect}.
+     *
+     * @return {@code true} if successful; or {@code false} if the actual value
+     *     was not equal to the expected value.
+     *
+     * @implSpec This method uses {@link MemoryAccess#compareAndSwapByte(Object, long, byte, byte)}
+     *     for atomic comparison and swap.
+     * @see MemoryAccess#compareAndSwapByte(Object, long, byte, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         boolean swapped = byteArray.compareAndSet(array, 2, (byte) 3, (byte) 8);
+     *         System.out.println(swapped); // Prints true
+     *         }</pre>
+     */
+    public boolean compareAndSet(final byte[] array, final int index, final byte expect, final byte update) {
+        return memoryAccess.compareAndSwapByte(array, checkedByteOffset(array, index), expect, update);
+    }
+
+    /**
      * Atomically sets the element at position {@code index} to the given {@code newValue}
      * and returns the old value.
      *
@@ -285,33 +312,6 @@ public final class ByteArrayAccess implements VarAccess {
      */
     public byte getAndSet(final byte[] array, final int index, final byte newValue) {
         return memoryAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
-    }
-
-    /**
-     * Atomically updates the byte at the given index with the expected value.
-     *
-     * @param array  The byte array to update.
-     * @param index  The index of the element to update.
-     * @param expect The expected byte value.
-     * @param update The new byte value to set if the current value is {@code expect}.
-     *
-     * @return {@code true} if successful; or {@code false} if the actual value
-     *     was not equal to the expected value.
-     *
-     * @implSpec This method uses {@link MemoryAccess#compareAndSwapByte(Object, long, byte, byte)}
-     *     for atomic comparison and swap.
-     * @see MemoryAccess#compareAndSwapByte(Object, long, byte, byte)
-     *
-     *     <p><strong>Example usage:</strong></p>
-     *     <pre>{@code
-     *         ByteArrayAccess byteArray = new ByteArrayAccess();
-     *         byte[] array = {1, 2, 3, 4, 5};
-     *         boolean swapped = byteArray.compareAndSwap(array, 2, (byte) 3, (byte) 8);
-     *         System.out.println(swapped); // Prints true
-     *         }</pre>
-     */
-    public boolean compareAndSwap(final byte[] array, final int index, final byte expect, final byte update) {
-        return memoryAccess.compareAndSwapByte(array, checkedByteOffset(array, index), expect, update);
     }
 
     /**

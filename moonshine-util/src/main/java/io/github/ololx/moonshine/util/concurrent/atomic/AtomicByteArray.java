@@ -149,7 +149,7 @@ public class AtomicByteArray {
      * @return {@code true} if successful. {@code false} return indicates that the actual value was not equal to the
      *     expected value.
      *
-     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#compareAndSwap(byte[], int, byte, byte)
+     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#compareAndSet(byte[], int, byte, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -159,7 +159,7 @@ public class AtomicByteArray {
      *         }</pre>
      */
     public boolean compareAndSet(final int index, final byte expect, final byte update) {
-        return byteArrayAtomicAccess.compareAndSwap(array, index, expect, update);
+        return byteArrayAtomicAccess.compareAndSet(array, index, expect, update);
     }
 
     /**

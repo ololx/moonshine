@@ -363,4 +363,51 @@ class ByteArrayAccessTest extends Specification {
         then:
         thrown(IndexOutOfBoundsException)
     }
+
+    @Unroll
+    def "compareAndSet() - when expected value at index #index is #expect then update to #update and return true"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        expect:
+        byteArrayAccess.compareAndSet(array, index, expect as byte, update as byte)
+        array[index] == update as byte
+
+        where:
+        index | expect | update
+        0     | 1      | 10
+        1     | 2      | 20
+        2     | 3      | 30
+        3     | 4      | 40
+        4     | 5      | 50
+    }
+
+    def "compareAndSet() - when actual value does not match expected then do not update and return false"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        expect:
+        !byteArrayAccess.compareAndSet(array, 2, (byte) 0, (byte) 8) // expected is 0, but actual is 3
+        array[2] == 3 as byte
+    }
+
+    def "compareAndSet() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.compareAndSet(array, -1, (byte) 10, (byte) 11)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.compareAndSet(array, array.length, (byte) 10, (byte) 11)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
 }
