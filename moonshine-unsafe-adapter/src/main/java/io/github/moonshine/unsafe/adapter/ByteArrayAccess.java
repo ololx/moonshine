@@ -393,6 +393,56 @@ public final class ByteArrayAccess implements VarAccess {
     }
 
     /**
+     * Atomically adds the given value to the element at the specified index.
+     *
+     * @param array The byte array to update.
+     * @param index The index of the element to update.
+     * @param delta The value to add.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses {@link MemoryAccess#getAndAddByte(Object, long, byte)}
+     *     for atomic addition.
+     * @see MemoryAccess#getAndAddByte(Object, long, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndAddAcquire(array, 2, (byte) 2);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndAddAcquire(final byte[] array, final int index, final byte delta) {
+        return memoryAccess.getAndAddByte(array, checkedByteOffset(array, index), delta);
+    }
+
+    /**
+     * Atomically adds the given value to the element at the specified index.
+     *
+     * @param array The byte array to update.
+     * @param index The index of the element to update.
+     * @param delta The value to add.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses {@link MemoryAccess#getAndAddByte(Object, long, byte)}
+     *     for atomic addition.
+     * @see MemoryAccess#getAndAddByte(Object, long, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndAddRelease(array, 2, (byte) 2);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndAddRelease(final byte[] array, final int index, final byte delta) {
+        return memoryAccess.getAndAddByte(array, checkedByteOffset(array, index), delta);
+    }
+
+    /**
      * Atomically updates the byte at the given index using the provided update function.
      *
      * @param array          The byte array to update.

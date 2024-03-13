@@ -488,4 +488,80 @@ class ByteArrayAccessTest extends Specification {
         then:
         thrown(IndexOutOfBoundsException)
     }
+
+    @Unroll
+    def "getAndAddAcquire() - when add #delta to element at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndAddAcquire(array, index, delta as byte )
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | delta | expectedPreviousValue | expectedNewValue
+        0     | 10    | 1                    | 11
+        1     | -5    | 2                    | -3
+        2     | 0     | 3                    | 3
+        3     | 2     | 4                    | 6
+        4     | -3    | 5                    | 2
+    }
+
+    def "getAndAddAcquire() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndAddAcquire(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndAddAcquire(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    @Unroll
+    def "getAndAddRelease() - when add #delta to element at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndAddRelease(array, index, delta as byte )
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | delta | expectedPreviousValue | expectedNewValue
+        0     | 10    | 1                    | 11
+        1     | -5    | 2                    | -3
+        2     | 0     | 3                    | 3
+        3     | 2     | 4                    | 6
+        4     | -3    | 5                    | 2
+    }
+
+    def "getAndAddRelease() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndAddRelease(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndAddRelease(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
 }
