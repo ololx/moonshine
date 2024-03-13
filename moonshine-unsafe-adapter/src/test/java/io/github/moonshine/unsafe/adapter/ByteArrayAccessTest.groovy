@@ -17,7 +17,8 @@
 
 package io.github.moonshine.unsafe.adapter
 
-
+import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator
+import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -389,7 +390,7 @@ class ByteArrayAccessTest extends Specification {
         byte[] array = [1, 2, 3, 4, 5] as byte[]
 
         expect:
-        !byteArrayAccess.compareAndSet(array, 2, (byte) 0, (byte) 8) // expected is 0, but actual is 3
+        !byteArrayAccess.compareAndSet(array, 2, (byte) 0, (byte) 8)
         array[2] == 3 as byte
     }
 
@@ -509,6 +510,44 @@ class ByteArrayAccessTest extends Specification {
         4     | -3    | 5                    | 2
     }
 
+    @Unroll
+    def "getAndAdd() - when add #delta to element at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndAdd(array, index, delta as byte)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | delta | expectedPreviousValue | expectedNewValue
+        0     | 10    | 1                    | 11
+        1     | -5    | 2                    | -3
+        2     | 0     | 3                    | 3
+        3     | 2     | 4                    | 6
+        4     | -3    | 5                    | 2
+    }
+
+    def "getAndAdd() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndAdd(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndAdd(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
     def "getAndAddAcquire() - when index out of bounds then throw IndexOutOfBoundsException"() {
         given:
         ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
@@ -563,5 +602,108 @@ class ByteArrayAccessTest extends Specification {
 
         then:
         thrown(IndexOutOfBoundsException)
+    }
+
+    @Unroll
+    def "getAndUpdate() - when update element at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        ByteUnaryAccumulator updateFunction = { byte val -> val + delta as byte}
+        byte previousValue = byteArrayAccess.getAndUpdate(array, index, updateFunction)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | delta | expectedPreviousValue | expectedNewValue
+        0     | 10    | 1                    | 11
+        1     | -5    | 2                    | -3
+        2     | 0     | 3                    | 3
+        3     | 2     | 4                    | 6
+        4     | -3    | 5                    | 2
+    }
+
+    def "getAndUpdate() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        ByteUnaryAccumulator updateFunction = {byte val -> val + delta }
+
+        when:
+        byteArrayAccess.getAndUpdate(array, -1, updateFunction)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndUpdate(array, array.length, updateFunction)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    @Unroll
+    def "updateAndGet() - when update element at index #index then return updated value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        ByteUnaryAccumulator updateFunction = { byte val -> val + delta as byte }
+        byte updatedValue = byteArrayAccess.updateAndGet(array, index, updateFunction)
+
+        expect:
+        updatedValue == expectedUpdatedValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | delta | expectedUpdatedValue | expectedNewValue
+        0     | 10    | 11                   | 11
+        1     | -5    | -3                   | -3
+        2     | 0     | 3                    | 3
+        3     | 2     | 6                    | 6
+        4     | -3    | 2                    | 2
+    }
+
+    @Unroll
+    def "getAndAccumulate() - when accumulate #update with element at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        ByteBinaryAccumulator accumulatorFunction = { byte a, byte b -> a as byte + b as byte }
+        byte previousValue = byteArrayAccess.getAndAccumulate(array, index, update as byte, accumulatorFunction)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | update | expectedPreviousValue | expectedNewValue
+        0     | 10     | 1                     | 11
+        1     | -5     | 2                     | -3
+        2     | 0      | 3                     | 3
+        3     | 2      | 4                     | 6
+        4     | -3     | 5                     | 2
+    }
+
+    @Unroll
+    def "accumulateAndGet() - when accumulate #update with element at index #index then return updated value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        ByteBinaryAccumulator accumulatorFunction = {byte a, byte b -> a as byte + b as byte }
+        byte updatedValue = byteArrayAccess.accumulateAndGet(array, index, update as byte, accumulatorFunction)
+
+        expect:
+        updatedValue == expectedUpdatedValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | update | expectedUpdatedValue | expectedNewValue
+        0     | 10     | 11                    | 11
+        1     | -5     | -3                    | -3
+        2     | 0      | 3                     | 3
+        3     | 2      | 6                     | 6
+        4     | -3     | 2                     | 2
     }
 }
