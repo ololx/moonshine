@@ -19,6 +19,7 @@ package io.github.moonshine.unsafe.adapter;
 
 import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator;
 import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator;
+import jdk.internal.util.Preconditions;
 
 /**
  * A class to provide atomic operations on byte arrays.
@@ -311,6 +312,58 @@ public final class ByteArrayAccess implements VarAccess {
      *         }</pre>
      */
     public byte getAndSet(final byte[] array, final int index, final byte newValue) {
+        return memoryAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
+    }
+
+    /**
+     * Atomically sets the element at position {@code index} to the given {@code newValue}
+     * and returns the old value with acquire memory ordering semantics.
+     *
+     * @param array    The byte array to update.
+     * @param index    The index of the element to update.
+     * @param newValue The new byte value to set.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses {@link MemoryAccess#getAndSetByte(Object, long, byte)}
+     *     for atomic updates with acquire memory ordering semantics.
+     * @see MemoryAccess#getAndSetByte(Object, long, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndSetAcquire(array, 2, (byte) 8);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndSetAcquire(final byte[] array, final int index, final byte newValue) {
+        return memoryAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
+    }
+
+    /**
+     * Atomically sets the element at position {@code index} to the given {@code newValue}
+     * and returns the old value with release memory ordering semantics.
+     *
+     * @param array    The byte array to update.
+     * @param index    The index of the element to update.
+     * @param newValue The new byte value to set.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses {@link MemoryAccess#getAndSetByte(Object, long, byte)}
+     *     for atomic updates with release memory ordering semantics.
+     * @see MemoryAccess#getAndSetByte(Object, long, byte)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndSetRelease(array, 2, (byte) 8);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndSetRelease(final byte[] array, final int index, final byte newValue) {
         return memoryAccess.getAndSetByte(array, checkedByteOffset(array, index), newValue);
     }
 

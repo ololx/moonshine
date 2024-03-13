@@ -1,5 +1,6 @@
 package io.github.moonshine.unsafe.adapter.functional
 
+import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -15,7 +16,7 @@ class ByteBinaryAccumulatorTest extends Specification {
     @Unroll
     def "apply() - when given operands #leftOperand and #rightOperand then returns #expectedResult"() {
         given:
-        ByteBinaryAccumulator accumulator = { byte left, byte right -> (byte) (left + right) } as ByteBinaryAccumulator
+        ByteBinaryAccumulator accumulator = {byte left, byte right -> (byte) (left + right) } as ByteBinaryAccumulator
 
         when:
         byte result = accumulator.apply(leftOperand, rightOperand)

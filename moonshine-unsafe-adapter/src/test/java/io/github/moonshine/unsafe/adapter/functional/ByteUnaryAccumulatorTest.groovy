@@ -1,5 +1,6 @@
 package io.github.moonshine.unsafe.adapter.functional
 
+import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator
 import spock.lang.Specification
 import spock.lang.Unroll
 
