@@ -706,4 +706,42 @@ class ByteArrayAccessTest extends Specification {
         3     | 2      | 6                     | 6
         4     | -3     | 2                     | 2
     }
+
+    @Unroll
+    def "getAndBitwiseOr() - when perform bitwise OR operation with #update at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndBitwiseOr(array, index, update as byte)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | update | expectedPreviousValue | expectedNewValue
+        0     | 10     | 1                     | 11
+        1     | -5     | 2                     | -5
+        2     | 0      | 3                     | 3
+        3     | 2      | 4                     | 6
+        4     | -3     | 5                     | -3
+    }
+
+    def "getAndBitwiseOr() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndBitwiseOr(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndBitwiseOr(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
 }

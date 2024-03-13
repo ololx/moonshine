@@ -36,5 +36,20 @@ public interface ByteBinaryAccumulator {
      *
      * @return the result of applying this operator to the operands
      */
-    byte apply(byte left, byte right);
+    byte apply(final byte left, final byte right);
+
+    /**
+     * Returns a ByteBinaryAccumulator that performs a bitwise OR operation on its operands.
+     *
+     * @return a ByteBinaryAccumulator that performs a bitwise OR operation
+     *
+     * @implNote This method returns a lambda expression that performs a bitwise OR operation
+     *     between the left and right operands and casts the result to byte.
+     * @implSpec The returned ByteBinaryAccumulator is stateless and thread-safe when used as intended.
+     *     Implementations may choose to cache instances for performance.
+     * @see ByteBinaryAccumulator
+     */
+    public static ByteBinaryAccumulator bitwiseOr() {
+        return (left, right) -> (byte) (left | right);
+    }
 }

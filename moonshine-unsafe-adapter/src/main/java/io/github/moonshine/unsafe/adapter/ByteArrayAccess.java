@@ -565,6 +565,41 @@ public final class ByteArrayAccess implements VarAccess {
     }
 
     /**
+     * Atomically updates the byte at the given index by performing a bitwise OR operation with the provided update
+     * value,
+     * and then returns the previous value.
+     *
+     * @param array  The byte array to update.
+     * @param index  The index of the element to update.
+     * @param update The byte value to perform the bitwise OR operation with.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
+     *     for atomic accumulation with a bitwise OR operation.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndBitwiseOr(array, 2, (byte) 2);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndBitwiseOr(final byte[] array, final int index, final byte update) {
+        return memoryAccess.getAndAccumulateByte(
+            array,
+            checkedByteOffset(array, index),
+            update,
+            ByteBinaryAccumulator.bitwiseOr()
+        );
+    }
+
+    /**
      * Validates the index against the byte array bounds and calculates the byte offset.
      *
      * @param array The byte array to be checked.
