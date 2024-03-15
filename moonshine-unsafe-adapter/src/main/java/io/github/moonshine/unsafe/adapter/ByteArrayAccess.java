@@ -17,9 +17,8 @@
 
 package io.github.moonshine.unsafe.adapter;
 
-import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator;
-import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator;
-import jdk.internal.util.Preconditions;
+import io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction;
+import io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction;
 
 /**
  * A class to provide atomic operations on byte arrays.
@@ -451,9 +450,9 @@ public final class ByteArrayAccess implements VarAccess {
      *
      * @return The previous value at the given index.
      *
-     * @implSpec This method uses {@link MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)}
+     * @implSpec This method uses {@link MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction)}
      *     for atomic updates.
-     * @see MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)
+     * @see MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -463,7 +462,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         System.out.println(oldValue); // Prints 3
      *         }</pre>
      */
-    public byte getAndUpdate(final byte[] array, final int index, final ByteUnaryAccumulator updateFunction) {
+    public byte getAndUpdate(final byte[] array, final int index, final ByteUnaryFunction updateFunction) {
         return memoryAccess.getAndUpdateByte(array, checkedByteOffset(array, index), updateFunction);
     }
 
@@ -477,9 +476,9 @@ public final class ByteArrayAccess implements VarAccess {
      *
      * @return The updated value at the given index.
      *
-     * @implSpec This method uses {@link MemoryAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)}
+     * @implSpec This method uses {@link MemoryAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction)}
      *     for atomic updates.
-     * @see MemoryAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator)
+     * @see MemoryAccess#updateAndGetByte(Object, long, io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -489,7 +488,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         System.out.println(updatedValue); // Prints 4
      *         }</pre>
      */
-    public byte updateAndGet(final byte[] array, final int index, final ByteUnaryAccumulator updateFunction) {
+    public byte updateAndGet(final byte[] array, final int index, final ByteUnaryFunction updateFunction) {
         return memoryAccess.updateAndGetByte(array, checkedByteOffset(array, index), updateFunction);
     }
 
@@ -499,14 +498,14 @@ public final class ByteArrayAccess implements VarAccess {
      * @param array               The byte array to update.
      * @param index               The index of the element to update.
      * @param update              The byte value to use with the accumulator function.
-     * @param accumulatorFunction A binary operator function to apply.
+     * @param binaryFunction A binary operator function to apply.
      *
      * @return The previous value at the given index.
      *
      * @implSpec This method uses
-     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)}
      *     for atomic accumulation.
-     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -519,12 +518,12 @@ public final class ByteArrayAccess implements VarAccess {
     public byte getAndAccumulate(final byte[] array,
                                  final int index,
                                  final byte update,
-                                 final ByteBinaryAccumulator accumulatorFunction) {
+                                 final ByteBinaryFunction binaryFunction) {
         return memoryAccess.getAndAccumulateByte(
             array,
             checkedByteOffset(array, index),
             update,
-            accumulatorFunction
+            binaryFunction
         );
     }
 
@@ -535,12 +534,12 @@ public final class ByteArrayAccess implements VarAccess {
      * @param array               The byte array to update.
      * @param index               The index of the element to update.
      * @param update              The byte value to use with the accumulator function.
-     * @param accumulatorFunction A binary operator function to apply.
+     * @param binaryFunction A binary operator function to apply.
      *
      * @return The updated value at the given index.
      *
      * @implSpec This method uses
-     *     {@link MemoryAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
+     *     {@link MemoryAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)}
      *     for atomic accumulation.
      *
      *     <p><strong>Example usage:</strong></p>
@@ -550,17 +549,121 @@ public final class ByteArrayAccess implements VarAccess {
      *         byte updatedValue = byteArray.accumulateAndGet(array, 2, (byte) 2, (a, b) -> (byte) (a + b));
      *         System.out.println(updatedValue); // Prints 5
      *         }</pre>
-     * @see MemoryAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
+     * @see MemoryAccess#accumulateAndGetByte(Object, long, byte, io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)
      */
     public byte accumulateAndGet(final byte[] array,
                                  final int index,
                                  final byte update,
-                                 final ByteBinaryAccumulator accumulatorFunction) {
+                                 final ByteBinaryFunction binaryFunction) {
         return memoryAccess.accumulateAndGetByte(
             array,
             checkedByteOffset(array, index),
             update,
-            accumulatorFunction
+            binaryFunction
+        );
+    }
+
+    /**
+     * Atomically updates the byte at the given index by performing a bitwise OR operation with the provided operand
+     * value,
+     * and then returns the previous value.
+     *
+     * @param array  The byte array to operand.
+     * @param index  The index of the element to operand.
+     * @param operand The byte value to perform the bitwise OR operation with.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)}
+     *     for atomic accumulation with a bitwise OR operation.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndBitwiseOr(array, 2, (byte) 2);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndBitwiseOr(final byte[] array, final int index, final byte operand) {
+        return memoryAccess.getAndAccumulateByte(
+            array,
+            checkedByteOffset(array, index),
+            operand,
+            ByteBinaryFunction.bitwiseOr()
+        );
+    }
+
+    /**
+     * Atomically updates the byte at the given index by performing a bitwise AND operation with the provided operand
+     * value,
+     * and then returns the previous value.
+     *
+     * @param array  The byte array to operand.
+     * @param index  The index of the element to operand.
+     * @param operand The byte value to perform the bitwise AND operation with.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)}
+     *     for atomic accumulation with a bitwise OR operation.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndBitwiseAnd(array, 0, (byte) 2);
+     *         System.out.println(oldValue);
+     *         }</pre>
+     */
+    public byte getAndBitwiseAnd(final byte[] array, final int index, final byte operand) {
+        return memoryAccess.getAndAccumulateByte(
+            array,
+            checkedByteOffset(array, index),
+            operand,
+            ByteBinaryFunction.bitwiseAnd()
+        );
+    }
+
+    /**
+     * Atomically updates the byte at the given index by performing a bitwise XOR
+     * operation with the provided operand value,and then returns the previous value.
+     *
+     * @param array  The byte array to operand.
+     * @param index  The index of the element to operand.
+     * @param operand The byte value to perform the bitwise OR operation with.
+     *
+     * @return The previous value at the given index.
+     *
+     * @implSpec This method uses
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)}
+     *     for atomic accumulation with a bitwise OR operation.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte,
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         ByteArrayAccess byteArray = new ByteArrayAccess();
+     *         byte[] array = {1, 2, 3, 4, 5};
+     *         byte oldValue = byteArray.getAndBitwiseOr(array, 2, (byte) 2);
+     *         System.out.println(oldValue); // Prints 3
+     *         }</pre>
+     */
+    public byte getAndBitwiseXor(final byte[] array, final int index, final byte operand) {
+        return memoryAccess.getAndAccumulateByte(
+            array,
+            checkedByteOffset(array, index),
+            operand,
+            ByteBinaryFunction.bitwiseXor()
         );
     }
 
@@ -571,16 +674,15 @@ public final class ByteArrayAccess implements VarAccess {
      *
      * @param array  The byte array to update.
      * @param index  The index of the element to update.
-     * @param update The byte value to perform the bitwise OR operation with.
      *
      * @return The previous value at the given index.
      *
      * @implSpec This method uses
      *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte,
-     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)}
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)}
      *     for atomic accumulation with a bitwise OR operation.
      * @see MemoryAccess#getAndAccumulateByte(Object, long, byte,
-     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator)
+     *     io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -590,12 +692,11 @@ public final class ByteArrayAccess implements VarAccess {
      *         System.out.println(oldValue); // Prints 3
      *         }</pre>
      */
-    public byte getAndBitwiseOr(final byte[] array, final int index, final byte update) {
-        return memoryAccess.getAndAccumulateByte(
+    public byte getAndBitwiseNot(final byte[] array, final int index) {
+        return memoryAccess.getAndUpdateByte(
             array,
             checkedByteOffset(array, index),
-            update,
-            ByteBinaryAccumulator.bitwiseOr()
+            ByteUnaryFunction.bitwiseNot()
         );
     }
 

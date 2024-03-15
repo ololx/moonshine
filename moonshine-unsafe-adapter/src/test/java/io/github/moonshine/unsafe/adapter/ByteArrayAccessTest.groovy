@@ -17,8 +17,8 @@
 
 package io.github.moonshine.unsafe.adapter
 
-import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator
-import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator
+import io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction
+import io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -609,7 +609,7 @@ class ByteArrayAccessTest extends Specification {
         given:
         ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
         byte[] array = [1, 2, 3, 4, 5] as byte[]
-        ByteUnaryAccumulator updateFunction = { byte val -> val + delta as byte}
+        ByteUnaryFunction updateFunction = {byte val -> val + delta as byte}
         byte previousValue = byteArrayAccess.getAndUpdate(array, index, updateFunction)
 
         expect:
@@ -629,7 +629,7 @@ class ByteArrayAccessTest extends Specification {
         given:
         ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
         byte[] array = [1, 2, 3, 4, 5] as byte[]
-        ByteUnaryAccumulator updateFunction = {byte val -> val + delta }
+        ByteUnaryFunction updateFunction = {byte val -> val + delta }
 
         when:
         byteArrayAccess.getAndUpdate(array, -1, updateFunction)
@@ -649,7 +649,7 @@ class ByteArrayAccessTest extends Specification {
         given:
         ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
         byte[] array = [1, 2, 3, 4, 5] as byte[]
-        ByteUnaryAccumulator updateFunction = { byte val -> val + delta as byte }
+        ByteUnaryFunction updateFunction = {byte val -> val + delta as byte }
         byte updatedValue = byteArrayAccess.updateAndGet(array, index, updateFunction)
 
         expect:
@@ -670,7 +670,7 @@ class ByteArrayAccessTest extends Specification {
         given:
         ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
         byte[] array = [1, 2, 3, 4, 5] as byte[]
-        ByteBinaryAccumulator accumulatorFunction = { byte a, byte b -> a as byte + b as byte }
+        ByteBinaryFunction accumulatorFunction = {byte a, byte b -> a as byte + b as byte }
         byte previousValue = byteArrayAccess.getAndAccumulate(array, index, update as byte, accumulatorFunction)
 
         expect:
@@ -691,7 +691,7 @@ class ByteArrayAccessTest extends Specification {
         given:
         ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
         byte[] array = [1, 2, 3, 4, 5] as byte[]
-        ByteBinaryAccumulator accumulatorFunction = {byte a, byte b -> a as byte + b as byte }
+        ByteBinaryFunction accumulatorFunction = {byte a, byte b -> a as byte + b as byte }
         byte updatedValue = byteArrayAccess.accumulateAndGet(array, index, update as byte, accumulatorFunction)
 
         expect:

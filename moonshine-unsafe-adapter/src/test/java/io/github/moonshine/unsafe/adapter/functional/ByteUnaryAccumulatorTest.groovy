@@ -1,6 +1,6 @@
 package io.github.moonshine.unsafe.adapter.functional
 
-import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -16,7 +16,7 @@ class ByteUnaryAccumulatorTest extends Specification {
     @Unroll
     def "apply() - when given operand #testOperand then returns #expectedResult"() {
         given:
-        ByteUnaryAccumulator accumulator = {byte it -> (byte) (it + testDelta)} as ByteUnaryAccumulator
+        ByteUnaryFunction accumulator = {byte it -> (byte) (it + testDelta)} as ByteUnaryFunction
 
         when:
         byte result = accumulator.apply(testOperand)
@@ -34,7 +34,7 @@ class ByteUnaryAccumulatorTest extends Specification {
 
     def "apply() - should correctly handle overflow"() {
         given:
-        ByteUnaryAccumulator accumulator = {byte it -> (byte) (it + 1)}
+        ByteUnaryFunction accumulator = {byte it -> (byte) (it + 1)}
 
         expect:
         accumulator.apply(0xFF as byte) == 0x00 as byte

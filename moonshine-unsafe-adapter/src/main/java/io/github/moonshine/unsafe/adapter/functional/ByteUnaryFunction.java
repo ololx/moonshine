@@ -18,38 +18,37 @@
 package io.github.moonshine.unsafe.adapter.functional;
 
 /**
- * A functional interface for binary operations on two byte values.
+ * It represents an operation on a single byte-valued operand that produces a byte-valued result.
  *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 01.09.2023 10:34
- * @see java.util.function.BinaryOperator
+ * @see java.util.function.UnaryOperator
  */
 @FunctionalInterface
-public interface ByteBinaryAccumulator {
+public interface ByteUnaryFunction {
 
     /**
-     * Applies this accumulator to the given byte operands.
+     * Applies this accumulator to the given operand.
      *
-     * @param left  the first byte operand
-     * @param right the second byte operand
+     * @param operand the operand to be operated on
      *
-     * @return the result of applying this operator to the operands
+     * @return the result of applying this accumulator
      */
-    byte apply(final byte left, final byte right);
+    byte apply(byte operand);
 
     /**
-     * Returns a ByteBinaryAccumulator that performs a bitwise OR operation on its operands.
+     * Returns a ByteBinaryAccumulator that performs a bitwise NOT operation on its operands.
      *
-     * @return a ByteBinaryAccumulator that performs a bitwise OR operation
+     * @return a ByteBinaryAccumulator that performs a bitwise NOT operation
      *
-     * @implNote This method returns a lambda expression that performs a bitwise OR operation
-     *     between the left and right operands and casts the result to byte.
+     * @implNote This method returns a lambda expression that performs a bitwise NOT operation
+     *     with the operand and casts the result to byte.
      * @implSpec The returned ByteBinaryAccumulator is stateless and thread-safe when used as intended.
      *     Implementations may choose to cache instances for performance.
-     * @see ByteBinaryAccumulator
+     * @see ByteBinaryFunction
      */
-    public static ByteBinaryAccumulator bitwiseOr() {
-        return (left, right) -> (byte) (left | right);
+    public static ByteUnaryFunction bitwiseNot() {
+        return (operand) -> (byte) (~operand);
     }
 }

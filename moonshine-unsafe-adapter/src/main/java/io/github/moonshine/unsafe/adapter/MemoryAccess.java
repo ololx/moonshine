@@ -17,8 +17,8 @@
 
 package io.github.moonshine.unsafe.adapter;
 
-import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator;
-import io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator;
+import io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction;
+import io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -687,7 +687,7 @@ public final class MemoryAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj      the object containing the byte value
@@ -712,7 +712,7 @@ public final class MemoryAccess {
      *         // 'oldValue' contains the previous value, and the value at offset is incremented by 1.
      *         }</pre>
      */
-    public final byte getAndUpdateByte(final Object obj, final long offset, final ByteUnaryAccumulator updating) {
+    public final byte getAndUpdateByte(final Object obj, final long offset, final ByteUnaryFunction updating) {
         byte expected;
         byte newValue;
 
@@ -726,7 +726,7 @@ public final class MemoryAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link io.github.moonshine.unsafe.adapter.functional.ByteUnaryAccumulator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.functional.ByteUnaryFunction} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj      the object containing the byte value
@@ -751,7 +751,7 @@ public final class MemoryAccess {
      *         // 'newValue' contains the updated value.
      *         }</pre>
      */
-    public final byte updateAndGetByte(final Object obj, final long offset, final ByteUnaryAccumulator updating) {
+    public final byte updateAndGetByte(final Object obj, final long offset, final ByteUnaryFunction updating) {
         byte expected;
         byte newValue;
 
@@ -765,7 +765,7 @@ public final class MemoryAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj          the object containing the byte value
@@ -794,7 +794,7 @@ public final class MemoryAccess {
     public final byte getAndAccumulateByte(final Object obj,
                                            final long offset,
                                            final byte update,
-                                           final ByteBinaryAccumulator accumulation) {
+                                           final ByteBinaryFunction accumulation) {
         byte expected;
         byte newValue;
 
@@ -808,7 +808,7 @@ public final class MemoryAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.unsafe.adapter.functional.ByteBinaryFunction} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj          the object containing the byte value
@@ -837,7 +837,7 @@ public final class MemoryAccess {
     public final byte accumulateAndGetByte(final Object obj,
                                            final long offset,
                                            final byte update,
-                                           final ByteBinaryAccumulator accumulation) {
+                                           final ByteBinaryFunction accumulation) {
         byte expected;
         byte newValue;
 

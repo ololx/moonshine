@@ -1,6 +1,6 @@
 package io.github.moonshine.unsafe.adapter.functional
 
-import io.github.moonshine.unsafe.adapter.functional.ByteBinaryAccumulator
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -16,7 +16,7 @@ class ByteBinaryAccumulatorTest extends Specification {
     @Unroll
     def "apply() - when given operands #leftOperand and #rightOperand then returns #expectedResult"() {
         given:
-        ByteBinaryAccumulator accumulator = {byte left, byte right -> (byte) (left + right) } as ByteBinaryAccumulator
+        ByteBinaryFunction accumulator = {byte left, byte right -> (byte) (left + right) } as ByteBinaryFunction
 
         when:
         byte result = accumulator.apply(leftOperand, rightOperand)
@@ -34,7 +34,7 @@ class ByteBinaryAccumulatorTest extends Specification {
 
     def "apply() - should correctly handle overflow"() {
         given:
-        ByteBinaryAccumulator accumulator = { byte left, byte right -> (byte) (left + right) }
+        ByteBinaryFunction accumulator = {byte left, byte right -> (byte) (left + right) }
 
         expect:
         accumulator.apply(0x7F as byte, 0x01 as byte) == 0x80 as byte
