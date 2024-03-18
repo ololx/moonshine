@@ -744,4 +744,118 @@ class ByteArrayAccessTest extends Specification {
         then:
         thrown(IndexOutOfBoundsException)
     }
+
+    @Unroll
+    def "getAndBitwiseAnd() - when perform bitwise AND operation with #operand at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndBitwiseAnd(array, index, operand as byte)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | operand | expectedPreviousValue | expectedNewValue
+        0     | 10      | 1                     | 0
+        1     | -5      | 2                     | 2 & -5
+        2     | 0       | 3                     | 0
+        3     | 2       | 4                     | 0
+        4     | -3      | 5                     | 5 & -3
+    }
+
+    @Unroll
+    def "getAndBitwiseXor() - when perform bitwise XOR operation with #operand at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndBitwiseXor(array, index, operand as byte)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | operand | expectedPreviousValue | expectedNewValue
+        0     | 10      | 1                     | 11
+        1     | -5      | 2                     | 2 ^ -5
+        2     | 0       | 3                     | 3
+        3     | 2       | 4                     | 6
+        4     | -3      | 5                     | 5 ^ -3
+    }
+
+    @Unroll
+    def "getAndBitwiseNot() - when perform bitwise NOT operation at index #index then return previous value"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+        byte previousValue = byteArrayAccess.getAndBitwiseNot(array, index)
+
+        expect:
+        previousValue == expectedPreviousValue as byte
+        array[index] == expectedNewValue as byte
+
+        where:
+        index | expectedPreviousValue | expectedNewValue
+        0     | 1                     | ~1
+        1     | 2                     | ~2
+        2     | 3                     | ~3
+        3     | 4                     | ~4
+        4     | 5                     | ~5
+    }
+
+    def "getAndBitwiseAnd() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndBitwiseAnd(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndBitwiseAnd(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getAndBitwiseXor() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndBitwiseXor(array, -1, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndBitwiseXor(array, array.length, (byte) 10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "getAndBitwiseNot() - when index out of bounds then throw IndexOutOfBoundsException"() {
+        given:
+        ByteArrayAccess byteArrayAccess = new ByteArrayAccess()
+        byte[] array = [1, 2, 3, 4, 5] as byte[]
+
+        when:
+        byteArrayAccess.getAndBitwiseNot(array, -1)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+
+        when:
+        byteArrayAccess.getAndBitwiseNot(array, array.length)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
 }

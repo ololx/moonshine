@@ -621,7 +621,7 @@ public final class ByteArrayAccess implements VarAccess {
      *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
      *         byte oldValue = byteArray.getAndBitwiseAnd(array, 0, (byte) 2);
-     *         System.out.println(oldValue);
+     *         System.out.println(oldValue); // Prints 1
      *         }</pre>
      */
     public byte getAndBitwiseAnd(final byte[] array, final int index, final byte operand) {
@@ -654,7 +654,7 @@ public final class ByteArrayAccess implements VarAccess {
      *     <pre>{@code
      *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
-     *         byte oldValue = byteArray.getAndBitwiseOr(array, 2, (byte) 2);
+     *         byte oldValue = byteArray.getAndBitwiseXor(array, 2, (byte) 2);
      *         System.out.println(oldValue); // Prints 3
      *         }</pre>
      */
@@ -688,7 +688,7 @@ public final class ByteArrayAccess implements VarAccess {
      *     <pre>{@code
      *         ByteArrayAccess byteArray = new ByteArrayAccess();
      *         byte[] array = {1, 2, 3, 4, 5};
-     *         byte oldValue = byteArray.getAndBitwiseOr(array, 2, (byte) 2);
+     *         byte oldValue = byteArray.getAndBitwiseNot(array, 2);
      *         System.out.println(oldValue); // Prints 3
      *         }</pre>
      */
