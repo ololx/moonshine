@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes
 
-import io.github.moonshine.unsafe.adapter.AtomicAccess
+import io.github.moonshine.unsafe.adapter.MemoryAccess
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -80,6 +80,6 @@ class EndiannessTest extends Specification {
         ByteOrder byteOrder = Endianness.NATIVE
 
         then:
-        byteOrder == (AtomicAccess.SYSTEM_ENDIANNESS.isBigEndian() ? Endianness.BIG_ENDIAN : Endianness.LITTLE_ENDIAN)
+        byteOrder == (MemoryAccess.SYSTEM_ENDIANNESS.isBigEndian() ? Endianness.BIG_ENDIAN : Endianness.LITTLE_ENDIAN)
     }
 }
