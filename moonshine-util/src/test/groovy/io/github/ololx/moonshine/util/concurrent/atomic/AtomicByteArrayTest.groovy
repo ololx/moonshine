@@ -194,6 +194,54 @@ class AtomicByteArrayTest extends Specification {
         newValue == 14 as byte
     }
 
+    def "getAndBitwiseOr() - when perform bitwise OR then return old value and update array"() {
+        given:
+        def atomicByteArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte oldValue = atomicByteArray.getAndBitwiseOr(2, 2 as byte)
+
+        then:
+        oldValue == 3 as byte
+        atomicByteArray.get(2) == (3 | 2) as byte
+    }
+
+    def "getAndBitwiseAnd() - when perform bitwise AND then return old value and update array"() {
+        given:
+        def atomicByteArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte oldValue = atomicByteArray.getAndBitwiseAnd(0, 2 as byte)
+
+        then:
+        oldValue == 1 as byte
+        atomicByteArray.get(0) == (1 & 2) as byte
+    }
+
+    def "getAndBitwiseXor() - when perform bitwise XOR then return old value and update array"() {
+        given:
+        def atomicByteArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte oldValue = atomicByteArray.getAndBitwiseXor(2, 2 as byte)
+
+        then:
+        oldValue == 3 as byte
+        atomicByteArray.get(2) == (3 ^ 2) as byte
+    }
+
+    def "getAndBitwiseNot() - when perform bitwise NOT then return old value and update array"() {
+        given:
+        def atomicByteArray = new AtomicByteArray([1, 2, 3, 4, 5] as byte[])
+
+        when:
+        byte oldValue = atomicByteArray.getAndBitwiseNot(2)
+
+        then:
+        oldValue == 3 as byte
+        atomicByteArray.get(2) == ~3 as byte
+    }
+
     @Unroll
     def "toString() - when get string from #array then return correct string = #stringRepresentation"() {
         given:
