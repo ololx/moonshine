@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes;
 
-import io.github.moonshine.unsafe.adapter.MemoryAccess;
+import io.github.moonshine.var.access.MemoryAccess;
 import io.github.ololx.moonshine.bytes.coding.ByteIndexOperator;
 
 /**
