@@ -209,7 +209,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     /**
      * A utility class to help count the number of bits set in a byte.
      */
-    private static final class ByteBitCounting {
+    public static final class ByteBitCounting {
 
         /**
          * Returns the number of one-bits in the two's complement binary representation
