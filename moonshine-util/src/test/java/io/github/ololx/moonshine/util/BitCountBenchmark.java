@@ -18,6 +18,7 @@
 package io.github.ololx.moonshine.util;
 
 import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray;
+import io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -35,6 +36,8 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import java.util.Arrays;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,7 +52,7 @@ import java.util.concurrent.TimeUnit;
     timeUnit = TimeUnit.MILLISECONDS
 )
 @Measurement(
-    iterations = 10,
+    iterations = 100,
     time = 100,
     timeUnit = TimeUnit.MILLISECONDS
 )
@@ -58,19 +61,33 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class BitCountBenchmark {
 
-    @Param({"-128", "0", "127"})
-    public byte byteValue;
+    private byte[] bytes;
+
+    @Setup
+    public void setup() {
+        this.bytes = new byte[256];
+        for (int byteValue = -128; byteValue <= 127; byteValue++) {
+            this.bytes[byteValue + 128] = (byte) byteValue;
+        }
+    }
 
     @Benchmark
     public void testByteBitCounting(Blackhole blackhole) {
-        for (int iteration = 0; iteration < 1_000_000; iteration++) {
+        for (byte byteValue : this.bytes) {
             blackhole.consume(ConcurrentBitArray.ByteBitCounting.bitCount(byteValue));
         }
     }
 
     @Benchmark
+    public void testByteBitCountingLoockUp(Blackhole blackhole) {
+        for (byte byteValue : this.bytes) {
+            blackhole.consume(ConcurrentBitArray.ByteBitCountingLoUp.bitCount(byteValue));
+        }
+    }
+
+    @Benchmark
     public void testIntegerBitCount(Blackhole blackhole) {
-        for (int iteration = 0; iteration < 1_000_000; iteration++) {
+        for (byte byteValue : this.bytes) {
             blackhole.consume(Integer.bitCount(byteValue));
         }
     }
