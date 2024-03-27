@@ -227,4 +227,19 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
             return count;
         }
     }
+
+    public static final class ByteBitCountingLoUp {
+
+        private static final int[] BIT_COUNT_LOOKUP = new int[256];
+
+        static {
+            for (int i = 0; i < 256; i++) {
+                BIT_COUNT_LOOKUP[i] = (i & 1) + BIT_COUNT_LOOKUP[i >>> 1];
+            }
+        }
+
+        public static int bitCount(byte bits) {
+            return BIT_COUNT_LOOKUP[bits & 0xFF];
+        }
+    }
 }
