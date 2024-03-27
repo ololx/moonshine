@@ -62,7 +62,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.ololx.moonshine</groupId>
-            <artifactId>moonshine-unsafe-adapter</artifactId>
+            <artifactId>moonshine-var-access</artifactId>
         </dependency>
         <dependency>
             <groupId>com.googlecode.multithreadedtc</groupId>

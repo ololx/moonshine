@@ -17,7 +17,9 @@
 
 package io.github.ololx.moonshine.util.concurrent.atomic;
 
-import io.github.moonshine.unsafe.adapter.ByteArrayAccess;
+import io.github.moonshine.var.access.ByteArrayAccess;
+import io.github.moonshine.var.access.MemoryAccess;
+import io.github.moonshine.var.access.ByteBinaryFunction;
 import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
 import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 
@@ -33,7 +35,7 @@ import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
  *     project moonshine
  *     created 27.08.2023 16:08
  * @implNote All operations in this class are atomic, ensuring thread-safe access to the array.
- *     It uses underlying memory access provided by {@link io.github.moonshine.unsafe.adapter.ByteArrayAccess}.
+ *     It uses underlying memory access provided by {@link io.github.moonshine.var.access.ByteArrayAccess}.
  * @implSpec The atomic operations provided by this class guarantee atomicity of each individual operation but do
  *     not provide atomicity of sequences of operations. Users are responsible for ensuring that sequences of operations
  *     are performed atomically when required.
@@ -98,12 +100,32 @@ public class AtomicByteArray {
     }
 
     /**
+     * Atomically gets the byte value at the given index.
+     *
+     * @param index the index of the desired element.
+     *
+     * @return the byte value at the given index.
+     *
+     * @see io.github.moonshine.var.access.ByteArrayAccess#getVolatile(byte[], int)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *             AtomicByteArray byteArray = new AtomicByteArray(new byte[]{10, 20, 30, 40, 50});
+     *             byte value = byteArray.get(2);
+     *             System.out.println(value); // Prints 30
+     *         }</pre>
+     */
+    public byte get(final int index) {
+        return byteArrayAtomicAccess.getVolatile(array, index);
+    }
+
+    /**
      * Atomically sets the byte value at the given index to the given new value.
      *
      * @param index    the index of the element to be set.
      * @param newValue the new byte value to be stored.
      *
-     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#setVolatile(byte[], int, byte)
+     * @see io.github.moonshine.var.access.ByteArrayAccess#setVolatile(byte[], int, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -125,7 +147,7 @@ public class AtomicByteArray {
      *
      * @return the old byte value.
      *
-     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#getAndSet(byte[], int, byte)
+     * @see io.github.moonshine.var.access.ByteArrayAccess#getAndSet(byte[], int, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -149,7 +171,7 @@ public class AtomicByteArray {
      * @return {@code true} if successful. {@code false} return indicates that the actual value was not equal to the
      *     expected value.
      *
-     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#compareAndSet(byte[], int, byte, byte)
+     * @see io.github.moonshine.var.access.ByteArrayAccess#compareAndSet(byte[], int, byte, byte)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -176,7 +198,7 @@ public class AtomicByteArray {
      *
      * @return the old byte value.
      */
-    public final byte getAndIncrement(final int index) {
+    public byte getAndIncrement(final int index) {
         return getAndAdd(index, (byte) 1);
     }
 
@@ -195,7 +217,7 @@ public class AtomicByteArray {
      *
      * @return the old byte value.
      */
-    public final byte getAndAdd(final int index, byte delta) {
+    public byte getAndAdd(final int index, byte delta) {
         return byteArrayAtomicAccess.getAndAdd(array, index, delta);
     }
 
@@ -231,7 +253,7 @@ public class AtomicByteArray {
      *
      * @return the updated byte value.
      */
-    public final byte incrementAndGet(final int index) {
+    public byte incrementAndGet(final int index) {
         return (byte) (getAndAdd(index, (byte) 1) + 1);
     }
 
@@ -249,7 +271,7 @@ public class AtomicByteArray {
      *
      * @return the updated byte value.
      */
-    public final byte decrementAndGet(final int index) {
+    public byte decrementAndGet(final int index) {
         return (byte) (getAndAdd(index, (byte) -1) - 1);
     }
 
@@ -290,7 +312,7 @@ public class AtomicByteArray {
      *             System.out.println(oldValue); // Prints 30
      *         }</pre>
      */
-    public final byte getAndUpdate(final int index, ByteUnaryOperator updateFunction) {
+    public byte getAndUpdate(final int index, ByteUnaryOperator updateFunction) {
         return byteArrayAtomicAccess.getAndUpdate(array, index, updateFunction::applyAsByte);
     }
 
@@ -312,7 +334,7 @@ public class AtomicByteArray {
      *             System.out.println(updatedValue); // Prints 60
      *         }</pre>
      */
-    public final byte updateAndGet(final int index, ByteUnaryOperator updateFunction) {
+    public byte updateAndGet(final int index, ByteUnaryOperator updateFunction) {
         return byteArrayAtomicAccess.updateAndGet(array, index, updateFunction::applyAsByte);
     }
 
@@ -335,7 +357,7 @@ public class AtomicByteArray {
      *             System.out.println(oldValue); // Prints 30
      *         }</pre>
      */
-    public final byte getAndAccumulate(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
+    public byte getAndAccumulate(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
         return byteArrayAtomicAccess.getAndAccumulate(array, index, update, accumulatorFunction::applyAsByte);
     }
 
@@ -358,8 +380,114 @@ public class AtomicByteArray {
      *             System.out.println(updatedValue); // Prints 32
      *         }</pre>
      */
-    public final byte accumulateAndGet(final int index, byte update, ByteBinaryOperator accumulatorFunction) {
+    public byte accumulateAndGet(final int index, final byte update, final ByteBinaryOperator accumulatorFunction) {
         return byteArrayAtomicAccess.accumulateAndGet(array, index, update, accumulatorFunction::applyAsByte);
+    }
+
+    /**
+     * Performs an atomic update on the byte at the specified index by applying a bitwise OR operation with the given
+     * operand.
+     * This method guarantees thread-safe and atomic execution, returning the previous value at the index.
+     *
+     * @param index   the index of the byte to update.
+     * @param operand the byte operand for the bitwise OR operation.
+     *
+     * @return the original value before the update.
+     *
+     * @implSpec This method relies on
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)}
+     *     to perform the atomic accumulation with a bitwise OR operation, ensuring both atomicity and thread safety.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         AtomicByteArray byteArray = new AtomicByteArray(new byte[]{1, 2, 3, 4, 5});
+     *         byte oldValue = byteArray.getAndBitwiseOr(2, (byte)2);
+     *         System.out.println(oldValue); // Prints 3
+     *     }</pre>
+     */
+    public byte getAndBitwiseOr(final int index, final byte operand) {
+        return byteArrayAtomicAccess.getAndBitwiseOr(array, index, operand);
+    }
+
+    /**
+     * Atomically updates the byte at the specified index by performing a bitwise AND operation with the given operand,
+     * ensuring thread-safe modification of the byte array and returning the previous byte value.
+     *
+     * @param index   the index of the byte to be updated.
+     * @param operand the byte operand for the bitwise AND operation.
+     *
+     * @return the previous byte value at the specified index.
+     *
+     * @implSpec Employs {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)}
+     *     for the atomic bitwise AND operation, guaranteeing the atomicity of the update.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         AtomicByteArray byteArray = new AtomicByteArray(new byte[]{1, 2, 3, 4, 5});
+     *         byte oldValue = byteArray.getAndBitwiseAnd(0, (byte)2);
+     *         System.out.println(oldValue); // Prints 1
+     *     }</pre>
+     */
+    public byte getAndBitwiseAnd(final int index, final byte operand) {
+        return byteArrayAtomicAccess.getAndBitwiseAnd(array, index, operand);
+    }
+
+    /**
+     * Updates the byte at a given index atomically by performing a bitwise XOR operation with the specified operand,
+     * ensuring both atomic and thread-safe execution. The original byte value before the update is returned.
+     *
+     * @param index   the index of the byte to update.
+     * @param operand the byte operand for the bitwise XOR operation.
+     *
+     * @return the original byte value at the specified index.
+     *
+     * @implSpec Utilizes {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)}
+     *     for the atomic bitwise XOR operation, ensuring thread safety and atomicity.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *         AtomicByteArray byteArray = new AtomicByteArray(new byte[]{1, 2, 3, 4, 5});
+     *         byte oldValue = byteArray.getAndBitwiseXor(2, (byte)2);
+     *         System.out.println(oldValue); // Prints 1
+     *     }</pre>
+     */
+    public byte getAndBitwiseXor(final int index, final byte operand) {
+        return byteArrayAtomicAccess.getAndBitwiseXor(array, index, operand);
+    }
+
+    /**
+     * Atomically updates the byte at the given index by performing a bitwise NOT operation on its current value
+     * and returns the previous value. This method ensures that the operation is atomic and thread-safe, making it
+     * suitable
+     * for use in concurrent programming contexts where multiple threads might attempt to update the byte array
+     * simultaneously.
+     *
+     * @param index the index of the element to update. The index must be within the bounds of the array (0 to
+     *              array.length - 1).
+     *              An IndexOutOfBoundsException is thrown if the index is out of range.
+     *
+     * @return the previous byte value at the specified index.
+     *
+     * @implSpec Utilizes {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)}
+     *     with a bitwise NOT operation defined by the lambda expression `(x, y) -> ~x`. This ensures that the update is
+     *     performed
+     *     atomically and without interference from other threads. The operand for the NOT operation is ignored, as NOT
+     *     is a unary operation.
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)
+     *
+     *     <p><strong>Example usage:</strong></p>
+     *     <pre>{@code
+     *           AtomicByteArray byteArray = new AtomicByteArray(new byte[]{1, 2, 3, 4, 5});
+     *           byte oldValue = byteArray.getAndBitwiseNot(2);
+     *           System.out.println(oldValue); // Prints 3
+     *           // After operation, byteArray contains [1, 2, ~3, 4, 5] -> [1, 2, 0xFC, 4, 5] where ~3 results in 0xFC (in two's complement form)
+     *     }</pre>
+     */
+    public byte getAndBitwiseNot(final int index) {
+        return byteArrayAtomicAccess.getAndBitwiseNot(array, index);
     }
 
     /**
@@ -397,25 +525,5 @@ public class AtomicByteArray {
 
         return arrayStringBuilder.append(']')
             .toString();
-    }
-
-    /**
-     * Atomically gets the byte value at the given index.
-     *
-     * @param index the index of the desired element.
-     *
-     * @return the byte value at the given index.
-     *
-     * @see io.github.moonshine.unsafe.adapter.ByteArrayAccess#getVolatile(byte[], int)
-     *
-     *     <p><strong>Example usage:</strong></p>
-     *     <pre>{@code
-     *             AtomicByteArray byteArray = new AtomicByteArray(new byte[]{10, 20, 30, 40, 50});
-     *             byte value = byteArray.get(2);
-     *             System.out.println(value); // Prints 30
-     *         }</pre>
-     */
-    public byte get(final int index) {
-        return byteArrayAtomicAccess.getVolatile(array, index);
     }
 }

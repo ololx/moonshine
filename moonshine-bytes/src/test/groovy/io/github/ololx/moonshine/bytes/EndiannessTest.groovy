@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bytes
 
-import io.github.moonshine.unsafe.adapter.MemoryAccess
+import io.github.moonshine.var.access.MemoryAccess
 import spock.lang.Specification
 import spock.lang.Unroll
 

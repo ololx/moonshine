@@ -97,7 +97,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     private ConcurrentBitArray(final byte[] words) {
         // put origin value because words.clone() will be invoked inside AtomicByteArray constructor
         this.data = new AtomicByteArray(words);
-        this.lastBitIndex = words.length * 8 - 1;
+        this.lastBitIndex = words.length * WORD_SIZE - 1;
     }
 
     /**
@@ -122,7 +122,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     public boolean get(int bitIndex) {
         checkIndex(bitIndex);
         int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
-        int bitMask = ConcurrentBitArray.bitMaskOperator.applyAsInt(bitOffset);
+        int bitMask = bitMaskOperator.applyAsInt(bitOffset);
         return (this.data.get(wordIndexOperator.applyAsInt(bitIndex)) & bitMask) >> bitOffset != 0;
     }
 
@@ -134,8 +134,9 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     @Override
     public void set(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word | bitMask));
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = bitMaskOperator.applyAsInt(bitOffset);
+        this.data.getAndBitwiseOr(wordIndexOperator.applyAsInt(bitIndex), (byte) bitMask);
     }
 
     /**
@@ -146,8 +147,9 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     @Override
     public void clear(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word & ~bitMask));
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = ~bitMaskOperator.applyAsInt(bitOffset);
+        this.data.getAndBitwiseAnd(wordIndexOperator.applyAsInt(bitIndex), (byte) bitMask);
     }
 
     /**
@@ -158,8 +160,9 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     @Override
     public void flip(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word ^ bitMask));
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = bitMaskOperator.applyAsInt(bitOffset);
+        this.data.getAndBitwiseXor(wordIndexOperator.applyAsInt(bitIndex), (byte) bitMask);
     }
 
     /**
@@ -206,7 +209,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     /**
      * A utility class to help count the number of bits set in a byte.
      */
-    private static final class ByteBitCounting {
+    public static final class ByteBitCounting {
 
         /**
          * Returns the number of one-bits in the two's complement binary representation
@@ -222,6 +225,21 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
             count = (count & 0x33) + ((count >>> 2) & 0x33);
             count = (count + (count >>> 4)) & 0x0F;
             return count;
+        }
+    }
+
+    public static final class ByteBitCountingLoUp {
+
+        private static final int[] BIT_COUNT_LOOKUP = new int[256];
+
+        static {
+            for (int i = 0; i < 256; i++) {
+                BIT_COUNT_LOOKUP[i] = (i & 1) + BIT_COUNT_LOOKUP[i >>> 1];
+            }
+        }
+
+        public static int bitCount(byte bits) {
+            return BIT_COUNT_LOOKUP[bits & 0xFF];
         }
     }
 }
