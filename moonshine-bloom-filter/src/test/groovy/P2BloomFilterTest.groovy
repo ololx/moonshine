@@ -6,7 +6,7 @@
 
 
 import io.github.ololx.moonshine.bloom.filter.BloomFilter
-import io.github.ololx.moonshine.bloom.filter.FastBloomFilter
+import io.github.ololx.moonshine.bloom.filter.P2BloomFilter
 import spock.lang.Specification
 
 /**
@@ -15,14 +15,14 @@ import spock.lang.Specification
  *     project moonshine
  *     created 24.11.2023 11:25
  */
-class FastBloomFilterTest extends Specification {
+class P2BloomFilterTest extends Specification {
 
     def "absent - when filter doesn't contain #bytesSupplierValue then return true"() {
         given:
         BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
-        def bloomFilter = new FastBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+        def bloomFilter = new P2BloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
 
         expect:
         bloomFilter.absent(entry)
@@ -37,7 +37,7 @@ class FastBloomFilterTest extends Specification {
         BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
-        def bloomFilter = new FastBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+        def bloomFilter = new P2BloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
 
         when:
         boolean result = bloomFilter.add(entry)
@@ -57,7 +57,7 @@ class FastBloomFilterTest extends Specification {
         BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
-        def bloomFilter = new FastBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+        def bloomFilter = new P2BloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
         bloomFilter.bits.set(bits[0])
         bloomFilter.bits.set(bits[1])
 
@@ -73,7 +73,7 @@ class FastBloomFilterTest extends Specification {
         given:
         int size = 10
         BloomFilter.HashFunction hashFunctionStub = (value) -> Math.abs(Arrays.hashCode(value)) % size
-        def bloomFilter = new FastBloomFilter(size, [hashFunctionStub])
+        def bloomFilter = new P2BloomFilter(size, [hashFunctionStub])
         def entries = (0..20).collect {idx ->
             return {-> String.format("entry%d", idx).getBytes()} as BloomFilter.BytesSupplier
         }
