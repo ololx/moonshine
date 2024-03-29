@@ -52,12 +52,12 @@ import java.util.concurrent.TimeUnit;
     timeUnit = TimeUnit.MILLISECONDS
 )
 @Measurement(
-    iterations = 100,
+    iterations = 10,
     time = 100,
     timeUnit = TimeUnit.MILLISECONDS
 )
 @Fork(3)
-@BenchmarkMode(Mode.AverageTime)
+@BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class BitCountBenchmark {
 
@@ -81,7 +81,7 @@ public class BitCountBenchmark {
     @Benchmark
     public void testByteBitCountingLoockUp(Blackhole blackhole) {
         for (byte byteValue : this.bytes) {
-            blackhole.consume(ConcurrentBitArray.ByteBitCountingLoUp.bitCount(byteValue));
+            blackhole.consume(ByteBitCountingLoUp.bitCount(byteValue));
         }
     }
 
@@ -99,6 +99,21 @@ public class BitCountBenchmark {
             .build();
 
         new Runner(opt).run();
+    }
+
+    public static final class ByteBitCountingLoUp {
+
+        private static final int[] BIT_COUNT_LOOKUP = new int[256];
+
+        static {
+            for (int i = 0; i < 256; i++) {
+                BIT_COUNT_LOOKUP[i] = (i & 1) + BIT_COUNT_LOOKUP[i >>> 1];
+            }
+        }
+
+        public static int bitCount(byte bits) {
+            return BIT_COUNT_LOOKUP[bits & 0xFF];
+        }
     }
 }
 
