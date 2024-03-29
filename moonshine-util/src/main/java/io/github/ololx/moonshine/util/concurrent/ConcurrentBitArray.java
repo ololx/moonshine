@@ -212,6 +212,12 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     public static final class ByteBitCounting {
 
         /**
+         * Override constructor by defaults (implicit public constructor).
+         * Because utility class are not meant to be instantiated.
+         */
+        private ByteBitCounting() {}
+
+        /**
          * Returns the number of one-bits in the two's complement binary representation
          * of the specified {@code byte} value.
          *

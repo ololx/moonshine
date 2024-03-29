@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * ConcurrentBloomFilter is a thread-safe implementation of the BloomFilter interface. It leverages concurrent data
+ * P2BloomFilter is a thread-safe implementation of the BloomFilter interface. It leverages concurrent data
  * structures
  * to ensure that multiple threads can safely add elements to the Bloom filter or check for their absence without
  * causing data corruption.
@@ -40,7 +40,7 @@ import java.util.List;
  *     project moonshine
  *     created 18.12.2023 10:40
  */
-public class FastBloomFilter implements BloomFilter {
+public class P2BloomFilter implements BloomFilter {
 
     /**
      * The ConcurrentBitCollection that backs the Bloom filter, storing the bits.
@@ -58,21 +58,42 @@ public class FastBloomFilter implements BloomFilter {
     private final int size;
 
     /**
-     * Constructs a new ConcurrentBloomFilter with the specified size and hash functions.
+     * Constructs a new {@code P2BloomFilter} with the specified size for the internal bit array and a collection
+     * of hash functions for element hashing. The actual size of the bit array is adjusted to be a power of two
+     * to optimize the bloom filter's performance.
      *
-     * @param size    the size of the bit array.
-     * @param hashing the collection of hash functions to be used.
+     * @param size    the initial size of the bit array. This will be adjusted to the next power of two.
+     * @param hashing a collection of {@code HashFunction} objects to be used for hashing elements.
+     *                Each function should distribute the elements uniformly over the bit array.
      *
      * @apiNote The size of the bit array should be chosen carefully based on the expected number of elements
-     *     and the desired false positive rate. More hash functions can decrease the false positive rate but increase
-     *     the computation time.
+     *     to be stored in the bloom filter and the desired false positive rate. Using more hash functions
+     *     can reduce the false positive rate but will also increase the time to compute the hashes
+     *     and check for element presence. It is recommended to balance the number of hash functions
+     *     and the size of the bit array to achieve the desired performance and accuracy.
      */
-    public FastBloomFilter(int size, Collection<HashFunction> hashing) {
+    public P2BloomFilter(int size, Collection<HashFunction> hashing) {
         this.size = nextPowerOfTwo(size);
         this.bits = new ConcurrentBitArray(this.size);
         this.hashing = new ArrayList<>(hashing);
     }
 
+    /**
+     * Calculates and returns the smallest power of two that is greater than or equal to the given integer.
+     * If the given integer is already a power of two, it returns the same value. This method ensures that
+     * the size of the bit array in the bloom filter is optimized for bitwise operations.
+     *
+     * @param x the integer for which to find the next power of two.
+     *
+     * @return the next power of two greater than or equal to {@code x}. If {@code x} is less than 1,
+     *     the return value is 1, ensuring that the bit array has a positive size.
+     *
+     * @implNote This method operates by first decrementing {@code x} by 1 to handle the case where
+     *     {@code x} is already a power of two. Then, it progressively sets all lower bits to 1
+     *     by bitwise OR operations with right-shifted versions of {@code x}. Finally, it increments
+     *     {@code x} by 1 to reach the next power of two. This approach ensures that the computation
+     *     is efficient and only requires a logarithmic number of steps in the size of the integer.
+     */
     private static int nextPowerOfTwo(int x) {
         if (x < 1) {
             return 1;
@@ -89,7 +110,7 @@ public class FastBloomFilter implements BloomFilter {
         x |= x >> 8;
         x |= x >> 16;
         x++;
-        
+
         return x;
     }
 
