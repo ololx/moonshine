@@ -17,15 +17,16 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
+import io.github.ololx.moonshine.bloom.filter.strategies.CyclicStrategy;
+import io.github.ololx.moonshine.bloom.filter.strategies.PowerOfTwoStrategy;
 import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray;
-import io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * P2BloomFilter is a thread-safe implementation of the BloomFilter interface. It leverages concurrent data
+ * ConcurrentBloomFilter is a thread-safe implementation of the BloomFilter interface. It leverages concurrent data
  * structures
  * to ensure that multiple threads can safely add elements to the Bloom filter or check for their absence without
  * causing data corruption.
@@ -40,78 +41,39 @@ import java.util.List;
  *     project moonshine
  *     created 18.12.2023 10:40
  */
-public class P2BloomFilter implements BloomFilter {
-
-    /**
-     * The ConcurrentBitCollection that backs the Bloom filter, storing the bits.
-     */
-    private final ConcurrentBitCollection bits;
+public class BasicBloomFilter implements BloomFilter {
 
     /**
      * The list of HashFunction instances used to hash the elements added to the Bloom filter.
      */
     private final List<HashFunction> hashing;
 
-    /**
-     * The size of the bit array.
-     */
-    private final int size;
+    private final BitStrategy bitStrategy;
 
     /**
-     * Constructs a new {@code P2BloomFilter} with the specified size for the internal bit array and a collection
-     * of hash functions for element hashing. The actual size of the bit array is adjusted to be a power of two
-     * to optimize the bloom filter's performance.
+     * Constructs a new ConcurrentBloomFilter with the specified size and hash functions.
      *
-     * @param size    the initial size of the bit array. This will be adjusted to the next power of two.
-     * @param hashing a collection of {@code HashFunction} objects to be used for hashing elements.
-     *                Each function should distribute the elements uniformly over the bit array.
+     * @param bitStrategy    the size of the bit array.
+     * @param hashing the collection of hash functions to be used.
      *
      * @apiNote The size of the bit array should be chosen carefully based on the expected number of elements
-     *     to be stored in the bloom filter and the desired false positive rate. Using more hash functions
-     *     can reduce the false positive rate but will also increase the time to compute the hashes
-     *     and check for element presence. It is recommended to balance the number of hash functions
-     *     and the size of the bit array to achieve the desired performance and accuracy.
+     *     and the desired false positive rate. More hash functions can decrease the false positive rate but increase
+     *     the computation time.
      */
-    public P2BloomFilter(int size, Collection<HashFunction> hashing) {
-        this.size = nextPowerOfTwo(size);
-        this.bits = new ConcurrentBitArray(this.size);
+    public BasicBloomFilter(final BitStrategy bitStrategy, final Collection<HashFunction> hashing) {
+        this.bitStrategy = bitStrategy;
         this.hashing = new ArrayList<>(hashing);
     }
 
-    /**
-     * Calculates and returns the smallest power of two that is greater than or equal to the given integer.
-     * If the given integer is already a power of two, it returns the same value. This method ensures that
-     * the size of the bit array in the bloom filter is optimized for bitwise operations.
-     *
-     * @param x the integer for which to find the next power of two.
-     *
-     * @return the next power of two greater than or equal to {@code x}. If {@code x} is less than 1,
-     *     the return value is 1, ensuring that the bit array has a positive size.
-     *
-     * @implNote This method operates by first decrementing {@code x} by 1 to handle the case where
-     *     {@code x} is already a power of two. Then, it progressively sets all lower bits to 1
-     *     by bitwise OR operations with right-shifted versions of {@code x}. Finally, it increments
-     *     {@code x} by 1 to reach the next power of two. This approach ensures that the computation
-     *     is efficient and only requires a logarithmic number of steps in the size of the integer.
-     */
-    private static int nextPowerOfTwo(int x) {
-        if (x < 1) {
-            return 1;
+    public static BasicBloomFilter newInstance(int size, Collection<HashFunction> hashing, int strategy) {
+        switch (strategy) {
+            case 0:
+                return new BasicBloomFilter(new CyclicStrategy(new ConcurrentBitArray(size)), hashing);
+            case 1:
+                return new BasicBloomFilter(new PowerOfTwoStrategy(new ConcurrentBitArray(PowerOfTwoStrategy.nextPowerOfTwo(size))), hashing);
+            default:
+                throw new IllegalArgumentException("The strategy must be define in interval of [0, 1]");
         }
-
-        if ((x & (x - 1)) == 0) {
-            return x;
-        }
-
-        x--;
-        x |= x >> 1;
-        x |= x >> 2;
-        x |= x >> 4;
-        x |= x >> 8;
-        x |= x >> 16;
-        x++;
-
-        return x;
     }
 
     /**
@@ -129,9 +91,7 @@ public class P2BloomFilter implements BloomFilter {
     public boolean add(final BytesSupplier value) {
         for (HashFunction function : this.hashing) {
             int hash = function.apply(value.getBytes());
-            int index = align(hash, this.size);
-
-            this.bits.set(index);
+            this.bitStrategy.set(hash);
         }
 
         return true;
@@ -153,9 +113,8 @@ public class P2BloomFilter implements BloomFilter {
     public boolean absent(final BytesSupplier value) {
         for (HashFunction function : this.hashing) {
             int hash = function.apply(value.getBytes());
-            int index = align(hash, this.size);
 
-            if (!this.bits.get(index)) {
+            if (!this.bitStrategy.get(hash)) {
                 return true;
             }
         }
@@ -180,7 +139,7 @@ public class P2BloomFilter implements BloomFilter {
      */
     @Override
     public int size() {
-        return this.size;
+        return this.bitStrategy.getBits().size();
     }
 
     /**
@@ -198,7 +157,7 @@ public class P2BloomFilter implements BloomFilter {
      */
     @Override
     public int cardinality() {
-        return this.bits.cardinality();
+        return this.bitStrategy.getBits().cardinality();
     }
 
     /**
@@ -217,20 +176,5 @@ public class P2BloomFilter implements BloomFilter {
     @Override
     public boolean isEmpty() {
         return this.cardinality() == 0;
-    }
-
-    /**
-     * Aligns a hash code to fit within the bounds of the bit array size.
-     *
-     * @param hash the hash code to be aligned.
-     * @param size the size of the bit array.
-     *
-     * @return the index within the bounds of the bit array.
-     *
-     * @implSpec This method ensures that the index derived from the hash code is within the bounds of the bit array
-     *     by taking the absolute value of the hash code modulo the size of the array.
-     */
-    private static int align(final int hash, final int size) {
-        return (hash & (size - 1));
     }
 }

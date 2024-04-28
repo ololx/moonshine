@@ -187,6 +187,11 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
         return cardinality;
     }
 
+    @Override
+    public int size() {
+        return this.lastBitIndex + 1;
+    }
+
     /**
      * Checks if the provided bit index is within the valid range of the data array.
      * The valid range is [0, bitsCount), where bitsCount is the total number of bits in the data array.

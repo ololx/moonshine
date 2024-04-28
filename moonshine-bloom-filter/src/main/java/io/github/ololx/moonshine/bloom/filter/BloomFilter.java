@@ -17,6 +17,8 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
+import io.github.ololx.moonshine.util.BitCollection;
+
 /**
  * The BloomFilter interface represents a data structure that is used to perform space-efficient probabilistic checks
  * on whether an element is part of a set. False positive matches are possible, but false negatives are not.
@@ -145,5 +147,14 @@ public interface BloomFilter {
          *     A non-uniform distribution increases the probability of false positives.
          */
         int apply(byte[] value);
+    }
+
+    interface BitStrategy {
+
+        void set(int index);
+
+        boolean get(int index);
+
+        BitCollection getBits();
     }
 }

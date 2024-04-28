@@ -1,12 +1,10 @@
+package io.github.ololx.moonshine.bloom.filter
 /**
  * @author Alexander A. Kropotin
  * project moonshine
  * created 18/12/2023 1:26 pm
  */
 
-
-import io.github.ololx.moonshine.bloom.filter.BloomFilter
-import io.github.ololx.moonshine.bloom.filter.ConcurrentBloomFilter
 import spock.lang.Specification
 
 /**
@@ -15,14 +13,14 @@ import spock.lang.Specification
  *     project moonshine
  *     created 24.11.2023 11:25
  */
-class ConcurrentBloomFilterTest extends Specification {
+class P2BloomFilterTest extends Specification {
 
     def "absent - when filter doesn't contain #bytesSupplierValue then return true"() {
         given:
         BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
-        def bloomFilter = new ConcurrentBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+        def bloomFilter = BasicBloomFilter.newInstance(10, [hashFunctionStub1, hashFunctionStub2], 1)
 
         expect:
         bloomFilter.absent(entry)
@@ -37,15 +35,15 @@ class ConcurrentBloomFilterTest extends Specification {
         BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
-        def bloomFilter = new ConcurrentBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
+        def bloomFilter = BasicBloomFilter.newInstance(10, [hashFunctionStub1, hashFunctionStub2], 1)
 
         when:
         boolean result = bloomFilter.add(entry)
 
         then:
         result
-        bloomFilter.bits.get(bits[0])
-        bloomFilter.bits.get(bits[1])
+        bloomFilter.bitStrategy.get(bits[0])
+        bloomFilter.bitStrategy.get(bits[1])
 
         where:
         bytesSupplierValue | bits
@@ -57,9 +55,9 @@ class ConcurrentBloomFilterTest extends Specification {
         BloomFilter.HashFunction hashFunctionStub1 = (value) -> bits[0];
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
-        def bloomFilter = new ConcurrentBloomFilter(10, [hashFunctionStub1, hashFunctionStub2])
-        bloomFilter.bits.set(bits[0])
-        bloomFilter.bits.set(bits[1])
+        def bloomFilter = BasicBloomFilter.newInstance(10, [hashFunctionStub1, hashFunctionStub2], 1)
+        bloomFilter.bitStrategy.set(bits[0])
+        bloomFilter.bitStrategy.set(bits[1])
 
         expect:
         !bloomFilter.absent(entry)
@@ -73,7 +71,7 @@ class ConcurrentBloomFilterTest extends Specification {
         given:
         int size = 10
         BloomFilter.HashFunction hashFunctionStub = (value) -> Math.abs(Arrays.hashCode(value)) % size
-        def bloomFilter = new ConcurrentBloomFilter(size, [hashFunctionStub])
+        def bloomFilter = BasicBloomFilter.newInstance(size, [hashFunctionStub], 1)
         def entries = (0..20).collect {idx ->
             return {-> String.format("entry%d", idx).getBytes()} as BloomFilter.BytesSupplier
         }
