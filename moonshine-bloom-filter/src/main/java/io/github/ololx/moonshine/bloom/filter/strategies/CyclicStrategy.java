@@ -27,7 +27,7 @@ import java.util.Objects;
  *     project moonshine
  *     created 28/04/2024 8:15pm
  */
-public class CyclicStrategy implements BloomFilter.BitStrategy {
+public class CyclicStrategy implements BloomFilter.FilterState {
 
     /**
      * The BitCollection that backs the Bloom filter, storing the bits.

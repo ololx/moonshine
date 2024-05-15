@@ -25,7 +25,7 @@ import io.github.ololx.moonshine.util.BitCollection;
  *     project moonshine
  *     created 28/04/2024 8:15pm
  */
-public class PowerOfTwoStrategy implements BloomFilter.BitStrategy {
+public class PowerOfTwoStrategy implements BloomFilter.FilterState {
 
     /**
      * The BitCollection that backs the Bloom filter, storing the bits.
