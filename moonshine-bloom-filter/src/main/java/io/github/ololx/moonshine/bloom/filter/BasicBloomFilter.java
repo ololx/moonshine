@@ -48,7 +48,7 @@ public class BasicBloomFilter implements BloomFilter {
      */
     private final List<HashFunction> hashing;
 
-    private final BitStrategy bitStrategy;
+    private final FilterState bitStrategy;
 
     /**
      * Constructs a new ConcurrentBloomFilter with the specified size and hash functions.
@@ -60,7 +60,7 @@ public class BasicBloomFilter implements BloomFilter {
      *     and the desired false positive rate. More hash functions can decrease the false positive rate but increase
      *     the computation time.
      */
-    public BasicBloomFilter(final BitStrategy bitStrategy, final Collection<HashFunction> hashing) {
+    public BasicBloomFilter(final FilterState bitStrategy, final Collection<HashFunction> hashing) {
         this.bitStrategy = bitStrategy;
         this.hashing = new ArrayList<>(hashing);
     }

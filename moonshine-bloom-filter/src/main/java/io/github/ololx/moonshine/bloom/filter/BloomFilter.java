@@ -149,7 +149,7 @@ public interface BloomFilter {
         int apply(byte[] value);
     }
 
-    interface BitStrategy {
+    interface FilterState {
 
         void set(int index);
 
