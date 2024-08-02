@@ -18,39 +18,18 @@
 package io.github.ololx.moonshine.bloom.filter.strategies;
 
 import io.github.ololx.moonshine.bloom.filter.BloomFilter;
-import io.github.ololx.moonshine.util.BitCollection;
-
-import java.util.Objects;
 
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 28/04/2024 8:15pm
  */
-public class CyclicStrategy implements BloomFilter.FilterState {
+public class CyclicStrategy implements BloomFilter.HashingStrategy {
 
-    /**
-     * The BitCollection that backs the Bloom filter, storing the bits.
-     */
-    private final BitCollection bits;
+    private final int size;
 
-    public CyclicStrategy(final BitCollection bits) {
-        this.bits = Objects.requireNonNull(bits, "The bit collection must be not null");
-    }
-
-    @Override
-    public void set(final int index) {
-        this.bits.set(align(index, this.bits.size()));
-    }
-
-    @Override
-    public boolean get(final int index) {
-        return this.bits.get(align(index, this.bits.size()));
-    }
-
-    @Override
-    public BitCollection getBits() {
-        return this.bits;
+    public CyclicStrategy(final int size) {
+        this.size = size;
     }
 
     /**
@@ -66,5 +45,11 @@ public class CyclicStrategy implements BloomFilter.FilterState {
      */
     private int align(final int index, final int size) {
         return Math.abs(index % size);
+    }
+
+    @Override
+    public int apply(final byte[] value, final BloomFilter.HashFunction hashFunction) {
+        int index = hashFunction.apply(value);
+        return align(index, size);
     }
 }
