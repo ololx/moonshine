@@ -18,47 +18,26 @@
 package io.github.ololx.moonshine.bloom.filter.strategies;
 
 import io.github.ololx.moonshine.bloom.filter.BloomFilter;
-import io.github.ololx.moonshine.util.BitCollection;
 
 /**
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 28/04/2024 8:15pm
  */
-public class PowerOfTwoStrategy implements BloomFilter.FilterState {
+public class PowerOfTwoStrategy implements BloomFilter.HashingStrategy {
 
-    /**
-     * The BitCollection that backs the Bloom filter, storing the bits.
-     */
-    private final BitCollection bits;
+    private final int size;
 
-    public PowerOfTwoStrategy(final BitCollection bits) {
-        if (bits == null) {
-            throw new IllegalArgumentException("The bit collection must be not null");
-        } else if (!isPowerOfTwo(bits.size())) {
-            throw new IllegalArgumentException("The bit collection must have elements count is power of two");
+    public PowerOfTwoStrategy(final int size) {
+        if (!isPowerOfTwo(size)) {
+            throw new IllegalArgumentException("The bit collection must have elements count is power of two " + size);
         }
 
-        this.bits = bits;
+        this.size = size;
     }
 
     private static boolean isPowerOfTwo(int n) {
         return n > 0 && (n & (n - 1)) == 0;
-    }
-
-    @Override
-    public void set(final int index) {
-        this.bits.set(align(index, this.bits.size()));
-    }
-
-    @Override
-    public boolean get(final int index) {
-        return this.bits.get(align(index, this.bits.size()));
-    }
-
-    @Override
-    public BitCollection getBits() {
-        return this.bits;
     }
 
     /**
@@ -110,5 +89,11 @@ public class PowerOfTwoStrategy implements BloomFilter.FilterState {
         x++;
 
         return x;
+    }
+
+    @Override
+    public int apply(final byte[] value, final BloomFilter.HashFunction hashFunction) {
+        int index = hashFunction.apply(value);
+        return align(index, size);
     }
 }

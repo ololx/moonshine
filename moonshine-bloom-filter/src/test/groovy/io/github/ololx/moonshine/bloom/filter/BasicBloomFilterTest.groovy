@@ -13,7 +13,7 @@ import spock.lang.Specification
  *     project moonshine
  *     created 24.11.2023 11:25
  */
-class ConcurrentBloomFilterTest extends Specification {
+class BasicBloomFilterTest extends Specification {
 
     def "absent - when filter doesn't contain #bytesSupplierValue then return true"() {
         given:
@@ -42,8 +42,8 @@ class ConcurrentBloomFilterTest extends Specification {
 
         then:
         result
-        bloomFilter.bitStrategy.get(bits[0])
-        bloomFilter.bitStrategy.get(bits[1])
+        bloomFilter.bits.get(bits[0])
+        bloomFilter.bits.get(bits[1])
 
         where:
         bytesSupplierValue | bits
@@ -56,8 +56,8 @@ class ConcurrentBloomFilterTest extends Specification {
         BloomFilter.HashFunction hashFunctionStub2 = (value) -> bits[1];
         BloomFilter.BytesSupplier entry = () -> bytesSupplierValue
         def bloomFilter = BasicBloomFilter.newInstance(10, [hashFunctionStub1, hashFunctionStub2], 0)
-        bloomFilter.bitStrategy.set(bits[0])
-        bloomFilter.bitStrategy.set(bits[1])
+        bloomFilter.bits.set(bits[0])
+        bloomFilter.bits.set(bits[1])
 
         expect:
         !bloomFilter.absent(entry)

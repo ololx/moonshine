@@ -17,7 +17,7 @@
 
 package io.github.ololx.moonshine.bloom.filter;
 
-import io.github.ololx.moonshine.util.BitCollection;
+import java.util.function.Predicate;
 
 /**
  * The BloomFilter interface represents a data structure that is used to perform space-efficient probabilistic checks
@@ -34,7 +34,7 @@ import io.github.ololx.moonshine.util.BitCollection;
  *     project moonshine
  *     created 24.11.2023 11:25
  */
-public interface BloomFilter {
+public interface BloomFilter extends Predicate<BloomFilter.BytesSupplier> {
 
     /**
      * Adds a value to the Bloom filter.
@@ -63,6 +63,21 @@ public interface BloomFilter {
     boolean absent(BytesSupplier value);
 
     /**
+     * Checks if a value is present in the Bloom filter.
+     *
+     * @param value the BytesSupplier providing the bytes of the value to be checked.
+     *
+     * @return true if the value is may be in the set, false if the value definitely not in the set.
+     *
+     * @apiNote This method may return false positives (indicating a value is in the set when it's not)
+     *     but will never return false negatives (indicating a value is not in the set when it is).
+     */
+    @Override
+    default boolean test(BytesSupplier value) {
+        return !absent(value);
+    }
+
+    /**
      * Returns the size of the Bloom filter. The size is the total number of bits in the underlying bit array
      * and is indicative of the space complexity of the filter. It's directly related to the capacity of the
      * Bloom filter and its ability to minimize false positives.
@@ -74,44 +89,6 @@ public interface BloomFilter {
      *     with the expected number of elements and the acceptable false positive rate based on the use case.
      */
     int size();
-
-    /**
-     * Returns the approximate number of distinct elements that have been added to the Bloom filter.
-     * This is not always precise due to the probabilistic nature of the Bloom filter, which may lead to overestimation.
-     *
-     * @return the approximate count of distinct elements in the Bloom filter.
-     *
-     * @apiNote The cardinality estimation is not exact and is subject to the specific characteristics of the
-     *     Bloom filter, such as its size and the number of hash functions used. As more elements are added,
-     *     the accuracy of the cardinality estimate may degrade.
-     */
-    int cardinality();
-
-    /**
-     * Checks whether the Bloom filter is empty, meaning no elements have been added to it.
-     *
-     * @return true if the Bloom filter is empty, false otherwise.
-     *
-     * @apiNote Being empty means all bits in the underlying bit array are unset. However, due to the probabilistic
-     *     nature of the Bloom filter, it's not possible to differentiate between an empty filter and a filter with
-     *     a sufficiently sparse population of elements. This method should be used with an understanding of the
-     *     Bloom filter's limitations.
-     */
-    boolean isEmpty();
-
-    /**
-     * Checks whether the Bloom filter contains any elements.
-     *
-     * @return true if the Bloom filter contains one or more elements, false if it's empty.
-     *
-     * @apiNote This method is the inverse of isEmpty(). It provides a more intuitive way to check for the presence of
-     *     elements in the Bloom filter, especially when you're expecting it to be populated. Note that due to the
-     *     probabilistic nature of the Bloom filter, a return value of true does not guarantee the presence of a
-     *     specific element.
-     */
-    default boolean isPresent() {
-        return !isEmpty();
-    }
 
     /**
      * The BytesSupplier interface provides a method to supply bytes.
@@ -149,12 +126,27 @@ public interface BloomFilter {
         int apply(byte[] value);
     }
 
-    interface FilterState {
+    /**
+     * The HashingStrategy interface represents a strategy for applying a hash function to a value.
+     * This strategy is aimed at determining the appropriate bit index in the Bloom filter.
+     * For example, if the hash function returns an index greater than the number of elements in the filter,
+     * it can calculate the appropriate index by wrapping around or using the last possible index.
+     */
+    interface HashingStrategy {
 
-        void set(int index);
-
-        boolean get(int index);
-
-        BitCollection getBits();
+        /**
+         * Applies the hashing strategy to the given byte array using the specified hash function.
+         * This method determines the appropriate index in the Bloom filter bit array.
+         *
+         * @param value        the byte array to be hashed.
+         * @param hashFunction the hash function to be used for hashing the value.
+         *
+         * @return the appropriate bit index in the Bloom filter.
+         *
+         * @apiNote The hashing strategy should ensure that the calculated index is valid for the Bloom filter's
+         *     size. Strategies may include wrapping the index around if it exceeds the filter size or using
+         *     a modulo operation to fit the index within the valid range.
+         */
+        int apply(byte[] value, HashFunction hashFunction);
     }
 }

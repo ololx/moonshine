@@ -26,10 +26,14 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Alexander A. Kropotin
@@ -57,13 +61,35 @@ public class BloomFilterStrategyBenchmark {
 
     private BasicBloomFilter bloomFilter;
 
+    @Param({"5", "10", "20"})
+    private int power;
+
     @Setup
     public void setup() {
-        List<BloomFilter.HashFunction> hashFunctions = Arrays.asList(Object::hashCode);
+        int size = 1 << power;
+        List<BloomFilter.HashFunction> hashFunctions = new ArrayList<>();
+        IntStream.rangeClosed(1, size).forEach(i -> {
+            BloomFilter.HashFunction hashFunction = (value) -> {
+                int hash = i;
 
-        int size = 3;
+                for (byte b : value) {
+                    hash = (hash * 31) + (b & 0xFF);
+                }
+
+                return hash;
+            };
+            hashFunctions.add(hashFunction);
+        });
 
         bloomFilter = BasicBloomFilter.newInstance(size, hashFunctions, strategy);
+    }
+
+    static int hash(byte[] data) {
+        int hash = 0;
+        for (byte b : data) {
+            hash = (hash * 31) + (b & 0xFF);
+        }
+        return hash;
     }
 
     public static void main(String[] args) throws RunnerException {
@@ -76,7 +102,11 @@ public class BloomFilterStrategyBenchmark {
 
     @Benchmark
     public void testAbsent(Blackhole blackhole) {
-        boolean result = bloomFilter.absent(() -> new byte[]{0, 1, 2, 3});
-        blackhole.consume(result);
+        IntStream.rangeClosed('A', 'Z')
+            .mapToObj(String::valueOf)
+            .forEach(ch -> {
+                boolean result = bloomFilter.absent(ch::getBytes);
+                blackhole.consume(result);
+            });
     }
 }

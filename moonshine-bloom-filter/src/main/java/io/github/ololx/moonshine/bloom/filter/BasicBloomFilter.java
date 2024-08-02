@@ -19,6 +19,7 @@ package io.github.ololx.moonshine.bloom.filter;
 
 import io.github.ololx.moonshine.bloom.filter.strategies.CyclicStrategy;
 import io.github.ololx.moonshine.bloom.filter.strategies.PowerOfTwoStrategy;
+import io.github.ololx.moonshine.util.BitCollection;
 import io.github.ololx.moonshine.util.concurrent.ConcurrentBitArray;
 
 import java.util.ArrayList;
@@ -48,29 +49,32 @@ public class BasicBloomFilter implements BloomFilter {
      */
     private final List<HashFunction> hashing;
 
-    private final FilterState bitStrategy;
+    private final HashingStrategy hashingStrategy;
+
+    private final BitCollection bits;
 
     /**
      * Constructs a new ConcurrentBloomFilter with the specified size and hash functions.
      *
-     * @param bitStrategy    the size of the bit array.
+     * @param bits    the bit array.
      * @param hashing the collection of hash functions to be used.
      *
      * @apiNote The size of the bit array should be chosen carefully based on the expected number of elements
      *     and the desired false positive rate. More hash functions can decrease the false positive rate but increase
      *     the computation time.
      */
-    public BasicBloomFilter(final FilterState bitStrategy, final Collection<HashFunction> hashing) {
-        this.bitStrategy = bitStrategy;
+    public BasicBloomFilter(final BitCollection bits, final Collection<HashFunction> hashing, final HashingStrategy hashingStrategy) {
+        this.bits = bits;
         this.hashing = new ArrayList<>(hashing);
+        this.hashingStrategy = hashingStrategy;
     }
 
     public static BasicBloomFilter newInstance(int size, Collection<HashFunction> hashing, int strategy) {
         switch (strategy) {
             case 0:
-                return new BasicBloomFilter(new CyclicStrategy(new ConcurrentBitArray(size)), hashing);
+                return new BasicBloomFilter(new ConcurrentBitArray(size), hashing, new CyclicStrategy(size));
             case 1:
-                return new BasicBloomFilter(new PowerOfTwoStrategy(new ConcurrentBitArray(PowerOfTwoStrategy.nextPowerOfTwo(size))), hashing);
+                return new BasicBloomFilter(new ConcurrentBitArray(size), hashing, new PowerOfTwoStrategy(size));
             default:
                 throw new IllegalArgumentException("The strategy must be define in interval of [0, 1]");
         }
@@ -90,8 +94,8 @@ public class BasicBloomFilter implements BloomFilter {
     @Override
     public boolean add(final BytesSupplier value) {
         for (HashFunction function : this.hashing) {
-            int hash = function.apply(value.getBytes());
-            this.bitStrategy.set(hash);
+            int index = hashingStrategy.apply(value.getBytes(), function);
+            this.bits.set(index);
         }
 
         return true;
@@ -112,9 +116,9 @@ public class BasicBloomFilter implements BloomFilter {
     @Override
     public boolean absent(final BytesSupplier value) {
         for (HashFunction function : this.hashing) {
-            int hash = function.apply(value.getBytes());
+            int index = hashingStrategy.apply(value.getBytes(), function);
 
-            if (!this.bitStrategy.get(hash)) {
+            if (!this.bits.get(index)) {
                 return true;
             }
         }
@@ -139,42 +143,6 @@ public class BasicBloomFilter implements BloomFilter {
      */
     @Override
     public int size() {
-        return this.bitStrategy.getBits().size();
-    }
-
-    /**
-     * Returns the approximate number of distinct elements that have been added to the Bloom filter.
-     * This count is derived from the underlying ConcurrentBitCollection, which may provide a more accurate
-     * count in a concurrent environment.
-     *
-     * @return the approximate count of distinct elements in the Bloom filter.
-     *
-     * @apiNote The cardinality estimation in the concurrent context may be subject to the behavior of the
-     *     underlying
-     *     concurrent data structure used for bit storage. It aims to provide a thread-safe estimate of the number of
-     *     elements added to the Bloom filter, but like all Bloom filters, it may not be perfectly accurate due to the
-     *     probabilistic nature of the data structure.
-     */
-    @Override
-    public int cardinality() {
-        return this.bitStrategy.getBits().cardinality();
-    }
-
-    /**
-     * Checks whether the Bloom filter is empty, meaning no elements have been added to it.
-     * This check is based on the cardinality of the underlying ConcurrentBitCollection.
-     *
-     * @return true if the Bloom filter is empty (cardinality is zero), false otherwise.
-     *
-     * @apiNote In a concurrent environment, the isEmpty check is thread-safe and reflects the state of the
-     *     Bloom filter at the moment of the call. However, due to the nature of concurrent operations, the state
-     *     can change rapidly, so the result should be used with an understanding that it may not represent
-     *     the state at a later time. An empty Bloom filter means that no bits are set in the bit array, but
-     *     like all Bloom filters, it does not guarantee that no elements have been added, especially in a
-     *     highly concurrent scenario.
-     */
-    @Override
-    public boolean isEmpty() {
-        return this.cardinality() == 0;
+        return this.bits.size();
     }
 }

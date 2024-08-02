@@ -42,10 +42,10 @@ import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
  *
  *     Usage example:
  *     <pre>{@code
- *             AtomicByteArray byteArray = new AtomicByteArray(10); // Create an array with 10 elements
- *             byteArray.set(0, (byte) 42); // Set the value of an array element
- *             byte value = byteArray.get(0); // Get the value of an array element
- *             }</pre>
+ *     AtomicByteArray byteArray = new AtomicByteArray(10); // Create an array with 10 elements
+ *     byteArray.set(0, (byte) 42); // Set the value of an array element
+ *     byte value = byteArray.get(0); // Get the value of an array element
+ *     }</pre>
  */
 public class AtomicByteArray {
 
