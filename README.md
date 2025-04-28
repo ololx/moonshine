@@ -29,30 +29,50 @@ The Moonshine is a java library that that contains usefully utilities and tools 
 - The allocated memory meter of the selected code part in the application.
 - The CPU usage meter of the selected code part in the application.
 
-## Maven Installing
+## Installing
 
-1 - Add this dependency to classpath in pom:
+### Maven
 
 ```xml
 <dependency>
     <groupId>io.github.ololx.moonshine</groupId>
-    <artifactId>${module-name}</artifactId>
-    <version>${version}</version>
+    <artifactId>{module-name}</artifactId>
+    <version>{latest-version}</version>
 </dependency>
 ```
 
-_Example of dependency for installing `moonshine-tuple` module with version `0.2.3` is presented bellow_
+_Example of dependency for installing `moonshine-tuple` module with version `0.15.0` is presented bellow_
 
 ```xml
 <dependency>
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine-tuple</artifactId>
-    <version>0.2.3</version>
+    <version>0.15.0</version>
 </dependency>
 ```
 
-2 - Execute this with goal
+### Gradle (Kotlin DSL)
 
-```bash
-clean install
+```kotlin
+implementation("io.github.ololx.moonshine:{module-name}:{latest-version}")
 ```
+
+_Example of dependency for installing `moonshine-tuple` module with version `0.15.0` is presented bellow_
+
+```kotlin
+implementation("io.github.ololx.moonshine:moonshine-tuple:0.15.0")
+```
+
+### Gradle (Groovy DSL)
+
+```groovy
+implementation 'io.github.ololx.moonshine:{module-name}:{latest-version}'
+```
+
+_Example of dependency for installing `moonshine-tuple` module with version `0.15.0` is presented bellow_
+
+```groovy
+implementation 'io.github.ololx.moonshine:moonshine-tuple:0.15.0'
+```
+
+- [Javadoc](https://javadoc.io/doc/io.github.ololx.moonshine)
