@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.moonshine.var.access;
+package io.github.moonshine.var.access.function;
 
 /**
  * A functional interface for binary operations on two byte values.

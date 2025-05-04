@@ -19,7 +19,7 @@ package io.github.ololx.moonshine.util.concurrent.atomic;
 
 import io.github.moonshine.var.access.ByteArrayAccess;
 import io.github.moonshine.var.access.MemoryAccess;
-import io.github.moonshine.var.access.ByteBinaryFunction;
+import io.github.moonshine.var.access.function.ByteBinaryFunction;
 import io.github.ololx.moonshine.util.function.ByteBinaryOperator;
 import io.github.ololx.moonshine.util.function.ByteUnaryOperator;
 

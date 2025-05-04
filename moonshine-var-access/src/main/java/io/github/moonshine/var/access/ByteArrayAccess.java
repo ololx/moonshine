@@ -17,6 +17,10 @@
 
 package io.github.moonshine.var.access;
 
+import io.github.moonshine.var.access.function.ByteBinaryFunction;
+import io.github.moonshine.var.access.function.ByteUnaryFunction;
+import io.github.moonshine.var.access.throwable.IllegalArrayIndexScaleError;
+
 /**
  * A class to provide atomic operations on byte arrays.
  *
@@ -51,19 +55,18 @@ public final class ByteArrayAccess implements VarAccess {
      */
     private static final MemoryAccess memoryAccess = new MemoryAccess();
 
-    /**
+    /*
      * Static initialization block for setting up class-level constants related to direct memory access.
      */
     static {
         // Get the base offset of byte arrays for direct memory access.
         ARRAY_BASE_OFFSET = memoryAccess.arrayBaseOffset(ARRAY_CLASS);
 
-        // Determine and Verify the index scale (the number of bytes between each element of the array) of byte
-        // arrays.
+        // Determine and verify the index scale (the number of bytes between each element of the array) of byte arrays.
         // In most JVM implementations, it should be as arrays are typically allocated in contiguous memory blocks.
         int indexScale = memoryAccess.arrayIndexScale(ARRAY_CLASS);
         if ((indexScale & (indexScale - 1)) != 0) {
-            throw new Error("The byte[] index scale is not a power of two");
+            throw new IllegalArrayIndexScaleError("The byte[] index scale is not a power of two");
         }
 
         // Compute the shift value based on the index scale.
@@ -447,9 +450,9 @@ public final class ByteArrayAccess implements VarAccess {
      *
      * @return The previous value at the given index.
      *
-     * @implSpec This method uses {@link MemoryAccess#getAndUpdateByte(Object, long, ByteUnaryFunction)}
+     * @implSpec This method uses {@link MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.var.access.function.ByteUnaryFunction)}
      *     for atomic updates.
-     * @see MemoryAccess#getAndUpdateByte(Object, long, ByteUnaryFunction)
+     * @see MemoryAccess#getAndUpdateByte(Object, long, io.github.moonshine.var.access.function.ByteUnaryFunction)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code
@@ -500,9 +503,9 @@ public final class ByteArrayAccess implements VarAccess {
      * @return The previous value at the given index.
      *
      * @implSpec This method uses
-     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)}
+     *     {@link MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.var.access.function.ByteBinaryFunction)}
      *     for atomic accumulation.
-     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, ByteBinaryFunction)
+     * @see MemoryAccess#getAndAccumulateByte(Object, long, byte, io.github.moonshine.var.access.function.ByteBinaryFunction)
      *
      *     <p><strong>Example usage:</strong></p>
      *     <pre>{@code

@@ -17,6 +17,8 @@
 
 package io.github.moonshine.var.access;
 
+import io.github.moonshine.var.access.function.ByteBinaryFunction;
+import io.github.moonshine.var.access.function.ByteUnaryFunction;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -685,7 +687,7 @@ public final class MemoryAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link ByteUnaryFunction} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.var.access.function.ByteUnaryFunction} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj      the object containing the byte value
@@ -763,7 +765,7 @@ public final class MemoryAccess {
 
     /**
      * Atomically gets the byte value from the specified memory offset, applies the provided
-     * {@link ByteBinaryFunction} to calculate a new byte value, and atomically sets the memory
+     * {@link io.github.moonshine.var.access.function.ByteBinaryFunction} to calculate a new byte value, and atomically sets the memory
      * location to the new value.
      *
      * @param obj          the object containing the byte value

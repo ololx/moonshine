@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.moonshine.var.access;
+package io.github.moonshine.var.access.function;
 
 /**
  * It represents an operation on a single byte-valued operand that produces a byte-valued result.

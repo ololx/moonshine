@@ -17,7 +17,8 @@
 
 package io.github.moonshine.var.access
 
-
+import io.github.moonshine.var.access.function.ByteBinaryFunction
+import io.github.moonshine.var.access.function.ByteUnaryFunction
 import spock.lang.Specification
 import spock.lang.Unroll
 

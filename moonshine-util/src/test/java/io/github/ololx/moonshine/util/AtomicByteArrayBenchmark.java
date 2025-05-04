@@ -180,8 +180,6 @@ public class AtomicByteArrayBenchmark {
             }, executor));
         }
 
-
-        Byte value = 101;
         for (int getBitOpNumber = 0; getBitOpNumber < countOfSetters; getBitOpNumber++) {
             bitCollectionInvocations.add(CompletableFuture.runAsync(() -> {
                 for (int index = 0; index < sizeOfArray; index++) {
