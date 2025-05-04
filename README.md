@@ -41,13 +41,13 @@ The Moonshine is a java library that that contains usefully utilities and tools 
 </dependency>
 ```
 
-_Example of dependency for installing `moonshine-tuple` module with version `0.15.0` is presented bellow_
+_Example of dependency for installing `moonshine-tuple` module with version `0.14.0` is presented bellow_
 
 ```xml
 <dependency>
     <groupId>io.github.ololx.moonshine</groupId>
     <artifactId>moonshine-tuple</artifactId>
-    <version>0.15.0</version>
+    <version>0.14.0</version>
 </dependency>
 ```
 
@@ -57,10 +57,10 @@ _Example of dependency for installing `moonshine-tuple` module with version `0.1
 implementation("io.github.ololx.moonshine:{module-name}:{latest-version}")
 ```
 
-_Example of dependency for installing `moonshine-tuple` module with version `0.15.0` is presented bellow_
+_Example of dependency for installing `moonshine-tuple` module with version `0.14.0` is presented bellow_
 
 ```kotlin
-implementation("io.github.ololx.moonshine:moonshine-tuple:0.15.0")
+implementation("io.github.ololx.moonshine:moonshine-tuple:0.14.0")
 ```
 
 ### Gradle (Groovy DSL)
@@ -69,10 +69,10 @@ implementation("io.github.ololx.moonshine:moonshine-tuple:0.15.0")
 implementation 'io.github.ololx.moonshine:{module-name}:{latest-version}'
 ```
 
-_Example of dependency for installing `moonshine-tuple` module with version `0.15.0` is presented bellow_
+_Example of dependency for installing `moonshine-tuple` module with version `0.14.0` is presented bellow_
 
 ```groovy
-implementation 'io.github.ololx.moonshine:moonshine-tuple:0.15.0'
+implementation 'io.github.ololx.moonshine:moonshine-tuple:0.14.0'
 ```
 
 - [Javadoc](https://javadoc.io/doc/io.github.ololx.moonshine)
