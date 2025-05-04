@@ -39,21 +39,29 @@ public class LocalDateTimeEncoder implements ValueBytesEncoder<LocalDateTime> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value the value type {@code LocalDateTime} to be encoded
-     * @param offset the starting offset for encoding in the byte array
+     * @param value      the value type {@code LocalDateTime} to be encoded
+     * @param offset     the starting offset for encoding in the byte array
      * @param endianness the endianness to be used for encoding
+     *
      * @return the byte array that contains the encoded value
      */
     @Override
     public byte[] encode(LocalDateTime value, int offset, ByteIndexOperator endianness) {
         byte[] encoded = Bytes.concat(
-                ValueBytesEncoder.value32BitEncoder().encode(value.getYear(), offset, identity()),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMonthValue(), identity()),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getDayOfMonth(), identity()),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getHour(), identity()),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getMinute(), identity()),
-                ValueBytesEncoder.value8BitEncoder().encode((byte) value.getSecond(), identity()),
-                ValueBytesEncoder.value32BitEncoder().encode(value.getNano(), identity())
+            ValueBytesEncoder.value32BitEncoder()
+                .encode(value.getYear(), offset, identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getMonthValue(), identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getDayOfMonth(), identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getHour(), identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getMinute(), identity()),
+            ValueBytesEncoder.value8BitEncoder()
+                .encode((byte) value.getSecond(), identity()),
+            ValueBytesEncoder.value32BitEncoder()
+                .encode(value.getNano(), identity())
         );
 
         return Bytes.reorder(encoded, offset, identity(), endianness);

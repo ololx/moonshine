@@ -20,7 +20,7 @@ package io.github.ololx.moonshine.stopwatch;
 import java.time.Duration;
 
 /**
- **
+ * *
  * An object that provides a set of methods and properties that can be used
  * to accurately measure elapsed time.
  *

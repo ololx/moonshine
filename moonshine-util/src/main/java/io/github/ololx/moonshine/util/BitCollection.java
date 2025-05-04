@@ -64,4 +64,6 @@ public interface BitCollection {
      * @return The number of bits set to 1.
      */
     int cardinality();
+
+    int size();
 }

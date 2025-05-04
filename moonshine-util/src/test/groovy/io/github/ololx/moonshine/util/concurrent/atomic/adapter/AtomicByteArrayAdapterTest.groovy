@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent.atomic.wrapping
+package io.github.ololx.moonshine.util.concurrent.atomic.adapter
 
 /**
  * @author Alexander A. Kropotin
@@ -25,12 +25,12 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class AtomicLongArrayWrapperTest extends Specification {
+class AtomicByteArrayAdapterTest extends Specification {
 
     @Unroll
-    def "AtomicLongArrayWrapper() - when create from length = #length then create new instance with length = #length"() {
+    def "AtomicByteArrayWrapper() - when create from length = #length then create new instance with length = #length"() {
         when:
-        def atomicArray = new AtomicLongArrayWrapper(length)
+        def atomicArray = new AtomicByteArrayAdapter(length)
 
         then:
         atomicArray.length() == length
@@ -40,23 +40,23 @@ class AtomicLongArrayWrapperTest extends Specification {
     }
 
     @Unroll
-    def "AtomicLongArrayWrapper() - when create from #array then create new instance with same length = #length"() {
+    def "AtomicByteArrayWrapper() - when create from #array then create new instance with same length = #length"() {
         when:
-        def atomicArray = new AtomicLongArrayWrapper(array)
+        def atomicArray = new AtomicByteArrayAdapter(array)
 
         then:
         atomicArray.length() == length
 
         where:
         length | array
-        1      | [1] as long[]
-        2      | [1, 2] as long[]
-        3      | [1, 2, 3] as long[]
+        1      | [1] as byte[]
+        2      | [1, 2] as byte[]
+        3      | [1, 2, 3] as byte[]
     }
-    
+
     def "length() - when get length then return correct length"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         expect:
         atomicArray.length() == 5
@@ -64,7 +64,7 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "get() - when get then correct value returned"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         expect:
         atomicArray.get(0) == 1
@@ -72,10 +72,10 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "set() - when set then value set correctly"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
-        atomicArray.set(0, 9)
+        atomicArray.set(0, 9 as Byte)
 
         then:
         atomicArray.get(0) == 9
@@ -83,10 +83,10 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "getAndSet() - when set then old value returned and new value set"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long oldValue = atomicArray.getAndSet(0, 7)
+        long oldValue = atomicArray.getAndSet(0, 7 as Byte)
 
         then:
         oldValue == 1L
@@ -95,10 +95,10 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "compareAndSet() - when expect matches then value set and return true"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
-        boolean result = atomicArray.compareAndSet(0, 1, 8)
+        boolean result = atomicArray.compareAndSet(0, 1 as Byte, 8 as Byte)
 
         then:
         result
@@ -107,7 +107,7 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "getAndIncrement() - when increment then increment value and return old value"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
         long oldValue = atomicArray.getAndIncrement(0)
@@ -119,7 +119,7 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "getAndDecrement() - when decrement then decrement value and return old value"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
         long oldValue = atomicArray.getAndDecrement(1)
@@ -131,7 +131,7 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "incrementAndGet() - when increment then increment value and return new value"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
         long newValue = atomicArray.incrementAndGet(0)
@@ -142,7 +142,7 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "decrementAndGet() - when decrement then decrement value and return new value"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
         long newValue = atomicArray.decrementAndGet(1)
@@ -153,10 +153,10 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "addAndGet() - when add then add value and return new value"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long newValue = atomicArray.addAndGet(1, 3)
+        long newValue = atomicArray.addAndGet(1, 3 as Byte)
 
         then:
         newValue == 5
@@ -164,10 +164,10 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "getAndAdd() - when add then add value and return old value"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         when:
-        long oldValue = atomicArray.getAndAdd(1, 2)
+        long oldValue = atomicArray.getAndAdd(1, 2 as Byte)
 
         then:
         oldValue == 2
@@ -176,7 +176,7 @@ class AtomicLongArrayWrapperTest extends Specification {
 
     def "toString() - when get string then return correct string representation"() {
         given:
-        def atomicArray = new AtomicLongArrayWrapper([1, 2, 3, 4, 5] as long[])
+        def atomicArray = new AtomicByteArrayAdapter([1, 2, 3, 4, 5] as byte[])
 
         expect:
         atomicArray.toString() == "[1, 2, 3, 4, 5]"

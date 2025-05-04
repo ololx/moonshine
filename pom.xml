@@ -69,6 +69,7 @@
         <module>moonshine-bytes</module>
         <module>moonshine-measuring</module>
         <module>moonshine-util</module>
+        <module>moonshine-var-access</module>
     </modules>
     <!--project modules>-->
 

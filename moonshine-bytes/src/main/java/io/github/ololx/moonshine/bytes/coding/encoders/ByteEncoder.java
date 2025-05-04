@@ -34,13 +34,15 @@ public class ByteEncoder implements ValueBytesEncoder<Byte> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value the value type {@code Byte} to be encoded
-     * @param offset the starting offset for encoding in the byte array
+     * @param value      the value type {@code Byte} to be encoded
+     * @param offset     the starting offset for encoding in the byte array
      * @param endianness the endianness to be used for encoding
+     *
      * @return the byte array that contains the encoded value
      */
     @Override
     public byte[] encode(Byte value, int offset, ByteIndexOperator endianness) {
-        return ValueBytesEncoder.value8BitEncoder().encode(value, offset, endianness);
+        return ValueBytesEncoder.value8BitEncoder()
+            .encode(value, offset, endianness);
     }
 }

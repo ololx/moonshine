@@ -23,11 +23,10 @@ import io.github.ololx.moonshine.util.BitCollection;
  * An interface for a concurrent bit collection, providing methods to manipulate
  * individual bits in a thread-safe manner.
  *
- * @apiNote Implementations of this interface are expected to provide thread-safe
- *     behavior for all methods.
- *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 14.08.2023 13:51
+ * @apiNote Implementations of this interface are expected to provide thread-safe
+ *     behavior for all methods.
  */
 public interface ConcurrentBitCollection extends BitCollection {}

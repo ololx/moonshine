@@ -41,26 +41,35 @@ public class ZonedDateTimeDecoder implements ValueBytesDecoder<ZonedDateTime> {
      * Decodes a byte array to a {@code ZonedDateTime} value starting at a given offset
      * with specified endianness.
      *
-     * @param bytes the byte array to decode
-     * @param offset the offset at which decoding should start
+     * @param bytes      the byte array to decode
+     * @param offset     the offset at which decoding should start
      * @param endianness the endianness to be used for encoding
+     *
      * @return the decoded value of given type
+     *
      * @throws IndexOutOfBoundsException if {@code offset + endianness.appy(i)}
-     * is out of the {@code bytes} bounds
+     *                                   is out of the {@code bytes} bounds
      */
     @Override
     public ZonedDateTime decode(byte[] bytes, int offset, ByteIndexOperator endianness) {
         byte[] reordered = Bytes.reorder(bytes, offset, endianness, identity());
 
         return ZonedDateTime.of(
-                ValueBytesDecoder.value32BitDecoder().decode(reordered, offset, identity()),
-                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 4, identity()),
-                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 5, identity()),
-                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 6, identity()),
-                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 7, identity()),
-                ValueBytesDecoder.value8BitDecoder().decode(reordered, offset + 8, identity()),
-                ValueBytesDecoder.value32BitDecoder().decode(reordered, offset + 9, identity()),
-                ZoneId.of(stringDecoder.decode(reordered, offset + 13, identity()))
+            ValueBytesDecoder.value32BitDecoder()
+                .decode(reordered, offset, identity()),
+            ValueBytesDecoder.value8BitDecoder()
+                .decode(reordered, offset + 4, identity()),
+            ValueBytesDecoder.value8BitDecoder()
+                .decode(reordered, offset + 5, identity()),
+            ValueBytesDecoder.value8BitDecoder()
+                .decode(reordered, offset + 6, identity()),
+            ValueBytesDecoder.value8BitDecoder()
+                .decode(reordered, offset + 7, identity()),
+            ValueBytesDecoder.value8BitDecoder()
+                .decode(reordered, offset + 8, identity()),
+            ValueBytesDecoder.value32BitDecoder()
+                .decode(reordered, offset + 9, identity()),
+            ZoneId.of(stringDecoder.decode(reordered, offset + 13, identity()))
         );
     }
 }

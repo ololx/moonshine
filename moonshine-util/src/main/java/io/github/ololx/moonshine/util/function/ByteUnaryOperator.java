@@ -23,14 +23,70 @@ import java.util.Objects;
  * A specialization of the {@link java.util.function.UnaryOperator} interface for byte values.
  * It represents an operation on a single byte-valued operand that produces a byte-valued result.
  *
- * @see java.util.function.UnaryOperator
- *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 01.09.2023 10:34
+ * @see java.util.function.UnaryOperator
  */
 @FunctionalInterface
 public interface ByteUnaryOperator {
+
+    /**
+     * Returns a unary operator that always returns its input argument.
+     *
+     * @return a unary operator that always returns its input argument
+     *
+     * @implSpec The default implementation returns a unary operator that returns the same byte value
+     *     it receives as an argument.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *         // Get the identity byte unary operator
+     *         ByteUnaryOperator identityOperator = ByteUnaryOperator.identity();
+     *
+     *         // Apply the identity operator to a byte value
+     *         byte result = identityOperator.applyAsByte((byte) 42);
+     *
+     *         // 'result' contains the value 42, which is the same as the input value.
+     *         }</pre>
+     */
+    static ByteUnaryOperator identity() {
+        return t -> t;
+    }
+
+    /**
+     * Returns a composed operator that first applies the {@code before} operator to its input,
+     * and then applies this operator to the result. If evaluation of either operator throws an exception,
+     * it is relayed to the caller of the composed operator.
+     *
+     * @param before the operator to apply before this operator is applied
+     *
+     * @return a composed operator that first applies the {@code before} operator and then applies this operator
+     *
+     * @implSpec The default implementation returns a composed operator that performs the composition
+     *     in the order of {@code before} followed by this operator.
+     *
+     *     Example usage:
+     *     <pre>{@code
+     *         // Define a byte unary operator that doubles the value
+     *         ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
+     *
+     *         // Define a byte unary operator that increments the value by 1
+     *         ByteUnaryOperator incrementByOne = value -> (byte) (value + 1);
+     *
+     *         // Compose the two operators: first double, then increment
+     *         ByteUnaryOperator composed = doubleValue.andThen(incrementByOne);
+     *
+     *         // Apply the composed operator to a byte value
+     *         byte result = composed.applyAsByte((byte) 3);
+     *
+     *         // 'result' contains the value 7 (3 doubled and then incremented by 1).
+     *         }</pre>
+     */
+    default ByteUnaryOperator compose(ByteUnaryOperator before) {
+        Objects.requireNonNull(before);
+        return v -> applyAsByte(before.applyAsByte(v));
+    }
 
     /**
      * Applies this operator to the given operand.
@@ -42,93 +98,36 @@ public interface ByteUnaryOperator {
     byte applyAsByte(byte operand);
 
     /**
-     * Returns a composed operator that first applies the {@code before} operator to its input,
-     * and then applies this operator to the result. If evaluation of either operator throws an exception,
-     * it is relayed to the caller of the composed operator.
-     *
-     * @implSpec The default implementation returns a composed operator that performs the composition
-     *     in the order of {@code before} followed by this operator.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Define a byte unary operator that doubles the value
-     *     ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
-     *
-     *     // Define a byte unary operator that increments the value by 1
-     *     ByteUnaryOperator incrementByOne = value -> (byte) (value + 1);
-     *
-     *     // Compose the two operators: first double, then increment
-     *     ByteUnaryOperator composed = doubleValue.andThen(incrementByOne);
-     *
-     *     // Apply the composed operator to a byte value
-     *     byte result = composed.applyAsByte((byte) 3);
-     *
-     *     // 'result' contains the value 7 (3 doubled and then incremented by 1).
-     *     }</pre>
-     *
-     * @param before the operator to apply before this operator is applied
-     *
-     * @return a composed operator that first applies the {@code before} operator and then applies this operator
-     */
-    default ByteUnaryOperator compose(ByteUnaryOperator before) {
-        Objects.requireNonNull(before);
-        return v -> applyAsByte(before.applyAsByte(v));
-    }
-
-    /**
      * Returns a composed operator that first applies this operator to its input,
      * and then applies the {@code after} operator to the result. If evaluation of either operator throws an exception,
      * it is relayed to the caller of the composed operator.
+     *
+     * @param after the operator to apply after this operator is applied
+     *
+     * @return a composed operator that first applies this operator and then applies the {@code after} operator
      *
      * @implSpec The default implementation returns a composed operator that performs the composition
      *     in the order of this operator followed by {@code after}.
      *
      *     Example usage:
      *     <pre>{@code
-     *     // Define a byte unary operator that doubles the value
-     *     ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
+     *         // Define a byte unary operator that doubles the value
+     *         ByteUnaryOperator doubleValue = value -> (byte) (value * 2);
      *
-     *     // Define a byte unary operator that squares the value
-     *     ByteUnaryOperator squareValue = value -> (byte) (value * value);
+     *         // Define a byte unary operator that squares the value
+     *         ByteUnaryOperator squareValue = value -> (byte) (value * value);
      *
-     *     // Compose the two operators: first square, then double
-     *     ByteUnaryOperator composed = doubleValue.compose(squareValue);
+     *         // Compose the two operators: first square, then double
+     *         ByteUnaryOperator composed = doubleValue.compose(squareValue);
      *
-     *     // Apply the composed operator to a byte value
-     *     byte result = composed.applyAsByte((byte) 3);
+     *         // Apply the composed operator to a byte value
+     *         byte result = composed.applyAsByte((byte) 3);
      *
-     *     // 'result' contains the value 18 (3 squared, then doubled).
-     *     }</pre>
-     *
-     * @param after the operator to apply after this operator is applied
-     *
-     * @return a composed operator that first applies this operator and then applies the {@code after} operator
+     *         // 'result' contains the value 18 (3 squared, then doubled).
+     *         }</pre>
      */
     default ByteUnaryOperator andThen(ByteUnaryOperator after) {
         Objects.requireNonNull(after);
         return v -> after.applyAsByte(applyAsByte(v));
-    }
-
-    /**
-     * Returns a unary operator that always returns its input argument.
-     *
-     * @implSpec The default implementation returns a unary operator that returns the same byte value
-     *     it receives as an argument.
-     *
-     *     Example usage:
-     *     <pre>{@code
-     *     // Get the identity byte unary operator
-     *     ByteUnaryOperator identityOperator = ByteUnaryOperator.identity();
-     *
-     *     // Apply the identity operator to a byte value
-     *     byte result = identityOperator.applyAsByte((byte) 42);
-     *
-     *     // 'result' contains the value 42, which is the same as the input value.
-     *     }</pre>
-     *
-     * @return a unary operator that always returns its input argument
-     */
-    static ByteUnaryOperator identity() {
-        return t -> t;
     }
 }

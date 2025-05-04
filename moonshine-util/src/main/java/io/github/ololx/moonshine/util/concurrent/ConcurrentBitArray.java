@@ -25,13 +25,12 @@ import java.util.function.IntUnaryOperator;
  * A thread-safe implementation of a {@link io.github.ololx.moonshine.util.concurrent.ConcurrentBitCollection} using
  * atomic operations.
  *
- * @apiNote This class provides methods to manipulate individual bits in a thread-safe manner.
- *     It is designed for scenarios where multiple threads need to access and modify
- *     a shared bitset concurrently.
- *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 01.08.2023 10:52
+ * @apiNote This class provides methods to manipulate individual bits in a thread-safe manner.
+ *     It is designed for scenarios where multiple threads need to access and modify
+ *     a shared bitset concurrently.
  */
 public class ConcurrentBitArray implements ConcurrentBitCollection {
 
@@ -98,7 +97,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     private ConcurrentBitArray(final byte[] words) {
         // put origin value because words.clone() will be invoked inside AtomicByteArray constructor
         this.data = new AtomicByteArray(words);
-        this.lastBitIndex = words.length * 8 - 1;
+        this.lastBitIndex = words.length * WORD_SIZE - 1;
     }
 
     /**
@@ -123,7 +122,7 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     public boolean get(int bitIndex) {
         checkIndex(bitIndex);
         int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
-        int bitMask = ConcurrentBitArray.bitMaskOperator.applyAsInt(bitOffset);
+        int bitMask = bitMaskOperator.applyAsInt(bitOffset);
         return (this.data.get(wordIndexOperator.applyAsInt(bitIndex)) & bitMask) >> bitOffset != 0;
     }
 
@@ -135,8 +134,9 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     @Override
     public void set(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word | bitMask));
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = bitMaskOperator.applyAsInt(bitOffset);
+        this.data.getAndBitwiseOr(wordIndexOperator.applyAsInt(bitIndex), (byte) bitMask);
     }
 
     /**
@@ -147,8 +147,9 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     @Override
     public void clear(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word & ~bitMask));
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = ~bitMaskOperator.applyAsInt(bitOffset);
+        this.data.getAndBitwiseAnd(wordIndexOperator.applyAsInt(bitIndex), (byte) bitMask);
     }
 
     /**
@@ -159,8 +160,36 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     @Override
     public void flip(int bitIndex) {
         checkIndex(bitIndex);
-        int bitMask = 1 << bitIndexShiftOperator.applyAsInt(bitIndex);
-        this.data.updateAndGet(wordIndexOperator.applyAsInt(bitIndex), word -> (byte) (word ^ bitMask));
+        int bitOffset = bitIndexShiftOperator.applyAsInt(bitIndex);
+        int bitMask = bitMaskOperator.applyAsInt(bitOffset);
+        this.data.getAndBitwiseXor(wordIndexOperator.applyAsInt(bitIndex), (byte) bitMask);
+    }
+
+    /**
+     * Returns the number of bits in the collection that are set to 1. This is often referred to as the
+     * <a href="https://en.wikipedia.org/wiki/Hamming_weight">Hamming weight</a> or pop count.
+     *
+     * @return The number of bits set to 1.
+     *
+     * @implSpec This implementation iterates over each byte in the internal {@code AtomicByteArray}
+     *     and uses a precomputed lookup table (from the {@code BitCounting} utility class) to determine
+     *     the number of set bits in each byte. The sum of all set bits across all bytes is returned as the result.
+     */
+    @Override
+    public int cardinality() {
+        int wordsCount = data.length();
+        int cardinality = 0;
+
+        for (int index = 0; index < wordsCount; index++) {
+            cardinality += ByteBitCounting.bitCount(data.get(index));
+        }
+
+        return cardinality;
+    }
+
+    @Override
+    public int size() {
+        return this.lastBitIndex + 1;
     }
 
     /**
@@ -183,37 +212,22 @@ public class ConcurrentBitArray implements ConcurrentBitCollection {
     }
 
     /**
-     * Returns the number of bits in the collection that are set to 1. This is often referred to as the
-     * <a href="https://en.wikipedia.org/wiki/Hamming_weight">Hamming weight</a> or pop count.
-     *
-     * @implSpec This implementation iterates over each byte in the internal {@code AtomicByteArray}
-     *     and uses a precomputed lookup table (from the {@code BitCounting} utility class) to determine
-     *     the number of set bits in each byte. The sum of all set bits across all bytes is returned as the result.
-     *
-     * @return The number of bits set to 1.
-     */
-    @Override
-    public int cardinality() {
-        int wordsCount = data.length();
-        int cardinality = 0;
-
-        for (int index = 0; index < wordsCount; index++) {
-            cardinality += ByteBitCounting.bitCount(data.get(index));
-        }
-
-        return cardinality;
-    }
-
-    /**
      * A utility class to help count the number of bits set in a byte.
      */
-    private static final class ByteBitCounting {
+    public static final class ByteBitCounting {
+
+        /**
+         * Override constructor by defaults (implicit public constructor).
+         * Because utility class are not meant to be instantiated.
+         */
+        private ByteBitCounting() {}
 
         /**
          * Returns the number of one-bits in the two's complement binary representation
          * of the specified {@code byte} value.
          *
          * @param bits the value whose bits are to be counted
+         *
          * @return the number of one-bits in the specified value
          */
         public static int bitCount(byte bits) {

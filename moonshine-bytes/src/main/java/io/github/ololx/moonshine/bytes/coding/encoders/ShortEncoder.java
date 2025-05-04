@@ -34,13 +34,15 @@ public class ShortEncoder implements ValueBytesEncoder<Short> {
      * Encodes a given value to a byte array using the specified endianness
      * starting at the specified offset.
      *
-     * @param value the value type {@code Short} to be encoded
-     * @param offset the starting offset for encoding in the byte array
+     * @param value      the value type {@code Short} to be encoded
+     * @param offset     the starting offset for encoding in the byte array
      * @param endianness the endianness to be used for encoding
+     *
      * @return the byte array that contains the encoded value
      */
     @Override
     public byte[] encode(Short value, int offset, ByteIndexOperator endianness) {
-        return ValueBytesEncoder.value16BitEncoder().encode(value, offset, endianness);
+        return ValueBytesEncoder.value16BitEncoder()
+            .encode(value, offset, endianness);
     }
 }

@@ -52,12 +52,12 @@ import java.util.concurrent.atomic.AtomicLongArray;
 @State(Scope.Thread)
 @Warmup(
     iterations = 5,
-    time = 100,
+    time = 250,
     timeUnit = TimeUnit.MILLISECONDS
 )
 @Measurement(
     iterations = 5,
-    time = 100,
+    time = 500,
     timeUnit = TimeUnit.MILLISECONDS
 )
 @Fork(3)
@@ -74,11 +74,13 @@ public class AtomicByteArrayBenchmark {
 
     private static final String ATOMIC_LONG_ARRAY = "AtomicLongArray";
 
-    @Param({
-        ATOMIC_BYTE_ARRAY,
-        ATOMIC_INT_ARRAY,
-        ATOMIC_LONG_ARRAY
-    })
+    @Param(
+        {
+            ATOMIC_BYTE_ARRAY,
+            ATOMIC_INT_ARRAY,
+            ATOMIC_LONG_ARRAY
+        }
+    )
     private String typeOfAtomicArray;
 
     @Param({"100"})
@@ -107,6 +109,7 @@ public class AtomicByteArrayBenchmark {
     public void setup() {
         switch (typeOfAtomicArray) {
             case ATOMIC_BYTE_ARRAY:
+                byte byteValue = (byte) sizeOfArray;
                 atomicArray = new AtomicArrayBenchmarkWrapper() {
 
                     final AtomicByteArray atomicByteArray = new AtomicByteArray(sizeOfArray);
@@ -118,7 +121,7 @@ public class AtomicByteArrayBenchmark {
 
                     @Override
                     public void set(final int index) {
-                        atomicByteArray.set(index, (byte) sizeOfArray);
+                        atomicByteArray.set(index, byteValue);
                     }
                 };
                 break;
@@ -193,7 +196,7 @@ public class AtomicByteArrayBenchmark {
 
     interface AtomicArrayBenchmarkWrapper {
 
-        public < T extends Number> long get(final int index);
+        public <T extends Number> long get(final int index);
 
         public void set(int index);
     }

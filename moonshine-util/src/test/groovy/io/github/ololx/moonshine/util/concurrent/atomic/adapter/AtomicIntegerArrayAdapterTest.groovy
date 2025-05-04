@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent.atomic.wrapping
+package io.github.ololx.moonshine.util.concurrent.atomic.adapter
 
 /**
  * @author Alexander A. Kropotin
@@ -25,12 +25,12 @@ package io.github.ololx.moonshine.util.concurrent.atomic.wrapping
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class AtomicIntegerArrayWrapperTest extends Specification {
+class AtomicIntegerArrayAdapterTest extends Specification {
 
     @Unroll
     def "AtomicIntegerArrayWrapper() - when create from length = #length then create new instance with length = #length"() {
         when:
-        def atomicArray = new AtomicIntegerArrayWrapper(length)
+        def atomicArray = new AtomicIntegerArrayAdapter(length)
 
         then:
         atomicArray.length() == length
@@ -42,7 +42,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
     @Unroll
     def "AtomicIntegerArrayWrapperTest() - when create from #array then create new instance with same length = #length"() {
         when:
-        def atomicArray = new AtomicIntegerArrayWrapper(array)
+        def atomicArray = new AtomicIntegerArrayAdapter(array)
 
         then:
         atomicArray.length() == length
@@ -53,10 +53,10 @@ class AtomicIntegerArrayWrapperTest extends Specification {
         2      | [1, 2] as int[]
         3      | [1, 2, 3] as int[]
     }
-    
+
     def "length() - when get length then return correct length"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         expect:
         atomicArray.length() == 5
@@ -64,7 +64,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "get() - when get then correct value returned"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         expect:
         atomicArray.get(0) == 1
@@ -72,7 +72,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "set() - when set then value set correctly"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         atomicArray.set(0, 9)
@@ -83,7 +83,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "getAndSet() - when set then old value returned and new value set"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long oldValue = atomicArray.getAndSet(0, 7)
@@ -95,7 +95,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "compareAndSet() - when expect matches then value set and return true"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         boolean result = atomicArray.compareAndSet(0, 1, 8)
@@ -107,7 +107,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "getAndIncrement() - when increment then increment value and return old value"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long oldValue = atomicArray.getAndIncrement(0)
@@ -119,7 +119,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "getAndDecrement() - when decrement then decrement value and return old value"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long oldValue = atomicArray.getAndDecrement(1)
@@ -131,7 +131,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "incrementAndGet() - when increment then increment value and return new value"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long newValue = atomicArray.incrementAndGet(0)
@@ -142,7 +142,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "decrementAndGet() - when decrement then decrement value and return new value"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long newValue = atomicArray.decrementAndGet(1)
@@ -153,7 +153,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "addAndGet() - when add then add value and return new value"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long newValue = atomicArray.addAndGet(1, 3)
@@ -164,7 +164,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "getAndAdd() - when add then add value and return old value"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         when:
         long oldValue = atomicArray.getAndAdd(1, 2)
@@ -176,7 +176,7 @@ class AtomicIntegerArrayWrapperTest extends Specification {
 
     def "toString() - when get string then return correct string representation"() {
         given:
-        def atomicArray = new AtomicIntegerArrayWrapper([1, 2, 3, 4, 5] as int[])
+        def atomicArray = new AtomicIntegerArrayAdapter([1, 2, 3, 4, 5] as int[])
 
         expect:
         atomicArray.toString() == "[1, 2, 3, 4, 5]"

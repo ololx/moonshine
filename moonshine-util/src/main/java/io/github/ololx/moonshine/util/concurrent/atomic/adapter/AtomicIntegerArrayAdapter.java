@@ -15,41 +15,41 @@
  * limitations under the License.
  */
 
-package io.github.ololx.moonshine.util.concurrent.atomic.wrapping;
+package io.github.ololx.moonshine.util.concurrent.atomic.adapter;
 
-import io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
- * A wrapper class that implements the {@link AtomicArrayWrapper} interface using
- * {@link io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray} as the underlying data structure.
+ * A wrapper class that implements the {@link AtomicArrayAdapter} interface using
+ * {@link AtomicIntegerArray} as the underlying data structure.
  *
  * @author Alexander A. Kropotin
  *     project moonshine
  *     created 27.08.2023 16:08
  */
-public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
+public class AtomicIntegerArrayAdapter implements AtomicArrayAdapter<Integer> {
 
-    private final AtomicByteArray array;
+    private final AtomicIntegerArray array;
 
     /**
-     * Constructs a new {@code AtomicByteArrayWrapper} instance with the specified length.
+     * Constructs a new {@code AtomicIntegerArrayWrapper} instance with the specified length.
      *
      * @param length The length of the array.
      */
-    public AtomicByteArrayWrapper(int length) {
-        array = new AtomicByteArray(length);
+    public AtomicIntegerArrayAdapter(int length) {
+        array = new AtomicIntegerArray(length);
     }
 
     /**
-     * Constructs a new {@code AtomicByteArrayWrapper} instance with the same length as, and all elements copied
+     * Constructs a new {@code AtomicIntegerArrayWrapper} instance with the same length as, and all elements copied
      * from, the given array.
      *
      * @param array the array to copy elements from
      *
      * @throws NullPointerException if array is null
      */
-    public AtomicByteArrayWrapper(byte[] array) {
-        this.array = new AtomicByteArray(array);
+    public AtomicIntegerArrayAdapter(int[] array) {
+        this.array = new AtomicIntegerArray(array);
     }
 
     /**
@@ -70,7 +70,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The element at the specified index.
      */
     @Override
-    public Byte get(int i) {
+    public Integer get(int i) {
         return array.get(i);
     }
 
@@ -81,7 +81,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @param newValue The new value to set.
      */
     @Override
-    public void set(int i, Byte newValue) {
+    public void set(int i, Integer newValue) {
         array.set(i, newValue);
     }
 
@@ -94,7 +94,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Byte getAndSet(int i, Byte newValue) {
+    public Integer getAndSet(int i, Integer newValue) {
         return array.getAndSet(i, newValue);
     }
 
@@ -109,7 +109,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return {@code true} if successful; {@code false} otherwise.
      */
     @Override
-    public boolean compareAndSet(int i, Byte expect, Byte update) {
+    public boolean compareAndSet(int i, Integer expect, Integer update) {
         return array.compareAndSet(i, expect, update);
     }
 
@@ -121,7 +121,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Byte getAndIncrement(int i) {
+    public Integer getAndIncrement(int i) {
         return array.getAndIncrement(i);
     }
 
@@ -133,7 +133,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Byte getAndDecrement(int i) {
+    public Integer getAndDecrement(int i) {
         return array.getAndDecrement(i);
     }
 
@@ -146,7 +146,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The previous value at the specified index.
      */
     @Override
-    public Byte getAndAdd(int i, Byte delta) {
+    public Integer getAndAdd(int i, Integer delta) {
         return array.getAndAdd(i, delta);
     }
 
@@ -158,7 +158,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The updated value at the specified index.
      */
     @Override
-    public Byte incrementAndGet(int i) {
+    public Integer incrementAndGet(int i) {
         return array.incrementAndGet(i);
     }
 
@@ -170,7 +170,7 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The updated value at the specified index.
      */
     @Override
-    public Byte decrementAndGet(int i) {
+    public Integer decrementAndGet(int i) {
         return array.decrementAndGet(i);
     }
 
@@ -183,13 +183,12 @@ public class AtomicByteArrayWrapper implements AtomicArrayWrapper<Byte> {
      * @return The updated value at the specified index.
      */
     @Override
-    public Byte addAndGet(int i, Byte delta) {
+    public Integer addAndGet(int i, Integer delta) {
         return array.addAndGet(i, delta);
     }
 
     /**
-     * Returns the string representation of the underlying
-     * {@link io.github.ololx.moonshine.util.concurrent.atomic.AtomicByteArray}.
+     * Returns the string representation of the underlying {@link AtomicIntegerArray}.
      *
      * @return The string representation of the array.
      */
